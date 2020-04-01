@@ -1,0 +1,12 @@
+name: 'netsuite'
+version: '0.0.1'
+
+profile: 'default'
+
+require-dbt-version: [">=0.14.0", "<0.17.0"]
+
+models:
+  netsuite:
+    vars:
+      schema_name: "netsuite"
+      netsuite_schema: "netsuite"

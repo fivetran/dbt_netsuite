@@ -1,0 +1,72 @@
+version: 2
+
+models:
+  - name: transactions_with_converted_amounts__exchange_rate_map
+    description: >
+      (Step 1/5) In order to accurately recreate the balance sheet and income statement, 
+      it is necessary to convert all transaction amounts into the currency of 
+      the parent subsidiary. The logic gets complicated fast, mostly because 
+      of the behavior of the balance sheet.  On the balance sheet, the conversion 
+      rate you use for a single transaction will differ by accounting period.  
+      For example, if a transaction took place in August, and you are generating 
+      balances for the December period, you will need to convert the August transaction 
+      using the December conversion rate.
+
+      The first step here is to create a mapping of all accounting periods and the 
+      respective exchange rates, by subsidiary. This is called period_exchange_rate_map
+
+      Next, we cross join the accounts table to the period_exchange_rate_map, so we can 
+      generate a map of exchange rates, by account, accounting period, and subsidiary.
+  
+    - name: transactions_with_converted_amounts_lines_with_accounting_periods
+    description: >
+      (Step 2/5) Next, we need to prepare a cleaned version of all transactions we need.  
+      Using the transactions and transaction_lines tables, the necessary fields are extracted, 
+      and transactions that are deleted, revenue arrangements, or non-posting transactions are 
+      filtered out. This is called transaction_lines_w_accounting_period. 
+    
+    - name: transactions_with_converted_amounts__all_periods
+    description: >
+      (Step 3/5) Once we have the cleaned transaction_lines_w_accounting_period, we now need to figure out
+      which exchange rate we should use for the currency conversion.  The balance sheet complicates 
+      things, as conversion rates vary based on the reporting period.  Therefore, all transactions 
+      need to be converted not only for the period in which the transaction took place in, but also 
+      all subsequent periods. period_id_list_to_current_period and flattened_period_id_list_to_current_period 
+      create all necessary rows so that each transaction has a line for the accouting period in which the 
+      transaction took place in (transaction_accounting_period_id), as well as all subsequent accounting 
+      periods (reporting_accounting_period_id).
+
+    - name: flattened_period_id_list_to_current_period
+    description: >
+      (Step 4/5) This is related to step 3, but due to Snowflake/BigQuery sytnax differences, this 
+      query needs to live in a warehouse-specific folder.
+
+    - name: transactions_with_converted_amounts
+    description: >
+      (Step 5/5) Now that we have the exchange rates and the unconverted amounts, the next step is 
+      to calculate the converted total.
+      Additonally, we add in a couple of extra fields that will help us in our final balance sheet 
+      and income statement queries.
+
+  - name: balance_sheet
+    description: >
+      The balance sheet query uses the transactions_with_converted_amount
+      transformation to recreate all lines necessary for the balance sheet.
+      Transactions that are not balance sheet transactions are categorized as
+      either Retained Earnings or Net Income.  The Cumulative Translation
+      Adjustment total, which in most cases does not have transactions
+      associated with it, is calculated manually in the second part of the query.
+  
+  - name: income_statement
+    description: >
+      The income statment query uses the transactions_with_converted_amount transformation 
+      to recreate all lines necessary for the income statment.  It also joins in class, 
+      department and location information for enhanced reporting. 
+  
+  - name: transaction_details
+    description: >
+      This table uses Netsuite's core table, transaction_lines, and joins a handful of 
+      other tables to add more detail to those line items.  For all transactions, you are 
+      able to see the associated accounting period, account and subsidiary.  Where applicable, 
+      you can also see information about the customer, location, item, vendor, and department.
+

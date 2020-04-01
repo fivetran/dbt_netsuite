@@ -1,0 +1,142 @@
+# $ dbt run --vars '{"netsuite_schema": "netsuite_fivetran"}'
+
+version: 2
+
+sources:
+  - name: netsuite
+    schema: "{{ var('netsuite_schema', 'netsuite') }}" # you will need to customize if your schema name is not netsuite
+    database: "{{ var('netsuite_database', target.database) }}"
+    loader: fivetran
+    loaded_at_field: _fivetran_synced
+    freshness:
+      warn_after: {count: 24, period: hour}
+      error_after: {count: 48, period: hour}
+
+    tables:
+      - name: accounting_periods
+        freshness: null
+        tests:
+          - unique:
+              column: concat(accounting_period_id, '-', fiscal_calendar_id)
+          - not_null:
+              column: concat(accounting_period_id, '-', fiscal_calendar_id)
+
+      - name: accounts
+        freshness: null
+        columns:
+        - name: account_id
+          tests:
+              - unique
+              - not_null
+
+      - name: consolidated_exchange_rates
+        freshness: null
+        columns:
+        - name: consolidated_exchange_rate_id
+          tests:
+              - unique
+              - not_null
+
+      - name: currencies
+        freshness: null
+        columns:
+        - name: currency_id
+          tests:
+              - unique
+              - not_null
+
+      - name: customers
+        freshness: null
+        columns:
+        - name: customer_id
+          tests:
+              - unique
+              - not_null
+
+      - name: departments
+        freshness: null
+        columns:
+        - name: department_id
+          tests:
+              - unique
+              - not_null
+
+      - name: expense_accounts
+        freshness: null
+        columns:
+        - name: expense_account_id
+          tests:
+              - unique
+              - not_null
+
+      - name: income_accounts
+        freshness: null
+        columns:
+        - name: income_account_id
+          tests:
+              - unique
+              - not_null
+
+      - name: items
+        freshness: null
+        columns:
+        - name: item_id
+          tests:
+              - unique
+              - not_null
+
+      - name: locations
+        freshness: null
+        columns:
+        - name: location_id
+          tests:
+              - unique
+              - not_null
+
+      - name: partners
+        freshness: null
+        columns:
+        - name: partner_id
+          tests:
+              - unique
+              - not_null
+
+      - name: subsidiaries
+        freshness: null
+        columns:
+        - name: subsidiary_id
+          tests:
+              - unique
+              - not_null
+
+      - name: transaction_lines
+        loaded_at_field: _fivetran_synced
+        tests:
+          - unique:
+              column: concat(transaction_id, '-', transaction_id)
+          - not_null:
+              column: concat(transaction_id, '-', transaction_id)
+
+      - name: transactions
+        loaded_at_field: _fivetran_synced
+        columns:
+        - name: transaction_id
+          tests:
+              - unique
+              - not_null
+
+      - name: vendors
+        freshness: null
+        columns:
+        - name: vendor_id
+          tests:
+              - unique
+              - not_null
+
+      - name: vendor_types
+        freshness: null
+        columns:
+        - name: vendor_type_id
+          tests:
+              - unique
+              - not_null
