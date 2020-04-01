@@ -9,7 +9,6 @@ period_id_list_to_current_period as ( -- period ids with all future period ids. 
   select
     base.accounting_period_id,
     {{ netsuite.array_agg('multiplier.accounting_period_id', 'multiplier.accounting_period_id'}} as accounting_periods_to_include_for
-    array_agg(multiplier.accounting_period_id) within group (order by multiplier.accounting_period_id) as accounting_periods_to_include_for
   from accounting_periods as base
   join accounting_periods as multiplier
     on multiplier.starting >= base.starting
