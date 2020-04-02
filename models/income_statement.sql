@@ -21,7 +21,7 @@ locations as (
 ),
 departments as (
     select * from {{ source('netsuite', 'departments') }}
-),
+)
 
 select
   reporting_accounting_periods.accounting_period_id as accounting_period_id,

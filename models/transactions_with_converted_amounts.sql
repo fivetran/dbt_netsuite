@@ -20,11 +20,11 @@ transactions_in_every_calculation_period_w_exchange_rates as (
   from transaction_lines_w_accounting_period
   join flattened_period_id_list_to_current_period on flattened_period_id_list_to_current_period.accounting_period_id = transaction_lines_w_accounting_period.transaction_accounting_period_id 
   join transactions_with_converted_amounts__exchange_rate_map as exchange_reporting_period
-    on exchange_reporting_period.accounting_period_id = transactions_in_every_calculation_period.reporting_accounting_period_id
+    on exchange_reporting_period.accounting_period_id = flattened_period_id_list_to_current_period.reporting_accounting_period_id
     and exchange_reporting_period.account_id = transaction_lines_w_accounting_period.account_id
     and exchange_reporting_period.from_subsidiary_id = transaction_lines_w_accounting_period.subsidiary_id
   join transactions_with_converted_amounts__exchange_rate_map as exchange_transaction_period
-    on exchange_transaction_period.accounting_period_id = transactions_in_every_calculation_period.accounting_period_id
+    on exchange_transaction_period.accounting_period_id = flattened_period_id_list_to_current_period.accounting_period_id
     and exchange_transaction_period.account_id = transaction_lines_w_accounting_period.account_id
     and exchange_transaction_period.from_subsidiary_id = transaction_lines_w_accounting_period.subsidiary_id
 ), transactions_with_converted_amounts as (

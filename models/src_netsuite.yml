@@ -28,6 +28,14 @@ sources:
           tests:
               - unique
               - not_null
+      
+      - name: accounting_books
+        freshness: null
+        columns:
+        - name: accounting_book_id
+          tests:
+              - unique
+              - not_null
 
       - name: consolidated_exchange_rates
         freshness: null
@@ -52,6 +60,14 @@ sources:
           tests:
               - unique
               - not_null
+      
+      - name: classes
+        freshness: null
+        columns:
+        - name: class_id
+          tests:
+              - unique
+              - not_null        
 
       - name: departments
         freshness: null

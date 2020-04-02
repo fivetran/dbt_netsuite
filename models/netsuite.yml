@@ -18,14 +18,14 @@ models:
       Next, we cross join the accounts table to the period_exchange_rate_map, so we can 
       generate a map of exchange rates, by account, accounting period, and subsidiary.
   
-    - name: transactions_with_converted_amounts_lines_with_accounting_periods
+  - name: transactions_with_converted_amounts_lines_with_accounting_periods
     description: >
       (Step 2/5) Next, we need to prepare a cleaned version of all transactions we need.  
       Using the transactions and transaction_lines tables, the necessary fields are extracted, 
       and transactions that are deleted, revenue arrangements, or non-posting transactions are 
       filtered out. This is called transaction_lines_w_accounting_period. 
     
-    - name: transactions_with_converted_amounts__all_periods
+  - name: transactions_with_converted_amounts__all_periods
     description: >
       (Step 3/5) Once we have the cleaned transaction_lines_w_accounting_period, we now need to figure out
       which exchange rate we should use for the currency conversion.  The balance sheet complicates 
@@ -36,12 +36,12 @@ models:
       transaction took place in (transaction_accounting_period_id), as well as all subsequent accounting 
       periods (reporting_accounting_period_id).
 
-    - name: flattened_period_id_list_to_current_period
+  - name: flattened_period_id_list_to_current_period
     description: >
       (Step 4/5) This is related to step 3, but due to Snowflake/BigQuery sytnax differences, this 
       query needs to live in a warehouse-specific folder.
 
-    - name: transactions_with_converted_amounts
+  - name: transactions_with_converted_amounts
     description: >
       (Step 5/5) Now that we have the exchange rates and the unconverted amounts, the next step is 
       to calculate the converted total.

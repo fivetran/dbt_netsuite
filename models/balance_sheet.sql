@@ -9,7 +9,7 @@ accounting_periods as (
 ), 
 subsidiaries as (
     select * from {{ source('netsuite', 'subsidiaries') }}
-),
+)
 
 select
   reporting_accounting_periods.accounting_period_id as accounting_period_id,
