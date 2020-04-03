@@ -98,11 +98,11 @@ select
     else transaction_lines.amount
     end as transaction_amount,
   case
-   when {{ dbt_utils.datediff('to_date(due_date)', 'current_date', 'day') }} < 0 then '< 0.0'
-   when {{ dbt_utils.datediff('to_date(due_date)', 'current_date', 'day') }} >= 0 and datediff(day, to_date(due_date), current_date)  < 30 then '>= 0.0 and < 30.0'
-   when {{ dbt_utils.datediff('to_date(due_date)', 'current_date', 'day') }} >= 30 and datediff(day, to_date(due_date), current_date)  < 60 then '>= 30.0 and < 60.0'
-   when {{ dbt_utils.datediff('to_date(due_date)', 'current_date', 'day') }} >= 60 and datediff(day, to_date(due_date), current_date)  < 90 then '>= 60.0 and < 90.0'
-   when {{ dbt_utils.datediff('to_date(due_date)', 'current_date', 'day') }} >= 90 then '>= 90.0'
+   when {{ dbt_utils.datediff(dbt_utils.date_trunc('day', 'due_date'), dbt_utils.date_trunc('day', dbt_utils.current_timestamp()), 'day') }} < 0 then '< 0.0'
+   when {{ dbt_utils.datediff(dbt_utils.date_trunc('day', 'due_date'), dbt_utils.date_trunc('day', dbt_utils.current_timestamp()), 'day') }} >= 0 and datediff(day, to_date(due_date), current_date)  < 30 then '>= 0.0 and < 30.0'
+   when {{ dbt_utils.datediff(dbt_utils.date_trunc('day', 'due_date'), dbt_utils.date_trunc('day', dbt_utils.current_timestamp()), 'day') }} >= 30 and datediff(day, to_date(due_date), current_date)  < 60 then '>= 30.0 and < 60.0'
+   when {{ dbt_utils.datediff(dbt_utils.date_trunc('day', 'due_date'), dbt_utils.date_trunc('day', dbt_utils.current_timestamp()), 'day') }} >= 60 and datediff(day, to_date(due_date), current_date)  < 90 then '>= 60.0 and < 90.0'
+   when {{ dbt_utils.datediff(dbt_utils.date_trunc('day', 'due_date'), dbt_utils.date_trunc('day', dbt_utils.current_timestamp()), 'day') }} >= 90 then '>= 90.0'
    else 'Undefined'
    end as days_past_due_date_tier
 from transaction_lines
