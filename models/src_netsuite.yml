@@ -17,9 +17,14 @@ sources:
         freshness: null
         tests:
           - unique:
-              column: concat(accounting_period_id, '-', fiscal_calendar_id)
-          - not_null:
-              column: concat(accounting_period_id, '-', fiscal_calendar_id)
+              column_name: concat(accounting_period_id, '-', fiscal_calendar_id)
+        columns:
+        - name: accounting_period_id
+          tests: 
+            - not_null
+        - name: fiscal_calendar_id
+          tests: 
+            - not_null
 
       - name: accounts
         freshness: null
@@ -129,9 +134,14 @@ sources:
         loaded_at_field: _fivetran_synced
         tests:
           - unique:
-              column: concat(transaction_id, '-', transaction_id)
-          - not_null:
-              column: concat(transaction_id, '-', transaction_id)
+              column_name: concat(transaction_line_id, '-', transaction_id)
+        columns:
+        - name: transaction_id
+          tests: 
+            - not_null
+        - name: transaction_line_id
+          tests: 
+            - not_null
 
       - name: transactions
         loaded_at_field: _fivetran_synced
