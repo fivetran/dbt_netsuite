@@ -1,12 +1,12 @@
 with transactions_with_converted_amounts as (
     select * from {{ref('transactions_with_converted_amounts')}}
-), 
+),
 accounts as (
     select * from {{ source('netsuite', 'accounts') }}
-), 
+),
 accounting_periods as (
     select * from {{ source('netsuite', 'accounting_periods') }}
-), 
+),
 subsidiaries as (
     select * from {{ source('netsuite', 'subsidiaries') }}
 ),
@@ -97,14 +97,14 @@ select
     when lower(accounts.type_name) = 'income' or lower(accounts.type_name) = 'other income' then -transaction_lines.amount
     else transaction_lines.amount
     end as transaction_amount,
-  -- case
-  --   when datediff(day, to_date(due_date), current_date)  < 0 then '< 0.0'
-  --   when datediff(day, to_date(due_date), current_date)  >= 0 and datediff(day, to_date(due_date), current_date)  < 30 then '>= 0.0 and < 30.0'
-  --   when datediff(day, to_date(due_date), current_date)  >= 30 and datediff(day, to_date(due_date), current_date)  < 60 then '>= 30.0 and < 60.0'
-  --   when datediff(day, to_date(due_date), current_date)  >= 60 and datediff(day, to_date(due_date), current_date)  < 90 then '>= 60.0 and < 90.0'
-  --   when datediff(day, to_date(due_date), current_date)  >= 90 then '>= 90.0'
-  --   else 'Undefined'
-  --   end as days_past_due_date_tier
+  case
+   when {{ dbt_utils.datediff('to_date(due_date)', 'current_date', 'day') }} < 0 then '< 0.0'
+   when {{ dbt_utils.datediff('to_date(due_date)', 'current_date', 'day') }} >= 0 and datediff(day, to_date(due_date), current_date)  < 30 then '>= 0.0 and < 30.0'
+   when {{ dbt_utils.datediff('to_date(due_date)', 'current_date', 'day') }} >= 30 and datediff(day, to_date(due_date), current_date)  < 60 then '>= 30.0 and < 60.0'
+   when {{ dbt_utils.datediff('to_date(due_date)', 'current_date', 'day') }} >= 60 and datediff(day, to_date(due_date), current_date)  < 90 then '>= 60.0 and < 90.0'
+   when {{ dbt_utils.datediff('to_date(due_date)', 'current_date', 'day') }} >= 90 then '>= 90.0'
+   else 'Undefined'
+   end as days_past_due_date_tier
 from transaction_lines
 join transactions on transactions.transaction_id = transaction_lines.transaction_id
   and not transactions._fivetran_deleted
