@@ -1,6 +1,6 @@
 {% macro array_agg(field_to_agg, order_by) -%}
 
-{{ adapter_macro('netsuite.array_agg') }}
+{{ adapter_macro('netsuite.array_agg', field_to_agg, order_by) }}
 
 {%- endmacro %}
 
