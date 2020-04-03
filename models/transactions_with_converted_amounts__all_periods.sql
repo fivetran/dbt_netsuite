@@ -1,6 +1,6 @@
 with accounting_periods as (
     select * from {{ source('netsuite', 'accounting_periods') }}
-), 
+),
 subsidiaries as (
     select * from {{ source('netsuite', 'subsidiaries') }}
 ),
@@ -8,7 +8,7 @@ subsidiaries as (
 period_id_list_to_current_period as ( -- period ids with all future period ids.  this is needed to calculate cumulative totals by correct exchange rates.
   select
     base.accounting_period_id,
-    array_agg(multiplier.accounting_period_id order by multiplier.accounting_period_id) as accounting_periods_to_include_for
+    {{ netsuite.array_agg('multiplier.accounting_period_id', 'multiplier.accounting_period_id') }} as accounting_periods_to_include_for
   from accounting_periods as base
   join accounting_periods as multiplier
     on multiplier.starting >= base.starting
@@ -22,4 +22,4 @@ period_id_list_to_current_period as ( -- period ids with all future period ids. 
   group by 1
 )
 
-select * from period_id_list_to_current_period    
+select * from period_id_list_to_current_period
