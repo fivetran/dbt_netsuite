@@ -1,0 +1,4 @@
+name: 'netsuite_integration_tests'
+version: '1.0'
+
+profile: 'netsuite_integration_tests'

@@ -1,0 +1,25 @@
+config:
+    send_anonymous_usage_stats: False
+    use_colors: True
+
+integration_tests:
+  target: snowflake
+  outputs:
+    snowflake:
+      type: snowflake
+      account: "{{ env_var('CI_SNOWFLAKE_DBT_ACCOUNT') }}"
+      user: "{{ env_var('CI_SNOWFLAKE_DBT_USER') }}"
+      password: "{{ env_var('CI_SNOWFLAKE_DBT_PASS') }}"
+      role: "{{ env_var('CI_SNOWFLAKE_DBT_ROLE') }}"
+      database: "{{ env_var('CI_SNOWFLAKE_DBT_DATABASE') }}"
+      warehouse: "{{ env_var('CI_SNOWFLAKE_DBT_WAREHOUSE') }}"
+      schema: segment_integration_tests_snowflake
+      threads: 1
+
+    bigquery:
+      type: bigquery
+      method: service-account
+      keyfile: "{{ env_var('GCLOUD_SERVICE_KEY_PATH') }}"
+      project: 'dbt-integration-tests'
+      schema: segment_integration_tests_snowflake
+      threads: 1
