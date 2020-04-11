@@ -3,9 +3,7 @@ version: '0.0.1'
 
 profile: 'default'
 
-require-dbt-version: [">=0.14.0", "<0.17.0"]
-
-macro-paths: ['macros']    # look for macros in ./macros directory
+require-dbt-version: [">=0.16.0", "<0.17.0"]
 
 models:
   netsuite:
