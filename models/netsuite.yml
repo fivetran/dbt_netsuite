@@ -18,7 +18,7 @@ models:
       Next, we cross join the accounts table to the period_exchange_rate_map, so we can 
       generate a map of exchange rates, by account, accounting period, and subsidiary.
   
-  - name: transaction_lines_w_accounting_periods
+  - name: transaction_lines_w_accounting_period
     description: >
       (Step 2/4) Next, we need to prepare a cleaned version of all transactions we need.  
       Using the transactions and transaction_lines tables, the necessary fields are extracted, 
@@ -48,17 +48,78 @@ models:
       either Retained Earnings or Net Income.  The Cumulative Translation
       Adjustment total, which in most cases does not have transactions
       associated with it, is calculated manually in the second part of the query.
-  
+    columns:
+    - name: accounting_period_ending
+      description: End date of the accounting period
+    - name: is_accounting_period_adjustment
+      description: Yes/No field, indicating whether or not the selecting accounting period is an adjustment period
+    - name: is_accounting_period_closed
+      description: Yes/No field, indicating whether or not the selecting accounting period is closed
+    - name: account_category
+      description: Category of the account.  Options include Asset, Liability, Equity, Expense or Income.
+    - name: converted_amount
+      description: Transaction amount, converted into the primary subsidiary's default currency
+
   - name: income_statement
     description: >
       The income statment query uses the transactions_with_converted_amount transformation 
       to recreate all lines necessary for the income statment.  It also joins in class, 
       department and location information for enhanced reporting. 
-  
+    columns:
+    - name: accounting_period_ending
+      description: End date of the accounting period
+    - name: is_accounting_period_adjustment
+      description: Yes/No field, indicating whether or not the selecting accounting period is an adjustment period
+    - name: is_accounting_period_closed
+      description: Yes/No field, indicating whether or not the selecting accounting period is closed
+    - name: account_number_and_name
+      description: Concatenation of account number and account name
+    - name: converted_amount
+      description: Transaction amount, converted into the primary subsidiary's default currency
+    - name: account_category
+      description: Category of the account. Options include Asset, Liability, Equity, Expense or Income.
+
   - name: transaction_details
     description: >
       This table uses Netsuite's core table, transaction_lines, and joins a handful of 
       other tables to add more detail to those line items.  For all transactions, you are 
       able to see the associated accounting period, account and subsidiary.  Where applicable, 
       you can also see information about the customer, location, item, vendor, and department.
+    columns:
+    - name: transaction_line_id
+      description: Netsuite internal transaction line ID
+    - name: is_transaction_non_posting
+      description: Yes/No field, indicating whether or not the transaction line is non-posting
+    - name: transaction_id
+      description: Netsuite internal transaction ID
+    - name: is_transaction_intercompany
+      description: Yes/No field, indicating whether or not the transaction is an intercompany transaction or an advanced intercompany transaction
+    - name: accounting_period_ending
+      description: End date of the accounting period
+    - name: is_accounting_period_adjustment
+      description: Yes/No field, indicating whether or not the selecting accounting period is an adjustment period
+    - name: is_accounting_period_closed
+      description: Yes/No field, indicating whether or not the selecting accounting period is closed
+    - name: is_account_leftside
+      description: Yes/No field indicating whether or not the account is leftside
+    - name: is_accounts_payable
+      description: Yes/No field indicating whether or not the account type name includes 'accounts payable'
+    - name: is_accounts_receivable
+      description: Yes/No field indicating whether or not the account type name includes 'accounts receivable'
+    - name: is_account_intercompany
+      description: Yes/No field indicating whether or not the account type name includes 'intercompany'
+    - name: parent_account_name
+      description: Name of the parent account, if parent account relationship exists.  Otherwise, the name of the account.
+    - name: is_income_account
+      description: Yes/No field indicating whether or not the account is an income account
+    - name: is_expense_account
+      description: Yes/No field indicating whether or not the account is an expense account
+    - name: customer_date_first_order
+      description: Date customer placed first order
+    - name: vendor_create_date
+      description: Date vendor was created
+    - name: converted_amount
+      description: Transaction amount, converted into the primary subsidiary's default currency
+    - name: transaction_amount
+      description: Total amount of the transaction line
 
