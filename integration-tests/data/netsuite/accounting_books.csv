@@ -1,0 +1,2 @@
+accounting_book_id,_fivetran_synced,accounting_book_extid,accounting_book_name,date_created,date_last_modified,effective_period_id,form_template_component_id,form_template_id,is_arrangement_level_reclass,is_consolidated,is_contingent_revenue_handling,is_include_child_subsidiaries,is_primary,is_two_step_revenue_allocation,status,unbilled_receivable_grouping
+1.0,2018-10-26 18:21:54.254 UTC,,Primary Accounting Book,2017-08-07 04:11:02 UTC,2017-09-13 04:51:41 UTC,,,,No,Yes,No,Yes,Yes,Yes,Active,ELEMENT

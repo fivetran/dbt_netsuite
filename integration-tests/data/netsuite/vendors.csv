@@ -1,0 +1,510 @@
+vendor_id,_fivetran_deleted,_fivetran_synced,accountnumber,altemail,altphone,annual_revenue_id,ap_contact_person,billaddress,billing_class_id,category_id,city,collection_notes,comments,company_size_id,companyname,country,create_date,creditlimit,currency_id,current_sales_order_id,customer_credit_on_hold,date_deleted,date_last_modified,default_cost_template_id,department_id,direct_debit,eft_bill_payment,eft_customer_refund_payment,email,expense_account_id,fax,full_name,home_phone,hot_lead,how_did_you_hear_of_us_id,incoterm,industry_type_id,is1099eligible,is_manufacturer,is_person,isemailhtml,isemailpdf,isinactive,keyword_search2_id,keyword_search_id,labor_cost,last_modified_date,line1,line2,line3,loginaccess,medium_id,mobile_phone,name,openbalance,openbalance_foreign,payables_account_id,payment__of_balance,payment_commitment_amount,payment_commitment_date,payment_terms_id,phone,printoncheckas,priority,product_interest_id,purchaseorderamount,purchaseorderquantity,purchaseorderquantitydiff,receiptamount,receiptquantity,receiptquantitydiff,related_asset_id,remaining_vendor_credit,represents_subsidiary_id,sales_engineer,search_engine_id,set_customer_credit_on_hold,shipaddress,shipping_instructions,state,subsidiary,supervisore_id,taxidnum,time_approver_id,unbilled_orders,unbilled_orders_foreign,url,vendor_extid,vendor_lead_time,vendor_type_id,wc_picture,wrnty_center_phone,zipcode,in_transit_balance
+1597.0,false,2018-10-26 18:07:35.627 UTC,,,,,,,,,,,,,New York County,,2017-05-08 12:55:08 UTC,,1.0,,,,2017-05-08 12:55:08 UTC,,,,,,,,,New York County : New York County (HQ),,,,,,No,,No,No,No,No,,,,2017-05-08 12:55:08 UTC,,,,No,,,New York County (HQ),0.0,0.0,,,,,2.0,,,,,,,,,,,,,,,,,,,,3.0,,,,0.0,0.0,,,,3.0,,,,0.0
+1666.0,false,2018-10-26 18:07:36.524 UTC,,,,,,,,,,,,,New York City,,2017-06-13 05:39:53 UTC,,1.0,,,,2017-06-13 05:39:53 UTC,,,,,,,,,New York City : New York City (test subs 3),,,,,,No,,No,No,No,No,,,,2017-06-13 05:39:53 UTC,,,,No,,,New York City (test subs 3),0.0,0.0,,,,,2.0,,,,,,,,,,,,,,,,,,,,6.0,,,,0.0,0.0,,,,3.0,,,,0.0
+1591.0,false,2018-10-26 18:07:31.773 UTC,,,,,,,,,,,,,,,2017-05-08 12:55:08 UTC,,1.0,,,,2017-05-08 12:55:08 UTC,,,,,,,85.0,,Stein Investments : Stein Investments (HQ),,,,,,No,,No,No,No,No,,,,2017-05-08 12:55:08 UTC,,,,No,,,Stein Investments (HQ),0.0,0.0,,,,,2.0,650-555-7702,,,,,,,,,,,,,,,,,,,3.0,,,,0.0,0.0,,,,3.0,,,,0.0
+1598.0,false,2018-10-26 18:07:37.401 UTC,,,,,,,,,,,,,New York State,,2017-05-08 12:55:08 UTC,,1.0,,,,2017-05-08 12:55:08 UTC,,,,,,,,,New York State : New York State (HQ),,,,,,No,,No,No,No,No,,,,2017-05-08 12:55:08 UTC,,,,No,,,New York State (HQ),0.0,0.0,,,,,2.0,,,,,,,,,,,,,,,,,,,,3.0,,,,0.0,0.0,,,,3.0,,,,0.0
+1590.0,false,2018-10-26 18:07:35.189 UTC,,,,,,,,,,,,,,,2017-05-08 12:55:08 UTC,,1.0,,,,2017-05-08 12:55:08 UTC,,,,,,,,,State Board of Equalization : State Board of Equalization (HQ),,,,,,No,,No,No,No,No,,,,2017-05-08 12:55:08 UTC,,,,No,,,State Board of Equalization (HQ),0.0,0.0,,,,,1.0,,,,,,,,,,,,,,,,,,,,3.0,,,,0.0,0.0,,,,3.0,,,,0.0
+1595.0,false,2018-10-26 18:07:34.766 UTC,,,,,,,,,,,,,,,2017-05-08 12:55:08 UTC,,1.0,,,,2017-05-08 12:55:08 UTC,,,,,,,,,Store Tax Agency : Store Tax Agency (HQ),,,,,,No,,No,No,No,No,,,,2017-05-08 12:55:08 UTC,,,,No,,,Store Tax Agency (HQ),0.0,0.0,,,,,2.0,,,,,,,,,,,,,,,,,,,,3.0,,,,0.0,0.0,,,,3.0,,,,0.0
+1670.0,false,2018-10-26 18:07:37.400 UTC,,,,,,,,,,,,,California Employment Development Dept,,2017-06-13 06:58:18 UTC,,1.0,,,,2017-06-13 06:58:18 UTC,,,,,,,91.0,,California EDD : California EDD (test sub),,,,,,No,,No,No,No,No,,,,2017-06-13 06:58:18 UTC,,,,No,,,California EDD (test sub),0.0,0.0,,,,,2.0,800-555-7301,"Secretary of State, California",,,,,,,,,,,,,,,,,,4.0,,,,0.0,0.0,,,,3.0,,,,0.0
+1594.0,false,2018-10-26 18:07:33.066 UTC,,,,,,,,,,,,,California Employment Development Dept,,2017-05-08 12:55:08 UTC,,1.0,,,,2017-05-08 12:55:08 UTC,,,,,,,91.0,,California EDD : California EDD (HQ),,,,,,No,,No,No,No,No,,,,2017-05-08 12:55:08 UTC,,,,No,,,California EDD (HQ),0.0,0.0,,,,,2.0,800-555-7301,"Secretary of State, California",,,,,,,,,,,,,,,,,,3.0,,,,0.0,0.0,,,,3.0,,,,0.0
+1592.0,false,2018-10-26 18:07:33.066 UTC,467859624,,,,,,,,,,,,Internal Revenue Service,,2017-05-08 12:55:08 UTC,,1.0,,,,2017-05-08 12:55:08 UTC,,,,,,,91.0,,Internal Revenue Service-FUTA : Internal Revenue Service-FUTA (HQ),,,,,,No,,No,No,No,No,,,,2017-05-08 12:55:08 UTC,,,,No,,,Internal Revenue Service-FUTA (HQ),0.0,0.0,,,,,2.0,,United States Treasury,,,,,,,,,,,,,,,,,,3.0,,,,0.0,0.0,,,,3.0,,,,0.0
+1667.0,false,2018-10-26 18:07:38.237 UTC,,,,,,,,,,,,,New York County,,2017-06-13 05:39:53 UTC,,1.0,,,,2017-06-13 05:39:53 UTC,,,,,,,,,New York County : New York County (test subs 3),,,,,,No,,No,No,No,No,,,,2017-06-13 05:39:53 UTC,,,,No,,,New York County (test subs 3),0.0,0.0,,,,,2.0,,,,,,,,,,,,,,,,,,,,6.0,,,,0.0,0.0,,,,3.0,,,,0.0
+1665.0,false,2018-10-26 18:07:32.645 UTC,,,,,,,,,,,,,,,2017-06-13 05:39:53 UTC,,1.0,,,,2017-06-13 05:39:53 UTC,,,,,,,,,State Board of Equalization : State Board of Equalization (test subs 3),,,,,,No,,No,No,No,No,,,,2017-06-13 05:39:53 UTC,,,,No,,,State Board of Equalization (test subs 3),0.0,0.0,,,,,1.0,,,,,,,,,,,,,,,,,,,,6.0,,,,0.0,0.0,,,,3.0,,,,0.0
+1645.0,false,2018-10-26 18:07:32.644 UTC,,,,,,,,,,,,,,,2019-07-06 21:13:51 UTC,,1.0,,,,2019-07-06 21:13:51 UTC,,,,,,,,,Tax Agency AK,,,,,,No,,No,No,No,No,,,,2019-07-06 21:13:51 UTC,,,,No,,,Tax Agency AK,0.0,0.0,,,,,,,,,,,,,,,,,,,,,,,,,4.0,,,,0.0,0.0,,,,3.0,,,,0.0
+1596.0,false,2018-10-26 18:07:30.470 UTC,,,,,,,,,,,,,New York City,,2017-05-08 12:55:08 UTC,,1.0,,,,2017-05-08 12:55:08 UTC,,,,,,,,,New York City : New York City (HQ),,,,,,No,,No,No,No,No,,,,2017-05-08 12:55:08 UTC,,,,No,,,New York City (HQ),0.0,0.0,,,,,2.0,,,,,,,,,,,,,,,,,,,,3.0,,,,0.0,0.0,,,,3.0,,,,0.0
+1669.0,false,2018-10-26 18:07:37.821 UTC,,,,,,,,,,,,,,,2017-06-13 05:58:39 UTC,,1.0,,,,2017-06-13 05:58:39 UTC,,,,,,,,,Default Tax Agency BM,,,,,,No,,No,No,No,No,,,,2017-06-13 05:58:39 UTC,,,,No,,,Default Tax Agency BM,0.0,0.0,,,,,,,,,,,,,,,,,,,,,,,,,1.0,,,,0.0,0.0,,,,3.0,,,,0.0
+128.0,false,2018-10-26 18:07:33.065 UTC,,,,,,,,,,,,,,,2016-02-17 08:00:00 UTC,,1.0,,,,2017-05-03 22:04:00 UTC,,,,,,,,,Store Tax Agency,,,,,,No,,No,No,No,No,,,,2017-05-03 22:04:00 UTC,,,,No,,,Store Tax Agency,0.0,0.0,,,,,2.0,,,,,,,,,,,,,,,,,,,,1.0,,,,0.0,0.0,,entity128,8.0,3.0,,,,0.0
+1651.0,false,2018-10-26 18:07:37.821 UTC,,,,,,,,,,,,,,,2017-06-12 09:24:48 UTC,,1.0,,,,2017-06-12 09:24:48 UTC,,,,,,,,,Default Tax Agency AL,,,,,,No,,No,No,No,No,,,,2017-06-12 09:24:48 UTC,,,,No,,,Default Tax Agency AL,0.0,0.0,,,,,,,,,,,,,,,,,,,,,,,,,1.0,,,,0.0,0.0,,,,3.0,,,,0.0
+1664.0,false,2018-10-26 18:07:30.470 UTC,,,,,,,,,,,,,,,2017-06-13 05:39:52 UTC,,1.0,,,,2017-06-13 05:39:52 UTC,,,,,,,,,Tax Agency GA,,,,,,No,,No,No,No,No,,,,2017-06-13 05:39:52 UTC,,,,No,,,Tax Agency GA,0.0,0.0,,,,,,,,,,,,,,,,,,,,,,,,,6.0,,,,0.0,0.0,,,,3.0,,,,0.0
+1668.0,false,2018-10-26 18:07:38.237 UTC,,,,,,,,,,,,,New York State,,2017-06-13 05:39:53 UTC,,1.0,,,,2017-06-13 05:39:53 UTC,,,,,,,,,New York State : New York State (test subs 3),,,,,,No,,No,No,No,No,,,,2017-06-13 05:39:53 UTC,,,,No,,,New York State (test subs 3),0.0,0.0,,,,,2.0,,,,,,,,,,,,,,,,,,,,6.0,,,,0.0,0.0,,,,3.0,,,,0.0
+1593.0,false,2018-10-26 18:07:32.211 UTC,467859624,,,,,,,,,,,,Internal Revenue Service,,2017-05-08 12:55:08 UTC,,1.0,,,,2017-05-08 12:55:08 UTC,,,,,,,91.0,,"Internal Revenue Service- Income,FICA : Internal Revenue Service- Income,FICA (HQ)",,,,,,No,,No,No,No,No,,,,2017-05-08 12:55:08 UTC,,,,No,,,"Internal Revenue Service- Income,FICA (HQ)",0.0,0.0,,,,,2.0,,United States Treasury,,,,,,,,,,,,,,,,,,3.0,,,,0.0,0.0,,,,3.0,,,,0.0
+-100.0,false,2018-10-26 18:07:38.237 UTC,,,,,,"State Board of Equalization
+PO Box 924879
+Sacramento CA",,,Sacramento,,,,,,2015-11-24 08:00:00 UTC,,1.0,,,,2017-05-03 20:08:46 UTC,,,,,,,,,State Board of Equalization,,,,,,No,,No,No,No,No,,,,2017-05-03 20:08:46 UTC,PO Box 924879,,,No,,,State Board of Equalization,-178616.55,72.6,,,,,1.0,,,,,,,,,,,,,,,,,"State Board of Equalization
+PO Box 924879
+Sacramento CA",,CA,1.0,,,,0.0,0.0,,,7.0,3.0,,,,0.0
+-3.0,false,2018-10-26 18:07:30.898 UTC,,,,,,,,,,,,,Nippoin Accountants,,2015-11-22 08:00:00 UTC,,1.0,,,,2017-05-13 15:32:34 UTC,,,,,,,,,Nippoin Accountants,,,,,,No,,No,No,No,No,,,,2017-05-13 15:32:34 UTC,,,,No,,,Nippoin Accountants,0.0,0.0,,,,,2.0,,Nippoin Accountants,,,,,,,,,,,,,,,,,,3.0,,,,0.0,0.0,,-Accountant-,6.0,6.0,,,,0.0
+1059.0,false,2018-10-26 18:07:36.524 UTC,,,,,,,,,,,,,Panasonic,,2017-09-03 15:16:08 UTC,,1.0,,,,2017-05-03 22:04:18 UTC,,,,,,,60.0,,Panasonic,,,,,,No,,No,No,No,No,,,,2017-05-03 22:04:18 UTC,,,,No,,,Panasonic,-7650.0,-7650.0,,,,,2.0,888-ask-pana,Panasonic,,,,,,,,,,,,,,,,,,1.0,,,,-7801.99,-7801.99,,ENTITY1059,7.0,16.0,,,,0.0
+1058.0,false,2018-10-26 18:07:31.350 UTC,,,,,,,,,,,,,Motorola,,2017-09-03 15:16:08 UTC,,1.0,,,,2017-05-03 22:04:57 UTC,,,,,,,60.0,,Motorola,,,,,,No,,No,No,No,No,,,,2017-05-03 22:04:57 UTC,,,,No,,,Motorola,-9150.0,-9150.0,,,,,2.0,800-MOTOROLA,Motorola,,,,,,,,,,,,,,,,,,1.0,,,,0.0,0.0,,ENTITY1058,5.0,16.0,,,,0.0
+1057.0,false,2018-10-26 18:07:34.766 UTC,,,,,,,,,,,,,Merlin,,2017-09-03 15:16:07 UTC,,1.0,,,,2017-05-03 22:02:47 UTC,,,,,,,60.0,,Merlin,,,,,,No,,No,No,No,No,,,,2017-05-03 22:02:47 UTC,,,,No,,,Merlin,-18502.65,-19032.55,,,,,3.0,888-752-1919,Merlin,,,,,,,,,,,,,,,,,,1.0,,,,-82.09,-82.09,,ENTITY1057,8.0,16.0,,,,0.0
+1054.0,false,2018-10-26 18:07:37.401 UTC,,,,,,,,,,,,,Nikon,,2017-09-03 15:16:07 UTC,,1.0,,,,2017-05-03 20:09:23 UTC,,,,,,,60.0,,Nikon,,,,,,No,,No,No,No,No,,,,2017-05-03 20:09:23 UTC,,,,No,,,Nikon,-52038.5,-52038.5,,,,,3.0,317-627-1000,Nikon,,,,,,,,,,,,,,,,,,1.0,,,,-23047.0,-23047.0,,ENTITY1054,7.0,17.0,,,,0.0
+1053.0,false,2018-10-26 18:07:31.350 UTC,,,,,,,,,,,,,"Polaroid, Inc.",,2017-09-03 15:16:06 UTC,,1.0,,,,2017-05-03 22:03:18 UTC,,,,,,,60.0,,Polaroid,,,,,,No,,No,No,No,No,,,,2017-05-03 22:03:18 UTC,,,,No,,,Polaroid,-37545.0,-37545.0,,,,,6.0,812-555-1970,"Polaroid, Inc.",,,,,,,,,,,,,,,,,,1.0,,,,0.0,0.0,,ENTITY1053,11.0,17.0,,,,0.0
+1055.0,false,2018-10-26 18:07:33.488 UTC,,,,,,,,,,,,,Phillips,,2017-09-03 15:16:07 UTC,,1.0,,,,2017-05-03 22:03:14 UTC,,,,,,,60.0,,Phillips,,,,,,No,,No,No,No,No,,,,2017-05-03 22:03:14 UTC,,,,No,,,Phillips,0.0,0.0,,,,,1.0,650-323-1500,Phillips,,,,,,,,,,,,,,,,,,1.0,,,,0.0,0.0,,ENTITY1055,9.0,17.0,,,,0.0
+45.0,false,2018-10-26 18:07:35.188 UTC,5402-1476,,,,,"Superior ISP
+6501 Mallory Dr
+Sacramento CA 94203
+US",,,Sacramento,,,,,US,2015-11-25 08:00:00 UTC,,1.0,,,,2017-05-03 22:03:29 UTC,,,,,,superiorisp@christyscatering.com,100.0,916-555-0095,Superior ISP,,,,,,No,,No,No,No,No,,,,2017-05-03 22:03:29 UTC,6501 Mallory Dr,,,No,,,Superior ISP,-4500.0,-4500.0,,,,,2.0,916-555-0094,,,,,,,,,,,,,,,,"Superior ISP
+6501 Mallory Dr
+Sacramento CA 94203
+US",,CA,1.0,,,,0.0,0.0,,8/9/02 5:20 PM VENDOR 45,25.0,,,,94203,0.0
+12.0,false,2018-10-26 18:07:36.078 UTC,,,800-555-1840,,,"Best Fixture, Inc.
+70 Westpark Rd
+San Bruno CA 94066
+US",,,San Bruno,,,,,US,2015-11-24 08:00:00 UTC,,1.0,,,,2017-05-05 20:50:02 UTC,,,,,,,126.0,650-555-1841,"Best Fixture, Inc.",,,,,,No,,No,No,No,No,,,,2017-05-05 20:50:02 UTC,70 Westpark Rd,,,No,,,"Best Fixture, Inc.",-6250.0,-6250.0,,,,,2.0,650-555-1840,,,,,,,,,,,,,,,,"Best Fixture, Inc.
+70 Westpark Rd
+San Bruno CA 94066
+US",,CA,1.0,,,,-3454.4,-3454.4,,Ady Singh,15.0,,,,94066,0.0
+10.0,false,2018-10-26 18:07:36.079 UTC,,,,,,"Torrance Printing, Inc.
+1200 Central Ave
+Ste 105
+Pacifica CA 94044
+US",,,Pacifica,,,,,US,2015-11-24 08:00:00 UTC,,1.0,,,,2017-05-03 22:03:48 UTC,,,,,,torrenceprint@christyscatering.com,65.0,415-555-7837,"Torrance Printing, Inc.",,,,,,No,,No,No,No,No,,,,2017-05-03 22:03:48 UTC,1200 Central Ave,Ste 105,,No,,,"Torrance Printing, Inc.",0.0,0.0,,,,,2.0,415-555-7836,,,,,,,,,,,,,,,,"Torrance Printing, Inc.
+1200 Central Ave
+Ste 105
+Pacifica CA 94044
+US",,CA,1.0,,,,0.0,0.0,,8/9/02 5:20 PM VENDOR 10,7.0,,,,94044,0.0
+49.0,false,2018-10-26 18:07:35.188 UTC,,,,,,"Steele & Frock Law Offices
+1800 Union Blvd
+Ste 301
+Daly CIty CA 94013
+US",,,Daly CIty,,,,,US,2015-11-25 08:00:00 UTC,,1.0,,,,2017-05-03 22:04:07 UTC,,,,,,steelefrocklaw@christyscatering.com,87.0,415-555-2950,Steele & Frock Law Offices,,,,,,No,,No,No,No,No,,,,2017-05-03 22:04:07 UTC,1800 Union Blvd,Ste 301,,No,,,Steele & Frock Law Offices,0.0,0.0,,,,,2.0,415-555-2926,,,,,,,,,,,,,,,,"Steele & Frock Law Offices
+1800 Union Blvd
+Ste 301
+Daly CIty CA 94013
+US",,CA,1.0,,,,0.0,0.0,,8/9/02 5:20 PM VENDOR 49,5.0,,,,94013,0.0
+7.0,false,2018-10-26 18:07:35.188 UTC,WE00001,,,,,"McGeever Property Management
+680 Edgewater Blvd
+Ste 200
+Foster City CA 94404
+US",,,Foster City,,,,,US,2015-11-24 08:00:00 UTC,,1.0,,,,2017-05-03 22:02:50 UTC,,,,,,mcgeeverpm@christyscatering.com,88.0,650-555-4650,McGeever Property Management,,,,,,No,,No,No,No,No,,,,2017-05-03 22:02:50 UTC,680 Edgewater Blvd,Ste 200,,No,,,McGeever Property Management,0.0,0.0,,,,,2.0,650-555-4600,,,,,,,,,,,,,,,,"McGeever Property Management
+680 Edgewater Blvd
+Ste 200
+Foster City CA 94404
+US",,CA,1.0,,,,0.0,0.0,,8/9/02 5:20 PM VENDOR 7,7.0,,,,94404,0.0
+5.0,false,2018-10-26 18:07:38.237 UTC,W1094,,,,,"Maxson Waste Management
+239 S Post Ave
+San Jose CA 95118
+US",,,San Jose,,,,,US,2015-11-24 08:00:00 UTC,,1.0,,,,2017-05-03 22:02:54 UTC,,,,,,,101.0,,Maxson Waste Management,,,,,,No,,No,No,No,No,,,,2017-05-03 22:02:54 UTC,239 S Post Ave,,,No,,,Maxson Waste Management,0.0,0.0,,,,,2.0,408-555-7712,,,,,,,,,,,,,,,,"Maxson Waste Management
+239 S Post Ave
+San Jose CA 95118
+US",,CA,1.0,,,,0.0,0.0,,8/9/02 5:20 PM VENDOR 5,6.0,,,,95118,0.0
+14.0,false,2018-10-26 18:07:31.774 UTC,451-9935,,,,,"Safety Net Security
+PO Box 3950
+San Jose CA 95118
+US",,,San Jose,,,,,US,2015-11-24 08:00:00 UTC,,1.0,,,,2017-05-03 22:04:11 UTC,,,,,,snsecurity@christyscatering.com,89.0,,Safety Net Security,,,,,,No,,No,No,No,No,,,,2017-05-03 22:04:11 UTC,PO Box 3950,,,No,,,Safety Net Security,0.0,0.0,,,,,2.0,408-555-8842,,,,,,,,,,,,,,,,"Safety Net Security
+PO Box 3950
+San Jose CA 95118
+US",,CA,1.0,,,,0.0,0.0,,8/9/02 5:20 PM VENDOR 14,8.0,,,,95118,0.0
+3.0,false,2018-10-26 18:07:38.667 UTC,784356002,,,,,"First Community Bank
+2750 El Camino Real
+San Mateo CA 94401
+US",,,San Mateo,,,,,US,2015-11-24 08:00:00 UTC,,1.0,,,,2017-05-03 22:02:03 UTC,,,,,,,71.0,650-555-9134,First Community Bank,,,,,,No,,No,No,No,No,,,,2017-05-03 22:02:03 UTC,2750 El Camino Real,,,No,,,First Community Bank,0.0,0.0,,,,,2.0,650-555-9133,,,,,,,,,,,,,,,,"First Community Bank
+2750 El Camino Real
+San Mateo CA 94401
+US",,CA,1.0,,,,0.0,0.0,,Abbas Ansari,9.0,,,,94401,0.0
+43.0,false,2018-10-26 18:07:30.898 UTC,10009,,,,,"Sullivan Distributors, Inc.
+1500 Central Pkwy
+Ste 100
+Chicago IL 60601
+US",,,Chicago,,,,,US,2015-11-25 08:00:00 UTC,,1.0,,,,2017-05-03 22:03:23 UTC,,,,,,sullivandist@christyscatering.com,60.0,800-555-2805,"Sullivan Distributors, Inc.",,,,,,No,,No,No,No,No,,,,2017-05-03 22:03:23 UTC,1500 Central Pkwy,Ste 100,,No,,,"Sullivan Distributors, Inc.",-2299.0,-2299.0,,,,,2.0,800-555-2800,,,,,,,,,,,,,,,,"Sullivan Distributors, Inc.
+1500 Central Pkwy
+Ste 100
+Chicago IL 60601
+US",,IL,1.0,,,,-152702.21,-152702.21,,8/9/02 5:20 PM VENDOR 43,7.0,,,,60601,0.0
+121.0,false,2018-10-26 18:07:36.967 UTC,,,,,,"California EDD
+PO Box 16773
+Sacramento CA 95814
+US",,,Sacramento,,,,California Employment Development Dept,US,2015-12-01 08:00:00 UTC,,1.0,,,,2017-05-03 22:01:11 UTC,,,,,,,91.0,,California EDD,,,,,,No,,No,No,No,No,,,,2017-05-03 22:01:11 UTC,PO Box 16773,,,No,,,California EDD,0.0,0.0,,,,,2.0,800-555-7301,"Secretary of State, California",,,,,,,,,,,,,,,"California EDD
+PO Box 16773
+Sacramento CA 95814
+US",,CA,1.0,,,,0.0,0.0,,entity121,8.0,3.0,,,95814,0.0
+119.0,false,2018-10-26 18:07:34.765 UTC,467859624,,,,,"Internal Revenue Service
+PO Box 10084
+San Francisco CA 94108",,,San Francisco,,,,Internal Revenue Service,US,2015-11-30 08:00:00 UTC,,1.0,,,,2017-05-03 22:03:07 UTC,,,,,,,91.0,,"Internal Revenue Service- Income,FICA",,,,,,No,,No,No,No,No,,,,2017-05-03 22:03:07 UTC,PO Box 10084,,,No,,,"Internal Revenue Service- Income,FICA",0.0,0.0,,,,,2.0,,United States Treasury,,,,,,,,,,,,,,,,,CA,1.0,,,,0.0,0.0,,8/9/02 5:40 PM VENDOR 119,8.0,3.0,,,94108,0.0
+113.0,false,2018-10-26 18:07:34.765 UTC,467859624,,,,,"Internal Revenue Service
+PO Box 10096
+Sacramento CA 94229
+United States",,,Sacramento,,,,Internal Revenue Service,US,2015-11-27 08:00:00 UTC,,1.0,,,,2017-05-03 22:03:04 UTC,,,,,,,91.0,,Internal Revenue Service-FUTA,,,,,,No,,No,No,No,No,,,,2017-05-03 22:03:04 UTC,PO Box 10096,,,No,,,Internal Revenue Service-FUTA,0.0,0.0,,,,,2.0,,United States Treasury,,,,,,,,,,,,,,,,,CA,1.0,,,,0.0,0.0,,8/9/02 5:40 PM VENDOR 113,5.0,3.0,,,94229,0.0
+41.0,false,2018-10-26 18:07:36.524 UTC,,,,,,"Stein Investments
+1600 Chester St
+Palo Alto CA 94309
+US",,,Palo Alto,,,,,US,2015-11-25 08:00:00 UTC,,1.0,,,,2017-05-03 22:04:03 UTC,,,,,,,85.0,650-555-7703,Stein Investments,,,,,,No,,No,No,No,No,,,,2017-05-03 22:04:03 UTC,1600 Chester St,,,No,,,Stein Investments,0.0,0.0,,,,,2.0,650-555-7702,,,,,,,,,,,,,,,,"Stein Investments
+1600 Chester St
+Palo Alto CA 94309
+US",,CA,1.0,,,,0.0,0.0,,8/9/02 5:20 PM VENDOR 41,9.0,3.0,,,94309,0.0
+39.0,false,2018-10-26 18:07:36.078 UTC,4509,,,,,"Koka Office Supplies
+2400 Pershing
+Oakland CA 94613
+US",,,Oakland,,,,,US,2015-11-25 08:00:00 UTC,,1.0,,,,2017-05-05 20:52:44 UTC,,,,,,kokaoffice@christyscatering.com,90.0,,Koka Office Supplies,,,,,,No,,No,No,No,No,,,,2017-05-05 20:52:44 UTC,2400 Pershing,,,No,,,Koka Office Supplies,0.0,0.0,,,,,2.0,510-555-1384,,,,,,,,,,,,,,,,"Koka Office Supplies
+2400 Pershing
+Oakland CA 94613
+US",,CA,1.0,,,,464.3,464.3,,entity39,9.0,4.0,,,94613,0.0
+38.0,false,2018-10-26 18:07:38.668 UTC,109-WE-4973,,415-555-5710,,,"American Computers
+1700 Ridge
+San Francisco CA 94167
+US",,,San Francisco,,,,,US,2015-11-25 08:00:00 UTC,,1.0,,,,2017-05-05 20:49:55 UTC,,,,,,americancomp@christyscatering.com,60.0,415-555-5750,American Computers,,,,,,No,,No,No,No,No,,,,2017-05-05 20:49:55 UTC,1700 Ridge,,,No,,,American Computers,-605397.76,-605397.76,,,,,3.0,800-555-1900,,,,,,,,,,,,,,,,"American Computers
+1700 Ridge
+San Francisco CA 94167
+US",,CA,1.0,,,,-204186.62,-204186.62,,8/9/02 5:20 PM VENDOR 38,4.0,5.0,,,94167,0.0
+34.0,false,2018-10-26 18:07:33.917 UTC,4513-9401-2,,,,,"Pacific Gas and Electric
+P.O. Box 770000
+San Francisco CA 94177
+US",,,San Francisco,,,,,US,2015-11-25 08:00:00 UTC,,1.0,,,,2017-05-03 22:04:22 UTC,,,,,,,101.0,415-555-7001,Pacific Gas and Electric,,,,,,No,,No,No,No,No,,,,2017-05-03 22:04:22 UTC,P.O. Box 770000,,,No,,,Pacific Gas and Electric,0.0,0.0,,,,,2.0,415-555-7000,,,,,,,,,,,,,,,,"Pacific Gas and Electric
+P.O. Box 770000
+San Francisco CA 94177
+US",,CA,1.0,,,,0.0,0.0,,entity34,8.0,6.0,,,94177,0.0
+15.0,false,2018-10-26 18:07:33.487 UTC,48006391,,,,,"Carbray Insurance Agency
+5768 22nd Ave
+Sacramento CA 94279
+US",,,Sacramento,,,,,US,2015-11-24 08:00:00 UTC,,1.0,,,,2017-05-03 22:01:27 UTC,,,,,,,77.0,916-555-1050,Carbray Insurance Agency,,,,,,No,,No,No,No,No,,,,2017-05-03 22:01:27 UTC,5768 22nd Ave,,,No,,,Carbray Insurance Agency,0.0,0.0,,,,,4.0,916-555-1032,,,,,,,,,,,,,,,,"Carbray Insurance Agency
+5768 22nd Ave
+Sacramento CA 94279
+US",,CA,1.0,,,,0.0,0.0,,Ahmed Butt,7.0,6.0,,,94279,0.0
+32.0,false,2018-10-26 18:07:34.334 UTC,913465,,,,,"UPS
+1355 Adams Ct
+Menlo Park CA 94025
+US",,,Menlo Park,,,,,US,2015-11-25 08:00:00 UTC,,1.0,,,,2017-05-03 22:03:45 UTC,,,,,,,86.0,,UPS,,,,,,No,,No,No,No,No,,,,2017-05-03 22:03:45 UTC,1355 Adams Ct,,,No,,,UPS,-344.85,-344.85,,,,,1.0,800-555-5877,,,,,,,,,,,,,,,,"UPS
+1355 Adams Ct
+Menlo Park CA 94025
+US",,CA,1.0,,,,0.0,0.0,,entity32,5.0,6.0,,,94025,0.0
+33.0,false,2018-10-26 18:07:33.066 UTC,4255138,,,,,"Federal Express
+373 B Vintage Park Dr
+Foster City CA 94404
+US",,,Foster City,,,,,US,2015-11-25 08:00:00 UTC,,1.0,,,,2017-05-03 22:02:00 UTC,,,,,,,86.0,800-555-3340,Federal Express,,,,,,No,,No,No,No,No,,,,2017-05-03 22:02:00 UTC,373 B Vintage Park Dr,,,No,,,Federal Express,0.0,0.0,,,,,2.0,800-555-3339,,,,,,,,,,,,,,,,"Federal Express
+373 B Vintage Park Dr
+Foster City CA 94404
+US",,CA,1.0,,,,0.0,0.0,,entity33,5.0,6.0,,,94404,0.0
+36.0,false,2018-10-26 18:07:38.237 UTC,,,,,,"Bob Ford, CPA
+159 Broadway
+Ste 100
+Menlo Park CA 94025
+US",,,Menlo Park,,,,"Bob Ford, CPA",US,2015-11-25 08:00:00 UTC,,1.0,,,,2017-05-03 22:01:04 UTC,,,,,,bobford@christyscatering.com,127.0,408-555-3780,"Bob Ford, CPA",,,,,,No,,No,No,No,No,,,,2017-05-03 22:01:04 UTC,159 Broadway,Ste 100,,No,,,"Bob Ford, CPA",-350.0,-350.0,,,,,2.0,408-555-3770,,,,,,,,,,,,,,,,"Bob Ford, CPA
+159 Broadway
+Ste 100
+Menlo Park CA 94025
+US",,CA,1.0,,,,0.0,0.0,,entity36,5.0,6.0,,,94025,0.0
+35.0,false,2018-10-26 18:07:38.668 UTC,,,,,,"Pacific Bell Telephone
+Pacific Bell Payment Center
+Sacramento CA 95887-0001
+US",,,Sacramento,,,,,US,2015-11-25 08:00:00 UTC,,1.0,,,,2017-05-03 22:04:25 UTC,,,,,,,97.0,800-555-2360,Pacific Bell Telephone,,,,,,No,,No,No,No,No,,,,2017-05-03 22:04:25 UTC,Pacific Bell Payment Center,,,No,,,Pacific Bell Telephone,-1216.22,-1216.22,,,,,4.0,800-555-2355,,,,,,,,,,,,,,,,"Pacific Bell Telephone
+Pacific Bell Payment Center
+Sacramento CA 95887-0001
+US",,CA,1.0,,,,0.0,0.0,,entity35,4.0,6.0,,,95887-0001,0.0
+46.0,false,2018-10-26 18:07:32.210 UTC,,,,,,"Terrence Decker
+5100 9th St
+San Mateo CA 94401
+US",,,San Mateo,,web and graphic design,,,US,2015-11-25 08:00:00 UTC,,1.0,,,,2017-05-03 22:03:58 UTC,,,,,,terrenced@christyscatering.com,85.0,,Terrence Decker,,,,,,Yes,,No,No,No,No,,,,2017-05-03 22:03:58 UTC,5100 9th St,,,No,,,Terrence Decker,0.0,0.0,,,,,4.0,650-555-4096,,,,,,,,,,,,,,,,"Terrence Decker
+5100 9th St
+San Mateo CA 94401
+US",,CA,1.0,,821-54-7789,,0.0,0.0,,Alex Ingram,14.0,1.0,,,94401,0.0
+1476.0,false,2018-10-26 18:07:38.668 UTC,,,,,,,,,,,,,Witt & Anderson,,2017-06-16 19:14:15 UTC,,4.0,,,,2017-05-03 22:03:35 UTC,,,,,,,,,Witt & Anderson,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:03:35 UTC,,,,No,,,Witt & Anderson,-1455.65,-1051.06,,,,,2.0,,,,,,,,,,,,,,,,,,,,1.0,,,,0.0,0.0,,,,,,,,0.0
+1650.0,false,2018-10-26 18:07:36.524 UTC,,,,,,,,,,,,,test company 2,,2017-06-06 20:59:11 UTC,,1.0,,,,2017-06-06 20:59:11 UTC,,,,F,,,,,test company 2,,,,,,No,F,No,No,No,No,,,,2017-06-06 20:59:11 UTC,,,,No,,,test company 2,0.0,0.0,,,,,,,,,,,,,,,,,,,,,,,,,1.0,,,,0.0,0.0,,,,,,,,0.0
+956.0,false,2018-10-26 18:07:33.488 UTC,,,,,,,,,,,,,Gillette,,2017-08-13 17:44:10 UTC,,1.0,,,,2017-06-13 07:38:22 UTC,,,,F,,,,,Gillette,,,,,,No,F,No,No,No,No,,,,2017-06-13 07:38:22 UTC,,,,No,,,Gillette,0.0,0.0,,,,,2.0,,Gillette,,,,,,,,,,,,,,,,,,1.0,,,,0.0,0.0,,Kevin Lu,10.0,,,,,0.0
+1570.0,false,2018-10-26 18:07:38.667 UTC,,,,,,,,,,,,,Hotel Royal,,2017-06-06 08:49:14 UTC,,1.0,,,,2017-05-07 10:32:40 UTC,,,,,,,,,Hotel Royal,,,,,,No,F,No,No,No,No,,,,2017-05-07 10:32:40 UTC,,,,No,,,Hotel Royal,-3318.71,-11313.547765574764,,,,,,,,,,,,,,,,,,,,,,,,,1.0,,,,0.0,0.0,,,,,,,,0.0
+952.0,false,2018-10-26 18:07:32.645 UTC,,,,,,,,,,,,,GlaxoSmithKline,,2017-08-13 17:29:26 UTC,,1.0,,,,2017-05-05 20:52:31 UTC,,,,,,,,,GlaxoSmithKline,,,,,,No,F,No,No,No,No,,,,2017-05-05 20:52:31 UTC,,,,No,,,GlaxoSmithKline,0.0,0.0,,,,,4.0,800-998-1000,GlaxoSmithKline,,,,,,,,,,,,,,,,,,1.0,,,,0.0,0.0,,Kerri Peters,3.0,,,,,0.0
+947.0,false,2018-10-26 18:07:32.645 UTC,,,,,,,,,,,,,Natures Own,,2017-08-13 15:13:42 UTC,,1.0,,,,2017-05-03 22:04:52 UTC,,,,,,,,,Natures Own,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:04:52 UTC,,,,No,,,Natures Own,0.0,0.0,,,,,2.0,800-123-9822,Natures Own,,,,,,,,,,,,,,,,,,1.0,,,,0.0,0.0,,Ken Murphy,3.0,,,,,0.0
+937.0,false,2018-10-26 18:07:36.079 UTC,,,,,,,,,,,,,Computers Extreme,,2017-08-12 13:27:36 UTC,,1.0,,,,2017-05-03 22:01:49 UTC,,,,,,,,,Computers Extreme,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:01:49 UTC,,,,No,,,Computers Extreme,0.0,0.0,,,,,2.0,,,,,,,,,,,,,,,,,,,,1.0,,,,-4105.0,-4105.0,,Kelly Blackwood,9.0,,,,,0.0
+1475.0,false,2018-10-26 18:07:36.524 UTC,,,,,,,,,,,,,IGA Inc,,2017-06-16 19:13:45 UTC,,3.0,,,,2017-05-03 22:02:42 UTC,,,,,,,,,IGA Inc,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:02:42 UTC,,,,No,,,IGA Inc,-1479.5,-1483.77,,,,,2.0,,,,,,,,,,,,,,,,,,,,1.0,,,,0.0,0.0,,,,,,,,0.0
+964.0,false,2018-10-26 18:07:33.488 UTC,,,,,,,,,,,,,,,2017-08-13 21:15:46 UTC,,1.0,,,,2017-05-03 22:01:47 UTC,,,,,,,,,Computer Systems LTD,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:01:47 UTC,,,,No,,,Computer Systems LTD,0.0,0.0,,,,,2.0,,,,,,,,,,,,,,,,,,,,1.0,,,,-28490.0,-28490.0,,Kim Gazo,7.0,,,,,0.0
+1470.0,false,2018-10-26 18:07:31.350 UTC,,,,,,,,,,,,,Harper Systems,,2017-06-14 00:01:19 UTC,,3.0,,,,2017-05-03 22:02:29 UTC,,,,,,,,,Harper Systems,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:02:29 UTC,,,,No,,,Harper Systems,0.0,0.0,,,,,2.0,,,,,,,,,,,,,,,,,,,,1.0,,,,0.0,0.0,,,,,,,,0.0
+1573.0,false,2018-10-26 18:07:31.350 UTC,,,,,,,,,,,,,Bravo TV,,2017-06-06 08:58:21 UTC,,1.0,,,,2017-05-07 10:32:37 UTC,,,,,,,,,Bravo TV,,,,,,No,F,No,No,No,No,,,,2017-05-07 10:32:37 UTC,,,,No,,,Bravo TV,-2156.62,-7133.40400622057,,,,,,,,,,,,,,,,,,,,,,,,,1.0,,,,0.0,0.0,,,,,,,,0.0
+933.0,false,2018-10-26 18:07:33.066 UTC,,,,,,,,,,,,,The Office Shop Inc,,2017-08-11 17:18:56 UTC,,1.0,,,,2017-05-03 22:03:55 UTC,,,,,,dennis@officeshopinc.com,,,The Office Shop Inc,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:03:55 UTC,,,,No,,,The Office Shop Inc,-9.99,-9.99,,,,,2.0,(800)-722-4212,The Office Shop Inc,,,,,,,,,,,,,,,,,,1.0,,,,-426.95,-426.95,,Keith & Lynn Cannon,6.0,,,,,0.0
+963.0,false,2018-10-26 18:07:33.066 UTC,,,,,,,,,,,,,,,2017-08-13 21:15:21 UTC,,1.0,,,,2017-05-03 22:01:43 UTC,,,,,,,,,Computer Glory,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:01:43 UTC,,,,No,,,Computer Glory,0.0,0.0,,,,,2.0,,,,,,,,,,,,,,,,,,,,1.0,,,,-72033.0,-72033.0,,Khaled Rashidy,6.0,,,,,0.0
+1339.0,false,2018-10-26 18:07:37.400 UTC,,,,,,,,,,,,,New York County,,2017-05-12 22:49:54 UTC,,1.0,,,,2017-05-03 22:04:47 UTC,,,,,,,,,New York County,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:04:47 UTC,,,,No,,,New York County,0.0,0.0,,,,,2.0,,,,,,,,,,,,,,,,,,,,1.0,,,,0.0,0.0,,Nick Papadopoulas,1.0,3.0,,,,0.0
+1338.0,false,2018-10-26 18:07:30.469 UTC,,,,,,,,,,,,,New York City,,2017-05-12 22:49:39 UTC,,1.0,,,,2017-05-03 22:04:44 UTC,,,,,,,,,New York City,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:04:44 UTC,,,,No,,,New York City,0.0,0.0,,,,,2.0,,,,,,,,,,,,,,,,,,,,1.0,,,,0.0,0.0,,Nick Malliaros,2.0,3.0,,,,0.0
+1340.0,false,2018-10-26 18:07:30.470 UTC,,,,,,,,,,,,,New York State,,2017-05-12 22:50:12 UTC,,1.0,,,,2017-05-03 22:04:36 UTC,,,,,,,,,New York State,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:04:36 UTC,,,,No,,,New York State,-70.02,0.0,,,,,2.0,,,,,,,,,,,,,,,,,,,,1.0,,,,0.0,0.0,,Nicole Craft,5.0,3.0,,,,0.0
+1056.0,false,2018-10-26 18:07:33.489 UTC,,,,,,,,,,,,,"Canon, Inc.",,2017-09-03 15:16:07 UTC,,1.0,,,,2017-05-03 22:01:22 UTC,,,,,,,60.0,,"Canon, Inc.",,,,,,No,F,No,No,No,No,,,,2017-05-03 22:01:22 UTC,,,,No,,,"Canon, Inc.",0.0,0.0,,,,,6.0,800-457-4800,"Cannon, Inc.",,,,,,,,,,,,,,,,,,1.0,,,,-13875.0,-13875.0,,ENTITY1056,6.0,17.0,,,,0.0
+1435.0,false,2018-10-26 18:07:35.627 UTC,,,,,,"Canadian Vendor
+5800 Explorer Dr.
+Mississauga ON L4W 5K9
+Canada",,,Mississauga,,,,Hillerman Inc.,CA,2017-05-15 19:37:23 UTC,,3.0,,,,2017-05-03 22:02:39 UTC,,,,,,,,,Hillerman Inc.,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:02:39 UTC,5800 Explorer Dr.,,,No,,,Hillerman Inc.,-68551.13,-62500.0,,,,,2.0,(905) 219-8000,,,,,,,,,,,,,,,,"Canadian Vendor
+5800 Explorer Dr.
+Mississauga ON L4W 5K9
+Canada",,ON,1.0,,,,0.0,0.0,,,,,,,L4W 5K9,0.0
+988.0,false,2018-10-26 18:07:35.188 UTC,,,,,,"Mr. Ballagher
+Peter Gallagher
+37 Hanna Avenue Unit 10
+Toronto ON M8X 1S8
+Canada",,,Toronto,,,,casalife,CA,2017-08-18 15:41:51 UTC,,1.0,,,,2017-05-03 22:03:40 UTC,,,,,,casalife@casa.com,60.0,,casalife,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:03:40 UTC,37 Hanna Avenue Unit 10,,,No,,,casalife,0.0,0.0,,,,,2.0,416-922-0000,,,,,,,,,,,,,,,,"Mr. Ballagher
+Peter Gallagher
+37 Hanna Avenue Unit 10
+Toronto ON M8X 1S8
+Canada",,ON,1.0,,,,0.0,0.0,,V123,9.0,13.0,,,M8X 1S8,0.0
+931.0,false,2018-10-26 18:07:35.627 UTC,,,,,,"Coopers Office Furniture
+379 Queen Street West
+Toronto ON Canada",,,Toronto,,Family owned business since 1975.,,Coopers Office Furniture,CA,2017-08-11 17:13:31 UTC,,1.0,,,,2017-05-05 20:52:10 UTC,,,,,,bcooper@cooperofficefurniture.com,60.0,(416) 555-4322,Coopers Office Furniture,,,,,,No,F,No,No,No,No,,,,2017-05-05 20:52:10 UTC,379 Queen Street West,,,Yes,,,Coopers Office Furniture,-3863.39,-3863.39,,,,,2.0,416-555-6822,Coopers Office Furniture,,,,,,,,,,,,,,,"Coopers Office Furniture
+379 Queen Street West
+Toronto ON Canada",,ON,1.0,,,,-61485.25,-61485.25,http://www.cooperofficefurniture.com,Kathy Smith,6.0,14.0,,,,0.0
+1436.0,false,2018-10-26 18:07:32.644 UTC,,,,,,"China Manufacturer
+Gao Xin Jian Industrial Park
+Shenzen Guangdong Province 518103
+China",,,Shenzen,,,,Contract Manufacturer,CN,2017-05-15 19:42:09 UTC,,1.0,,,,2017-05-26 12:06:27 UTC,,,,F,,chinavendor@ramsey.com,,,Contract Manufacturer,,,,,,No,F,No,No,No,No,,,,2017-05-26 12:06:27 UTC,Gao Xin Jian Industrial Park,,,No,,,Contract Manufacturer,0.0,0.0,,,,,2.0,,,,,,,,,,,,,,,,,"China Manufacturer
+Gao Xin Jian Industrial Park
+Shenzen Guangdong Province 518103
+China",,广东省,1.0,,,,-295138.25,-295138.25,,,120.0,11.0,,,518103,0.0
+1473.0,false,2018-10-26 18:07:32.644 UTC,,,,,,"Bridgepoint Industries
+Avenue de Cortenbergh 30
+City of Brussel Belgium 1000
+Germany",,,City of Brussel,,,,Bridgepoint Industries,DE,2017-06-16 19:12:55 UTC,,4.0,,,,2017-05-03 22:01:06 UTC,,,,,,support@bridgempointindustries.com.de,,011 49 180 6600,Bridgepoint Industries,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:01:06 UTC,Avenue de Cortenbergh 30,,,No,,,Bridgepoint Industries,-2459.78,-1718.79,,,,,2.0,011 49 180 6695,,,,,,,,,,,,,,,,"Bridgepoint Industries
+Avenue de Cortenbergh 30
+City of Brussel Belgium 1000
+Germany",,Belgium,1.0,,,,0.0,0.0,http://www.bridgepointindustries.com.de,,,13.0,,,1000,0.0
+1434.0,false,2018-10-26 18:07:30.448 UTC,,,,,,"UK Vendor
+1 Grenfell Road
+Maidenhead Berks. SL6 1HN
+United Kingdom (GB)",,,Maidenhead,,,,Qual Ltd.,GB,2017-05-15 19:35:53 UTC,,2.0,,,,2017-05-03 22:03:21 UTC,,,,,,,,,Qual Ltd.,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:03:21 UTC,1 Grenfell Road,,,No,,,Qual Ltd.,-16461.15,-8500.0,,,,,2.0,,,,,,,,,,,,,,,,,"UK Vendor
+1 Grenfell Road
+Maidenhead Berks. SL6 1HN
+United Kingdom (GB)",,Berks.,1.0,,,,0.0,0.0,,,,,,,SL6 1HN,0.0
+1471.0,false,2018-10-26 18:07:33.489 UTC,,,,,,"AVI Consulting 
+11256 Hickson Road
+Maidenhead Berks. SL6 1HN
+United Kingdom (GB)",,,Maidenhead,,,,AVI Consulting,GB,2017-06-16 19:09:49 UTC,,2.0,,,,2017-05-03 22:00:53 UTC,,,,,,customerservice@aviconsulting.com,,+61 2 9256 1244,AVI Consulting,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:00:53 UTC,11256 Hickson Road,,,No,,,AVI Consulting,-3013.01,-1516.5,,,,,2.0,+61 2 9256 1234,,,,,,,,,,,,,,,,"AVI Consulting 
+11256 Hickson Road
+Maidenhead Berks. SL6 1HN
+United Kingdom (GB)",,Berks.,1.0,,,,-7500.01,-7500.01,http://www.aviconsulting.com,,,13.0,,,SL6 1HN,0.0
+945.0,false,2018-10-26 18:07:38.668 UTC,,,,,,Office Depot,,,,,,,Office Depot,US,2017-08-13 13:53:08 UTC,,1.0,,,,2017-05-03 22:04:27 UTC,,,,,,davis@officedepot.com,,,Office Depot,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:04:27 UTC,,,,No,,,Office Depot,-1074.25,-1074.25,,,,,2.0,800-122-4455,Office Depot,,,,,,,,,,,,,,,Office Depot,,,1.0,,,,-2180.7,-2180.7,http://www.officedepot.com,Ken Larabie,8.0,,,,,0.0
+1348.0,false,2018-10-26 18:07:30.468 UTC,,,,,,United States,,,,,,,Charles Schwab,US,2017-05-14 14:39:21 UTC,,1.0,,,,2017-05-03 22:01:30 UTC,,,,,,,,,Charles Schwab,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:01:30 UTC,,,,No,,,Charles Schwab,0.0,0.0,,,,,2.0,,,,,,,,,,,,,,,,,United States,,,1.0,,,,0.0,0.0,,Norbert Maushagen,10.0,,,,,0.0
+1096.0,false,2018-10-26 18:07:34.765 UTC,,,,,,Chevron,,,,,,,,US,2017-05-06 17:32:48 UTC,,1.0,,,,2017-05-03 22:01:33 UTC,,,,,,,,,Chevron,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:01:33 UTC,,,,No,,,Chevron,0.0,0.0,,,,,2.0,,,,,,,,,,,,,,,,,Chevron,,,1.0,,,,0.0,0.0,,Marcel Gabris,11.0,,,,,0.0
+962.0,false,2018-10-26 18:07:36.524 UTC,,,,,,"Mr. Valley
+Clancy Machine Tool, Inc.
+3958 Valley Ave
+Pleasanton CA 94566",,,Pleasanton,,,,"Clancy Machine Tool, Inc.",US,2017-08-13 21:13:52 UTC,,1.0,,,,2017-05-03 22:01:38 UTC,,,,,,clancy@machinetool.com,,,"Clancy Machine Tool, Inc.",,,,,,No,F,No,No,No,No,,,,2017-05-03 22:01:38 UTC,3958 Valley Ave,,,No,,,"Clancy Machine Tool, Inc.",0.0,0.0,,,,,2.0,647-123-8876,,,,,,,,,,,,,,,,"Mr. Valley
+Clancy Machine Tool, Inc.
+3958 Valley Ave
+Pleasanton CA 94566",,CA,1.0,,,,0.0,0.0,,Kevin Sweet,12.0,,,,94566,0.0
+966.0,false,2018-10-26 18:07:31.351 UTC,,,,,,"Mr. Smith
+Kreager Machine tool
+1485 Veterans Blvd
+Redwood City CA 94063",,,Redwood City,,,,Kreager Machine tool,US,2017-08-13 21:17:37 UTC,,1.0,,,,2017-05-03 22:03:01 UTC,,,,,,kreager@machinetool.com,,,Kreager Machine Tool Corporation,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:03:01 UTC,1485 Veterans Blvd,,,No,,,Kreager Machine Tool Corporation,0.0,0.0,,,,,2.0,212-999-2276,,,,,,,,,,,,,,,,"Mr. Smith
+Kreager Machine tool
+1485 Veterans Blvd
+Redwood City CA 94063",,CA,1.0,,,,0.0,0.0,,Kim Sage,6.0,,,,94063,0.0
+11.0,false,2018-10-26 18:07:33.917 UTC,,,,,,"Thomas Cook
+709 Market St
+San Francisco CA 94167
+United States",,,San Francisco,,Professional training services,,Thomas Cook,US,2015-11-24 08:00:00 UTC,,1.0,,,,2017-05-03 22:03:51 UTC,,,,,,tom@thomascook.com,85.0,,Thomas Cook,,,,,,Yes,F,No,No,No,No,,,,2017-05-03 22:03:51 UTC,709 Market St,,,No,,,Thomas Cook,0.0,0.0,,,,,4.0,415-555-3316,,,,,,,,,,,,,,,,"Thomas Cook
+709 Market St
+San Francisco CA 94167
+United States",,CA,1.0,,905-64-0723,,0.0,0.0,,entity11,7.0,,,,94167,0.0
+1494.0,false,2018-10-26 18:07:34.765 UTC,,,,,,"Google Inc.
+1600 Amphitheatre Parkway
+Mountain View CA 94043
+United States",,,Mountain View,,,,Google Inc.,US,2017-05-27 18:35:12 UTC,,1.0,,,,2017-05-03 22:02:15 UTC,,,,,,,,,Google Inc.,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:02:15 UTC,1600 Amphitheatre Parkway,,,No,,,Google Inc.,0.0,0.0,,,,,1.0,,,,,,,,,,,,,,,,,"Google Inc.
+1600 Amphitheatre Parkway
+Mountain View CA 94043
+United States",,CA,1.0,,,,-273450.0,-273450.0,,,,,,,94043,0.0
+950.0,false,2018-10-26 18:07:30.469 UTC,,,,,,"CIBA Vision
+11460 Johns Creek Parkway
+Duluth GA 30097",,,Duluth,,,,CIBA Vision,US,2017-08-13 17:06:18 UTC,,1.0,,,,2017-05-03 22:01:09 UTC,,,,,,,,,CIBA Vision,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:01:09 UTC,11460 Johns Creek Parkway,,,No,,,CIBA Vision,0.0,0.0,,,,,2.0,678-415-3937,CIBA Vision,,,,,,,,,,,,,,,"CIBA Vision
+11460 Johns Creek Parkway
+Duluth GA 30097",,GA,1.0,,,,-84915.0,-84915.0,http://www.cibavision.com/,Kendal Johnson,15.0,,,,30097,0.0
+1305.0,false,2018-10-26 18:07:30.469 UTC,,,,,,"AL Systems Ltd
+2001 Michigan Ave
+Chicago IL 60698
+United States",,,Chicago,,Al worked with Mark Grogan at a previous job.,,AL Systems Ltd,US,2017-06-11 18:16:46 UTC,,1.0,,,,2017-05-31 17:33:58 UTC,,,,,,myohai@avectra.com,,(212) 545-9902,AL Systems Ltd,,,,,,No,F,No,No,No,No,,,,2017-05-31 17:33:58 UTC,2001 Michigan Ave,,,No,,,AL Systems Ltd,-34875.0,-34875.0,,,,,2.0,(212) 545-9901,,,,,,,,,,,,,,,,"AL Systems Ltd
+2001 Michigan Ave
+Chicago IL 60698
+United States",,IL,1.0,,,,-12725.0,-12725.0,,Nancy Wentzell,3.0,,,,60698,0.0
+967.0,false,2018-10-26 18:07:34.335 UTC,,,,,,"Mr. Hills
+Reinen Machine Sales
+219 Homestead Rd
+Hillsborough NJ 08844",,,Hillsborough,,,,United Grinding,US,2017-08-13 21:23:00 UTC,,1.0,,,,2017-05-03 22:04:15 UTC,,,,,,reinen@machinesales.com,,,Reinen Machine Sales,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:04:15 UTC,219 Homestead Rd,,,No,,,Reinen Machine Sales,0.0,0.0,,,,,2.0,937-859-9999,,,,,,,,,,,,,,,,"Mr. Hills
+Reinen Machine Sales
+219 Homestead Rd
+Hillsborough NJ 08844",,NJ,1.0,,,,0.0,0.0,,Kim Underwood,10.0,,,,08844,0.0
+951.0,false,2018-10-26 18:07:38.667 UTC,,,,,,"Coopervision
+370 Woodcliff Drive
+Suite 200 
+Fairport NY 14450",,,Fairport,,,,Coopervision,US,2017-08-13 17:08:19 UTC,,1.0,,,,2017-05-03 22:01:52 UTC,,,,,,info@coopervision.com,,,Coopervision,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:01:52 UTC,370 Woodcliff Drive,Suite 200,,No,,,Coopervision,0.0,0.0,,,,,2.0,,Coopervision,,,,,,,,,,,,,,,"Coopervision
+370 Woodcliff Drive
+Suite 200 
+Fairport NY 14450",,NY,1.0,,,,-110468.75,-110468.75,,Kenneth Lau,5.0,,,,14450,0.0
+949.0,false,2018-10-26 18:07:36.967 UTC,,,,,,"Bausch & Lomb
+1400 N. Goodman St.
+P.O. Box 450
+Rochester NY 14603-0450",,,Rochester,,,,Bausch & Lomb,US,2017-08-13 17:04:18 UTC,,1.0,,,,2017-05-03 22:01:02 UTC,,,,,,,,585-338-6896,Bausch & Lomb,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:01:02 UTC,1400 N. Goodman St.,P.O. Box 450,,No,,,Bausch & Lomb,0.0,0.0,,,,,2.0,585-338-6000,Bausch & Lomb,,,,,,,,,,,,,,,"Bausch & Lomb
+1400 N. Goodman St.
+P.O. Box 450
+Rochester NY 14603-0450",,NY,1.0,,,,-2115159.4,-2115159.4,http://www.bausch.com/,Kenda Mckay,14.0,,,,14603-0450,0.0
+944.0,false,2018-10-26 18:07:32.211 UTC,123456,,,,,"Accounts Receivable
+Alexander Valley Vineyards
+8644 Highway 128
+Healdsburg CA 32145",,,Healdsburg,,Can make Saturday delivery,,Alexander Valley Vineyards,US,2017-08-12 21:27:03 UTC,,1.0,,,,2017-05-05 20:49:37 UTC,,,,,,avv@avvwine.com,121.0,(800) 888-7208,Alexander Valley Vineyards,,,,,,No,F,No,No,No,No,,,,2017-05-05 20:49:37 UTC,8644 Highway 128,,,No,,,Alexander Valley Vineyards,-23734.22,-23734.22,,,,,1.0,(800) 888-7209,Alexander Valley Vineyards,,,,,,,,,,,,,,,"Accounts Receivable
+Alexander Valley Vineyards
+8644 Highway 128
+Healdsburg CA 32145",,CA,1.0,,,,-404256.74,-404256.74,http://www.avvwine.com/,Ken Kirupa,7.0,7.0,,,32145,0.0
+942.0,false,2018-10-26 18:07:35.626 UTC,789456,,,,,"Amanda Ekels
+Wellington Vineyards
+11600 Dunbar Road
+Glen Ellen CA 95442",,,Glen Ellen,,,,Wellington Vineyards,US,2017-08-12 21:22:46 UTC,,1.0,,,,2017-05-05 20:50:18 UTC,,,,,,wv@wellingtonvineyards.com,121.0,(707) 939-0378,Wellington Vineyards,,,,,,Yes,F,No,No,No,No,,,,2017-05-05 20:50:18 UTC,11600 Dunbar Road,,,No,,,Wellington Vineyards,0.0,0.0,,,,,5.0,(707) 939-0708,Wellington Vineyards,,,,,,,,,,,,,,,"Amanda Ekels
+Wellington Vineyards
+11600 Dunbar Road
+Glen Ellen CA 95442",,CA,1.0,,,,-1610.0,-1610.0,http://www.wellingtonvineyards.com/,Ken Hanson / Maryjane Ives,7.0,7.0,,,95442,0.0
+943.0,false,2018-10-26 18:07:33.917 UTC,456123,,,,,"Accounts Receivable
+Testarossa Vineyards
+300-A College Avenue
+Los Gatos CA 95030",,,Los Gatos,,,,Testarossa Vineyards,US,2017-08-12 21:24:19 UTC,,1.0,,,,2017-05-05 20:50:37 UTC,,,,,,wine@testarossa.com,121.0,408-354-8250,Testarossa Vineyards,,,,,,Yes,F,No,No,No,No,,,,2017-05-05 20:50:37 UTC,300-A College Avenue,,,No,,,Testarossa Vineyards,0.0,0.0,,,,,5.0,408-354-6150,Testarossa Vineyards,,,,,,,,,,,,,,,"Accounts Receivable
+Testarossa Vineyards
+300-A College Avenue
+Los Gatos CA 95030",,CA,1.0,,,,-1367.0,-1367.0,http://www.testarossa.com/,Ken King,9.0,7.0,,,95030,0.0
+941.0,false,2018-10-26 18:07:38.668 UTC,456789,,,,,"Accounts Receivable
+Lakewood Vineyards
+4024 State Route 14
+Watkins Glen NY 14891",,,Watkins Glen,,,,Lakewood Vineyards,US,2017-08-12 21:20:52 UTC,,1.0,,,,2017-05-05 20:52:48 UTC,,,,,,info@lakewoodvineyards.com,121.0,(607) 535-6656,Lakewood Vineyards,,,,,,Yes,F,No,No,No,No,,,,2017-05-05 20:52:48 UTC,4024 State Route 14,,,No,,,Lakewood Vineyards,0.0,0.0,,,,,5.0,(607) 535-9252,Lakewood Vineyards,,,,,,,,,,,,,,,"Accounts Receivable
+Lakewood Vineyards
+4024 State Route 14
+Watkins Glen NY 14891",,NY,1.0,,,,-2689.88,-2689.88,http://www.lakewoodvineyards.com/,Ken Combden,8.0,7.0,,,14891,0.0
+948.0,false,2018-10-26 18:07:34.335 UTC,,,,,,"Wesley Jessen
+123 W Main St.
+San Mateo CA 94003",,,San Mateo,,Can make Saturday delivery,,Wesley Jessen,US,2017-08-13 17:00:50 UTC,,1.0,,,,2017-05-05 20:50:16 UTC,,,,,,Sales@WesleyDistribution.com,60.0,(650) 403-9873,Wesley Ophthalmic,,,,,,No,F,No,No,No,No,,,,2017-05-05 20:50:16 UTC,123 W Main St.,,,No,,,Wesley Ophthalmic,-4023.8,-4023.8,,,,,5.0,888-sore eye,Wesley Jessen,,,,,,,,,,,,,,,"Wesley Jessen
+123 W Main St.
+San Mateo CA 94003",,CA,1.0,,38-09-8263,,-68311.25,-68311.25,http://www.wesley-jessen.ru,Ken or Lynn Hand,10.0,8.0,,,94003,0.0
+1078.0,false,2018-10-26 18:07:32.211 UTC,,,,,,"Boston Ophthalmology, LLC
+1480 E Second St.
+San Mateo CA 94003",,,San Mateo,,Will make emergency deliveries on Saturday,,"Boston Ophthalmology, LLC",US,2017-09-04 05:18:27 UTC,,1.0,,,,2017-05-05 20:50:08 UTC,,,,,,sales@bostonopt.com,60.0,(650) 665-1909,Boston Ophthalmology,,,,,,No,F,No,No,No,No,,,,2017-05-05 20:50:08 UTC,1480 E Second St.,,,No,,,Boston Ophthalmology,-2747.5,-2747.5,,,,,6.0,800-Sore Eye,Boston Ophthalmology,,,,,,,,,,,,,,,"Boston Ophthalmology, LLC
+1480 E Second St.
+San Mateo CA 94003",,CA,1.0,,84-92-8523,,-14705.5,-14705.5,http://www.bostonopt.com,Malcolm Pearl,7.0,8.0,,,94003,0.0
+929.0,false,2018-10-26 18:07:31.350 UTC,,,,,,"Invacare Corporation
+39400 Taylor Woods
+North Ridgeville OH",,,North Ridgeville,,Can make Saturday delivery,,Invacare Corporation,US,2017-08-11 14:31:55 UTC,,1.0,,,,2017-05-05 20:52:40 UTC,,,,,,support@invacarecorp.com,60.0,1-800-333-6950,Invacare Corporation,,,,,,No,F,No,No,No,No,,,,2017-05-05 20:52:40 UTC,39400 Taylor Woods,,,No,,,Invacare Corporation,-1990.0,-1990.0,,,,,3.0,1-800-333-6900,Invacare Corporation,,,,,,,,,,,,,,,"Invacare Corporation
+39400 Taylor Woods
+North Ridgeville OH",,OH,1.0,,,,0.0,0.0,http://www.invacare.com,Kathrine Ann MacDonald,6.0,9.0,,,,0.0
+960.0,false,2018-10-26 18:07:33.487 UTC,,,,,,"Bayer Health Care
+458 Sky Circle Way
+Burlingame Rhode Island 56949
+United States",,,Burlingame,,,,Bayer Health Care,US,2017-08-13 18:14:11 UTC,,1.0,,,,2017-05-05 20:49:50 UTC,,,,,,bayer@bayerglobal.com,84.0,(800) 215-5568,Bayer Health Care,,,,,,No,F,No,No,No,No,,,,2017-05-05 20:49:50 UTC,458 Sky Circle Way,,,Yes,,,Bayer Health Care,0.0,0.0,,,,,2.0,800-454-5542,Bayer Health Care,,,,,,,,,,,,,,,"Bayer Health Care
+458 Sky Circle Way
+Burlingame Rhode Island 56949
+United States",,Rhode Island,1.0,,46774377/9,,-45313.85,-45313.85,http://www.bayerhealthcare.com,Kevin S Baksh,5.0,9.0,,,56949,0.0
+965.0,false,2018-10-26 18:07:33.488 UTC,,,,,,"Computer Depot Pacific
+555 Lake Ave
+San Francisco CA 94107",,,San Francisco,,Can make Saturday delivery,,Computer Depot Pacific,US,2017-08-13 21:16:07 UTC,,1.0,,,,2017-05-05 20:52:02 UTC,,,,,,payables@cdp.com,60.0,(415) 552-1213,Computer Depot Pacific,,,,,,No,F,No,No,No,No,,,,2017-05-05 20:52:02 UTC,555 Lake Ave,,,No,,,Computer Depot Pacific,-8770.0,-9770.0,,,,,2.0,(415) 552-1212,Computer Depot Pacific Inc.,,,,,,,,,,,,,,,"Computer Depot Pacific
+555 Lake Ave
+San Francisco CA 94107",,CA,1.0,,,,-21717.0,-21717.0,http://www.cdp.com,Kim Pines,10.0,11.0,,,94107,0.0
+1552.0,false,2018-10-26 18:07:33.916 UTC,,,,,,"Amazon
+PO Box 81226
+Seattle WA 98108-1226
+United States",,,Seattle,,,,Amazon,US,2017-05-23 20:45:08 UTC,,1.0,,,,2017-05-23 20:45:08 UTC,,,,,,,,,Amazon,,,,,,No,F,No,No,No,No,,,,2017-05-23 20:45:08 UTC,PO Box 81226,,,No,,,Amazon,0.0,0.0,,,,,,,,,,,,,,,,,,,,,,"Amazon
+PO Box 81226
+Seattle WA 98108-1226
+United States",,WA,1.0,,,,-200000.0,-200000.0,,,,11.0,,,98108-1226,0.0
+1575.0,false,2018-10-26 18:07:32.210 UTC,,,,,,"Cray Inc
+901 Fifth Avenue, Suite 1000
+Seattle WA 98164
+United States",,,Seattle,,,,Cray Inc,US,2017-06-06 10:11:00 UTC,,1.0,,,,2017-05-03 07:29:45 UTC,,,,T,,info@cray.com,,(206) 701-2500,Cray Inc,,,,,,No,F,No,No,No,No,,,,2017-05-03 07:29:45 UTC,"901 Fifth Avenue, Suite 1000",,,No,,,Cray Inc,-12977.87,-28857.650197525065,,,,,,(206) 701-2000,,,,,,,,,,,,,,,,"Cray Inc
+901 Fifth Avenue, Suite 1000
+Seattle WA 98164
+United States",,WA,1.0,,,,0.0,0.0,http://www.cray.com,,,11.0,,,98164,0.0
+968.0,false,2018-10-26 18:07:35.188 UTC,,,,,,"Mr. Tucker
+Teck Machine Tool Co.
+2550 Mountain Rd
+Tucker GA 30084",,,Tucker,,Can make Saturday delivery,,Teck Machine Tool Co.,US,2017-08-13 21:26:54 UTC,,1.0,,,,2017-05-05 20:50:46 UTC,,,,,,teck@machinetool.com,59.0,(770) 236-1471,Teck Machine Tool Co.,,,,,,No,F,No,No,No,No,,,,2017-05-05 20:50:46 UTC,2550 Mountain Rd,,,No,,,Teck Machine Tool Co.,0.0,0.0,,,,,5.0,(880) 491-0000,,,,,,,,,,,,,,,,"Mr. Tucker
+Teck Machine Tool Co.
+2550 Mountain Rd
+Tucker GA 30084",,GA,1.0,,,,0.0,0.0,,Kim Willson,19.0,12.0,,,30084,0.0
+990.0,false,2018-10-26 18:07:30.898 UTC,,,,,,"Master Design Furniture
+1900 S. Burgundy Place
+Ontario CA 91761",,,Ontario,,,,Master Design Furniture,US,2017-08-18 15:47:14 UTC,,1.0,,,,2017-05-03 22:02:57 UTC,,,,,,masterdesign@furniture.com,60.0,,Master Design Furniture,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:02:57 UTC,1900 S. Burgundy Place,,,No,,,Master Design Furniture,0.0,0.0,,,,,2.0,909-390-8848,,,,,,,,,,,,,,,,"Master Design Furniture
+1900 S. Burgundy Place
+Ontario CA 91761",,CA,1.0,,,,0.0,0.0,,V126,9.0,13.0,,,91761,0.0
+992.0,false,2018-10-26 18:07:33.487 UTC,,,,,,"Tanya Hills
+1200 Pinebush Rd
+Alden IL 60001",,,Alden,,,,Allsteel,US,2017-08-18 15:54:18 UTC,,1.0,,,,2017-05-03 20:09:42 UTC,,,,,,allsteel@furniture.com,,,Allsteel,,,,,,No,F,No,No,No,No,,,,2017-05-03 20:09:42 UTC,1200 Pinebush Rd,,,No,,,Allsteel,-49715.0,-49715.0,,,,,1.0,1-888-255-8733,,,,,,,,,,,,,,,,"Tanya Hills
+1200 Pinebush Rd
+Alden IL 60001",,IL,1.0,,,,-17423.4,-17423.4,,V122,10.0,13.0,,,60001,0.0
+994.0,false,2018-10-26 18:07:34.766 UTC,,,,,,"Sam Miller
+855 East Main Ave
+Zeeland MI 49464",,,Zeeland,,Can make Saturday delivery,,Herman Miller,US,2017-08-18 16:00:21 UTC,,1.0,,,,2017-05-03 22:02:33 UTC,,,,,,herman@miller.com,60.0,,Herman Miller Inc.,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:02:33 UTC,855 East Main Ave,,,No,,,Herman Miller Inc.,-12490.0,-12490.0,,,,,2.0,(800) 591-6682,,,,,,,,,,,,,,,,"Sam Miller
+855 East Main Ave
+Zeeland MI 49464",,MI,1.0,,,,-60795.95,-60795.95,,V127,5.0,13.0,,,49464,0.0
+936.0,false,2018-10-26 18:07:38.667 UTC,,,,,,"Eagle Wholesale
+132 Market Street
+San Francisco CA 94123",,,San Francisco,,Can make Saturday delivery,,Eagle Fragrance Co.,US,2017-08-11 19:27:29 UTC,,1.0,,,,2017-05-05 20:52:22 UTC,,,,,,info@eaglefrag.com,59.0,(415) 234-2435,Eagle Fragrance Co.,,,,,,No,F,No,No,No,No,,,,2017-05-05 20:52:22 UTC,132 Market Street,,,No,,,Eagle Fragrance Co.,0.0,0.0,,,,,4.0,800-781-2194,Eagle Fragrance,,,,,,,,,,,,,,,"Eagle Wholesale
+132 Market Street
+San Francisco CA 94123",,CA,1.0,,,,-841.5,-841.5,http://www.eaglefrag.com,Keith Gudmundson,12.0,15.0,,,94123,0.0
+1060.0,false,2018-10-26 18:07:34.766 UTC,,,,,,"Ramsey Electronic Supply
+123 S. B St.
+San Mateo CA 94003",,,San Mateo,,Late on delivery roughly 50% of the time.,,Ramsey Electronic Supply,US,2017-09-03 15:16:08 UTC,,1.0,,,,2017-05-05 20:51:21 UTC,,,,,,sales@ramseysupply.com,60.0,(650) 289-3493,Ramsey Electronic Supply,,,,,,No,F,No,No,No,No,,,,2017-05-05 20:51:21 UTC,123 S. B St.,,,No,,,Ramsey Electronic Supply,-8706.13,-8706.13,,,,,2.0,800-374-1414,Ramsey Electronic Supply,,,,,,,,,,,,,,,"Ramsey Electronic Supply
+123 S. B St.
+San Mateo CA 94003",,CA,1.0,,49-29-97862,,0.0,0.0,http://www.ramseysupply.com,ENTITY1060,12.0,16.0,,,94003,0.0
+1061.0,false,2018-10-26 18:07:38.667 UTC,,,,,,"Digital Supply
+1904 Indiana St.
+Indianapolis IN 28961",,,Indianapolis,,put order in by wed night for a friday delivery,,"Digital Supply, LLC",US,2017-09-03 15:16:08 UTC,,1.0,,,,2017-05-05 20:52:16 UTC,,,,,,sales@digitalsupply.com,60.0,(317) 580-0897,Digital Supply,,,,,,No,F,No,No,No,No,,,,2017-05-05 20:52:16 UTC,1904 Indiana St.,,,No,,,Digital Supply,-11627.0,-11627.0,,,,,2.0,317-542-9517,"Digital Supply, LLC",,,,,,,,,,,,,,,"Digital Supply
+1904 Indiana St.
+Indianapolis IN 28961",,IN,1.0,,29-18-3097,,-12500.0,-12500.0,http://www.digitalsupply.com,ENTITY1061,9.0,17.0,,,28961,0.0
+1081.0,false,2018-10-26 18:07:36.079 UTC,,,,,,"UDT Instruments
+Howard Thompson
+727 South Wolfe Street
+Baltimore MD 21231",,,Baltimore,,,,UDT Instruments,US,2017-09-04 13:46:57 UTC,,1.0,,,,2017-05-05 20:50:28 UTC,,,,,,info@UDTInstruments.us,121.0,,UDT Instruments,,,,,,No,F,No,No,No,No,,,,2017-05-05 20:50:28 UTC,727 South Wolfe Street,,,No,,,UDT Instruments,0.0,0.0,,,,,4.0,(410) 342-2626,UDT Instruments,,,,,,,,,,,,,,,"UDT Instruments
+Howard Thompson
+727 South Wolfe Street
+Baltimore MD 21231",,MD,1.0,,,,0.0,0.0,http://www.UDTInstruments.us,Malkit Saini,4.0,17.0,,,21231,0.0
+1087.0,false,2018-10-26 18:07:33.917 UTC,,,,,,"Micromass Inc
+Carol Benson
+200 University Ave
+San Diego CA 92122",,,San Diego,,,,Micromass Inc,US,2017-09-04 14:11:40 UTC,,1.0,,,,2017-05-03 22:05:01 UTC,,,,,,,,,Micromass Inc,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:05:01 UTC,200 University Ave,,,No,,,Micromass Inc,0.0,0.0,,,,,2.0,(616) 228-9987,Micromass Inc,,,,,,,,,,,,,,,"Micromass Inc
+Carol Benson
+200 University Ave
+San Diego CA 92122",,CA,1.0,,,,0.0,0.0,http://www.Micromass.com,Manjit Singh,9.0,19.0,,,92122,0.0
+1085.0,false,2018-10-26 18:07:36.524 UTC,,,,,,"Edward Newton
+133 Southcenter Ct # 700
+Morrisville NC 27560",,,Morrisville,,,,Vwr Scientific Inc,US,2017-09-04 14:03:51 UTC,,1.0,,,,2017-05-03 22:03:38 UTC,,,,,,sales@VwrScientificInc.com,,,Vwr Scientific Inc,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:03:38 UTC,133 Southcenter Ct # 700,,,No,,,Vwr Scientific Inc,0.0,0.0,,,,,2.0,(919) 481-2226,Vwr Scientific Inc,,,,,,,,,,,,,,,"Edward Newton
+133 Southcenter Ct # 700
+Morrisville NC 27560",,NC,1.0,,,,0.0,0.0,http://www.VwrScientificInc.com,Manjeet Kaur,6.0,19.0,,,27560,0.0
+1083.0,false,2018-10-26 18:07:32.645 UTC,,,,,,"National Instruments
+6040 Six Forks Rd # A325
+Raleigh NC 27609",,,Raleigh,,enter order by 4:00 fri for mon delivery,,National Instruments,US,2017-09-04 14:01:41 UTC,,1.0,,,,2017-05-05 20:53:04 UTC,,,,,,sales@NationalInstruments.net,59.0,,National Instruments,,,,,,No,F,No,No,No,No,,,,2017-05-05 20:53:04 UTC,6040 Six Forks Rd # A325,,,No,,,National Instruments,0.0,0.0,,,,,2.0,(919) 870-1992,National Instruments,,,,,,,,,,,,,,,"National Instruments
+6040 Six Forks Rd # A325
+Raleigh NC 27609",,NC,1.0,,,,-4122.0,-4122.0,http://www.NationalInstruments.net,Mandy Lau,4.0,19.0,,,27609,0.0
+1495.0,false,2018-10-26 18:07:30.897 UTC,,,,,,"Apparel Inc. Co
+800 Main St.
+Boulder CO 80309-0552
+United States",,,Boulder,,,,Apparel Co Inc.,US,2017-05-27 19:22:04 UTC,,1.0,,,,2017-05-03 22:01:00 UTC,,,,,,,,,Apparel Co Inc.,,,,,,No,F,No,No,No,No,,,,2017-05-03 22:01:00 UTC,800 Main St.,,,No,,,Apparel Co Inc.,0.0,0.0,,,,,2.0,,,,,,,,,,,,,,,,,"Apparel Inc. Co
+800 Main St.
+Boulder CO 80309-0552
+United States",,CO,1.0,,,,0.0,0.0,,,,20.0,,,80309-0552,0.0
+1313.0,false,2018-10-26 18:07:38.667 UTC,,,,,,"Eric Givens
+2221 Main 
+New York NY 10011
+United States",,,New York,,,,Eric Givens,US,2017-06-12 14:45:01 UTC,,1.0,,,,2017-05-03 22:01:56 UTC,,,,,,eric@givenscorp.us,,,Eric Givens,,,,,,Yes,F,Yes,No,No,No,,,,2017-05-03 22:01:56 UTC,2221 Main,,,No,,,Eric Givens,-14250.0,-14250.0,,,,,2.0,(979) 447-8817,,,,,,,,,,,,,,,,"Eric Givens
+2221 Main 
+New York NY 10011
+United States",,NY,1.0,,,,-18220.0,-18220.0,http://www.givenscorp.us,Nasir Amid,15.0,1.0,,,10011,0.0
+946.0,false,2018-10-26 18:07:36.966 UTC,,,,,,"Devinci Cycles Inc.
+1555 Manic St.
+Chicoutimi QC Canada",,,Chicoutimi,,,,Devinci Cycles Inc.,CA,2017-08-13 14:33:20 UTC,,1.0,,,,2017-05-05 20:52:14 UTC,,,,,,,60.0,,Devinci Cycles Inc.,,,,,,No,T,No,No,No,No,,,,2017-05-05 20:52:14 UTC,1555 Manic St.,,,No,,,Devinci Cycles Inc.,0.0,0.0,,,,,3.0,800-567-1234,,,,,,,,,,,,,,,,"Devinci Cycles Inc.
+1555 Manic St.
+Chicoutimi QC Canada",,QC,1.0,,,,0.0,0.0,http://www.devinci.com,Ken Leong,7.0,4.0,,,,0.0
+938.0,false,2018-10-26 18:07:32.645 UTC,,,,,,"American Express
+4020 Stewart Road
+Eugene OR 97402
+United States",,,Eugene,,,,American Express,US,2017-08-12 15:29:45 UTC,,1.0,,,,2017-05-05 20:49:45 UTC,,,,,,amex@amex.com,60.0,541-687-0436,American Express,,,,,,No,T,No,No,No,No,,,,2017-05-05 20:49:45 UTC,4020 Stewart Road,,,No,,,American Express,5.0,5.0,,,,,3.0,866-248-5634,,,,,,,,,,,,,,,,"American Express
+4020 Stewart Road
+Eugene OR 97402
+United States",,OR,1.0,,,,0.0,0.0,http://www.amex.com,Kelly Klema,5.0,,,,97402,0.0
+930.0,false,2018-10-26 18:07:35.188 UTC,,,,,,"Sunrise Medical
+345 Main St.
+Carlsbad CA",,,Carlsbad,,,,Sunrise Medical,US,2017-08-11 14:41:28 UTC,,1.0,,,,2017-05-05 20:50:53 UTC,,,,,,sunrise@sunrise-medical.com,60.0,(760) 930-1585,Sunrise Medical,,,,,,No,T,No,No,No,No,,,,2017-05-05 20:50:53 UTC,345 Main St.,,,No,,,Sunrise Medical,0.0,0.0,,,,,3.0,(760) 930-1500,,,,,,,,,,,,,,,,"Sunrise Medical
+345 Main St.
+Carlsbad CA",,CA,1.0,,,,0.0,0.0,http://www.sunrisemedical.com,Kathy,5.0,9.0,,,,0.0
+940.0,false,2018-10-26 18:07:30.470 UTC,,,,,,"MJM International Corporation
+856 Front St.
+Atlanta GA 56702",,,Atlanta,,,,MJM International Corporation,US,2017-08-12 20:13:47 UTC,,1.0,,,,2017-05-05 20:53:01 UTC,,,,,,mjm@mjminternatioanl.com,60.0,,MJM International Corp.,,,,,,No,T,No,No,No,No,,,,2017-05-05 20:53:01 UTC,856 Front St.,,,No,,,MJM International Corp.,0.0,0.0,,,,,3.0,800-897-6534,,,,,,,,,,,,,,,,"MJM International Corporation
+856 Front St.
+Atlanta GA 56702",,GA,1.0,,,,0.0,0.0,http://www.mjminternational.com,Ken Bold,6.0,9.0,,,56702,0.0
+927.0,false,2018-10-26 18:07:30.898 UTC,,,,,,"Amy Cartright
+99 Seaview Boulevard
+Port Washington NY 11050",,,Port Washington,,,,Drive Medical Design & Manufacturing,US,2017-08-11 13:43:19 UTC,,1.0,,,,2017-05-05 20:52:19 UTC,,,,,,drivemedical@drive-medical.com,60.0,(626) 599-7703,Drive Medical Design & Manufacturing,,,,,,No,T,No,No,No,No,,,,2017-05-05 20:52:19 UTC,99 Seaview Boulevard,,,No,,,Drive Medical Design & Manufacturing,0.0,0.0,,,,,3.0,(800) 371-2266,,,,,,,,,,,,,,,,"Amy Cartright
+99 Seaview Boulevard
+Port Washington NY 11050",,NY,1.0,,,,-1700.0,-1700.0,http://www.drivemedicaldesign.com,Katherine Young,10.0,9.0,,,11050,0.0
+935.0,false,2018-10-26 18:07:30.897 UTC,,,,,,"Taylor Made Golf Co. Inc.
+5545 Fermi Court
+Carlsbad CA 92008-7324",,,Carlsbad,,,,Taylor Made Golf Co. Inc.,US,2017-08-11 17:41:01 UTC,,1.0,,,,2017-05-05 20:50:51 UTC,,,,,,taylor@taylormadeco.com,60.0,,Taylor Made Golf Co.,,,,,,No,T,No,No,No,No,,,,2017-05-05 20:50:51 UTC,5545 Fermi Court,,,No,,,Taylor Made Golf Co.,0.0,0.0,,,,,3.0,760.918.6000,,,,,,,,,,,,,,,,"Taylor Made Golf Co. Inc.
+5545 Fermi Court
+Carlsbad CA 92008-7324",,CA,1.0,,,,0.0,0.0,http://www.taylormadegolf.com,Keith CHu,7.0,10.0,,,92008-7324,0.0
+939.0,false,2018-10-26 18:07:31.351 UTC,,,,,,"Riddell Inc.
+3670 N Milwaukee Ave.
+Chicago IL 60641",,,Chicago,,Can make Saturday delivery,,Riddell Inc.,US,2017-08-12 15:33:25 UTC,,1.0,,,,2017-05-05 20:51:12 UTC,,,,,,ariddell@riddell-inc.com,60.0,(303) 234-3242,Riddell Inc.,,,,,,No,T,No,No,No,No,,,,2017-05-05 20:51:12 UTC,3670 N Milwaukee Ave.,,,No,,,Riddell Inc.,0.0,0.0,,,,,3.0,800-863-9943,Riddell,,,,,,,,,,,,,,,"Riddell Inc.
+3670 N Milwaukee Ave.
+Chicago IL 60641",,IL,1.0,,,,-2750.0,-2750.0,http://www.riddell.com,Kelly Reansbury,9.0,10.0,,,60641,0.0
+975.0,false,2018-10-26 18:07:33.066 UTC,,,,,,"Iron Horse Bicycles, LLC
+85 Hoffman Lane
+Islandia NY 11749",,,Islandia,,,,"Iron Horse Bicycles, LLC",US,2017-08-14 21:39:28 UTC,,1.0,,,,2017-05-05 20:52:42 UTC,,,,,,ridehard@ironhorsebikes.com,,631-232-9370,Iron Horse Bicycles,,,,,,No,T,No,No,No,No,,,,2017-05-05 20:52:42 UTC,85 Hoffman Lane,,,No,,,Iron Horse Bicycles,0.0,0.0,,,,,3.0,800-555-7654,,,,,,,,,,,,,,,,"Iron Horse Bicycles, LLC
+85 Hoffman Lane
+Islandia NY 11749",,NY,1.0,,,,-15000.0,-15000.0,http://www.ironhorsebikes.com,Kurt Allison,8.0,10.0,,,11749,0.0
+902.0,false,2018-10-26 18:07:34.335 UTC,,,,,,"HP Corporation
+3456 Stevens Creek
+Sunnyvale CA 95678",,,Sunnyvale,,put in order by 4:00 fri for mon delivery,,HP Corporation,US,2017-07-11 23:23:07 UTC,,1.0,,,,2017-05-05 20:52:35 UTC,,,,,,info@hpsales.com,60.0,(408) 234-9345,HP Corporation,,,,,,No,T,No,No,No,No,,,,2017-05-05 20:52:35 UTC,3456 Stevens Creek,,,No,,,HP Corporation,-849.0,-849.0,,,,,1.0,(408) 234-9874,HP Corporation,,,,,,,,,,,,,,,"HP Corporation
+3456 Stevens Creek
+Sunnyvale CA 95678",,CA,1.0,,,,-12745.75,-12745.75,http://www.hp.com,Jun Rafael,6.0,18.0,,(800) 555-1212,95678,0.0

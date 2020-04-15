@@ -1,0 +1,23 @@
+partner_id,_fivetran_deleted,_fivetran_synced,account_number,address,address1,address2,address3,altemail,altphone,annual_revenue_id,ap_contact_person,assigntasks,category_id,city,code,collection_notes,comments,company_size_id,companyname,country,create_date,current_sales_order_id,customer_credit_on_hold,date_deleted,date_last_modified,default_cost_template_id,department_id,direct_debit,eft_bill_payment,eft_customer_refund_payment,email,fax,full_name,home_phone,hot_lead,how_did_you_hear_of_us_id,industry_type_id,is_manufacturer,is_person,isinactive,keyword_search2_id,keyword_search_id,last_modified_date,loginaccess,medium_id,mobile_phone,name,partner_extid,payment__of_balance,payment_commitment_amount,payment_commitment_date,phone,print_on_check_as,priority,product_interest_id,related_asset_id,remaining_vendor_credit,sales_engineer,search_engine_id,set_customer_credit_on_hold,shipping_address,shipping_instructions,state,subsidiary,supervisore_id,tax_number,url,vendor_lead_time,wc_picture,wrnty_center_phone,zipcode
+1655.0,false,2018-10-26 17:59:35.315 UTC,,,,,,,,,,No,,,TESTPARTNER,,,,test partner,,2017-06-12 22:29:45 UTC,,,,2017-06-12 22:29:45 UTC,,,,,,,,test partner,,,,,,No,No,,,2017-06-12 22:29:45 UTC,No,,,test partner,,,,,,,,,,,,,,,,,3.0,,,,,,,
+165.0,false,2018-10-26 17:59:35.315 UTC,,,,,,,,,,No,,,TECHNOLOGY TIMES,,,,,,2016-05-19 07:00:00 UTC,,,,2017-05-18 17:44:14 UTC,,,,,,,,Technology Times,,,,,,No,No,,,2017-05-18 17:44:14 UTC,No,,,Technology Times,CON0000059,,,,,,,,,,,,,,,,1.0,,,,,,,
+166.0,false,2018-10-26 17:59:32.369 UTC,,,,,,,,,,No,,,WILSON MARKETING FIR,,,,Wilson Marketing Firm,,2016-05-19 07:00:00 UTC,,,,2017-06-24 23:03:10 UTC,,,,,,,,Wilson Marketing Firm,,,,,,No,No,,,2017-06-24 23:03:10 UTC,No,,,Wilson Marketing Firm,entity166,,,,800-555-2456,,,,,,,,,,,,1.0,,,,,,,
+170.0,false,2018-10-26 17:59:31.545 UTC,,,,,,,,,,No,,,E AUCTIONS ONLINE,,,,E Auctions Online,,2016-05-19 07:00:00 UTC,,,,2017-05-14 16:58:22 UTC,,,,,,eauctions@freeversion.com,,E Auctions Online,,,,,,No,No,,,2017-05-14 16:58:22 UTC,No,,,E Auctions Online,CUS000061,,,,,,,,,,,,,,,,1.0,,,,,,,
+171.0,false,2018-10-26 17:59:32.370 UTC,,,,,,,,,,No,,,ONLINE ELECTRONICS,,,,Online Electronics,,2016-05-19 07:00:00 UTC,,,,2017-06-24 23:03:10 UTC,,,,,,,,Online electronics,,,,,,No,No,,,2017-06-24 23:03:10 UTC,No,,,Online electronics,CON0000062,,,,888-657-1111,,,,,,,,,,,,1.0,,,,,,,
+168.0,false,2018-10-26 17:59:32.762 UTC,,,,,,,,,,No,,,QUIN PRESS,,,,Quin Press Inc.,,2016-05-19 07:00:00 UTC,,,,2017-06-24 23:03:10 UTC,,,,,,,,Quin Press,,,,,,No,No,,,2017-06-24 23:03:10 UTC,No,,,Quin Press,CUS000060,,,,878-333-5857,,,,,,,,,,,,1.0,,,,,,,
+169.0,false,2018-10-26 17:59:31.545 UTC,,,,,,,,,,No,,,NATIONAL NEWS PRESS,,,,National News Press,,2016-05-19 07:00:00 UTC,,,,2017-06-24 23:03:10 UTC,,,,,,,,National News Press,,,,,,No,No,,,2017-06-24 23:03:10 UTC,No,,,National News Press,CON000061,,,,,,,,,,,,,,,,1.0,,,,,,,
+167.0,false,2018-10-26 17:59:36.082 UTC,,,,,,,,,,No,,,RETAIL ELECTRONICS,,,,Retail Electronics Association,,2016-05-19 07:00:00 UTC,,,,2017-06-06 23:52:47 UTC,,,,,,,,Retail Electronics,,,,,,No,No,,,2017-06-06 23:52:47 UTC,No,,,Retail Electronics,CON000060,,,,878-555-9786,,,,,,,,,,,,1.0,,,,,,,
+164.0,false,2018-10-26 17:59:34.775 UTC,,"Jasper Supply
+United States",,,,,,,,No,,,JASPER SUPPLY,,In business since 1942,,Jasper Supply,US,2016-05-19 07:00:00 UTC,,,,2017-05-12 02:26:17 UTC,,,,,,taylor@fivetran.com,(408) 555-1213,Jasper Supply,,,,,,No,No,,,2017-05-12 02:26:17 UTC,Yes,,,Jasper Supply,CUS000058,,,,(408) 555-1212,,,,,,,,,"Jasper Supply
+United States",,,1.0,,E48529565,,,,,
+129.0,false,2018-10-26 17:59:30.342 UTC,,"The Bay Times
+457 S 18th St
+San Francisco CA 94121
+United States",457 S 18th St,,,,,,,No,,San Francisco,THE BAY TIMES,,,,The Bay Times,US,2016-03-23 07:00:00 UTC,,,,2017-06-24 23:03:09 UTC,,,,,,baytimes@freeversion.net,,The Bay Times,,,,,,No,No,,,2017-06-24 23:03:09 UTC,No,,,The Bay Times,entity129,,,,650-555-7982,,,,,,,,,,,CA,1.0,,,,,,,94121
+1305.0,false,2018-10-26 17:59:30.357 UTC,,"AL Systems Ltd
+2001 Michigan Ave
+Chicago IL 60698
+United States",2001 Michigan Ave,,,,,,,No,,Chicago,AL,,Al worked with Mark Grogan at a previous job.,,AL Systems Ltd,US,2017-06-11 18:16:46 UTC,,,,2017-05-31 17:33:58 UTC,,,,,,myohai@avectra.com,(212) 545-9902,AL Systems Ltd,,,,,F,No,No,,,2017-05-31 17:33:58 UTC,No,,,AL Systems Ltd,Nancy Wentzell,,,,(212) 545-9901,,,,,,,,,"AL Systems Ltd
+2001 Michigan Ave
+Chicago IL 60698
+United States",,IL,1.0,,97710-04491-011,,3.0,,,60698

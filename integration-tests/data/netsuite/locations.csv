@@ -1,0 +1,27 @@
+location_id,_fivetran_synced,address,address_one,address_three,address_two,addressee,attention,city,country,date_last_modified,full_name,inventory_available,inventory_available_web_store,is_include_in_supply_planning,isinactive,location_extid,name,parent_id,phone,return_address_one,return_address_two,return_city,return_country,return_state,return_zipcode,returnaddress,state,tran_num_prefix,use_bins,zipcode
+9.0,2018-10-26 18:06:23.086 UTC,,,,,,,,,2017-07-25 08:27:47 UTC,01: San Francisco : Market St,No,No,No,No,,Market St,2.0,,,,,,,,,,,No,
+4.0,2018-10-26 18:06:26.703 UTC,"Damaged Goods
+San Mateo CA",,,,Receiving Insp.,,San Mateo,US,2017-05-24 20:12:05 UTC,01: San Francisco : Receiving Insp.,No,No,No,No,,Receiving Insp.,2.0,,,,,AF,,,,CA,,Yes,
+3.0,2018-10-26 18:06:29.637 UTC,"Damaged Goods
+Boston MA",,,,Overstock,,Boston,US,2017-05-24 20:12:30 UTC,02: Boston : Overstock,No,No,No,No,,Overstock,1.0,,,,,AF,,,,MA,,Yes,
+1.0,2018-10-26 18:06:25.257 UTC,"Ramsey Inc.
+Boston
+1075 4th St
+Boston MA 02101
+United States",1075 4th St,,,02: Boston,Ramsey Inc.,Boston,US,2017-05-24 19:44:51 UTC,02: Boston,Yes,Yes,Yes,No,,02: Boston,,(650) 627-1000,1075 4th St,,Boston,US,MA,02101,"1075 4th St
+Boston MA 02101
+US",MA,,Yes,02101
+2.0,2018-10-26 18:06:24.899 UTC,"Ramsey Inc.
+San Francisco
+1500 3rd St
+San Mateo CA 94403
+United States",1500 3rd St,,,01: San Francisco,Ramsey Inc.,San Mateo,US,2017-05-24 19:44:42 UTC,01: San Francisco,Yes,Yes,Yes,No,,01: San Francisco,,(650) 627-1000,1500 3rd St,,San Mateo,US,CA,94403,"1500 3rd St
+San Mateo CA 94403
+US",CA,,Yes,94403
+5.0,2018-10-26 18:06:29.271 UTC,"Los Angeles Store
+Los Angeles
+1264 Santa Monica
+Santa Monica CA 92012
+United States",1264 Santa Monica,,,QA Hold,Los Angeles Store,Santa Monica,US,2017-05-24 19:44:42 UTC,01: San Francisco : QA Hold,Yes,Yes,No,No,,QA Hold,2.0,(650) 627-1000,1264 Santa Monica,,Santa Monica,US,CA,92012,"1264 Santa Monica
+Santa Monica CA 92012
+US",CA,,Yes,92012

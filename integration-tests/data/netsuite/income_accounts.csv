@@ -1,0 +1,17 @@
+income_account_id,_fivetran_synced,account_number,comments,current_balance,date_last_modified,desription,full_name,income_account_extid,is_including_child_subs,is_summary,isinactive,legal_name,name,parent_id
+104.0,2018-10-26 18:14:59.561 UTC,8015,,0.0,2017-05-27 20:32:44 UTC,,Finance Charge Income,,Yes,No,No,,Finance Charge Income,
+112.0,2018-10-26 18:14:59.967 UTC,9999,,0.0,2017-05-27 20:32:49 UTC,,Ask My Accountant,,Yes,No,No,,Ask My Accountant,
+111.0,2018-10-26 18:15:05.622 UTC,9000,,0.0,2017-05-27 20:32:49 UTC,,Provision for Taxes,,Yes,No,No,,Provision for Taxes,
+110.0,2018-10-26 18:14:59.565 UTC,8070,,0.0,2017-05-27 20:32:48 UTC,,Penalties,,Yes,No,No,,Penalties,
+58.0,2018-10-26 18:15:02.785 UTC,4006,,0.0,2017-05-27 20:31:43 UTC,,Sales : Sales - Clearance,,Yes,No,No,,Sales - Clearance,55.0
+105.0,2018-10-26 18:15:06.422 UTC,8020,,0.0,2017-05-24 09:27:02 UTC,,Dividend Income,,Yes,No,No,,Dividend Income,
+109.0,2018-10-26 18:15:06.422 UTC,8060,,-1058.75,2017-05-27 20:32:47 UTC,,Purchase Discounts,,Yes,No,No,,Purchase Discounts,
+162.0,2018-10-26 18:15:06.023 UTC,4100,,7360.0,2017-05-27 20:32:35 UTC,,WIP eRev,,Yes,No,No,,WIP eRev,
+108.0,2018-10-26 18:15:02.378 UTC,8050,,49590.61,2017-05-02 09:09:01 UTC,,Sales Discounts,,Yes,No,No,,Sales Discounts,
+106.0,2018-10-26 18:15:05.213 UTC,8030,,-10717.3,2017-05-03 04:23:37 UTC,,Shipping Income,,Yes,No,No,,Shipping Income,
+55.0,2018-10-26 18:15:00.765 UTC,4000,,-6757288.63,2017-05-02 09:01:46 UTC,,Sales,,Yes,No,No,,Sales,
+103.0,2018-10-26 18:15:04.807 UTC,8010,,-295.24,2017-06-06 08:22:07 UTC,,Interest Income,,Yes,No,No,,Interest Income,
+57.0,2018-10-26 18:15:05.213 UTC,4004,,-152027.56,2017-05-27 20:31:42 UTC,,Sales : Sales - Service,,Yes,No,No,,Sales - Service,55.0
+56.0,2018-10-26 18:15:03.188 UTC,4002,,-6747654.72,2017-05-27 20:31:41 UTC,,Sales : Sales - Merchandise,,Yes,No,No,,Sales - Merchandise,55.0
+130.0,2018-10-26 18:15:02.785 UTC,4008,,-39500.0,2017-05-27 20:32:35 UTC,,Sales : Sales - Warranty,National Bank CDN Chequing,Yes,No,No,,Sales - Warranty,55.0
+134.0,2018-10-26 18:15:03.188 UTC,,,-1000.0,2017-05-02 09:09:17 UTC,,Uncategorized Income,Accounts Receivable- Suspense,Yes,No,No,,Uncategorized Income,

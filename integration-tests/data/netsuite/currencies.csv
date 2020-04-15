@@ -1,0 +1,5 @@
+currency_id,_fivetran_deleted,_fivetran_synced,currency_extid,date_deleted,date_last_modified,is_inactive,name,precision_0,symbol
+1.0,false,2019-01-26 00:33:47.996 UTC,,,2017-05-22 00:02:14 UTC,No,USA,2.0,USD
+3.0,false,2019-01-26 00:33:51.992 UTC,,,2017-05-12 22:50:55 UTC,No,Canadian dollar,2.0,CAD
+4.0,false,2019-01-26 00:33:49.307 UTC,,,2017-05-13 15:44:05 UTC,No,Euro,2.0,EUR
+2.0,false,2019-01-26 00:33:47.666 UTC,,,2017-05-12 22:51:06 UTC,No,British pound,2.0,GBP

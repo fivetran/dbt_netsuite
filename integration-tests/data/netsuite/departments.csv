@@ -1,0 +1,11 @@
+department_id,_fivetran_synced,date_last_modified,department_extid,full_name,isinactive,name,parent_id
+11.0,2018-10-26 17:49:42.243 UTC,2017-05-24 14:33:32 UTC,,Engineering,No,Engineering,
+3.0,2018-10-26 17:49:46.061 UTC,,,Service,No,Service,
+4.0,2018-10-26 17:49:43.293 UTC,,,Marketing,No,Marketing,
+5.0,2018-10-26 17:49:45.716 UTC,2017-06-13 11:38:27 UTC,,Production,No,Production,
+2.0,2018-10-26 17:49:41.545 UTC,,,Sales,No,Sales,
+1.0,2018-10-26 17:49:41.891 UTC,,,Admin,No,Admin,
+7.0,2018-10-26 17:49:43.293 UTC,2017-06-13 11:49:44 UTC,,Production : Assembly,No,Assembly,5.0
+6.0,2018-10-26 17:49:43.638 UTC,2017-06-13 11:38:36 UTC,,Production : Machine Shop,No,Machine Shop,5.0
+9.0,2018-10-26 17:49:39.810 UTC,2017-06-13 11:53:20 UTC,,Production : Inspection,No,Inspection,5.0
+10.0,2018-10-26 17:49:43.984 UTC,2017-05-07 14:41:24 UTC,,Production : Fabrication,No,Fabrication,5.0

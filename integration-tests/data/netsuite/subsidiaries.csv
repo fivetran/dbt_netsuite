@@ -1,0 +1,17 @@
+subsidiary_id,_fivetran_synced,address,address1,address2,base_currency_id,city,country,date_last_modified,edition,federal_number,fiscal_calendar_id,full_name,is_elimination,is_moss,isinactive,legal_name,moss_nexus_id,name,parent_id,purchaseorderamount,purchaseorderquantity,purchaseorderquantitydiff,receiptamount,receiptquantity,receiptquantitydiff,return_address,return_address1,return_address2,return_city,return_country,return_state,return_zipcode,shipping_address,shipping_address1,shipping_address2,shipping_city,shipping_country,shipping_state,shipping_zipcode,state,state_tax_number,subsidiary_extid,tran_num_prefix,url,zipcode,isinactive_bool
+6.0,2018-10-26 17:32:03.591 UTC,"test subs 3
+GA 
+United States",,,1.0,,US,2017-06-13 05:39:53 UTC,US,,1.0,Honeycomb Holdings Inc. : test subs 3,No,No,No,,,test subs 3,3.0,,,,,,,,,,,,,,,,,,,,,GA,,,,,,F
+4.0,2018-10-26 17:32:03.221 UTC,"test sub
+United States",,,1.0,,US,2019-07-06 21:13:49 UTC,US,,1.0,Honeycomb Holdings Inc. : test sub,No,No,No,,,test sub,3.0,,,,,,,,,,,,,,,,,,,,,AK,,,,,,F
+3.0,2018-10-26 17:32:06.224 UTC,"Jeff Honeycomb
+HQ
+100 Rodeo Drive
+Beverly Hills CA 90210
+United States",100 Rodeo Drive,,1.0,Beverly Hills,US,2017-05-05 18:28:15 UTC,US,,1.0,Honeycomb Holdings Inc.,No,No,No,Honeycomb Mfg,,Honeycomb Holdings Inc.,,,,,,,,,,,,US,,,,,,,US,,,CA,,,HH,www.netsuite.com,90210,F
+1.0,2018-10-26 17:32:01.725 UTC,"2955 Campus Drive
+Suite 100
+San Mateo CA 94403
+US",2955 Campus Drive,Suite 100,1.0,San Mateo,US,2017-05-26 10:53:27 UTC,US,46-7859624,1.0,Honeycomb Holdings Inc. : Honeycomb Mfg.,No,No,No,Honeycomb Manufacturing Inc.,,Honeycomb Mfg.,3.0,,,,,,,"1500 3rd St
+San Mateo CA 94403
+US",1500 3rd St,,San Mateo,US,CA,94403,CA United States,,,,US,CA,,CA,,,HM,www.netsuite.com,94403,F

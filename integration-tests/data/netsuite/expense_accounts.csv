@@ -1,0 +1,77 @@
+expense_account_id,_fivetran_synced,account_number,comments,current_balance,date_last_modified,desription,expense_account_extid,full_name,is_including_child_subs,is_summary,isinactive,legal_name,name,parent_id
+165.0,2018-10-26 17:58:17.888 UTC,5093,,11656.58,2017-05-03 23:16:08 UTC,,,Build Price Variance,Yes,No,No,,Build Price Variance,
+63.0,2018-10-26 17:58:16.117 UTC,5060,,0.0,,,4304,Other Direct Costs,Yes,No,Yes,,Other Direct Costs,
+64.0,2018-10-26 17:58:16.117 UTC,5090,,22087.03,2017-05-28 21:35:26 UTC,,,Inventory Variance,Yes,No,No,,Inventory Variance,
+183.0,2018-10-26 17:58:19.669 UTC,5102,,3781.0,2017-05-31 07:22:13 UTC,,,WIP Variance,Yes,No,No,,WIP Variance,
+177.0,2018-10-26 17:58:19.669 UTC,5101,,371.08,2017-05-03 23:21:26 UTC,,,Mfg Scrap,Yes,No,No,,Mfg Scrap,
+153.0,2018-10-26 17:58:17.887 UTC,5091,,0.0,2017-05-03 05:47:29 UTC,,,Inventory Transfer Price Gain / Loss,Yes,No,No,,Inventory Transfer Price Gain / Loss,
+144.0,2018-10-26 17:58:17.524 UTC,5040,,0.0,2017-05-10 02:27:55 UTC,,Software,Damaged Goods,Yes,No,No,,Damaged Goods,
+138.0,2018-10-26 17:58:17.524 UTC,6018,,-260.0,2017-05-27 20:32:37 UTC,,Prepaid Expenses,Freight Expense,Yes,No,No,,Freight Expense,
+82.0,2018-10-26 17:58:17.524 UTC,6120,,1390.74,2017-05-27 20:31:58 UTC,,,Meals & Entertainment,Yes,No,No,,Meals & Entertainment,
+96.0,2018-10-26 17:58:17.524 UTC,6260,,0.0,2017-05-27 20:32:08 UTC,,,Telephone Expense,Yes,No,No,,Telephone Expense,
+164.0,2018-10-26 17:58:17.524 UTC,5092,,1803.49,2017-05-26 01:23:33 UTC,,,Purchase Price Variance,Yes,No,No,,Purchase Price Variance,
+101.0,2018-10-26 17:58:14.708 UTC,6300,,0.0,2017-05-27 20:32:12 UTC,,,Utilities,Yes,No,No,,Utilities,
+169.0,2018-10-26 17:58:14.708 UTC,5086,,0.0,2017-05-05 05:59:23 UTC,,,Vendor Return Variance,Yes,No,No,,Vendor Return Variance,
+84.0,2018-10-26 17:58:14.708 UTC,6150,,35781.0,2017-05-27 20:31:59 UTC,,,Office Expense,Yes,No,No,,Office Expense,
+92.0,2018-10-26 17:58:15.412 UTC,6250,,0.0,2017-05-27 20:32:05 UTC,,,Taxes & Licenses-Other,Yes,No,No,,Taxes & Licenses-Other,
+151.0,2018-10-26 17:58:15.411 UTC,5096,,0.0,2017-05-03 02:46:28 UTC,,,Bill Price Variance,Yes,No,No,,Bill Price Variance,
+166.0,2018-10-26 17:58:15.411 UTC,5094,,-16096.74,2017-05-03 23:15:48 UTC,,,Build Quantity Variance,Yes,No,No,,Build Quantity Variance,
+150.0,2018-10-26 17:58:15.411 UTC,5095,,0.0,2017-05-03 02:46:12 UTC,,,Bill Quantity Variance,Yes,No,No,,Bill Quantity Variance,
+90.0,2018-10-26 17:58:15.411 UTC,6230,,522.22,2017-05-27 20:32:05 UTC,,,Supplies Expense,Yes,No,No,,Supplies Expense,
+146.0,2018-10-26 17:58:13.650 UTC,5080,,256.0,2017-05-19 07:06:19 UTC,,,Inventory Write Offs,Yes,No,No,,Inventory Write Offs,
+74.0,2018-10-26 17:58:15.058 UTC,6070,,0.0,2017-05-27 20:31:52 UTC,,,Dues & Subscriptions,Yes,No,No,,Dues & Subscriptions,
+158.0,2018-10-26 17:58:20.370 UTC,,,0.0,2017-05-20 11:41:08 UTC,,,Unrealized Gain/Loss,Yes,No,No,,Unrealized Gain/Loss,
+71.0,2018-10-26 17:58:20.370 UTC,6040,,86.0,2017-05-27 20:31:50 UTC,,,Bank Service Charges,Yes,No,No,,Bank Service Charges,
+87.0,2018-10-26 17:58:20.370 UTC,6180,,65880.0,2017-05-27 20:32:01 UTC,,,Professional Fees,Yes,No,No,,Professional Fees,
+59.0,2018-10-26 17:58:20.370 UTC,5000,,-6799.0,2017-08-12 23:24:54 UTC,,,Purchases,Yes,No,No,,Purchases,
+81.0,2018-10-26 17:58:16.466 UTC,6110,,0.0,2017-05-27 20:31:57 UTC,,,Interest Expense,Yes,No,No,,Interest Expense,
+65.0,2018-10-26 17:58:15.761 UTC,6010,,16677.65,2017-05-27 20:31:45 UTC,,60000,Advertising,Yes,No,No,,Advertising,
+107.0,2018-10-26 17:58:15.761 UTC,8040,,0.0,2017-05-27 20:32:46 UTC,,,Gain (loss) on Sale of Assets,Yes,No,No,,Gain (loss) on Sale of Assets,
+137.0,2018-10-26 17:58:15.761 UTC,6017,,-119.75,2017-05-27 20:32:36 UTC,,Petty Cash,Duty Expense,Yes,No,No,,Duty Expense,
+168.0,2018-10-26 17:58:15.760 UTC,5085,,0.0,2017-05-05 05:58:58 UTC,,,Customer Return Variance,Yes,No,No,,Customer Return Variance,
+154.0,2018-10-26 17:58:15.760 UTC,5098,,2002.5,2017-07-24 19:20:20 UTC,,,Unbuild Variance,Yes,No,No,,Unbuild Variance,
+91.0,2018-10-26 17:58:18.243 UTC,6500,,8822.76,2017-05-27 20:32:13 UTC,,,Payroll Expenses,Yes,No,No,,Payroll Expenses,
+70.0,2018-10-26 17:58:18.243 UTC,6030,,0.0,2017-05-27 20:31:49 UTC,,,Bad Debt Expense,Yes,No,No,,Bad Debt Expense,
+86.0,2018-10-26 17:58:18.243 UTC,6170,,-2279.58,2017-05-23 09:05:16 UTC,,,Postage & Delivery,Yes,No,No,,Postage & Delivery,
+66.0,2018-10-26 17:58:18.243 UTC,6015,,4264.8,2017-05-27 20:31:45 UTC,,,Amortization Expense,Yes,No,No,,Amortization Expense,
+83.0,2018-10-26 17:58:18.243 UTC,6130,,-48979.91,2017-07-24 19:31:19 UTC,,,Miscellaneous Expense,Yes,No,No,,Miscellaneous Expense,
+62.0,2018-10-26 17:58:18.967 UTC,5020,,14590.0,2017-05-06 20:33:30 UTC,,,Salaries & Wages,Yes,No,No,,Salaries & Wages,
+121.0,2018-10-26 17:58:18.967 UTC,,,6711071.99,2017-07-24 19:28:19 UTC,,,Cost of Goods Sold,Yes,No,No,,Cost of Goods Sold,
+75.0,2018-10-26 17:58:18.967 UTC,6080,,0.0,2017-05-27 20:31:53 UTC,,,Equipment Rental,Yes,No,No,,Equipment Rental,
+76.0,2018-10-26 17:58:19.319 UTC,6090,,6490.0,2017-05-27 20:31:54 UTC,,,Freight & Delivery,Yes,No,No,,Freight & Delivery,
+133.0,2018-10-26 17:58:19.319 UTC,,,0.0,2017-05-20 11:41:07 UTC,,Allowance for Doubtful Account,Exchange Rate Variance,Yes,No,No,,Exchange Rate Variance,
+155.0,2018-10-26 17:58:19.319 UTC,,,0.0,2017-05-20 11:41:07 UTC,,,Rounding Gain/Loss,Yes,No,No,,Rounding Gain/Loss,
+88.0,2018-10-26 17:58:13.654 UTC,6200,,55278.22,2017-05-27 20:32:03 UTC,,,Rent Expense,Yes,No,No,,Rent Expense,
+157.0,2018-10-26 17:58:13.654 UTC,,,-351.6,2017-05-02 08:46:13 UTC,,,Realized Gain/Loss,Yes,No,No,,Realized Gain/Loss,
+152.0,2018-10-26 17:58:13.654 UTC,5097,,0.0,2017-05-03 02:46:50 UTC,,,Bill Exchange Rate Variance,Yes,No,No,,Bill Exchange Rate Variance,
+178.0,2018-10-26 17:58:14.006 UTC,6600,,0.0,2017-05-27 20:32:40 UTC,,,Manufacturing Expenses,Yes,No,No,,Manufacturing Expenses,
+67.0,2018-10-26 17:58:14.006 UTC,6020,,1553.0,2017-05-27 20:31:47 UTC,,,Automobile Expense,Yes,No,No,,Automobile Expense,
+72.0,2018-10-26 17:58:17.174 UTC,6050,,0.0,2017-05-27 20:31:51 UTC,,,Contributions,Yes,No,No,,Contributions,
+73.0,2018-10-26 17:58:17.174 UTC,6060,,449455.37,2017-05-27 20:31:51 UTC,,,Depreciation Expense,Yes,No,No,,Depreciation Expense,
+113.0,2018-10-26 17:58:17.174 UTC,6400,,73416.9,2017-05-27 20:32:40 UTC,,,Salaries & Wages Expense,Yes,No,No,,Salaries & Wages Expense,
+85.0,2018-10-26 17:58:17.174 UTC,6160,,600000.0,2017-05-27 20:32:00 UTC,,57000,Outside Services,Yes,No,No,,Outside Services,
+126.0,2018-10-26 17:58:14.358 UTC,6085,,50.49,2017-05-27 20:32:38 UTC,,,Furniture & Fixtures Expense,Yes,No,No,,Furniture & Fixtures Expense,
+77.0,2018-10-26 17:58:14.358 UTC,6100,,6687.5,2017-05-27 20:31:55 UTC,,,Insurance Expense,Yes,No,No,,Insurance Expense,
+89.0,2018-10-26 17:58:14.358 UTC,6220,,10590.0,2019-11-13 20:41:16 UTC,,,Repairs & Maintenance,Yes,No,No,,Repairs & Maintenance,
+167.0,2018-10-26 17:58:18.603 UTC,5200,,-15.0,2017-05-16 00:58:35 UTC,,,Vendor Rebates,Yes,No,No,,Vendor Rebates,
+163.0,2018-10-26 17:58:18.603 UTC,5100,,8146.88,2017-05-03 23:21:27 UTC,,,Mfg WIP,Yes,No,No,,Mfg WIP,
+94.0,2018-10-26 17:58:16.820 UTC,6254,,0.0,2017-05-27 20:32:07 UTC,,,Taxes & Licenses-Other : Property,Yes,No,No,,Property,92.0
+93.0,2018-10-26 17:58:15.761 UTC,6252,,0.0,2017-05-27 20:32:06 UTC,,,Taxes & Licenses-Other : Business,Yes,No,No,,Business,92.0
+95.0,2018-10-26 17:58:14.006 UTC,6256,,0.0,2017-05-27 20:32:08 UTC,,,Taxes & Licenses-Other : Vehicle Registration,Yes,No,Yes,,Vehicle Registration,92.0
+97.0,2018-10-26 17:58:15.058 UTC,6262,,3728.66,2017-05-27 20:32:09 UTC,,,Telephone Expense : Regular Service,Yes,No,No,,Regular Service,96.0
+100.0,2018-10-26 17:58:15.761 UTC,6268,,9000.0,2017-05-27 20:32:11 UTC,,,Telephone Expense : Online Fees,Yes,No,No,,Online Fees,96.0
+99.0,2018-10-26 17:58:14.006 UTC,6266,,632.23,2017-05-27 20:32:10 UTC,,,Telephone Expense : Cellular,Yes,No,No,,Cellular,96.0
+98.0,2018-10-26 17:58:14.006 UTC,6264,,0.0,2017-05-27 20:32:10 UTC,,,Telephone Expense : Pager,Yes,No,Yes,,Pager,96.0
+80.0,2018-10-26 17:58:17.888 UTC,6106,,0.0,2017-05-27 20:31:57 UTC,,,Insurance Expense : Disability,Yes,No,No,,Disability,77.0
+79.0,2018-10-26 17:58:17.888 UTC,6104,,0.0,2017-05-27 20:31:56 UTC,,,Insurance Expense : Workers' compensation,Yes,No,No,,Workers' compensation,77.0
+78.0,2018-10-26 17:58:17.174 UTC,6102,,0.0,2017-05-27 20:31:55 UTC,,,Insurance Expense : Liability,Yes,No,No,,Liability,77.0
+181.0,2018-10-26 17:58:20.019 UTC,6630,,-1131.0,2017-05-03 23:02:38 UTC,,,Manufacturing Expenses : Machine,Yes,No,No,,Machine,178.0
+179.0,2018-10-26 17:58:15.058 UTC,6610,,-3519.17,2017-05-03 23:21:25 UTC,,,Manufacturing Expenses : Labor,Yes,No,No,,Labor,178.0
+180.0,2018-10-26 17:58:18.243 UTC,6620,,-21181.5,2017-05-03 23:21:25 UTC,,,Manufacturing Expenses : Labor Burden,Yes,No,No,,Labor Burden,178.0
+182.0,2018-10-26 17:58:17.174 UTC,6640,,-916.0,2017-05-03 23:02:38 UTC,,,Manufacturing Expenses : Machine Burden,Yes,No,No,,Machine Burden,178.0
+61.0,2018-10-26 17:58:15.058 UTC,5004,,15375.0,2017-05-07 20:24:18 UTC,,,Purchases : Service,Yes,No,No,,Service,59.0
+60.0,2018-10-26 17:58:20.370 UTC,5002,,36775.0,2017-05-11 05:21:23 UTC,,,Purchases : Merchandise,Yes,No,No,,Merchandise,59.0
+69.0,2018-10-26 17:58:19.669 UTC,6024,,2156.62,2017-05-27 20:31:49 UTC,,,Automobile Expense : Repairs,Yes,No,No,,Repairs,67.0
+68.0,2018-10-26 17:58:18.603 UTC,6022,,1408.0,2017-05-27 20:31:48 UTC,,,Automobile Expense : Gas & Oil,Yes,No,No,,Gas & Oil,67.0
+128.0,2018-10-26 17:58:15.761 UTC,6184,,150.0,2017-05-27 20:32:39 UTC,,Royal Bank CDN,Professional Fees : Legal,Yes,No,No,,Legal,87.0
+127.0,2018-10-26 17:58:14.006 UTC,6182,,600.0,2017-05-27 20:32:38 UTC,,,Professional Fees : Accounting,Yes,No,No,,Accounting,87.0

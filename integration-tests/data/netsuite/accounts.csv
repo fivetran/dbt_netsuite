@@ -1,0 +1,174 @@
+account_id,_fivetran_synced,account_extid,accountnumber,cashflow_rate_type,category_1099_misc,category_1099_misc_mthreshold,class_id,currency_id,date_last_modified,deferral_account_id,department_id,description,full_description,full_name,general_rate_type,is_balancesheet,is_included_in_elimination,is_included_in_reval,is_including_child_subs,is_leftside,is_summary,isinactive,legal_name,location_id,name,openbalance,parent_id,type_name,type_sequence
+148.0,2018-10-26 17:45:59.486 UTC,,,AVERAGE,,,,1.0,2017-05-15 12:02:28 UTC,,,,,Inventory In Transit,CURRENT,T,,F,Yes,T,No,No,,,Inventory In Transit,1945.0,,Other Current Asset,3.0
+143.0,2018-10-26 17:46:01.682 UTC,Leasehold Improvements,,AVERAGE,,,,1.0,2017-05-02 22:57:06 UTC,,,,,Inventory Returned Not Credited,CURRENT,T,,F,Yes,T,No,No,,,Inventory Returned Not Credited,5098.35,,Other Current Asset,3.0
+120.0,2018-10-26 17:46:04.976 UTC,,,AVERAGE,,,,1.0,2017-07-25 09:34:19 UTC,,,,,Inventory Asset,CURRENT,T,,F,Yes,T,No,No,,,Inventory Asset,4.192905845E7,,Other Current Asset,3.0
+119.0,2018-10-26 17:46:01.682 UTC,,,AVERAGE,,,,1.0,,,,,,Advances Paid,CURRENT,T,,F,Yes,T,No,No,,,Advances Paid,0.0,,Other Current Asset,3.0
+170.0,2018-10-26 17:45:59.124 UTC,,,AVERAGE,,,,1.0,2017-05-31 17:32:26 UTC,,,,,Failed ACH Transactions,CURRENT,T,,,Yes,F,No,No,,,Failed ACH Transactions,0.0,,Other Current Liability,8.0
+149.0,2018-10-26 17:46:02.047 UTC,,,AVERAGE,,,,1.0,2017-07-14 04:22:09 UTC,,,,,Customer Deposits,CURRENT,T,,T,Yes,F,No,No,,,Customer Deposits,-10924.99,,Other Current Liability,8.0
+115.0,2018-10-26 17:45:59.853 UTC,,,AVERAGE,,,,1.0,,,,,,Refunds Payable,CURRENT,T,,T,Yes,F,No,No,,,Refunds Payable,0.0,,Other Current Liability,8.0
+189.0,2018-10-26 17:45:58.189 UTC,,,AVERAGE,,,,1.0,2017-06-13 05:39:52 UTC,,,,,Sales Taxes Payable GA,CURRENT,T,,,Yes,F,No,No,,,Sales Taxes Payable GA,0.0,,Other Current Liability,8.0
+184.0,2018-10-26 17:46:02.413 UTC,,,AVERAGE,,,,1.0,2019-07-06 21:13:51 UTC,,,,,Sales Taxes Payable AK,CURRENT,T,,,Yes,F,No,No,,,Sales Taxes Payable AK,0.0,,Other Current Liability,8.0
+114.0,2018-10-26 17:46:02.047 UTC,,,AVERAGE,,,,1.0,2017-06-09 07:35:17 UTC,,,,,Inventory Received Not Billed,CURRENT,T,,T,Yes,F,No,No,,,Inventory Received Not Billed,-3371101.65,,Other Current Liability,8.0
+132.0,2018-10-26 17:46:00.953 UTC,Wideport Receivable,,AVERAGE,,,,1.0,,,,,,Commissions Payable,CURRENT,T,,T,Yes,F,No,No,,,Commissions Payable,0.0,,Other Current Liability,8.0
+134.0,2018-10-26 17:46:01.682 UTC,Accounts Receivable- Suspense,,AVERAGE,,,,1.0,2017-05-02 23:09:17 UTC,,,,,Uncategorized Income,AVERAGE,F,,F,Yes,F,No,No,,,Uncategorized Income,-1000.0,,Income,11.0
+121.0,2018-10-26 17:46:03.506 UTC,,,AVERAGE,,,,1.0,2017-07-25 09:28:19 UTC,,,,,Cost of Goods Sold,AVERAGE,F,,F,Yes,T,No,No,,,Cost of Goods Sold,6711071.99,,Cost of Goods Sold,12.0
+155.0,2018-10-26 17:46:03.867 UTC,,,AVERAGE,,,,1.0,2017-05-21 01:41:07 UTC,,,,,Rounding Gain/Loss,AVERAGE,F,,F,Yes,T,No,No,,,Rounding Gain/Loss,0.0,,Other Expense,15.0
+133.0,2018-10-26 17:46:03.867 UTC,Allowance for Doubtful Account,,AVERAGE,,,,1.0,2017-05-21 01:41:07 UTC,,,,,Exchange Rate Variance,AVERAGE,F,,F,Yes,T,No,No,,,Exchange Rate Variance,0.0,,Other Expense,15.0
+158.0,2018-10-26 17:46:04.976 UTC,,,AVERAGE,,,,1.0,2017-05-21 01:41:08 UTC,,,,,Unrealized Gain/Loss,AVERAGE,F,,F,Yes,T,No,No,,,Unrealized Gain/Loss,0.0,,Other Expense,15.0
+157.0,2018-10-26 17:45:57.823 UTC,,,AVERAGE,,,,1.0,2017-05-02 22:46:13 UTC,,,,,Realized Gain/Loss,AVERAGE,F,,F,Yes,T,No,No,,,Realized Gain/Loss,-351.6,,Other Expense,15.0
+145.0,2018-10-26 17:45:59.124 UTC,,,AVERAGE,,,,1.0,2017-05-07 21:27:25 UTC,,,,,Work Orders,AVERAGE,F,,F,Yes,F,No,No,,,Work Orders,0.0,,Non Posting,16.0
+122.0,2018-10-26 17:46:01.682 UTC,,,AVERAGE,,,,1.0,,,,,,Payroll Adjustments,AVERAGE,F,,F,Yes,F,No,No,,,Payroll Adjustments,0.0,,Non Posting,16.0
+131.0,2018-10-26 17:46:02.413 UTC,National Bank USD Chequing,,AVERAGE,,,,1.0,,,,,,Opportunities,AVERAGE,F,,F,Yes,F,No,No,,,Opportunities,0.0,,Non Posting,16.0
+142.0,2018-10-26 17:46:02.047 UTC,Furniture & Fixtures,,AVERAGE,,,,1.0,2017-05-07 14:33:48 UTC,,,,,Vendor Return Authorizations,AVERAGE,F,,F,Yes,F,No,No,,,Vendor Return Authorizations,0.0,,Non Posting,16.0
+124.0,2018-10-26 17:46:04.609 UTC,,,AVERAGE,,,,1.0,,,,,,Return Authorizations,AVERAGE,F,,F,Yes,F,No,No,,,Return Authorizations,0.0,,Non Posting,16.0
+116.0,2018-10-26 17:45:58.188 UTC,,,AVERAGE,,,,1.0,,,,,,Unapproved Customer Payments,AVERAGE,F,,F,Yes,F,No,No,,,Unapproved Customer Payments,0.0,,Non Posting,16.0
+118.0,2018-10-26 17:46:04.242 UTC,,,AVERAGE,,,,1.0,,,,,,Unapproved Expense Reports,AVERAGE,F,,F,Yes,F,No,No,,,Unapproved Expense Reports,0.0,,Non Posting,16.0
+147.0,2018-10-26 17:46:00.215 UTC,,,AVERAGE,,,,1.0,,,,,,Transfer Orders,AVERAGE,F,,F,Yes,F,No,No,,,Transfer Orders,0.0,,Non Posting,16.0
+125.0,2018-10-26 17:46:02.782 UTC,,,AVERAGE,,,,1.0,,,,,,Sales Orders,AVERAGE,F,,F,Yes,F,No,No,,,Sales Orders,0.0,,Non Posting,16.0
+123.0,2018-10-26 17:46:00.215 UTC,,,AVERAGE,,,,1.0,,,,,,Purchase Orders,AVERAGE,F,,F,Yes,F,No,No,,,Purchase Orders,0.0,,Non Posting,16.0
+117.0,2018-10-26 17:45:58.549 UTC,,,AVERAGE,,,,1.0,,,,,,Estimates,AVERAGE,F,,F,Yes,F,No,No,,,Estimates,0.0,,Non Posting,16.0
+171.0,2018-10-26 17:45:59.853 UTC,,,AVERAGE,,,,1.0,2017-05-31 17:42:33 UTC,,,,,Deferred Revenue,CURRENT,T,,,Yes,F,No,Yes,,,Deferred Revenue,0.0,,Deferred Revenue,17.0
+140.0,2018-10-26 17:46:00.214 UTC,Original Cost,,AVERAGE,,,,1.0,2017-05-21 01:41:06 UTC,,,,,Accumulated Depreciation,CURRENT,T,,F,Yes,T,No,No,,,Accumulated Depreciation,0.0,,Deferred Expense,18.0
+139.0,2018-10-26 17:46:04.241 UTC,Computer Hardware,,AVERAGE,,,,1.0,2017-05-21 01:41:06 UTC,,,,,Deferred Expense,CURRENT,T,,F,Yes,T,No,No,,,Deferred Expense,0.0,,Deferred Expense,18.0
+1.0,2018-10-26 17:46:00.593 UTC,,1000,AVERAGE,,,,1.0,2017-07-25 08:20:20 UTC,,,,,Checking,CURRENT,T,,T,No,T,No,No,,,Checking,4720328.08,,Bank,1.0
+2.0,2018-10-26 17:46:00.214 UTC,,1002,AVERAGE,,,,1.0,,,,,,Savings,CURRENT,T,,T,No,T,No,No,,,Savings,325000.0,,Bank,1.0
+3.0,2018-10-26 17:46:04.975 UTC,,1004,AVERAGE,,,,1.0,,,,,,Payroll,CURRENT,T,,T,No,T,No,No,,,Payroll,24388.6,,Bank,1.0
+4.0,2018-10-26 17:46:02.046 UTC,,1006,AVERAGE,,,,1.0,,,,,,Petty Cash,CURRENT,T,,T,No,T,No,No,,,Petty Cash,500.0,,Bank,1.0
+5.0,2018-10-26 17:46:04.609 UTC,,1008,AVERAGE,,,,1.0,2017-05-15 11:29:35 UTC,,,,,Cash on Hand,CURRENT,T,,T,No,T,No,No,,,Cash on Hand,198256.09,,Bank,1.0
+129.0,2018-10-26 17:45:57.822 UTC,Royal Bank USD,1050,AVERAGE,,,,1.0,2017-06-06 22:16:06 UTC,,,,,First Community Bank VISA,CURRENT,T,,T,No,F,No,No,,,First Community Bank VISA,-816.68,,Credit Card,7.0
+6.0,2018-10-26 17:46:02.413 UTC,,1090,AVERAGE,,,,1.0,2017-05-14 20:51:46 UTC,,,,,Undeposited Funds,CURRENT,T,,F,Yes,T,No,No,,,Undeposited Funds,2.042216384E7,,Other Current Asset,3.0
+7.0,2018-10-26 17:46:02.046 UTC,,1100,AVERAGE,,,,1.0,2017-07-25 08:20:20 UTC,,,,,Accounts Receivable,CURRENT,T,,T,Yes,T,No,No,,,Accounts Receivable,-1.48674281E7,,Accounts Receivable,2.0
+8.0,2018-10-26 17:46:01.682 UTC,,1102,AVERAGE,,,,1.0,2017-05-31 17:41:14 UTC,,,,,Allowance for Doubtful Accounts,CURRENT,T,,F,Yes,T,No,No,,,Allowance for Doubtful Accounts,0.0,,Other Current Asset,3.0
+9.0,2018-10-26 17:45:58.188 UTC,,1105,AVERAGE,,,,1.0,,,,,,Other Receivables,CURRENT,T,,F,Yes,T,No,Yes,,,Other Receivables,0.0,,Other Current Asset,3.0
+10.0,2018-10-26 17:46:02.782 UTC,,1150,AVERAGE,,,,1.0,,,,,,Employee Advances,CURRENT,T,,F,Yes,T,No,No,,,Employee Advances,0.0,,Other Current Asset,3.0
+12.0,2018-10-26 17:46:02.782 UTC,,1300,AVERAGE,,,,1.0,2017-05-19 23:07:42 UTC,,,,,Prepaid Expenses,CURRENT,T,,F,Yes,T,No,No,,,Prepaid Expenses,20000.0,,Other Current Asset,3.0
+13.0,2018-10-26 17:46:02.413 UTC,,1310,AVERAGE,,,,1.0,,,,,,Prepaid Income Taxes,CURRENT,T,,F,Yes,T,No,No,,,Prepaid Income Taxes,0.0,,Other Current Asset,3.0
+14.0,2018-10-26 17:45:59.124 UTC,,1320,AVERAGE,,,,1.0,,,,,,Note Receivable-Current,CURRENT,T,,F,Yes,T,No,No,,,Note Receivable-Current,0.0,,Other Current Asset,3.0
+159.0,2018-10-26 17:46:00.593 UTC,,1350,AVERAGE,,,,1.0,2017-05-15 15:17:16 UTC,,,,,WIP,CURRENT,T,,F,Yes,T,No,No,,,WIP,0.0,,Other Current Asset,3.0
+160.0,2018-10-26 17:46:02.047 UTC,,1351,AVERAGE,,,,1.0,2017-05-08 10:13:07 UTC,,,,,WIP : WIP Revenue,CURRENT,T,,F,Yes,T,No,No,,,WIP Revenue,-7360.0,159.0,Other Current Asset,3.0
+161.0,2018-10-26 17:45:58.189 UTC,,1352,AVERAGE,,,,1.0,2017-05-08 10:13:07 UTC,,,,,WIP : WIP COGS,CURRENT,T,,F,Yes,T,No,No,,,WIP COGS,48368.0,159.0,Other Current Asset,3.0
+15.0,2018-10-26 17:46:00.593 UTC,,1400,AVERAGE,,,,1.0,2017-05-28 10:31:33 UTC,,,,,IT Equipment,CURRENT,T,,F,Yes,T,No,No,,,IT Equipment,7449.0,,Fixed Asset,4.0
+16.0,2018-10-26 17:46:04.976 UTC,,1410,AVERAGE,,,,1.0,2017-05-28 10:31:35 UTC,,,,,Furniture & Fixtures,CURRENT,T,,F,Yes,T,No,No,,,Furniture & Fixtures,350611.98,,Fixed Asset,4.0
+17.0,2018-10-26 17:45:58.188 UTC,,1420,AVERAGE,,,,1.0,2017-05-28 10:31:35 UTC,,,,,Machinery & Equipment,CURRENT,T,,F,Yes,T,No,No,,,Machinery & Equipment,13934.0,,Fixed Asset,4.0
+156.0,2018-10-26 17:46:04.241 UTC,,1450,AVERAGE,,,,1.0,2017-05-28 10:32:33 UTC,,,,,Building,CURRENT,T,,F,Yes,T,No,No,,,Building,0.0,,Fixed Asset,4.0
+18.0,2018-10-26 17:46:03.145 UTC,,1470,AVERAGE,,,,1.0,2017-05-28 10:31:37 UTC,,,,,Leasehold Improvements,CURRENT,T,,F,Yes,T,No,No,,,Leasehold Improvements,0.0,,Fixed Asset,4.0
+19.0,2018-10-26 17:46:01.314 UTC,,1510,AVERAGE,,,,1.0,2017-05-28 10:31:37 UTC,,,,,Acc. Dep-Furniture & Fixtures,CURRENT,T,,F,Yes,T,No,No,,,Acc. Dep-Furniture & Fixtures,-19871.66,,Fixed Asset,4.0
+141.0,2018-10-26 17:46:04.609 UTC,Depreciation,1511,AVERAGE,,,,1.0,2017-05-28 10:32:34 UTC,,,,,Acc. Dep - IT Equipment,CURRENT,T,,F,Yes,T,No,No,,,Acc. Dep - IT Equipment,-125947.45,,Fixed Asset,4.0
+20.0,2018-10-26 17:45:58.549 UTC,,1520,AVERAGE,,,,1.0,2017-05-28 10:31:39 UTC,,,,,Acc. Dep-Machinery & Equipment,CURRENT,T,,F,Yes,T,No,No,,,Acc. Dep-Machinery & Equipment,-1238.4,,Fixed Asset,4.0
+21.0,2018-10-26 17:46:01.682 UTC,,1560,AVERAGE,,,,1.0,2017-05-28 10:31:40 UTC,,,,,Acc. Dep-Building,CURRENT,T,,F,Yes,T,No,No,,,Acc. Dep-Building,-302397.86,,Fixed Asset,4.0
+22.0,2018-10-26 17:46:02.782 UTC,,1570,AVERAGE,,,,1.0,2017-05-28 10:31:40 UTC,,,,,Acc. Dep-Leasehold Improvements,CURRENT,T,,F,Yes,T,No,No,,,Acc. Dep-Leasehold Improvements,0.0,,Fixed Asset,4.0
+23.0,2018-10-26 17:46:04.609 UTC,18000,1900,AVERAGE,,,,1.0,,,,,,Deposits,CURRENT,T,,F,Yes,T,No,No,,,Deposits,0.0,,Other Asset,5.0
+24.0,2018-10-26 17:46:00.215 UTC,,1910,AVERAGE,,,,1.0,,,,,,Organization Expense,CURRENT,T,,F,Yes,T,No,Yes,,,Organization Expense,0.0,,Other Asset,5.0
+25.0,2018-10-26 17:46:04.975 UTC,,2000,AVERAGE,,,,1.0,2017-06-13 01:05:17 UTC,,,,,Accounts Payable,CURRENT,T,,T,Yes,F,No,No,,,Accounts Payable,-1027895.9,,Accounts Payable,6.0
+176.0,2018-10-26 17:45:59.852 UTC,,2001,AVERAGE,,,,1.0,2017-05-08 12:12:30 UTC,,,,,Accounts Payable 2,CURRENT,T,,T,No,F,No,No,,,Accounts Payable 2,-15129.28,,Accounts Payable,6.0
+26.0,2018-10-26 17:46:02.782 UTC,,2005,AVERAGE,,,,1.0,2017-05-25 19:49:27 UTC,,,,,Accrued Expenses,CURRENT,T,,T,Yes,F,No,No,,,Accrued Expenses,-3600.0,,Other Current Liability,8.0
+27.0,2018-10-26 17:45:57.822 UTC,,2010,AVERAGE,,,,1.0,,,,,,Accrued Wages,CURRENT,T,,T,Yes,F,No,No,,,Accrued Wages,0.0,,Other Current Liability,8.0
+135.0,2018-10-26 17:46:00.953 UTC,Other Receivables,2018,AVERAGE,,,,1.0,2017-05-06 17:07:01 UTC,,,,,Gift Certificates,CURRENT,T,,T,Yes,F,No,No,,,Gift Certificates,-391.02,,Other Current Liability,8.0
+28.0,2018-10-26 17:45:58.189 UTC,,2020,AVERAGE,,,,1.0,,,,,,Accrued Vacation & Sick Pay,CURRENT,T,,T,Yes,F,No,No,,,Accrued Vacation & Sick Pay,0.0,,Other Current Liability,8.0
+29.0,2018-10-26 17:46:02.047 UTC,,2030,AVERAGE,,,,1.0,2017-06-06 22:11:05 UTC,,,,,Credit Card Payable,CURRENT,T,,T,Yes,F,No,No,,,Credit Card Payable,0.0,,Other Current Liability,8.0
+30.0,2018-10-26 17:46:03.867 UTC,,2040,AVERAGE,,,,1.0,,,,,,Payroll Liabilities,CURRENT,T,,T,Yes,F,No,No,,,Payroll Liabilities,-14234.24,,Other Current Liability,8.0
+37.0,2018-10-26 17:46:03.506 UTC,,2050,AVERAGE,,,,1.0,2017-05-03 18:01:48 UTC,,,,,Sales Taxes Payable,CURRENT,T,,T,Yes,F,No,No,,,Sales Taxes Payable,-178686.57,,Other Current Liability,8.0
+38.0,2018-10-26 17:46:04.976 UTC,,2055,AVERAGE,,,,1.0,2017-06-11 13:51:38 UTC,,,,,Income Taxes Payable,CURRENT,T,,T,Yes,F,No,No,,,Income Taxes Payable,0.0,,Other Current Liability,8.0
+39.0,2018-10-26 17:46:02.782 UTC,,2060,AVERAGE,,,,1.0,,,,,,Line of Credit Payable,CURRENT,T,,T,Yes,F,No,Yes,,,Line of Credit Payable,0.0,,Other Current Liability,8.0
+40.0,2018-10-26 17:45:59.486 UTC,,2070,AVERAGE,,,,1.0,,,,,,Loan Payable-Short-Term,CURRENT,T,,T,Yes,F,No,Yes,,,Loan Payable-Short-Term,0.0,,Other Current Liability,8.0
+41.0,2018-10-26 17:46:03.145 UTC,,2080,AVERAGE,,,,1.0,,,,,,Retirement Contribution Payable,CURRENT,T,,T,Yes,F,No,No,,,Retirement Contribution Payable,-6241.28,,Other Current Liability,8.0
+42.0,2018-10-26 17:46:02.782 UTC,,2090,AVERAGE,,,,1.0,,,,,,Current Portion Long-Term Debt,CURRENT,T,,T,Yes,F,No,Yes,,,Current Portion Long-Term Debt,0.0,,Other Current Liability,8.0
+43.0,2018-10-26 17:45:58.188 UTC,,2500,AVERAGE,,,,1.0,,,,,,Contract Payable #1,CURRENT,T,,T,Yes,F,No,No,,,Contract Payable #1,0.0,,Long Term Liability,9.0
+44.0,2018-10-26 17:45:58.549 UTC,,2502,AVERAGE,,,,1.0,,,,,,Contract Payable #2,CURRENT,T,,T,Yes,F,No,Yes,,,Contract Payable #2,0.0,,Long Term Liability,9.0
+45.0,2018-10-26 17:46:02.047 UTC,,2590,AVERAGE,,,,1.0,,,,,,Less Long-Term Portion,CURRENT,T,,T,Yes,F,No,Yes,,,Less Long-Term Portion,0.0,,Long Term Liability,9.0
+46.0,2018-10-26 17:45:59.485 UTC,,3002,HISTORICAL,,,,1.0,,,,,,Owner's Capital,HISTORICAL,T,,F,Yes,F,No,No,,,Owner's Capital,0.0,,Equity,10.0
+47.0,2018-10-26 17:46:03.506 UTC,,3004,HISTORICAL,,,,1.0,,,,,,Owner's Drawing,HISTORICAL,T,,F,Yes,F,No,No,,,Owner's Drawing,0.0,,Equity,10.0
+48.0,2018-10-26 17:46:01.682 UTC,,3006,HISTORICAL,,,,1.0,,,,,,Partner #1 Capital,HISTORICAL,T,,F,Yes,F,No,Yes,,,Partner #1 Capital,0.0,,Equity,10.0
+49.0,2018-10-26 17:46:02.046 UTC,,3008,HISTORICAL,,,,1.0,,,,,,Partner #2 Capital,HISTORICAL,T,,F,Yes,F,No,Yes,,,Partner #2 Capital,0.0,,Equity,10.0
+50.0,2018-10-26 17:46:00.953 UTC,,3010,HISTORICAL,,,,1.0,,,,,,Partner #1 Drawing,HISTORICAL,T,,F,Yes,F,No,Yes,,,Partner #1 Drawing,0.0,,Equity,10.0
+51.0,2018-10-26 17:46:01.682 UTC,,3012,HISTORICAL,,,,1.0,,,,,,Partner #2 Drawing,HISTORICAL,T,,F,Yes,F,No,Yes,,,Partner #2 Drawing,0.0,,Equity,10.0
+52.0,2018-10-26 17:46:02.781 UTC,,3020,HISTORICAL,,,,1.0,,,,,,Capital Stock,HISTORICAL,T,,F,Yes,F,No,No,,,Capital Stock,0.0,,Equity,10.0
+53.0,2018-10-26 17:45:57.822 UTC,,3030,HISTORICAL,,,,1.0,,,,,,Retained Earnings,HISTORICAL,T,,F,Yes,F,No,No,,,Retained Earnings,0.0,,Equity,10.0
+172.0,2018-10-26 17:45:57.822 UTC,,3035,HISTORICAL,,,,1.0,2017-06-04 23:36:56 UTC,,,,,Cumulative Translation Adjustment,HISTORICAL,T,,F,Yes,F,No,No,,,Cumulative Translation Adjustment,0.0,,Equity,10.0
+54.0,2018-10-26 17:45:59.485 UTC,,3200,HISTORICAL,,,,1.0,2017-05-22 01:55:33 UTC,,,,,"Opening Balance ",HISTORICAL,T,,F,Yes,F,No,No,,,"Opening Balance ",-4.254213418E7,,Equity,10.0
+55.0,2018-10-26 17:45:59.486 UTC,,4000,AVERAGE,,,,1.0,2017-05-02 23:01:46 UTC,,,,,Sales,AVERAGE,F,,F,Yes,F,No,No,,,Sales,-6757288.63,,Income,11.0
+56.0,2018-10-26 17:46:01.682 UTC,,4002,AVERAGE,,,,1.0,2017-05-28 10:31:41 UTC,,,,,Sales : Sales - Merchandise,AVERAGE,F,,F,Yes,F,No,No,,,Sales - Merchandise,-6747654.72,55.0,Income,11.0
+57.0,2018-10-26 17:46:03.506 UTC,,4004,AVERAGE,,,,1.0,2017-05-28 10:31:42 UTC,,,,,Sales : Sales - Service,AVERAGE,F,,F,Yes,F,No,No,,,Sales - Service,-152027.56,55.0,Income,11.0
+58.0,2018-10-26 17:46:01.314 UTC,,4006,AVERAGE,,,,1.0,2017-05-28 10:31:43 UTC,,,,,Sales : Sales - Clearance,AVERAGE,F,,F,Yes,F,No,No,,,Sales - Clearance,0.0,55.0,Income,11.0
+130.0,2018-10-26 17:46:01.314 UTC,National Bank CDN Chequing,4008,AVERAGE,,,,1.0,2017-05-28 10:32:35 UTC,,,,,Sales : Sales - Warranty,AVERAGE,F,,F,Yes,F,No,No,,,Sales - Warranty,-39500.0,55.0,Income,11.0
+162.0,2018-10-26 17:46:04.241 UTC,,4100,AVERAGE,,,,1.0,2017-05-28 10:32:35 UTC,,,,,WIP eRev,AVERAGE,F,,F,Yes,F,No,No,,,WIP eRev,7360.0,,Income,11.0
+59.0,2018-10-26 17:46:04.976 UTC,,5000,AVERAGE,,,,1.0,2017-08-13 13:24:54 UTC,,,,,Purchases,AVERAGE,F,,F,Yes,T,No,No,,,Purchases,-6799.0,,Cost of Goods Sold,12.0
+60.0,2018-10-26 17:46:04.976 UTC,,5002,AVERAGE,,,,1.0,2017-05-11 19:21:23 UTC,,,,,Purchases : Merchandise,AVERAGE,F,,F,Yes,T,No,No,,,Merchandise,36775.0,59.0,Cost of Goods Sold,12.0
+61.0,2018-10-26 17:45:59.485 UTC,,5004,AVERAGE,,,,1.0,2017-05-08 10:24:18 UTC,,,,,Purchases : Service,AVERAGE,F,,F,Yes,T,No,No,,,Service,15375.0,59.0,Cost of Goods Sold,12.0
+62.0,2018-10-26 17:46:03.506 UTC,,5020,AVERAGE,,,,1.0,2017-05-07 10:33:30 UTC,,,,,Salaries & Wages,AVERAGE,F,,F,Yes,T,No,No,,,Salaries & Wages,14590.0,,Cost of Goods Sold,12.0
+144.0,2018-10-26 17:46:02.046 UTC,Software,5040,AVERAGE,,,,1.0,2017-05-10 16:27:55 UTC,,,,,Damaged Goods,AVERAGE,F,,F,Yes,T,No,No,,,Damaged Goods,0.0,,Cost of Goods Sold,12.0
+63.0,2018-10-26 17:46:00.593 UTC,4304,5060,AVERAGE,,,,1.0,,,,,,Other Direct Costs,AVERAGE,F,,F,Yes,T,No,Yes,,,Other Direct Costs,0.0,,Cost of Goods Sold,12.0
+146.0,2018-10-26 17:45:57.817 UTC,,5080,AVERAGE,,,,1.0,2017-05-19 21:06:19 UTC,,,,,Inventory Write Offs,AVERAGE,F,,F,Yes,T,No,No,,,Inventory Write Offs,256.0,,Cost of Goods Sold,12.0
+168.0,2018-10-26 17:46:00.214 UTC,,5085,AVERAGE,,,,1.0,2017-05-05 19:58:58 UTC,,,,,Customer Return Variance,AVERAGE,F,,F,Yes,T,No,No,,,Customer Return Variance,0.0,,Cost of Goods Sold,12.0
+169.0,2018-10-26 17:45:59.124 UTC,,5086,AVERAGE,,,,1.0,2017-05-05 19:59:23 UTC,,,,,Vendor Return Variance,AVERAGE,F,,F,Yes,T,No,No,,,Vendor Return Variance,0.0,,Cost of Goods Sold,12.0
+64.0,2018-10-26 17:46:00.593 UTC,,5090,AVERAGE,,,,1.0,2017-05-29 11:35:26 UTC,,,,,Inventory Variance,AVERAGE,F,,F,Yes,T,No,No,,,Inventory Variance,22087.03,,Cost of Goods Sold,12.0
+153.0,2018-10-26 17:46:02.413 UTC,,5091,AVERAGE,,,,1.0,2017-05-03 19:47:29 UTC,,,,,Inventory Transfer Price Gain / Loss,AVERAGE,F,,F,Yes,T,No,No,,,Inventory Transfer Price Gain / Loss,0.0,,Cost of Goods Sold,12.0
+164.0,2018-10-26 17:46:02.046 UTC,,5092,AVERAGE,,,,1.0,2017-05-26 15:23:33 UTC,,,,,Purchase Price Variance,AVERAGE,F,F,F,Yes,T,No,No,,,Purchase Price Variance,1803.49,,Cost of Goods Sold,12.0
+165.0,2018-10-26 17:46:02.413 UTC,,5093,AVERAGE,,,,1.0,2017-05-04 13:16:08 UTC,,,,,Build Price Variance,AVERAGE,F,F,F,Yes,T,No,No,,,Build Price Variance,11656.58,,Cost of Goods Sold,12.0
+166.0,2018-10-26 17:45:59.853 UTC,,5094,AVERAGE,,,,1.0,2017-05-04 13:15:48 UTC,,,,,Build Quantity Variance,AVERAGE,F,F,F,Yes,T,No,No,,,Build Quantity Variance,-16096.74,,Cost of Goods Sold,12.0
+150.0,2018-10-26 17:45:59.852 UTC,,5095,AVERAGE,,,,1.0,2017-05-03 16:46:12 UTC,,,,,Bill Quantity Variance,AVERAGE,F,,F,Yes,T,No,No,,,Bill Quantity Variance,0.0,,Cost of Goods Sold,12.0
+151.0,2018-10-26 17:45:59.853 UTC,,5096,AVERAGE,,,,1.0,2017-05-03 16:46:28 UTC,,,,,Bill Price Variance,AVERAGE,F,,F,Yes,T,No,No,,,Bill Price Variance,0.0,,Cost of Goods Sold,12.0
+152.0,2018-10-26 17:45:57.822 UTC,,5097,AVERAGE,,,,1.0,2017-05-03 16:46:50 UTC,,,,,Bill Exchange Rate Variance,AVERAGE,F,,F,Yes,T,No,No,,,Bill Exchange Rate Variance,0.0,,Cost of Goods Sold,12.0
+154.0,2018-10-26 17:46:00.214 UTC,,5098,AVERAGE,,,,1.0,2017-07-25 09:20:20 UTC,,,,,Unbuild Variance,AVERAGE,F,,F,Yes,T,No,No,,,Unbuild Variance,2002.5,,Cost of Goods Sold,12.0
+163.0,2018-10-26 17:46:03.145 UTC,,5100,AVERAGE,,,,1.0,2017-05-04 13:21:27 UTC,,,,,Mfg WIP,AVERAGE,F,,F,Yes,T,No,No,,,Mfg WIP,8146.88,,Cost of Goods Sold,12.0
+177.0,2018-10-26 17:46:04.241 UTC,,5101,AVERAGE,,,,1.0,2017-05-04 13:21:26 UTC,,,,,Mfg Scrap,AVERAGE,F,,F,Yes,T,No,No,,,Mfg Scrap,371.08,,Cost of Goods Sold,12.0
+183.0,2018-10-26 17:46:04.241 UTC,,5102,AVERAGE,,,,1.0,2017-05-31 21:22:13 UTC,,,,,WIP Variance,AVERAGE,F,,F,Yes,T,No,No,,,WIP Variance,3781.0,,Cost of Goods Sold,12.0
+167.0,2018-10-26 17:46:03.145 UTC,,5200,AVERAGE,,,,1.0,2017-05-16 14:58:35 UTC,,,,,Vendor Rebates,AVERAGE,F,,F,Yes,T,No,No,,,Vendor Rebates,-15.0,,Cost of Goods Sold,12.0
+65.0,2018-10-26 17:46:00.214 UTC,60000,6010,AVERAGE,,,,1.0,2017-05-28 10:31:45 UTC,,,,,Advertising,AVERAGE,F,,F,Yes,T,No,No,,,Advertising,16677.65,,Expense,13.0
+66.0,2018-10-26 17:46:02.781 UTC,,6015,AVERAGE,,,,1.0,2017-05-28 10:31:45 UTC,,,,,Amortization Expense,AVERAGE,F,,F,Yes,T,No,No,,,Amortization Expense,4264.8,,Expense,13.0
+137.0,2018-10-26 17:46:00.215 UTC,Petty Cash,6017,AVERAGE,,,,1.0,2017-05-28 10:32:36 UTC,,,,,Duty Expense,AVERAGE,F,,F,Yes,T,No,No,,,Duty Expense,-119.75,,Expense,13.0
+138.0,2018-10-26 17:46:02.047 UTC,Prepaid Expenses,6018,AVERAGE,,,,1.0,2017-05-28 10:32:37 UTC,,,,,Freight Expense,AVERAGE,F,,F,Yes,T,No,No,,,Freight Expense,-260.0,,Expense,13.0
+67.0,2018-10-26 17:45:58.188 UTC,,6020,AVERAGE,,,,1.0,2017-05-28 10:31:47 UTC,,,,,Automobile Expense,AVERAGE,F,,F,Yes,T,No,No,,,Automobile Expense,1553.0,,Expense,13.0
+68.0,2018-10-26 17:46:03.145 UTC,,6022,AVERAGE,,,,1.0,2017-05-28 10:31:48 UTC,,,,,Automobile Expense : Gas & Oil,AVERAGE,F,,F,Yes,T,No,No,,,Gas & Oil,1408.0,67.0,Expense,13.0
+69.0,2018-10-26 17:46:04.241 UTC,,6024,AVERAGE,,,,1.0,2017-05-28 10:31:49 UTC,,,,,Automobile Expense : Repairs,AVERAGE,F,,F,Yes,T,No,No,,,Repairs,2156.62,67.0,Expense,13.0
+70.0,2018-10-26 17:46:02.781 UTC,,6030,AVERAGE,,,,1.0,2017-05-28 10:31:49 UTC,,,,,Bad Debt Expense,AVERAGE,F,,F,Yes,T,No,No,,,Bad Debt Expense,0.0,,Expense,13.0
+71.0,2018-10-26 17:46:04.976 UTC,,6040,AVERAGE,,,,1.0,2017-05-28 10:31:50 UTC,,,,,Bank Service Charges,AVERAGE,F,,F,Yes,T,No,No,,,Bank Service Charges,86.0,,Expense,13.0
+72.0,2018-10-26 17:46:01.682 UTC,,6050,AVERAGE,,,,1.0,2017-05-28 10:31:51 UTC,,,,,Contributions,AVERAGE,F,,F,Yes,T,No,No,,,Contributions,0.0,,Expense,13.0
+73.0,2018-10-26 17:46:01.682 UTC,,6060,AVERAGE,,,,1.0,2017-05-28 10:31:51 UTC,,,,,Depreciation Expense,AVERAGE,F,,F,Yes,T,No,No,,,Depreciation Expense,449455.37,,Expense,13.0
+74.0,2018-10-26 17:45:59.485 UTC,,6070,AVERAGE,,,,1.0,2017-05-28 10:31:52 UTC,,,,,Dues & Subscriptions,AVERAGE,F,,F,Yes,T,No,No,,,Dues & Subscriptions,0.0,,Expense,13.0
+75.0,2018-10-26 17:46:03.506 UTC,,6080,AVERAGE,,,,1.0,2017-05-28 10:31:53 UTC,,,,,Equipment Rental,AVERAGE,F,,F,Yes,T,No,No,,,Equipment Rental,0.0,,Expense,13.0
+126.0,2018-10-26 17:45:58.549 UTC,,6085,AVERAGE,,,,1.0,2017-05-28 10:32:38 UTC,,,,,Furniture & Fixtures Expense,AVERAGE,F,,F,Yes,T,No,No,,,Furniture & Fixtures Expense,50.49,,Expense,13.0
+76.0,2018-10-26 17:46:03.867 UTC,,6090,AVERAGE,,,,1.0,2017-05-28 10:31:54 UTC,,,,,Freight & Delivery,AVERAGE,F,,F,Yes,T,No,No,,,Freight & Delivery,6490.0,,Expense,13.0
+77.0,2018-10-26 17:45:58.548 UTC,,6100,AVERAGE,,,,1.0,2017-05-28 10:31:55 UTC,,,,,Insurance Expense,AVERAGE,F,,F,Yes,T,No,No,,,Insurance Expense,6687.5,,Expense,13.0
+78.0,2018-10-26 17:46:01.682 UTC,,6102,AVERAGE,,,,1.0,2017-05-28 10:31:55 UTC,,,,,Insurance Expense : Liability,AVERAGE,F,,F,Yes,T,No,No,,,Liability,0.0,77.0,Expense,13.0
+79.0,2018-10-26 17:46:02.413 UTC,,6104,AVERAGE,,,,1.0,2017-05-28 10:31:56 UTC,,,,,Insurance Expense : Workers' compensation,AVERAGE,F,,F,Yes,T,No,No,,,Workers' compensation,0.0,77.0,Expense,13.0
+80.0,2018-10-26 17:46:02.413 UTC,,6106,AVERAGE,,,,1.0,2017-05-28 10:31:57 UTC,,,,,Insurance Expense : Disability,AVERAGE,F,,F,Yes,T,No,No,,,Disability,0.0,77.0,Expense,13.0
+81.0,2018-10-26 17:46:00.953 UTC,,6110,AVERAGE,,,,1.0,2017-05-28 10:31:57 UTC,,,,,Interest Expense,AVERAGE,F,,F,Yes,T,No,No,,,Interest Expense,0.0,,Expense,13.0
+82.0,2018-10-26 17:46:02.047 UTC,,6120,AVERAGE,,,,1.0,2017-05-28 10:31:58 UTC,,,,,Meals & Entertainment,AVERAGE,F,,F,Yes,T,No,No,,,Meals & Entertainment,1390.74,,Expense,13.0
+83.0,2018-10-26 17:46:02.782 UTC,,6130,AVERAGE,,,,1.0,2017-07-25 09:31:19 UTC,,,,,Miscellaneous Expense,AVERAGE,F,,F,Yes,T,No,No,,,Miscellaneous Expense,-48979.91,,Expense,13.0
+84.0,2018-10-26 17:45:59.124 UTC,,6150,AVERAGE,,,,1.0,2017-05-28 10:31:59 UTC,,,,,Office Expense,AVERAGE,F,,F,Yes,T,No,No,,,Office Expense,35781.0,,Expense,13.0
+85.0,2018-10-26 17:46:01.682 UTC,57000,6160,AVERAGE,,,,1.0,2017-05-28 10:32:00 UTC,,,,,Outside Services,AVERAGE,F,,F,Yes,T,No,No,,,Outside Services,600000.0,,Expense,13.0
+86.0,2018-10-26 17:46:02.782 UTC,,6170,AVERAGE,,,,1.0,2017-05-23 23:05:16 UTC,,,,,Postage & Delivery,AVERAGE,F,,F,Yes,T,No,No,,,Postage & Delivery,-2279.58,,Expense,13.0
+87.0,2018-10-26 17:46:04.976 UTC,,6180,AVERAGE,,,,1.0,2017-05-28 10:32:01 UTC,,,,,Professional Fees,AVERAGE,F,,F,Yes,T,No,No,,,Professional Fees,65880.0,,Expense,13.0
+127.0,2018-10-26 17:45:58.188 UTC,,6182,AVERAGE,,,,1.0,2017-05-28 10:32:38 UTC,,,,,Professional Fees : Accounting,AVERAGE,F,,F,Yes,T,No,No,,,Accounting,600.0,87.0,Expense,13.0
+128.0,2018-10-26 17:46:00.215 UTC,Royal Bank CDN,6184,AVERAGE,,,,1.0,2017-05-28 10:32:39 UTC,,,,,Professional Fees : Legal,AVERAGE,F,,F,Yes,T,No,No,,,Legal,150.0,87.0,Expense,13.0
+88.0,2018-10-26 17:45:57.822 UTC,,6200,AVERAGE,,,,1.0,2017-05-28 10:32:03 UTC,,,,,Rent Expense,AVERAGE,F,,F,Yes,T,No,No,,,Rent Expense,55278.22,,Expense,13.0
+89.0,2018-10-26 17:45:58.549 UTC,,6220,AVERAGE,,,,1.0,2019-11-14 12:41:16 UTC,,,,,Repairs & Maintenance,AVERAGE,F,,F,Yes,T,No,No,,,Repairs & Maintenance,10590.0,,Expense,13.0
+90.0,2018-10-26 17:45:59.853 UTC,,6230,AVERAGE,,,,1.0,2017-05-28 10:32:05 UTC,,,,,Supplies Expense,AVERAGE,F,,F,Yes,T,No,No,,,Supplies Expense,522.22,,Expense,13.0
+92.0,2018-10-26 17:45:59.853 UTC,,6250,AVERAGE,,,,1.0,2017-05-28 10:32:05 UTC,,,,,Taxes & Licenses-Other,AVERAGE,F,,F,Yes,T,No,No,,,Taxes & Licenses-Other,0.0,,Expense,13.0
+93.0,2018-10-26 17:46:00.214 UTC,,6252,AVERAGE,,,,1.0,2017-05-28 10:32:06 UTC,,,,,Taxes & Licenses-Other : Business,AVERAGE,F,,F,Yes,T,No,No,,,Business,0.0,92.0,Expense,13.0
+94.0,2018-10-26 17:46:01.313 UTC,,6254,AVERAGE,,,,1.0,2017-05-28 10:32:07 UTC,,,,,Taxes & Licenses-Other : Property,AVERAGE,F,,F,Yes,T,No,No,,,Property,0.0,92.0,Expense,13.0
+95.0,2018-10-26 17:45:58.188 UTC,,6256,AVERAGE,,,,1.0,2017-05-28 10:32:08 UTC,,,,,Taxes & Licenses-Other : Vehicle Registration,AVERAGE,F,,F,Yes,T,No,Yes,,,Vehicle Registration,0.0,92.0,Expense,13.0
+96.0,2018-10-26 17:46:02.047 UTC,,6260,AVERAGE,,,,1.0,2017-05-28 10:32:08 UTC,,,,,Telephone Expense,AVERAGE,F,,F,Yes,T,No,No,,,Telephone Expense,0.0,,Expense,13.0
+97.0,2018-10-26 17:45:59.485 UTC,,6262,AVERAGE,,,,1.0,2017-05-28 10:32:09 UTC,,,,,Telephone Expense : Regular Service,AVERAGE,F,,F,Yes,T,No,No,,,Regular Service,3728.66,96.0,Expense,13.0
+98.0,2018-10-26 17:45:58.188 UTC,,6264,AVERAGE,,,,1.0,2017-05-28 10:32:10 UTC,,,,,Telephone Expense : Pager,AVERAGE,F,,F,Yes,T,No,Yes,,,Pager,0.0,96.0,Expense,13.0
+99.0,2018-10-26 17:45:58.188 UTC,,6266,AVERAGE,,,,1.0,2017-05-28 10:32:10 UTC,,,,,Telephone Expense : Cellular,AVERAGE,F,,F,Yes,T,No,No,,,Cellular,632.23,96.0,Expense,13.0
+100.0,2018-10-26 17:46:00.215 UTC,,6268,AVERAGE,,,,1.0,2017-05-28 10:32:11 UTC,,,,,Telephone Expense : Online Fees,AVERAGE,F,,F,Yes,T,No,No,,,Online Fees,9000.0,96.0,Expense,13.0
+101.0,2018-10-26 17:45:59.124 UTC,,6300,AVERAGE,,,,1.0,2017-05-28 10:32:12 UTC,,,,,Utilities,AVERAGE,F,,F,Yes,T,No,No,,,Utilities,0.0,,Expense,13.0
+113.0,2018-10-26 17:46:01.682 UTC,,6400,AVERAGE,,,,1.0,2017-05-28 10:32:40 UTC,,,,,Salaries & Wages Expense,AVERAGE,F,,F,Yes,T,No,No,,,Salaries & Wages Expense,73416.9,,Expense,13.0
+91.0,2018-10-26 17:46:02.782 UTC,,6500,AVERAGE,,,,1.0,2017-05-28 10:32:13 UTC,,,,,Payroll Expenses,AVERAGE,F,,F,Yes,T,No,No,,,Payroll Expenses,8822.76,,Expense,13.0
+178.0,2018-10-26 17:45:58.188 UTC,,6600,AVERAGE,,,,1.0,2017-05-28 10:32:40 UTC,,,,,Manufacturing Expenses,AVERAGE,F,,F,Yes,T,No,No,,,Manufacturing Expenses,0.0,,Expense,13.0
+179.0,2018-10-26 17:45:59.485 UTC,,6610,AVERAGE,,,,1.0,2017-05-04 13:21:25 UTC,,,,,Manufacturing Expenses : Labor,AVERAGE,F,,F,Yes,T,No,No,,,Labor,-3519.17,178.0,Expense,13.0
+180.0,2018-10-26 17:46:02.782 UTC,,6620,AVERAGE,,,,1.0,2017-05-04 13:21:25 UTC,,,,,Manufacturing Expenses : Labor Burden,AVERAGE,F,,F,Yes,T,No,No,,,Labor Burden,-21181.5,178.0,Expense,13.0
+181.0,2018-10-26 17:46:04.609 UTC,,6630,AVERAGE,,,,1.0,2017-05-04 13:02:38 UTC,,,,,Manufacturing Expenses : Machine,AVERAGE,F,,F,Yes,T,No,No,,,Machine,-1131.0,178.0,Expense,13.0
+182.0,2018-10-26 17:46:01.682 UTC,,6640,AVERAGE,,,,1.0,2017-05-04 13:02:38 UTC,,,,,Manufacturing Expenses : Machine Burden,AVERAGE,F,,F,Yes,T,No,No,,,Machine Burden,-916.0,178.0,Expense,13.0
+103.0,2018-10-26 17:46:03.145 UTC,,8010,AVERAGE,,,,1.0,2017-06-06 22:22:07 UTC,,,,,Interest Income,AVERAGE,F,,F,Yes,F,No,No,,,Interest Income,-295.24,,Other Income,14.0
+104.0,2018-10-26 17:45:58.189 UTC,,8015,AVERAGE,,,,1.0,2017-05-28 10:32:44 UTC,,,,,Finance Charge Income,AVERAGE,F,,F,Yes,F,No,No,,,Finance Charge Income,0.0,,Other Income,14.0
+105.0,2018-10-26 17:46:04.609 UTC,,8020,AVERAGE,,,,1.0,2017-05-24 23:27:02 UTC,,,,,Dividend Income,AVERAGE,F,,F,Yes,F,No,No,,,Dividend Income,0.0,,Other Income,14.0
+106.0,2018-10-26 17:46:03.506 UTC,,8030,AVERAGE,,,,1.0,2017-05-03 18:23:37 UTC,,,,,Shipping Income,AVERAGE,F,,F,Yes,F,No,No,,,Shipping Income,-10717.3,,Other Income,14.0
+107.0,2018-10-26 17:46:00.215 UTC,,8040,AVERAGE,,,,1.0,2017-05-28 10:32:46 UTC,,,,,Gain (loss) on Sale of Assets,AVERAGE,F,,F,Yes,T,No,No,,,Gain (loss) on Sale of Assets,0.0,,Other Expense,15.0
+108.0,2018-10-26 17:46:00.953 UTC,,8050,AVERAGE,,,,1.0,2017-05-02 23:09:01 UTC,,,,,Sales Discounts,AVERAGE,F,,F,Yes,F,No,No,,,Sales Discounts,49590.61,,Other Income,14.0
+109.0,2018-10-26 17:46:04.609 UTC,,8060,AVERAGE,,,,1.0,2017-05-28 10:32:47 UTC,,,,,Purchase Discounts,AVERAGE,F,,F,Yes,F,No,No,,,Purchase Discounts,-1058.75,,Other Income,14.0
+110.0,2018-10-26 17:45:58.189 UTC,,8070,AVERAGE,,,,1.0,2017-05-28 10:32:48 UTC,,,,,Penalties,AVERAGE,F,,F,Yes,F,No,No,,,Penalties,0.0,,Other Income,14.0
+111.0,2018-10-26 17:46:03.867 UTC,,9000,AVERAGE,,,,1.0,2017-05-28 10:32:49 UTC,,,,,Provision for Taxes,AVERAGE,F,,F,Yes,F,No,No,,,Provision for Taxes,0.0,,Other Income,14.0
+112.0,2018-10-26 17:45:58.549 UTC,,9999,AVERAGE,,,,1.0,2017-05-28 10:32:49 UTC,,,,,Ask My Accountant,AVERAGE,F,,F,Yes,F,No,No,,,Ask My Accountant,0.0,,Other Income,14.0
