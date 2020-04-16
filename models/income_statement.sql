@@ -34,7 +34,7 @@ select
   accounts.type_name as account_type_name,
   accounts.account_id as account_id,
   accounts.accountnumber as account_number,
---   {{ dbt_utils.concat(['accounts.accountnumber','-', 'accounts.name']) }} as account_number_and_name,
+  {{ dbt_utils.concat(['accounts.accountnumber',"'-'", 'accounts.name']) }} as account_number_and_name,
   classes.full_name as class_full_name,
   locations.full_name as location_full_name,
   departments.full_name as department_full_name,
