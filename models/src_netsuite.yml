@@ -14,9 +14,11 @@ sources:
       - name: accounting_periods
         description: Table detailing all accounting periods, including monthly, quarterly and yearly
         freshness: null
-        # tests:
-        #   - unique:
-        #       column_name: {{ dbt_utils.concat('accounting_period_id') }}
+        tests:
+          - dbt_utils.unique_combination_of_columns:
+              combination_of_columns: 
+              - accounting_period_id
+              - fiscal_calendar_id
         columns:
         - name: accounting_period_id
           tests: 
@@ -157,9 +159,11 @@ sources:
       - name: transaction_lines
         description: A table detailing all transaction lines for all transactions
         loaded_at_field: _fivetran_synced
-        # tests:
-        #   - unique:
-        #       column_name: {{ dbt_utils.concat('transaction_line_id') }}
+        tests:
+          - dbt_utils.unique_combination_of_columns:
+              combination_of_columns: 
+              - transaction_id
+              - transaction_line_id
         columns:
         - name: transaction_id
           tests: 
