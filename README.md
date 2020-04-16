@@ -1,4 +1,4 @@
-### Fivetran's Net Suite Analytics
+### Fivetran's NetSuite Analytics
 This [dbt package](https://docs.getdbt.com/docs/package-management):
 * Recreates both the balance sheet and income statement
 * Using transaction lines as the base table, other data is joined to recreate commonly used data
@@ -16,7 +16,8 @@ This [dbt package](https://docs.getdbt.com/docs/package-management):
     - expense_accounts
     - income_accounts
     - items
-    - locations, partners
+    - locations
+    - partners
     - transaction_lines
     - transactions
     - subsidiaries
@@ -53,7 +54,7 @@ All contributions must be widely relevant to NetSuite customers and not contain 
 sources:
   vars:
     netsuite_database: raw
-    netsuite_schema: raw
+    netsuite_schema: netsuite_fivetran
 ```
 
 When this functionality is released, it will become easier to install and configure packages that include sources.
