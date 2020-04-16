@@ -1,5 +1,3 @@
-# $ dbt run --vars '{"netsuite_schema": "netsuite_fivetran"}'
-
 version: 2
 
 sources:
@@ -16,9 +14,9 @@ sources:
       - name: accounting_periods
         description: Table detailing all accounting periods, including monthly, quarterly and yearly
         freshness: null
-        tests:
-          - unique:
-              column_name: concat(accounting_period_id, '-', fiscal_calendar_id)
+        # tests:
+        #   - unique:
+        #       column_name: {{ dbt_utils.concat('accounting_period_id') }}
         columns:
         - name: accounting_period_id
           tests: 
@@ -159,9 +157,9 @@ sources:
       - name: transaction_lines
         description: A table detailing all transaction lines for all transactions
         loaded_at_field: _fivetran_synced
-        tests:
-          - unique:
-              column_name: concat(transaction_line_id, '-', transaction_id)
+        # tests:
+        #   - unique:
+        #       column_name: {{ dbt_utils.concat('transaction_line_id') }}
         columns:
         - name: transaction_id
           tests: 

@@ -5,11 +5,11 @@ This [dbt package](https://docs.getdbt.com/docs/package-management):
 
 ### Requirements
 * A Fivetran Netsuite SuiteAnalytics connector
-* To have synced the following Netsuite tables: To have synced at least the following tables: accounts, accounting_periods,accounting_books,consolidated_exchange_rates, currencies, customers, departments, expense_accounts, income_accounts, items, locations, partners, transaction_lines, transactions, subsidiaries, vendors
+* To have synced the following Netsuite tables: To have synced at least the following tables: accounts, accounting_periods,accounting_books,consolidated_exchange_rates, currencies, customers, classes, departments, expense_accounts, income_accounts, items, locations, partners, transaction_lines, transactions, subsidiaries, vendors
 
 
 ### Installation instructions
-1. Include this package in your `packages.yml` -- check [here](https://hub.getdbt.com/fishtown-analytics/netsuite/latest/)
+1. Include this package in your `packages.yml` -- check [here](https://hub.getdbt.com/fivetran/netsuite/latest/)
 for installation instructions.
 
 2. Add this to your `dbt_project.yml` and fill in for your company:
@@ -37,7 +37,7 @@ Are the freshness parameters acceptable?
 
 
 ### Database support
-These package can be used on Snowflake, and BigQuery.
+These package can be used on Snowflake, BigQuery and Redshift.
 
 
 ### Contributing ###
