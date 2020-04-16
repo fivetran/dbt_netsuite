@@ -2,7 +2,12 @@ version: 2
 
 sources:
   - name: netsuite
-    schema: netsuite # you will need to customize if your schema name is not netsuite
+    # If your data does not exist in the {{ target.database }}.netsuite schema
+    # copy this file into your own project, uncomment the next two lines, and
+    # update the values as required.
+
+    # schema: netsuite
+    # database: raw
     loader: fivetran
     loaded_at_field: _fivetran_synced
     freshness:
