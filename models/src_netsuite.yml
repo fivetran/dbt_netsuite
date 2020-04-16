@@ -2,8 +2,7 @@ version: 2
 
 sources:
   - name: netsuite
-    schema: "{{ var('netsuite_schema', 'netsuite') }}" # you will need to customize if your schema name is not netsuite
-    database: "{{ var('netsuite_database', target.database) }}"
+    schema: netsuite # you will need to customize if your schema name is not netsuite
     loader: fivetran
     loaded_at_field: _fivetran_synced
     freshness:
@@ -19,10 +18,10 @@ sources:
         #       column_name: {{ dbt_utils.concat('accounting_period_id') }}
         columns:
         - name: accounting_period_id
-          tests: 
+          tests:
             - not_null
         - name: fiscal_calendar_id
-          tests: 
+          tests:
             - not_null
 
       - name: accounts
@@ -33,7 +32,7 @@ sources:
           tests:
               - unique
               - not_null
-      
+
       - name: accounting_books
         description: Table detailing all accounting books set up in Netsuite
         freshness: null
@@ -81,7 +80,7 @@ sources:
           tests:
               - unique
               - not_null
-      
+
       - name: classes
         description: Table detailing all classes set up in Netsuite
         freshness: null
@@ -89,7 +88,7 @@ sources:
         - name: class_id
           tests:
               - unique
-              - not_null        
+              - not_null
 
       - name: departments
         description: Table detailing all departments set up in Netsuite
@@ -162,10 +161,10 @@ sources:
         #       column_name: {{ dbt_utils.concat('transaction_line_id') }}
         columns:
         - name: transaction_id
-          tests: 
+          tests:
             - not_null
         - name: transaction_line_id
-          tests: 
+          tests:
             - not_null
 
       - name: transactions
