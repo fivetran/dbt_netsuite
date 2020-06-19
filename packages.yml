@@ -1,3 +1,3 @@
 packages:
   - package: fishtown-analytics/dbt_utils
-    version: '>=0.1.20' # update this if we use "combination of columns", from a later version
+    version: 0.3.0
