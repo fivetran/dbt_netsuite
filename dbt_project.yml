@@ -3,4 +3,4 @@ version: '0.0.1'
 
 profile: 'default'
 
-require-dbt-version: [">=0.16.0", "<0.17.0"]
+require-dbt-version: '>=0.16.0'

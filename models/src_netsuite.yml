@@ -142,15 +142,6 @@ sources:
               - unique
               - not_null
 
-      - name: partners
-        description: Table detailing information about partners
-        freshness: null
-        columns:
-        - name: partner_id
-          tests:
-              - unique
-              - not_null
-
       - name: subsidiaries
         description: Table detailing all subsidiaries
         freshness: null
