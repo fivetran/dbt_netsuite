@@ -1,6 +1,6 @@
 # NetSuite Analytics
 
-This package models NetSuite data from [Fivetran's connector](https://fivetran.com/docs/applications/netsuite-suiteanalytics). It uses data in the format described by [this ERD](https://docs.google.com/presentation/d/1sgWiu5PMdFdBZgWtQ-aWqrym3dNcZvOtBNKT0q084pI/edit).
+This package models NetSuite SuiteAnalytics data from [Fivetran's connector](https://fivetran.com/docs/applications/netsuite-suiteanalytics). It uses data in the format described by [this ERD](https://docs.google.com/presentation/d/1sgWiu5PMdFdBZgWtQ-aWqrym3dNcZvOtBNKT0q084pI/edit).
 
 This [dbt package](https://docs.getdbt.com/docs/package-management):
 * Recreates both the balance sheet and income statement
