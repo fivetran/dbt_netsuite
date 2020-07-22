@@ -43,7 +43,7 @@ for installation instructions.
 These package can be used on Snowflake, BigQuery, and Redshift.
 
 
-### Contributions ####
+## Contributions
 Additional contributions to this package are very welcome! Please create issues
 or open PRs against `master`. Check out 
 [this post](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657) 
@@ -51,7 +51,7 @@ on the best workflow for contributing to a package.
 
 All contributions must be widely relevant to NetSuite customers and not contain logic specific to a given business.
 
-### Resources:
+## Resources:
 - Learn more about Fivetran [in the Fivetran docs](https://fivetran.com/docs)
 - Check out [Fivetran's blog](https://fivetran.com/blog)
 - Learn more about dbt [in the dbt docs](https://docs.getdbt.com/docs/introduction)
