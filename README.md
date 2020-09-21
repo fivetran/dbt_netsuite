@@ -52,6 +52,7 @@ on the best workflow for contributing to a package.
 All contributions must be widely relevant to NetSuite customers and not contain logic specific to a given business.
 
 ## Resources:
+- Find all of Fivetran's pre-built dbt packages in our [dbt hub](https://hub.getdbt.com/fivetran/)
 - Provide [feedback](https://www.surveymonkey.com/r/DQ7K7WW) on our existing dbt packages or what you'd like to see next
 - Learn more about Fivetran [in the Fivetran docs](https://fivetran.com/docs)
 - Check out [Fivetran's blog](https://fivetran.com/blog)
