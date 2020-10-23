@@ -1,0 +1,2267 @@
+2020-10-22 21:28:02.319029 (MainThread): Running with dbt=0.18.1
+2020-10-22 21:28:02.720639 (MainThread): running dbt with arguments Namespace(cls=<class 'dbt.task.run.RunTask'>, debug=False, defer=None, exclude=None, fail_fast=False, full_refresh=False, log_cache_events=False, log_format='default', models=None, partial_parse=None, profile=None, profiles_dir='/Users/kristin/.dbt', project_dir=None, record_timing_info=None, rpc_method='run', selector_name=None, single_threaded=False, state=None, strict=False, target='dev_bigquery_internal', test_new_parser=False, threads=None, use_cache=True, use_colors=None, vars='{}', version_check=True, warn_error=False, which='run', write_json=True)
+2020-10-22 21:28:02.721795 (MainThread): Tracking: tracking
+2020-10-22 21:28:02.736351 (MainThread): Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fcb9d6edcd0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fcb9e82c7f0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fcb9e82c7c0>]}
+2020-10-22 21:28:02.759447 (MainThread): Partial parsing not enabled
+2020-10-22 21:28:02.760654 (MainThread): Parsing macros/etc.sql
+2020-10-22 21:28:02.763551 (MainThread): Parsing macros/catalog.sql
+2020-10-22 21:28:02.769706 (MainThread): Parsing macros/adapters.sql
+2020-10-22 21:28:02.787621 (MainThread): Parsing macros/materializations/seed.sql
+2020-10-22 21:28:02.790597 (MainThread): Parsing macros/materializations/view.sql
+2020-10-22 21:28:02.793904 (MainThread): Parsing macros/materializations/table.sql
+2020-10-22 21:28:02.803101 (MainThread): Parsing macros/materializations/copy.sql
+2020-10-22 21:28:02.807264 (MainThread): Parsing macros/materializations/incremental.sql
+2020-10-22 21:28:02.818628 (MainThread): Parsing macros/materializations/snapshot.sql
+2020-10-22 21:28:02.822627 (MainThread): Parsing macros/core.sql
+2020-10-22 21:28:02.826844 (MainThread): Parsing macros/materializations/helpers.sql
+2020-10-22 21:28:02.835360 (MainThread): Parsing macros/materializations/snapshot/snapshot_merge.sql
+2020-10-22 21:28:02.837905 (MainThread): Parsing macros/materializations/snapshot/strategies.sql
+2020-10-22 21:28:02.855269 (MainThread): Parsing macros/materializations/snapshot/snapshot.sql
+2020-10-22 21:28:02.881855 (MainThread): Parsing macros/materializations/seed/seed.sql
+2020-10-22 21:28:02.901534 (MainThread): Parsing macros/materializations/incremental/helpers.sql
+2020-10-22 21:28:02.903937 (MainThread): Parsing macros/materializations/incremental/incremental.sql
+2020-10-22 21:28:02.909808 (MainThread): Parsing macros/materializations/common/merge.sql
+2020-10-22 21:28:02.922829 (MainThread): Parsing macros/materializations/table/table.sql
+2020-10-22 21:28:02.929449 (MainThread): Parsing macros/materializations/view/view.sql
+2020-10-22 21:28:02.936285 (MainThread): Parsing macros/materializations/view/create_or_replace_view.sql
+2020-10-22 21:28:02.941305 (MainThread): Parsing macros/etc/get_custom_alias.sql
+2020-10-22 21:28:02.942390 (MainThread): Parsing macros/etc/query.sql
+2020-10-22 21:28:02.943543 (MainThread): Parsing macros/etc/is_incremental.sql
+2020-10-22 21:28:02.945173 (MainThread): Parsing macros/etc/datetime.sql
+2020-10-22 21:28:02.953526 (MainThread): Parsing macros/etc/get_custom_schema.sql
+2020-10-22 21:28:02.956367 (MainThread): Parsing macros/etc/get_custom_database.sql
+2020-10-22 21:28:02.958654 (MainThread): Parsing macros/adapters/common.sql
+2020-10-22 21:28:02.998234 (MainThread): Parsing macros/schema_tests/relationships.sql
+2020-10-22 21:28:03.002313 (MainThread): Parsing macros/schema_tests/not_null.sql
+2020-10-22 21:28:03.004528 (MainThread): Parsing macros/schema_tests/unique.sql
+2020-10-22 21:28:03.007742 (MainThread): Parsing macros/schema_tests/accepted_values.sql
+2020-10-22 21:28:03.017001 (MainThread): Partial parsing not enabled
+2020-10-22 21:28:03.087944 (MainThread): Acquiring new bigquery connection "model.netsuite.income_statement".
+2020-10-22 21:28:03.115497 (MainThread): Acquiring new bigquery connection "model.netsuite.transaction_lines_w_accounting_period".
+2020-10-22 21:28:03.125968 (MainThread): Acquiring new bigquery connection "model.netsuite.balance_sheet".
+2020-10-22 21:28:03.137394 (MainThread): Acquiring new bigquery connection "model.netsuite.transaction_and_reporting_periods".
+2020-10-22 21:28:03.148346 (MainThread): Acquiring new bigquery connection "model.netsuite.transactions_with_converted_amounts".
+2020-10-22 21:28:03.160588 (MainThread): Acquiring new bigquery connection "model.netsuite.transaction_details".
+2020-10-22 21:28:03.181381 (MainThread): Acquiring new bigquery connection "model.netsuite.accountxperiod_exchange_rate_map".
+2020-10-22 21:28:03.945985 (MainThread): Found 7 models, 36 tests, 0 snapshots, 0 analyses, 155 macros, 0 operations, 0 seed files, 17 sources
+2020-10-22 21:28:03.947956 (MainThread): 
+2020-10-22 21:28:03.948200 (MainThread): Acquiring new bigquery connection "master".
+2020-10-22 21:28:03.955311 (ThreadPoolExecutor-0_0): Acquiring new bigquery connection "list_private-internal".
+2020-10-22 21:28:03.955452 (ThreadPoolExecutor-0_0): Opening a new connection, currently in state init
+2020-10-22 21:28:04.411842 (ThreadPoolExecutor-0_0): Acquiring new bigquery connection "create_private-internal_dbt_kristin".
+2020-10-22 21:28:04.412140 (ThreadPoolExecutor-0_0): Acquiring new bigquery connection "create_private-internal_dbt_kristin".
+2020-10-22 21:28:04.412243 (ThreadPoolExecutor-0_0): Creating schema "private-internal.dbt_kristin".
+2020-10-22 21:28:04.412347 (ThreadPoolExecutor-0_0): Opening a new connection, currently in state closed
+2020-10-22 21:28:04.412809 (ThreadPoolExecutor-0_0): Client.dataset is deprecated and will be removed in a future version. Use a string like 'my_project.my_dataset' or a cloud.google.bigquery.DatasetReference object, instead.
+2020-10-22 21:28:05.158833 (MainThread): unclosed <socket.socket fd=19, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('192.168.4.24', 64440), raddr=('172.217.14.234', 443)>
+2020-10-22 21:28:05.159072 (MainThread): unclosed <socket.socket fd=20, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('192.168.4.24', 64441), raddr=('172.217.14.234', 443)>
+2020-10-22 21:28:05.228918 (ThreadPoolExecutor-1_0): Acquiring new bigquery connection "list_private-internal_dbt_kristin".
+2020-10-22 21:28:05.229155 (ThreadPoolExecutor-1_0): Opening a new connection, currently in state closed
+2020-10-22 21:28:05.229617 (ThreadPoolExecutor-1_0): Client.dataset is deprecated and will be removed in a future version. Use a string like 'my_project.my_dataset' or a cloud.google.bigquery.DatasetReference object, instead.
+2020-10-22 21:28:05.624816 (MainThread): 14:28:05 | Concurrency: 4 threads (target='dev_bigquery_internal')
+2020-10-22 21:28:05.625043 (MainThread): 14:28:05 | 
+2020-10-22 21:28:05.629477 (Thread-1): Began running node model.netsuite.accountxperiod_exchange_rate_map
+2020-10-22 21:28:05.629660 (Thread-2): Began running node model.netsuite.transaction_and_reporting_periods
+2020-10-22 21:28:05.630762 (Thread-1): 14:28:05 | 1 of 7 START view model dbt_kristin.accountxperiod_exchange_rate_map. [RUN]
+2020-10-22 21:28:05.630870 (Thread-3): Began running node model.netsuite.transaction_lines_w_accounting_period
+2020-10-22 21:28:05.632001 (Thread-2): 14:28:05 | 2 of 7 START view model dbt_kristin.transaction_and_reporting_periods [RUN]
+2020-10-22 21:28:05.632367 (Thread-1): Acquiring new bigquery connection "model.netsuite.accountxperiod_exchange_rate_map".
+2020-10-22 21:28:05.633345 (Thread-3): 14:28:05 | 3 of 7 START view model dbt_kristin.transaction_lines_w_accounting_period [RUN]
+2020-10-22 21:28:05.633658 (Thread-2): Acquiring new bigquery connection "model.netsuite.transaction_and_reporting_periods".
+2020-10-22 21:28:05.633800 (Thread-1): Compiling model.netsuite.accountxperiod_exchange_rate_map
+2020-10-22 21:28:05.634065 (Thread-3): Acquiring new bigquery connection "model.netsuite.transaction_lines_w_accounting_period".
+2020-10-22 21:28:05.634221 (Thread-2): Compiling model.netsuite.transaction_and_reporting_periods
+2020-10-22 21:28:05.640521 (Thread-3): Compiling model.netsuite.transaction_lines_w_accounting_period
+2020-10-22 21:28:05.657718 (Thread-1): Writing injected SQL for node "model.netsuite.accountxperiod_exchange_rate_map"
+2020-10-22 21:28:05.666980 (Thread-2): Writing injected SQL for node "model.netsuite.transaction_and_reporting_periods"
+2020-10-22 21:28:05.675685 (Thread-3): Writing injected SQL for node "model.netsuite.transaction_lines_w_accounting_period"
+2020-10-22 21:28:05.676623 (Thread-2): finished collecting timing info
+2020-10-22 21:28:05.677654 (Thread-2): unclosed <socket.socket fd=19, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('192.168.4.24', 64446), raddr=('172.217.14.234', 443)>
+2020-10-22 21:28:05.677818 (Thread-1): finished collecting timing info
+2020-10-22 21:28:05.684291 (Thread-3): finished collecting timing info
+2020-10-22 21:28:05.697812 (Thread-2): unclosed <socket.socket fd=8, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('192.168.4.24', 64445), raddr=('172.217.14.234', 443)>
+2020-10-22 21:28:05.720594 (Thread-3): Writing runtime SQL for node "model.netsuite.transaction_lines_w_accounting_period"
+2020-10-22 21:28:05.722551 (Thread-2): Writing runtime SQL for node "model.netsuite.transaction_and_reporting_periods"
+2020-10-22 21:28:05.723453 (Thread-1): Writing runtime SQL for node "model.netsuite.accountxperiod_exchange_rate_map"
+2020-10-22 21:28:05.723907 (Thread-2): Opening a new connection, currently in state init
+2020-10-22 21:28:05.724012 (Thread-3): Opening a new connection, currently in state init
+2020-10-22 21:28:05.724475 (Thread-1): Opening a new connection, currently in state closed
+2020-10-22 21:28:05.724667 (Thread-2): On model.netsuite.transaction_and_reporting_periods: /* {"app": "dbt", "dbt_version": "0.18.1", "profile_name": "integration_test", "target_name": "dev_bigquery_internal", "node_id": "model.netsuite.transaction_and_reporting_periods"} */
+
+
+  create or replace view `private-internal`.`dbt_kristin`.`transaction_and_reporting_periods`
+  OPTIONS()
+  as with accounting_periods as (
+    select * from `private-internal`.`netsuite`.`accounting_periods`
+),
+subsidiaries as (
+    select * from `private-internal`.`netsuite`.`subsidiaries`
+),
+transaction_and_reporting_periods as ( 
+
+  select
+    base.accounting_period_id as accounting_period_id,
+    multiplier.accounting_period_id as reporting_accounting_period_id
+  from accounting_periods as base
+  join accounting_periods as multiplier
+    on multiplier.starting >= base.starting
+    and multiplier.quarter = base.quarter
+    and multiplier.year_0 = base.year_0
+    and multiplier.fiscal_calendar_id = base.fiscal_calendar_id
+    and multiplier.starting <= CURRENT_TIMESTAMP()
+  where lower(base.quarter) = 'no'
+    and lower(base.year_0) = 'no'
+    and base.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null) -- fiscal calendar will align with parent subsidiary's default calendar
+)
+select * from transaction_and_reporting_periods;
+
+
+2020-10-22 21:28:05.725279 (Thread-3): On model.netsuite.transaction_lines_w_accounting_period: /* {"app": "dbt", "dbt_version": "0.18.1", "profile_name": "integration_test", "target_name": "dev_bigquery_internal", "node_id": "model.netsuite.transaction_lines_w_accounting_period"} */
+
+
+  create or replace view `private-internal`.`dbt_kristin`.`transaction_lines_w_accounting_period`
+  OPTIONS()
+  as with transactions as (
+    select * from `private-internal`.`netsuite`.`transactions`
+), 
+transaction_lines as (
+    select * from `private-internal`.`netsuite`.`transaction_lines`
+),
+
+transaction_lines_w_accounting_period as ( -- transaction line totals, by accounts, accounting period and subsidiary
+  select
+    transaction_lines.transaction_id,
+    transaction_lines.transaction_line_id,
+    transaction_lines.subsidiary_id,
+    transaction_lines.account_id,
+    transactions.accounting_period_id as transaction_accounting_period_id,
+    coalesce(transaction_lines.amount, 0) as unconverted_amount
+  from transaction_lines
+  join transactions on transactions.transaction_id = transaction_lines.transaction_id
+  where not transactions._fivetran_deleted
+    and lower(transactions.transaction_type) != 'revenue arrangement'
+    and lower(non_posting_line) != 'yes'
+)
+
+select * from transaction_lines_w_accounting_period;
+
+
+2020-10-22 21:28:05.725805 (Thread-1): On model.netsuite.accountxperiod_exchange_rate_map: /* {"app": "dbt", "dbt_version": "0.18.1", "profile_name": "integration_test", "target_name": "dev_bigquery_internal", "node_id": "model.netsuite.accountxperiod_exchange_rate_map"} */
+
+
+  create or replace view `private-internal`.`dbt_kristin`.`accountxperiod_exchange_rate_map`
+  OPTIONS()
+  as with accounts as (
+    select * from `private-internal`.`netsuite`.`accounts`
+), 
+accounting_books as (
+    select * from `private-internal`.`netsuite`.`accounting_books`
+), 
+subsidiaries as (
+    select * from `private-internal`.`netsuite`.`subsidiaries`
+),
+consolidated_exchange_rates as (
+    select * from `private-internal`.`netsuite`.`consolidated_exchange_rates`
+),
+
+period_exchange_rate_map as ( -- exchange rates used, by accounting period, to convert to parent subsidiary
+  select
+    consolidated_exchange_rates.accounting_period_id,
+    consolidated_exchange_rates.average_rate,
+    consolidated_exchange_rates.current_rate,
+    consolidated_exchange_rates.historical_rate,
+    consolidated_exchange_rates.from_subsidiary_id,
+    consolidated_exchange_rates.to_subsidiary_id
+  from consolidated_exchange_rates
+  where consolidated_exchange_rates.to_subsidiary_id in (select subsidiary_id from subsidiaries where parent_id is null)  -- constrait - only the primary subsidiary has no parent
+    and consolidated_exchange_rates.accounting_book_id in (select accounting_book_id from accounting_books where lower(is_primary) = 'yes')
+    and not consolidated_exchange_rates._fivetran_deleted
+), accountxperiod_exchange_rate_map as ( -- account table with exchange rate details by accounting period
+  select
+    period_exchange_rate_map.accounting_period_id,
+    period_exchange_rate_map.from_subsidiary_id,
+    period_exchange_rate_map.to_subsidiary_id,
+    accounts.account_id,
+    case 
+      when lower(accounts.general_rate_type) = 'historical' then period_exchange_rate_map.historical_rate
+      when lower(accounts.general_rate_type) = 'current' then period_exchange_rate_map.current_rate
+      when lower(accounts.general_rate_type) = 'average' then period_exchange_rate_map.average_rate
+      else null
+      end as exchange_rate
+  from accounts
+  cross join period_exchange_rate_map
+)
+select * from accountxperiod_exchange_rate_map;
+
+
+2020-10-22 21:28:06.645582 (Thread-2): finished collecting timing info
+2020-10-22 21:28:06.646309 (Thread-2): Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '15a7c66f-3dcb-4fcb-ab2d-52deb1817a67', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fcb9e853b50>]}
+2020-10-22 21:28:06.647461 (Thread-2): 14:28:06 | 2 of 7 OK created view model dbt_kristin.transaction_and_reporting_periods [CREATE VIEW in 1.01s]
+2020-10-22 21:28:06.647617 (Thread-2): Finished running node model.netsuite.transaction_and_reporting_periods
+2020-10-22 21:28:06.669858 (Thread-1): finished collecting timing info
+2020-10-22 21:28:06.670566 (Thread-1): Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '15a7c66f-3dcb-4fcb-ab2d-52deb1817a67', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fcb9e9871c0>]}
+2020-10-22 21:28:06.671666 (Thread-1): 14:28:06 | 1 of 7 OK created view model dbt_kristin.accountxperiod_exchange_rate_map [CREATE VIEW in 1.04s]
+2020-10-22 21:28:06.671809 (Thread-1): Finished running node model.netsuite.accountxperiod_exchange_rate_map
+2020-10-22 21:28:07.738037 (Thread-3): finished collecting timing info
+2020-10-22 21:28:07.738916 (Thread-3): Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '15a7c66f-3dcb-4fcb-ab2d-52deb1817a67', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fcb9ed20310>]}
+2020-10-22 21:28:07.740099 (Thread-3): 14:28:07 | 3 of 7 OK created view model dbt_kristin.transaction_lines_w_accounting_period [CREATE VIEW in 2.10s]
+2020-10-22 21:28:07.740248 (Thread-3): Finished running node model.netsuite.transaction_lines_w_accounting_period
+2020-10-22 21:28:07.740737 (Thread-4): Began running node model.netsuite.transactions_with_converted_amounts
+2020-10-22 21:28:07.741873 (Thread-4): 14:28:07 | 4 of 7 START view model dbt_kristin.transactions_with_converted_amounts [RUN]
+2020-10-22 21:28:07.742177 (Thread-4): Acquiring new bigquery connection "model.netsuite.transactions_with_converted_amounts".
+2020-10-22 21:28:07.742294 (Thread-4): Compiling model.netsuite.transactions_with_converted_amounts
+2020-10-22 21:28:07.754986 (Thread-4): Writing injected SQL for node "model.netsuite.transactions_with_converted_amounts"
+2020-10-22 21:28:07.755472 (Thread-4): finished collecting timing info
+2020-10-22 21:28:07.760439 (Thread-4): Writing runtime SQL for node "model.netsuite.transactions_with_converted_amounts"
+2020-10-22 21:28:07.760934 (Thread-4): Opening a new connection, currently in state init
+2020-10-22 21:28:07.761354 (Thread-4): On model.netsuite.transactions_with_converted_amounts: /* {"app": "dbt", "dbt_version": "0.18.1", "profile_name": "integration_test", "target_name": "dev_bigquery_internal", "node_id": "model.netsuite.transactions_with_converted_amounts"} */
+
+
+  create or replace view `private-internal`.`dbt_kristin`.`transactions_with_converted_amounts`
+  OPTIONS()
+  as with transaction_lines_w_accounting_period as (
+    select * from `private-internal`.`dbt_kristin`.`transaction_lines_w_accounting_period`
+), 
+accountxperiod_exchange_rate_map as (
+    select * from `private-internal`.`dbt_kristin`.`accountxperiod_exchange_rate_map`
+), 
+transaction_and_reporting_periods as (
+    select * from `private-internal`.`dbt_kristin`.`transaction_and_reporting_periods`
+), 
+accounts as (
+    select * from `private-internal`.`netsuite`.`accounts`
+),
+
+transactions_in_every_calculation_period_w_exchange_rates as (
+  select
+    transaction_lines_w_accounting_period.*,
+    reporting_accounting_period_id,
+    exchange_reporting_period.exchange_rate as exchange_rate_reporting_period,
+    exchange_transaction_period.exchange_rate as exchange_rate_transaction_period
+  from transaction_lines_w_accounting_period
+  join transaction_and_reporting_periods on transaction_and_reporting_periods.accounting_period_id = transaction_lines_w_accounting_period.transaction_accounting_period_id 
+  join accountxperiod_exchange_rate_map as exchange_reporting_period
+    on exchange_reporting_period.accounting_period_id = transaction_and_reporting_periods.reporting_accounting_period_id
+    and exchange_reporting_period.account_id = transaction_lines_w_accounting_period.account_id
+    and exchange_reporting_period.from_subsidiary_id = transaction_lines_w_accounting_period.subsidiary_id
+  join accountxperiod_exchange_rate_map as exchange_transaction_period
+    on exchange_transaction_period.accounting_period_id = transaction_and_reporting_periods.accounting_period_id
+    and exchange_transaction_period.account_id = transaction_lines_w_accounting_period.account_id
+    and exchange_transaction_period.from_subsidiary_id = transaction_lines_w_accounting_period.subsidiary_id
+), transactions_with_converted_amounts as (
+  select
+    transactions_in_every_calculation_period_w_exchange_rates.*,
+    unconverted_amount * exchange_rate_transaction_period as converted_amount_using_transaction_accounting_period,
+    unconverted_amount * exchange_rate_reporting_period as converted_amount_using_reporting_month,
+    case
+      when lower(accounts.type_name) in ('income','other income','expense','other expense','other income','cost of goods sold') then true
+      else false 
+      end as is_income_statement,
+    case
+      when lower(accounts.type_name) in ('accounts receivable', 'bank', 'deferred expense', 'fixed asset', 'other asset', 'other current asset', 'unbilled receivable') then 'Asset'
+      when lower(accounts.type_name) in ('cost of goods sold', 'expense', 'other expense') then 'Expense'
+      when lower(accounts.type_name) in ('income', 'other income') then 'Income'
+      when lower(accounts.type_name) in ('accounts payable', 'credit card', 'deferred revenue', 'long term liability', 'other current liability') then 'Liability'
+      when lower(accounts.type_name) in ('equity', 'retained earnings', 'net income') then 'Equity'
+      else null 
+      end as account_category
+  from transactions_in_every_calculation_period_w_exchange_rates
+  join accounts on accounts.account_id = transactions_in_every_calculation_period_w_exchange_rates.account_id 
+)
+
+select * from transactions_with_converted_amounts;
+
+
+2020-10-22 21:28:10.070478 (Thread-4): finished collecting timing info
+2020-10-22 21:28:10.071221 (Thread-4): Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '15a7c66f-3dcb-4fcb-ab2d-52deb1817a67', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fcb9ed20f40>]}
+2020-10-22 21:28:10.072391 (Thread-4): 14:28:10 | 4 of 7 OK created view model dbt_kristin.transactions_with_converted_amounts [CREATE VIEW in 2.33s]
+2020-10-22 21:28:10.072545 (Thread-4): Finished running node model.netsuite.transactions_with_converted_amounts
+2020-10-22 21:28:10.073054 (Thread-1): Began running node model.netsuite.balance_sheet
+2020-10-22 21:28:10.074102 (Thread-1): 14:28:10 | 5 of 7 START view model dbt_kristin.balance_sheet.................... [RUN]
+2020-10-22 21:28:10.074319 (Thread-3): Began running node model.netsuite.income_statement
+2020-10-22 21:28:10.074626 (Thread-1): Acquiring new bigquery connection "model.netsuite.balance_sheet".
+2020-10-22 21:28:10.075660 (Thread-3): 14:28:10 | 6 of 7 START view model dbt_kristin.income_statement................. [RUN]
+2020-10-22 21:28:10.075763 (Thread-2): Began running node model.netsuite.transaction_details
+2020-10-22 21:28:10.075909 (Thread-1): Compiling model.netsuite.balance_sheet
+2020-10-22 21:28:10.076985 (Thread-2): 14:28:10 | 7 of 7 START view model dbt_kristin.transaction_details.............. [RUN]
+2020-10-22 21:28:10.077230 (Thread-3): Acquiring new bigquery connection "model.netsuite.income_statement".
+2020-10-22 21:28:10.093957 (Thread-2): Acquiring new bigquery connection "model.netsuite.transaction_details".
+2020-10-22 21:28:10.097581 (Thread-1): Writing injected SQL for node "model.netsuite.balance_sheet"
+2020-10-22 21:28:10.097808 (Thread-3): Compiling model.netsuite.income_statement
+2020-10-22 21:28:10.097957 (Thread-2): Compiling model.netsuite.transaction_details
+2020-10-22 21:28:10.120541 (Thread-2): unclosed <socket.socket fd=8, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('192.168.4.24', 64447), raddr=('172.217.14.234', 443)>
+2020-10-22 21:28:10.120866 (Thread-2): unclosed <socket.socket fd=19, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('192.168.4.24', 64448), raddr=('172.217.14.234', 443)>
+2020-10-22 21:28:10.125415 (Thread-1): finished collecting timing info
+2020-10-22 21:28:10.130802 (Thread-1): Writing runtime SQL for node "model.netsuite.balance_sheet"
+2020-10-22 21:28:10.131065 (Thread-2): unclosed <socket.socket fd=28, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('192.168.4.24', 64449), raddr=('172.217.14.234', 443)>
+2020-10-22 21:28:10.131545 (Thread-2): unclosed <socket.socket fd=31, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('192.168.4.24', 64450), raddr=('172.217.14.234', 443)>
+2020-10-22 21:28:10.131721 (Thread-1): Opening a new connection, currently in state closed
+2020-10-22 21:28:10.132008 (Thread-2): unclosed <socket.socket fd=30, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('192.168.4.24', 64452), raddr=('172.217.14.234', 443)>
+2020-10-22 21:28:10.132248 (Thread-2): unclosed <socket.socket fd=29, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('192.168.4.24', 64451), raddr=('172.217.14.234', 443)>
+2020-10-22 21:28:10.153748 (Thread-3): finished collecting timing info
+2020-10-22 21:28:10.164635 (Thread-2): Writing injected SQL for node "model.netsuite.transaction_details"
+2020-10-22 21:28:10.165021 (Thread-1): On model.netsuite.balance_sheet: /* {"app": "dbt", "dbt_version": "0.18.1", "profile_name": "integration_test", "target_name": "dev_bigquery_internal", "node_id": "model.netsuite.balance_sheet"} */
+
+
+  create or replace view `private-internal`.`dbt_kristin`.`balance_sheet`
+  OPTIONS()
+  as with transactions_with_converted_amounts as (
+    select * from `private-internal`.`dbt_kristin`.`transactions_with_converted_amounts`
+), 
+accounts as (
+    select * from `private-internal`.`netsuite`.`accounts`
+), 
+accounting_periods as (
+    select * from `private-internal`.`netsuite`.`accounting_periods`
+), 
+subsidiaries as (
+    select * from `private-internal`.`netsuite`.`subsidiaries`
+)
+
+select
+  reporting_accounting_periods.accounting_period_id as accounting_period_id,
+  reporting_accounting_periods.ending as accounting_period_ending,
+  reporting_accounting_periods.full_name as accounting_period_full_name,
+  reporting_accounting_periods.name as accounting_period_name,
+  lower(reporting_accounting_periods.is_adjustment) = 'yes' as is_accounting_period_adjustment,
+  lower(reporting_accounting_periods.closed) = 'yes' as is_accounting_period_closed,
+  transactions_with_converted_amounts.account_category as account_category,
+  case
+    when (lower(accounts.is_balancesheet) = 'f' and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 'Net Income'
+    when lower(accounts.is_balancesheet) = 'f' then 'Retained Earnings'
+    else accounts.name
+    end as account_name,
+  case
+    when (lower(accounts.is_balancesheet) = 'f' and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 'Net Income'
+    when lower(accounts.is_balancesheet) = 'f' then 'Retained Earnings'
+    else accounts.type_name
+    end as account_type_name,
+  case
+    when lower(accounts.is_balancesheet) = 'f' then null
+    else accounts.account_id
+    end as account_id,
+  case
+    when lower(accounts.is_balancesheet) = 'f' then null
+    else accounts.accountnumber
+    end as account_number,
+  case
+    when lower(accounts.is_balancesheet) = 'f' or lower(transactions_with_converted_amounts.account_category) = 'equity' then -converted_amount_using_transaction_accounting_period
+    when lower(accounts.is_leftside) = 'f' then -converted_amount_using_reporting_month
+    when lower(accounts.is_leftside) = 't' then converted_amount_using_reporting_month
+    else 0
+    end as converted_amount,
+  case
+    when lower(accounts.type_name) = 'bank' then 1
+    when lower(accounts.type_name) = 'accounts receivable' then 2
+    when lower(accounts.type_name) = 'unbilled receivable' then 3
+    when lower(accounts.type_name) = 'other current asset' then 4
+    when lower(accounts.type_name) = 'fixed asset' then 5
+    when lower(accounts.type_name) = 'other asset' then 6
+    when lower(accounts.type_name) = 'deferred expense' then 7
+    when lower(accounts.type_name) = 'accounts payable' then 8
+    when lower(accounts.type_name) = 'credit card' then 9
+    when lower(accounts.type_name) = 'other current liability' then 10
+    when lower(accounts.type_name) = 'long term liability' then 11
+    when lower(accounts.type_name) = 'deferred revenue' then 12
+    when lower(accounts.type_name) = 'equity' then 13
+    when (lower(accounts.is_balancesheet) = 'f' and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 15
+    when lower(accounts.is_balancesheet) = 'f' then 14
+    else null
+    end as balance_sheet_sort_helper
+from transactions_with_converted_amounts
+join accounts on accounts.account_id = transactions_with_converted_amounts.account_id
+join accounting_periods as reporting_accounting_periods on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+join accounting_periods as transaction_accounting_periods on transaction_accounting_periods.accounting_period_id = transactions_with_converted_amounts.transaction_accounting_period_id
+where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
+  and transaction_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
+  and (lower(accounts.is_balancesheet) = 't'
+    or transactions_with_converted_amounts.is_income_statement)
+
+union all
+
+select
+  reporting_accounting_periods.accounting_period_id as accounting_period_id,
+  reporting_accounting_periods.ending as accounting_period_ending,
+  reporting_accounting_periods.full_name as accounting_period_full_name,
+  reporting_accounting_periods.name as accounting_period_name,
+  lower(reporting_accounting_periods.is_adjustment) = 'yes' as is_accounting_period_adjustment,
+  lower(reporting_accounting_periods.closed) = 'yes' as is_accounting_period_closed,
+  'Equity' as account_category,
+  'Cumulative Translation Adjustment' as account_name,
+  'Cumulative Translation Adjustment' as account_type_name,
+  null as account_id,
+  null as account_number,
+  case
+    when lower(account_category) = 'equity' or is_income_statement then converted_amount_using_transaction_accounting_period
+    else converted_amount_using_reporting_month
+    end as converted_amount,
+  16 as balance_sheet_sort_helper
+from transactions_with_converted_amounts
+join accounts on accounts.account_id = transactions_with_converted_amounts.account_id
+join accounting_periods as reporting_accounting_periods on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
+  and (lower(accounts.is_balancesheet) = 't'
+    or transactions_with_converted_amounts.is_income_statement);
+
+
+2020-10-22 21:28:10.165932 (Thread-2): finished collecting timing info
+2020-10-22 21:28:10.170894 (Thread-2): Writing runtime SQL for node "model.netsuite.transaction_details"
+2020-10-22 21:28:10.172031 (Thread-2): Opening a new connection, currently in state closed
+2020-10-22 21:28:10.173025 (Thread-2): On model.netsuite.transaction_details: /* {"app": "dbt", "dbt_version": "0.18.1", "profile_name": "integration_test", "target_name": "dev_bigquery_internal", "node_id": "model.netsuite.transaction_details"} */
+
+
+  create or replace view `private-internal`.`dbt_kristin`.`transaction_details`
+  OPTIONS()
+  as with transactions_with_converted_amounts as (
+    select * from `private-internal`.`dbt_kristin`.`transactions_with_converted_amounts`
+),
+accounts as (
+    select * from `private-internal`.`netsuite`.`accounts`
+),
+accounting_periods as (
+    select * from `private-internal`.`netsuite`.`accounting_periods`
+),
+subsidiaries as (
+    select * from `private-internal`.`netsuite`.`subsidiaries`
+),
+transaction_lines as (
+    select * from `private-internal`.`netsuite`.`transaction_lines`
+),
+transactions as (
+    select * from `private-internal`.`netsuite`.`transactions`
+),
+income_accounts as (
+    select * from `private-internal`.`netsuite`.`income_accounts`
+),
+expense_accounts as (
+    select * from `private-internal`.`netsuite`.`expense_accounts`
+),
+customers as (
+    select * from `private-internal`.`netsuite`.`customers`
+),
+items as (
+    select * from `private-internal`.`netsuite`.`items`
+),
+locations as (
+    select * from `private-internal`.`netsuite`.`locations`
+),
+vendors as (
+    select * from `private-internal`.`netsuite`.`vendors`
+),
+vendor_types as (
+    select * from `private-internal`.`netsuite`.`vendor_types`
+),
+departments as (
+    select * from `private-internal`.`netsuite`.`departments`
+),
+currencies as (
+    select * from `private-internal`.`netsuite`.`currencies`
+)
+
+select
+  transaction_lines.transaction_line_id,
+  transaction_lines.memo as transaction_memo,
+  lower(transaction_lines.non_posting_line) = 'yes' as is_transaction_non_posting,
+  transactions.transaction_id,
+  transactions.status as transaction_status,
+  transactions.trandate as transaction_date,
+  transactions.due_date as transaction_due_date,
+  transactions.transaction_type as transaction_type,
+  (lower(transactions.is_advanced_intercompany) = 'yes' or lower(transactions.is_intercompany) = 'yes') as is_transaction_intercompany,
+  accounting_periods.ending as accounting_period_ending,
+  accounting_periods.full_name as accounting_period_full_name,
+  accounting_periods.name as accounting_period_name,
+  lower(accounting_periods.is_adjustment) = 'yes' as is_accounting_period_adjustment,
+  lower(accounting_periods.closed) = 'yes' as is_accounting_period_closed,
+  accounts.name as account_name,
+  accounts.type_name as account_type_name,
+  accounts.account_id as account_id,
+  accounts.accountnumber as account_number,
+  lower(accounts.is_leftside) = 't' as is_account_leftside,
+  lower(accounts.type_name) like 'accounts payable%' as is_accounts_payable,
+  lower(accounts.type_name) like 'accounts receivable%' as is_accounts_receivable,
+  lower(accounts.name) like '%intercompany%' as is_account_intercompany,
+  coalesce(parent_account.name, accounts.name) as parent_account_name,
+  income_accounts.income_account_id is not null as is_income_account,
+  expense_accounts.expense_account_id is not null as is_expense_account,
+  customers.companyname as customer_company_name,
+  customers.city as customer_city,
+  customers.state as customer_state,
+  customers.zipcode as customer_zipcode,
+  customers.country as customer_country,
+  customers.date_first_order as customer_date_first_order,
+  items.name as item_name,
+  items.type_name as item_type_name,
+  items.salesdescription as item_sales_description,
+  locations.name as location_name,
+  locations.city as location_city,
+  locations.country as location_country,
+  vendor_types.name as vendor_type_name,
+  vendors.companyname as vendor_name,
+  vendors.create_date as vendor_create_date,
+  currencies.name as currency_name,
+  currencies.symbol as currency_symbol,
+  departments.name as department_name,
+  subsidiaries.name as subsidiary_name,
+  case
+    when lower(accounts.type_name) = 'income' or lower(accounts.type_name) = 'other income' then -converted_amount_using_transaction_accounting_period
+    else converted_amount_using_transaction_accounting_period
+    end as converted_amount,
+  case
+    when lower(accounts.type_name) = 'income' or lower(accounts.type_name) = 'other income' then -transaction_lines.amount
+    else transaction_lines.amount
+    end as transaction_amount
+from transaction_lines
+join transactions on transactions.transaction_id = transaction_lines.transaction_id
+  and not transactions._fivetran_deleted
+left join transactions_with_converted_amounts as transactions_with_converted_amounts
+  on transactions_with_converted_amounts.transaction_line_id = transaction_lines.transaction_line_id
+  and transactions_with_converted_amounts.transaction_id = transaction_lines.transaction_id
+  and transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+left join accounts on accounts.account_id = transaction_lines.account_id
+left join accounts as parent_account on parent_account.account_id = accounts.parent_id
+left join accounting_periods on accounting_periods.accounting_period_id = transactions.accounting_period_id
+left join income_accounts on income_accounts.income_account_id = accounts.account_id
+left join expense_accounts on expense_accounts.expense_account_id = accounts.account_id
+left join customers on customers.customer_id = transaction_lines.company_id
+  and not customers._fivetran_deleted
+left join items on items.item_id = transaction_lines.item_id
+  and not items._fivetran_deleted
+left join locations on locations.location_id = transaction_lines.location_id
+left join vendors on vendors.vendor_id = transaction_lines.company_id
+  and not vendors._fivetran_deleted
+left join vendor_types on vendor_types.vendor_type_id = vendors.vendor_type_id
+  and not vendor_types._fivetran_deleted
+left join currencies on currencies.currency_id = transactions.currency_id
+  and not currencies._fivetran_deleted
+left join departments on departments.department_id = transaction_lines.department_id
+join subsidiaries on subsidiaries.subsidiary_id = transaction_lines.subsidiary_id
+where (accounting_periods.fiscal_calendar_id is null
+  or accounting_periods.fiscal_calendar_id  = (select fiscal_calendar_id from subsidiaries where parent_id is null));
+
+
+2020-10-22 21:28:10.154213 (Thread-3): Compilation Error in model income_statement (models/income_statement.sql)
+  'dbt_utils' is undefined
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/clients/jinja.py", line 496, in catch_jinja
+    yield
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/clients/jinja.py", line 528, in render_template
+    return template.render(ctx)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/environment.py", line 1090, in render
+    self.environment.handle_exception()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/environment.py", line 832, in handle_exception
+    reraise(*rewrite_traceback_stack(source=source))
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/_compat.py", line 28, in reraise
+    raise value.with_traceback(tb)
+  File "<template>", line 37, in top-level template code
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/sandbox.py", line 407, in getattr
+    value = getattr(obj, attribute)
+jinja2.exceptions.UndefinedError: 'dbt_utils' is undefined
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/task/base.py", line 333, in safe_run
+    result = self.compile_and_execute(manifest, ctx)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/task/base.py", line 270, in compile_and_execute
+    ctx.node = self.compile(manifest)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/task/compile.py", line 23, in compile
+    return compiler.compile_node(self.node, manifest, {})
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/compilation.py", line 479, in compile_node
+    node = self._compile_node(node, manifest, extra_context)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/compilation.py", line 385, in _compile_node
+    compiled_node.compiled_sql = jinja.get_rendered(
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/clients/jinja.py", line 577, in get_rendered
+    return render_template(template, ctx, node)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/clients/jinja.py", line 528, in render_template
+    return template.render(ctx)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/contextlib.py", line 131, in __exit__
+    self.gen.throw(type, value, traceback)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/clients/jinja.py", line 501, in catch_jinja
+    raise CompilationException(str(e), node) from e
+dbt.exceptions.CompilationException: Compilation Error in model income_statement (models/income_statement.sql)
+  'dbt_utils' is undefined
+2020-10-22 21:28:10.178862 (Thread-3): Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '15a7c66f-3dcb-4fcb-ab2d-52deb1817a67', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fcb9ebd9c10>]}
+2020-10-22 21:28:10.179855 (Thread-3): 14:28:10 | 6 of 7 ERROR creating view model dbt_kristin.income_statement........ [ERROR in 0.10s]
+2020-10-22 21:28:10.179978 (Thread-3): Finished running node model.netsuite.income_statement
+2020-10-22 21:28:11.523636 (Thread-1): finished collecting timing info
+2020-10-22 21:28:11.524526 (Thread-1): Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '15a7c66f-3dcb-4fcb-ab2d-52deb1817a67', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fcb9eb3f6a0>]}
+2020-10-22 21:28:11.528987 (Thread-2): finished collecting timing info
+2020-10-22 21:28:11.529740 (Thread-2): Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '15a7c66f-3dcb-4fcb-ab2d-52deb1817a67', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fcb9eb1eca0>]}
+2020-10-22 21:28:11.530904 (Thread-1): 14:28:11 | 5 of 7 OK created view model dbt_kristin.balance_sheet............... [CREATE VIEW in 1.45s]
+2020-10-22 21:28:11.531067 (Thread-1): Finished running node model.netsuite.balance_sheet
+2020-10-22 21:28:11.532253 (Thread-2): 14:28:11 | 7 of 7 OK created view model dbt_kristin.transaction_details......... [CREATE VIEW in 1.44s]
+2020-10-22 21:28:11.532393 (Thread-2): Finished running node model.netsuite.transaction_details
+2020-10-22 21:28:11.533528 (MainThread): Acquiring new bigquery connection "master".
+2020-10-22 21:28:11.533883 (MainThread): 14:28:11 | 
+2020-10-22 21:28:11.534020 (MainThread): 14:28:11 | Finished running 7 view models in 7.59s.
+2020-10-22 21:28:11.534129 (MainThread): Connection 'master' was properly closed.
+2020-10-22 21:28:11.534212 (MainThread): Connection 'model.netsuite.balance_sheet' was properly closed.
+2020-10-22 21:28:11.534289 (MainThread): Connection 'model.netsuite.transaction_details' was properly closed.
+2020-10-22 21:28:11.534364 (MainThread): Connection 'model.netsuite.income_statement' was properly closed.
+2020-10-22 21:28:11.534437 (MainThread): Connection 'model.netsuite.transactions_with_converted_amounts' was properly closed.
+2020-10-22 21:28:11.558962 (MainThread): 
+2020-10-22 21:28:11.559137 (MainThread): Completed with 1 error and 0 warnings:
+2020-10-22 21:28:11.559251 (MainThread): 
+2020-10-22 21:28:11.559357 (MainThread): Compilation Error in model income_statement (models/income_statement.sql)
+2020-10-22 21:28:11.559452 (MainThread):   'dbt_utils' is undefined
+2020-10-22 21:28:11.559550 (MainThread): 
+Done. PASS=6 WARN=0 ERROR=1 SKIP=0 TOTAL=7
+2020-10-22 21:28:11.559716 (MainThread): Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fcb9e9a5dc0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fcb9e9d6340>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fcb9e9d6ca0>]}
+2020-10-22 21:28:11.559916 (MainThread): Flushing usage events
+2020-10-22 21:29:27.023243 (MainThread): Running with dbt=0.18.1
+2020-10-22 21:29:27.198933 (MainThread): running dbt with arguments Namespace(cls=<class 'dbt.task.deps.DepsTask'>, debug=False, defer=None, log_cache_events=False, log_format='default', partial_parse=None, profile=None, profiles_dir='/Users/kristin/.dbt', project_dir=None, record_timing_info=None, rpc_method='deps', single_threaded=False, state=None, strict=False, target=None, test_new_parser=False, use_cache=True, use_colors=None, vars='{}', warn_error=False, which='deps', write_json=True)
+2020-10-22 21:29:27.199216 (MainThread): Tracking: tracking
+2020-10-22 21:29:27.204495 (MainThread): Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fec583fbc70>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fec5841b9a0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fec5841bc10>]}
+2020-10-22 21:29:27.206067 (MainThread): Set downloads directory='/var/folders/sk/bwywl8692vlbvlbk71j59w780000gp/T/dbt-downloads-ztjvqvc8'
+2020-10-22 21:29:27.207310 (MainThread): Making package registry request: GET https://hub.getdbt.com/api/v1/index.json
+2020-10-22 21:29:27.549563 (MainThread): Response from registry: GET https://hub.getdbt.com/api/v1/index.json 200
+2020-10-22 21:29:27.549875 (MainThread): Making package registry request: GET https://hub.getdbt.com/api/v1/fishtown-analytics/dbt_utils.json
+2020-10-22 21:29:27.835877 (MainThread): Response from registry: GET https://hub.getdbt.com/api/v1/fishtown-analytics/dbt_utils.json 200
+2020-10-22 21:29:27.850762 (MainThread): Making package registry request: GET https://hub.getdbt.com/api/v1/fishtown-analytics/dbt_utils/0.5.0.json
+2020-10-22 21:29:28.142589 (MainThread): Response from registry: GET https://hub.getdbt.com/api/v1/fishtown-analytics/dbt_utils/0.5.0.json 200
+2020-10-22 21:29:28.148001 (MainThread): Making package registry request: GET https://hub.getdbt.com/api/v1/fishtown-analytics/dbt_utils.json
+2020-10-22 21:29:28.469871 (MainThread): Response from registry: GET https://hub.getdbt.com/api/v1/fishtown-analytics/dbt_utils.json 200
+2020-10-22 21:29:28.484700 (MainThread): Making package registry request: GET https://hub.getdbt.com/api/v1/fishtown-analytics/dbt_utils/0.5.0.json
+2020-10-22 21:29:28.747982 (MainThread): Response from registry: GET https://hub.getdbt.com/api/v1/fishtown-analytics/dbt_utils/0.5.0.json 200
+2020-10-22 21:29:28.748966 (MainThread): Installing fishtown-analytics/dbt_utils@0.5.0
+2020-10-22 21:29:29.304077 (MainThread):   Installed from version 0.5.0
+
+2020-10-22 21:29:29.304403 (MainThread): Sending event: {'category': 'dbt', 'action': 'package', 'label': 'ea3dc9b6-eb34-45d6-a414-4a521c20b48e', 'property_': 'install', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fec58423f40>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fec58423880>]}
+2020-10-22 21:29:29.305097 (MainThread): Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fec552ee2e0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fec584236d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fec58423880>]}
+2020-10-22 21:29:29.305271 (MainThread): Flushing usage events
+2020-10-22 21:29:33.040829 (MainThread): Running with dbt=0.18.1
+2020-10-22 21:29:33.218213 (MainThread): running dbt with arguments Namespace(cls=<class 'dbt.task.run.RunTask'>, debug=False, defer=None, exclude=None, fail_fast=False, full_refresh=False, log_cache_events=False, log_format='default', models=None, partial_parse=None, profile=None, profiles_dir='/Users/kristin/.dbt', project_dir=None, record_timing_info=None, rpc_method='run', selector_name=None, single_threaded=False, state=None, strict=False, target=None, test_new_parser=False, threads=None, use_cache=True, use_colors=None, vars='{}', version_check=True, warn_error=False, which='run', write_json=True)
+2020-10-22 21:29:33.219107 (MainThread): Tracking: tracking
+2020-10-22 21:29:33.225762 (MainThread): Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fe66252c970>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fe66252c160>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fe66252c7f0>]}
+2020-10-22 21:29:33.254675 (MainThread): Partial parsing not enabled
+2020-10-22 21:29:33.255543 (MainThread): Parsing macros/etc.sql
+2020-10-22 21:29:33.257173 (MainThread): Parsing macros/catalog.sql
+2020-10-22 21:29:33.263370 (MainThread): Parsing macros/adapters.sql
+2020-10-22 21:29:33.280005 (MainThread): Parsing macros/materializations/seed.sql
+2020-10-22 21:29:33.282288 (MainThread): Parsing macros/materializations/view.sql
+2020-10-22 21:29:33.284782 (MainThread): Parsing macros/materializations/table.sql
+2020-10-22 21:29:33.293479 (MainThread): Parsing macros/materializations/copy.sql
+2020-10-22 21:29:33.297376 (MainThread): Parsing macros/materializations/incremental.sql
+2020-10-22 21:29:33.308750 (MainThread): Parsing macros/materializations/snapshot.sql
+2020-10-22 21:29:33.311319 (MainThread): Parsing macros/core.sql
+2020-10-22 21:29:33.314523 (MainThread): Parsing macros/materializations/helpers.sql
+2020-10-22 21:29:33.322468 (MainThread): Parsing macros/materializations/snapshot/snapshot_merge.sql
+2020-10-22 21:29:33.324084 (MainThread): Parsing macros/materializations/snapshot/strategies.sql
+2020-10-22 21:29:33.338864 (MainThread): Parsing macros/materializations/snapshot/snapshot.sql
+2020-10-22 21:29:33.366119 (MainThread): Parsing macros/materializations/seed/seed.sql
+2020-10-22 21:29:33.384595 (MainThread): Parsing macros/materializations/incremental/helpers.sql
+2020-10-22 21:29:33.386192 (MainThread): Parsing macros/materializations/incremental/incremental.sql
+2020-10-22 21:29:33.391774 (MainThread): Parsing macros/materializations/common/merge.sql
+2020-10-22 21:29:33.404397 (MainThread): Parsing macros/materializations/table/table.sql
+2020-10-22 21:29:33.410219 (MainThread): Parsing macros/materializations/view/view.sql
+2020-10-22 21:29:33.416060 (MainThread): Parsing macros/materializations/view/create_or_replace_view.sql
+2020-10-22 21:29:33.420272 (MainThread): Parsing macros/etc/get_custom_alias.sql
+2020-10-22 21:29:33.421078 (MainThread): Parsing macros/etc/query.sql
+2020-10-22 21:29:33.421972 (MainThread): Parsing macros/etc/is_incremental.sql
+2020-10-22 21:29:33.423495 (MainThread): Parsing macros/etc/datetime.sql
+2020-10-22 21:29:33.431081 (MainThread): Parsing macros/etc/get_custom_schema.sql
+2020-10-22 21:29:33.432755 (MainThread): Parsing macros/etc/get_custom_database.sql
+2020-10-22 21:29:33.434177 (MainThread): Parsing macros/adapters/common.sql
+2020-10-22 21:29:33.474340 (MainThread): Parsing macros/schema_tests/relationships.sql
+2020-10-22 21:29:33.476091 (MainThread): Parsing macros/schema_tests/not_null.sql
+2020-10-22 21:29:33.477424 (MainThread): Parsing macros/schema_tests/unique.sql
+2020-10-22 21:29:33.479094 (MainThread): Parsing macros/schema_tests/accepted_values.sql
+2020-10-22 21:29:33.483080 (MainThread): Parsing macros/cross_db_utils/except.sql
+2020-10-22 21:29:33.483999 (MainThread): Parsing macros/cross_db_utils/replace.sql
+2020-10-22 21:29:33.485096 (MainThread): Parsing macros/cross_db_utils/concat.sql
+2020-10-22 21:29:33.487224 (MainThread): Parsing macros/cross_db_utils/datatypes.sql
+2020-10-22 21:29:33.492231 (MainThread): Parsing macros/cross_db_utils/_is_relation.sql
+2020-10-22 21:29:33.493359 (MainThread): Parsing macros/cross_db_utils/length.sql
+2020-10-22 21:29:33.494834 (MainThread): Parsing macros/cross_db_utils/dateadd.sql
+2020-10-22 21:29:33.496976 (MainThread): Parsing macros/cross_db_utils/intersect.sql
+2020-10-22 21:29:33.497908 (MainThread): Parsing macros/cross_db_utils/right.sql
+2020-10-22 21:29:33.500265 (MainThread): Parsing macros/cross_db_utils/datediff.sql
+2020-10-22 21:29:33.533746 (MainThread): Parsing macros/cross_db_utils/safe_cast.sql
+2020-10-22 21:29:33.536312 (MainThread): Parsing macros/cross_db_utils/hash.sql
+2020-10-22 21:29:33.538147 (MainThread): Parsing macros/cross_db_utils/identifier.sql
+2020-10-22 21:29:33.540008 (MainThread): Parsing macros/cross_db_utils/position.sql
+2020-10-22 21:29:33.542092 (MainThread): Parsing macros/cross_db_utils/literal.sql
+2020-10-22 21:29:33.543347 (MainThread): Parsing macros/cross_db_utils/current_timestamp.sql
+2020-10-22 21:29:33.547419 (MainThread): Parsing macros/cross_db_utils/width_bucket.sql
+2020-10-22 21:29:33.554175 (MainThread): Parsing macros/cross_db_utils/last_day.sql
+2020-10-22 21:29:33.557433 (MainThread): Parsing macros/cross_db_utils/split_part.sql
+2020-10-22 21:29:33.559614 (MainThread): Parsing macros/cross_db_utils/date_trunc.sql
+2020-10-22 21:29:33.561334 (MainThread): Parsing macros/cross_db_utils/_is_ephemeral.sql
+2020-10-22 21:29:33.563337 (MainThread): Parsing macros/materializations/insert_by_period_materialization.sql
+2020-10-22 21:29:33.588615 (MainThread): Parsing macros/logger/pretty_log_format.sql
+2020-10-22 21:29:33.589242 (MainThread): Parsing macros/logger/pretty_time.sql
+2020-10-22 21:29:33.589895 (MainThread): Parsing macros/logger/log_info.sql
+2020-10-22 21:29:33.590502 (MainThread): Parsing macros/datetime/date_spine.sql
+2020-10-22 21:29:33.593361 (MainThread): Parsing macros/web/get_url_host.sql
+2020-10-22 21:29:33.594526 (MainThread): Parsing macros/web/get_url_path.sql
+2020-10-22 21:29:33.596320 (MainThread): Parsing macros/web/get_url_parameter.sql
+2020-10-22 21:29:33.597255 (MainThread): Parsing macros/geo/haversine_distance.sql
+2020-10-22 21:29:33.598039 (MainThread): Parsing macros/schema_tests/equal_rowcount.sql
+2020-10-22 21:29:33.599145 (MainThread): Parsing macros/schema_tests/relationships_where.sql
+2020-10-22 21:29:33.600929 (MainThread): Parsing macros/schema_tests/recency.sql
+2020-10-22 21:29:33.601974 (MainThread): Parsing macros/schema_tests/not_constant.sql
+2020-10-22 21:29:33.602816 (MainThread): Parsing macros/schema_tests/test_unique_where.sql
+2020-10-22 21:29:33.604161 (MainThread): Parsing macros/schema_tests/at_least_one.sql
+2020-10-22 21:29:33.604992 (MainThread): Parsing macros/schema_tests/unique_combination_of_columns.sql
+2020-10-22 21:29:33.606178 (MainThread): Parsing macros/schema_tests/cardinality_equality.sql
+2020-10-22 21:29:33.607584 (MainThread): Parsing macros/schema_tests/expression_is_true.sql
+2020-10-22 21:29:33.608496 (MainThread): Parsing macros/schema_tests/test_not_null_where.sql
+2020-10-22 21:29:33.609742 (MainThread): Parsing macros/schema_tests/equality.sql
+2020-10-22 21:29:33.612630 (MainThread): Parsing macros/schema_tests/mutually_exclusive_ranges.sql
+2020-10-22 21:29:33.617481 (MainThread): Parsing macros/sql/nullcheck_table.sql
+2020-10-22 21:29:33.618496 (MainThread): Parsing macros/sql/get_relations_by_pattern.sql
+2020-10-22 21:29:33.620682 (MainThread): Parsing macros/sql/generate_series.sql
+2020-10-22 21:29:33.623452 (MainThread): Parsing macros/sql/get_relations_by_prefix.sql
+2020-10-22 21:29:33.626477 (MainThread): Parsing macros/sql/get_tables_by_prefix_sql.sql
+2020-10-22 21:29:33.628767 (MainThread): Parsing macros/sql/star.sql
+2020-10-22 21:29:33.631237 (MainThread): Parsing macros/sql/unpivot.sql
+2020-10-22 21:29:33.636527 (MainThread): Parsing macros/sql/union.sql
+2020-10-22 21:29:33.644753 (MainThread): Parsing macros/sql/groupby.sql
+2020-10-22 21:29:33.645581 (MainThread): Parsing macros/sql/get_tables_by_pattern.sql
+2020-10-22 21:29:33.646386 (MainThread): Parsing macros/sql/surrogate_key.sql
+2020-10-22 21:29:33.648779 (MainThread): Parsing macros/sql/safe_add.sql
+2020-10-22 21:29:33.649722 (MainThread): Parsing macros/sql/nullcheck.sql
+2020-10-22 21:29:33.650775 (MainThread): Parsing macros/sql/get_column_values.sql
+2020-10-22 21:29:33.654515 (MainThread): Parsing macros/sql/pivot.sql
+2020-10-22 21:29:33.656884 (MainThread): Parsing macros/sql/get_query_results_as_dict.sql
+2020-10-22 21:29:33.662849 (MainThread): Partial parsing not enabled
+2020-10-22 21:29:33.698504 (MainThread): Acquiring new bigquery connection "model.netsuite.income_statement".
+2020-10-22 21:29:33.711448 (MainThread): * Deprecation Warning: The "adapter_macro" macro has been deprecated. Instead,
+use the `adapter.dispatch` method to find a macro and call the result.
+adapter_macro was called for: dbt_utils.concat
+2020-10-22 21:29:33.711563 (MainThread): Sending event: {'category': 'dbt', 'action': 'deprecation', 'label': '6906208d-ad78-4a94-bab5-037f3f30042b', 'property_': 'warn', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fe66278d370>]}
+2020-10-22 21:29:33.725332 (MainThread): Acquiring new bigquery connection "model.netsuite.transaction_lines_w_accounting_period".
+2020-10-22 21:29:33.735907 (MainThread): Acquiring new bigquery connection "model.netsuite.balance_sheet".
+2020-10-22 21:29:33.746837 (MainThread): Acquiring new bigquery connection "model.netsuite.transaction_and_reporting_periods".
+2020-10-22 21:29:33.757432 (MainThread): Acquiring new bigquery connection "model.netsuite.transactions_with_converted_amounts".
+2020-10-22 21:29:33.768314 (MainThread): Acquiring new bigquery connection "model.netsuite.transaction_details".
+2020-10-22 21:29:33.787487 (MainThread): Acquiring new bigquery connection "model.netsuite.accountxperiod_exchange_rate_map".
+2020-10-22 21:29:34.640630 (MainThread): Found 7 models, 36 tests, 0 snapshots, 0 analyses, 287 macros, 0 operations, 0 seed files, 17 sources
+2020-10-22 21:29:34.642632 (MainThread): 
+2020-10-22 21:29:34.642874 (MainThread): Acquiring new bigquery connection "master".
+2020-10-22 21:29:34.650271 (ThreadPoolExecutor-0_0): Acquiring new bigquery connection "list_dbt-package-testing".
+2020-10-22 21:29:34.650570 (ThreadPoolExecutor-0_0): Opening a new connection, currently in state init
+2020-10-22 21:29:34.655724 (ThreadPoolExecutor-0_0): Your application has authenticated using end user credentials from Google Cloud SDK. We recommend that most server applications use service accounts instead. If your application continues to use end user credentials from Cloud SDK, you might receive a "quota exceeded" or "API not enabled" error. For more information about service accounts, see https://cloud.google.com/docs/authentication/
+2020-10-22 21:29:37.417812 (ThreadPoolExecutor-1_0): Acquiring new bigquery connection "list_dbt-package-testing_dbt_kristin".
+2020-10-22 21:29:37.418010 (ThreadPoolExecutor-1_0): Opening a new connection, currently in state closed
+2020-10-22 21:29:37.418378 (ThreadPoolExecutor-1_0): Your application has authenticated using end user credentials from Google Cloud SDK. We recommend that most server applications use service accounts instead. If your application continues to use end user credentials from Cloud SDK, you might receive a "quota exceeded" or "API not enabled" error. For more information about service accounts, see https://cloud.google.com/docs/authentication/
+2020-10-22 21:29:38.992700 (ThreadPoolExecutor-1_0): Client.dataset is deprecated and will be removed in a future version. Use a string like 'my_project.my_dataset' or a cloud.google.bigquery.DatasetReference object, instead.
+2020-10-22 21:29:39.456186 (MainThread): 14:29:39 | Concurrency: 4 threads (target='bigquery')
+2020-10-22 21:29:39.456393 (MainThread): 14:29:39 | 
+2020-10-22 21:29:39.459895 (Thread-1): Began running node model.netsuite.accountxperiod_exchange_rate_map
+2020-10-22 21:29:39.461018 (Thread-1): 14:29:39 | 1 of 7 START view model dbt_kristin.accountxperiod_exchange_rate_map. [RUN]
+2020-10-22 21:29:39.461192 (Thread-2): Began running node model.netsuite.transaction_and_reporting_periods
+2020-10-22 21:29:39.462191 (Thread-2): 14:29:39 | 2 of 7 START view model dbt_kristin.transaction_and_reporting_periods [RUN]
+2020-10-22 21:29:39.462565 (Thread-1): Acquiring new bigquery connection "model.netsuite.accountxperiod_exchange_rate_map".
+2020-10-22 21:29:39.462738 (Thread-1): Compiling model.netsuite.accountxperiod_exchange_rate_map
+2020-10-22 21:29:39.468353 (Thread-3): Began running node model.netsuite.transaction_lines_w_accounting_period
+2020-10-22 21:29:39.474607 (Thread-3): 14:29:39 | 3 of 7 START view model dbt_kristin.transaction_lines_w_accounting_period [RUN]
+2020-10-22 21:29:39.489018 (Thread-1): Writing injected SQL for node "model.netsuite.accountxperiod_exchange_rate_map"
+2020-10-22 21:29:39.489398 (Thread-2): Acquiring new bigquery connection "model.netsuite.transaction_and_reporting_periods".
+2020-10-22 21:29:39.489668 (Thread-2): Compiling model.netsuite.transaction_and_reporting_periods
+2020-10-22 21:29:39.496072 (Thread-3): Acquiring new bigquery connection "model.netsuite.transaction_lines_w_accounting_period".
+2020-10-22 21:29:39.496251 (Thread-3): Compiling model.netsuite.transaction_lines_w_accounting_period
+2020-10-22 21:29:39.506475 (Thread-2): Writing injected SQL for node "model.netsuite.transaction_and_reporting_periods"
+2020-10-22 21:29:39.509565 (Thread-3): Writing injected SQL for node "model.netsuite.transaction_lines_w_accounting_period"
+2020-10-22 21:29:39.509879 (Thread-1): finished collecting timing info
+2020-10-22 21:29:39.526961 (Thread-3): finished collecting timing info
+2020-10-22 21:29:39.539550 (Thread-2): finished collecting timing info
+2020-10-22 21:29:39.545855 (Thread-3): unclosed <socket.socket fd=22, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('192.168.4.24', 64495), raddr=('172.217.14.234', 443)>
+2020-10-22 21:29:39.556051 (Thread-2): Writing runtime SQL for node "model.netsuite.transaction_and_reporting_periods"
+2020-10-22 21:29:39.556278 (Thread-3): unclosed <socket.socket fd=21, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('192.168.4.24', 64494), raddr=('172.217.14.234', 443)>
+2020-10-22 21:29:39.558843 (Thread-3): Writing runtime SQL for node "model.netsuite.transaction_lines_w_accounting_period"
+2020-10-22 21:29:39.560603 (Thread-1): Writing runtime SQL for node "model.netsuite.accountxperiod_exchange_rate_map"
+2020-10-22 21:29:39.560805 (Thread-2): Opening a new connection, currently in state init
+2020-10-22 21:29:39.561071 (Thread-2): Your application has authenticated using end user credentials from Google Cloud SDK. We recommend that most server applications use service accounts instead. If your application continues to use end user credentials from Cloud SDK, you might receive a "quota exceeded" or "API not enabled" error. For more information about service accounts, see https://cloud.google.com/docs/authentication/
+2020-10-22 21:29:39.561205 (Thread-3): Opening a new connection, currently in state init
+2020-10-22 21:29:39.561434 (Thread-3): Your application has authenticated using end user credentials from Google Cloud SDK. We recommend that most server applications use service accounts instead. If your application continues to use end user credentials from Cloud SDK, you might receive a "quota exceeded" or "API not enabled" error. For more information about service accounts, see https://cloud.google.com/docs/authentication/
+2020-10-22 21:29:39.563985 (Thread-1): Opening a new connection, currently in state closed
+2020-10-22 21:29:39.568844 (Thread-1): Your application has authenticated using end user credentials from Google Cloud SDK. We recommend that most server applications use service accounts instead. If your application continues to use end user credentials from Cloud SDK, you might receive a "quota exceeded" or "API not enabled" error. For more information about service accounts, see https://cloud.google.com/docs/authentication/
+2020-10-22 21:29:41.174457 (Thread-1): On model.netsuite.accountxperiod_exchange_rate_map: /* {"app": "dbt", "dbt_version": "0.18.1", "profile_name": "integration_test", "target_name": "bigquery", "node_id": "model.netsuite.accountxperiod_exchange_rate_map"} */
+
+
+  create or replace view `dbt-package-testing`.`dbt_kristin`.`accountxperiod_exchange_rate_map`
+  OPTIONS()
+  as with accounts as (
+    select * from `dbt-package-testing`.`netsuite`.`accounts`
+), 
+accounting_books as (
+    select * from `dbt-package-testing`.`netsuite`.`accounting_books`
+), 
+subsidiaries as (
+    select * from `dbt-package-testing`.`netsuite`.`subsidiaries`
+),
+consolidated_exchange_rates as (
+    select * from `dbt-package-testing`.`netsuite`.`consolidated_exchange_rates`
+),
+
+period_exchange_rate_map as ( -- exchange rates used, by accounting period, to convert to parent subsidiary
+  select
+    consolidated_exchange_rates.accounting_period_id,
+    consolidated_exchange_rates.average_rate,
+    consolidated_exchange_rates.current_rate,
+    consolidated_exchange_rates.historical_rate,
+    consolidated_exchange_rates.from_subsidiary_id,
+    consolidated_exchange_rates.to_subsidiary_id
+  from consolidated_exchange_rates
+  where consolidated_exchange_rates.to_subsidiary_id in (select subsidiary_id from subsidiaries where parent_id is null)  -- constrait - only the primary subsidiary has no parent
+    and consolidated_exchange_rates.accounting_book_id in (select accounting_book_id from accounting_books where lower(is_primary) = 'yes')
+    and not consolidated_exchange_rates._fivetran_deleted
+), accountxperiod_exchange_rate_map as ( -- account table with exchange rate details by accounting period
+  select
+    period_exchange_rate_map.accounting_period_id,
+    period_exchange_rate_map.from_subsidiary_id,
+    period_exchange_rate_map.to_subsidiary_id,
+    accounts.account_id,
+    case 
+      when lower(accounts.general_rate_type) = 'historical' then period_exchange_rate_map.historical_rate
+      when lower(accounts.general_rate_type) = 'current' then period_exchange_rate_map.current_rate
+      when lower(accounts.general_rate_type) = 'average' then period_exchange_rate_map.average_rate
+      else null
+      end as exchange_rate
+  from accounts
+  cross join period_exchange_rate_map
+)
+select * from accountxperiod_exchange_rate_map;
+
+
+2020-10-22 21:29:41.175031 (Thread-2): On model.netsuite.transaction_and_reporting_periods: /* {"app": "dbt", "dbt_version": "0.18.1", "profile_name": "integration_test", "target_name": "bigquery", "node_id": "model.netsuite.transaction_and_reporting_periods"} */
+
+
+  create or replace view `dbt-package-testing`.`dbt_kristin`.`transaction_and_reporting_periods`
+  OPTIONS()
+  as with accounting_periods as (
+    select * from `dbt-package-testing`.`netsuite`.`accounting_periods`
+),
+subsidiaries as (
+    select * from `dbt-package-testing`.`netsuite`.`subsidiaries`
+),
+transaction_and_reporting_periods as ( 
+
+  select
+    base.accounting_period_id as accounting_period_id,
+    multiplier.accounting_period_id as reporting_accounting_period_id
+  from accounting_periods as base
+  join accounting_periods as multiplier
+    on multiplier.starting >= base.starting
+    and multiplier.quarter = base.quarter
+    and multiplier.year_0 = base.year_0
+    and multiplier.fiscal_calendar_id = base.fiscal_calendar_id
+    and multiplier.starting <= CURRENT_TIMESTAMP()
+  where lower(base.quarter) = 'no'
+    and lower(base.year_0) = 'no'
+    and base.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null) -- fiscal calendar will align with parent subsidiary's default calendar
+)
+select * from transaction_and_reporting_periods;
+
+
+2020-10-22 21:29:41.177673 (Thread-3): On model.netsuite.transaction_lines_w_accounting_period: /* {"app": "dbt", "dbt_version": "0.18.1", "profile_name": "integration_test", "target_name": "bigquery", "node_id": "model.netsuite.transaction_lines_w_accounting_period"} */
+
+
+  create or replace view `dbt-package-testing`.`dbt_kristin`.`transaction_lines_w_accounting_period`
+  OPTIONS()
+  as with transactions as (
+    select * from `dbt-package-testing`.`netsuite`.`transactions`
+), 
+transaction_lines as (
+    select * from `dbt-package-testing`.`netsuite`.`transaction_lines`
+),
+
+transaction_lines_w_accounting_period as ( -- transaction line totals, by accounts, accounting period and subsidiary
+  select
+    transaction_lines.transaction_id,
+    transaction_lines.transaction_line_id,
+    transaction_lines.subsidiary_id,
+    transaction_lines.account_id,
+    transactions.accounting_period_id as transaction_accounting_period_id,
+    coalesce(transaction_lines.amount, 0) as unconverted_amount
+  from transaction_lines
+  join transactions on transactions.transaction_id = transaction_lines.transaction_id
+  where not transactions._fivetran_deleted
+    and lower(transactions.transaction_type) != 'revenue arrangement'
+    and lower(non_posting_line) != 'yes'
+)
+
+select * from transaction_lines_w_accounting_period;
+
+
+2020-10-22 21:29:42.007042 (Thread-3): Unhandled error while running:
+/* {"app": "dbt", "dbt_version": "0.18.1", "profile_name": "integration_test", "target_name": "bigquery", "node_id": "model.netsuite.transaction_lines_w_accounting_period"} */
+
+
+  create or replace view `dbt-package-testing`.`dbt_kristin`.`transaction_lines_w_accounting_period`
+  OPTIONS()
+  as with transactions as (
+    select * from `dbt-package-testing`.`netsuite`.`transactions`
+), 
+transaction_lines as (
+    select * from `dbt-package-testing`.`netsuite`.`transaction_lines`
+),
+
+transaction_lines_w_accounting_period as ( -- transaction line totals, by accounts, accounting period and subsidiary
+  select
+    transaction_lines.transaction_id,
+    transaction_lines.transaction_line_id,
+    transaction_lines.subsidiary_id,
+    transaction_lines.account_id,
+    transactions.accounting_period_id as transaction_accounting_period_id,
+    coalesce(transaction_lines.amount, 0) as unconverted_amount
+  from transaction_lines
+  join transactions on transactions.transaction_id = transaction_lines.transaction_id
+  where not transactions._fivetran_deleted
+    and lower(transactions.transaction_type) != 'revenue arrangement'
+    and lower(non_posting_line) != 'yes'
+)
+
+select * from transaction_lines_w_accounting_period;
+
+
+2020-10-22 21:29:42.007311 (Thread-3): 404 Not found: Dataset dbt-package-testing:netsuite was not found in location US
+
+(job ID: 64295129-f24b-42f8-af92-f0bfc01d6e3a)
+
+                                                                          -----Query Job SQL Follows-----                                                                           
+
+    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |
+   1:/* {"app": "dbt", "dbt_version": "0.18.1", "profile_name": "integration_test", "target_name": "bigquery", "node_id": "model.netsuite.transaction_lines_w_accounting_period"} */
+   2:
+   3:
+   4:  create or replace view `dbt-package-testing`.`dbt_kristin`.`transaction_lines_w_accounting_period`
+   5:  OPTIONS()
+   6:  as with transactions as (
+   7:    select * from `dbt-package-testing`.`netsuite`.`transactions`
+   8:), 
+   9:transaction_lines as (
+  10:    select * from `dbt-package-testing`.`netsuite`.`transaction_lines`
+  11:),
+  12:
+  13:transaction_lines_w_accounting_period as ( -- transaction line totals, by accounts, accounting period and subsidiary
+  14:  select
+  15:    transaction_lines.transaction_id,
+  16:    transaction_lines.transaction_line_id,
+  17:    transaction_lines.subsidiary_id,
+  18:    transaction_lines.account_id,
+  19:    transactions.accounting_period_id as transaction_accounting_period_id,
+  20:    coalesce(transaction_lines.amount, 0) as unconverted_amount
+  21:  from transaction_lines
+  22:  join transactions on transactions.transaction_id = transaction_lines.transaction_id
+  23:  where not transactions._fivetran_deleted
+  24:    and lower(transactions.transaction_type) != 'revenue arrangement'
+  25:    and lower(non_posting_line) != 'yes'
+  26:)
+  27:
+  28:select * from transaction_lines_w_accounting_period;
+  29:
+    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |
+2020-10-22 21:29:42.007724 (Thread-3): finished collecting timing info
+2020-10-22 21:29:42.008758 (Thread-3): Runtime Error in model transaction_lines_w_accounting_period (models/transaction_lines_w_accounting_period.sql)
+  404 Not found: Dataset dbt-package-testing:netsuite was not found in location US
+  
+  (job ID: 64295129-f24b-42f8-af92-f0bfc01d6e3a)
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/bigquery/connections.py", line 103, in exception_handler
+    yield
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/bigquery/connections.py", line 442, in _retry_and_handle
+    return retry.retry_target(
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/google/api_core/retry.py", line 184, in retry_target
+    return target()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/bigquery/connections.py", line 266, in fn
+    return self._query_and_results(client, sql, conn, job_params)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/bigquery/connections.py", line 428, in _query_and_results
+    iterator = query_job.result(timeout=timeout)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/google/cloud/bigquery/job.py", line 3207, in result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/google/cloud/bigquery/job.py", line 812, in result
+    return super(_AsyncJob, self).result(timeout=timeout)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/google/api_core/future/polling.py", line 127, in result
+    raise self._exception
+google.api_core.exceptions.NotFound: 404 Not found: Dataset dbt-package-testing:netsuite was not found in location US
+
+(job ID: 64295129-f24b-42f8-af92-f0bfc01d6e3a)
+
+                                                                          -----Query Job SQL Follows-----                                                                           
+
+    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |
+   1:/* {"app": "dbt", "dbt_version": "0.18.1", "profile_name": "integration_test", "target_name": "bigquery", "node_id": "model.netsuite.transaction_lines_w_accounting_period"} */
+   2:
+   3:
+   4:  create or replace view `dbt-package-testing`.`dbt_kristin`.`transaction_lines_w_accounting_period`
+   5:  OPTIONS()
+   6:  as with transactions as (
+   7:    select * from `dbt-package-testing`.`netsuite`.`transactions`
+   8:), 
+   9:transaction_lines as (
+  10:    select * from `dbt-package-testing`.`netsuite`.`transaction_lines`
+  11:),
+  12:
+  13:transaction_lines_w_accounting_period as ( -- transaction line totals, by accounts, accounting period and subsidiary
+  14:  select
+  15:    transaction_lines.transaction_id,
+  16:    transaction_lines.transaction_line_id,
+  17:    transaction_lines.subsidiary_id,
+  18:    transaction_lines.account_id,
+  19:    transactions.accounting_period_id as transaction_accounting_period_id,
+  20:    coalesce(transaction_lines.amount, 0) as unconverted_amount
+  21:  from transaction_lines
+  22:  join transactions on transactions.transaction_id = transaction_lines.transaction_id
+  23:  where not transactions._fivetran_deleted
+  24:    and lower(transactions.transaction_type) != 'revenue arrangement'
+  25:    and lower(non_posting_line) != 'yes'
+  26:)
+  27:
+  28:select * from transaction_lines_w_accounting_period;
+  29:
+    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/task/base.py", line 333, in safe_run
+    result = self.compile_and_execute(manifest, ctx)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/task/base.py", line 276, in compile_and_execute
+    result = self.run(ctx.node, manifest)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/task/base.py", line 378, in run
+    return self.execute(compiled_node, manifest)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/task/run.py", line 233, in execute
+    result = MacroGenerator(materialization_macro, context)()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/clients/jinja.py", line 327, in __call__
+    return self.call_macro(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/clients/jinja.py", line 257, in call_macro
+    return macro(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 675, in __call__
+    return self._invoke(arguments, autoescape)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 679, in _invoke
+    rv = self._func(*arguments)
+  File "<template>", line 22, in macro
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/sandbox.py", line 462, in call
+    return __context.call(__obj, *args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 290, in call
+    return __obj(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/clients/jinja.py", line 327, in __call__
+    return self.call_macro(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/clients/jinja.py", line 257, in call_macro
+    return macro(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 675, in __call__
+    return self._invoke(arguments, autoescape)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 679, in _invoke
+    rv = self._func(*arguments)
+  File "<template>", line 65, in macro
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/sandbox.py", line 462, in call
+    return __context.call(__obj, *args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 290, in call
+    return __obj(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/clients/jinja.py", line 327, in __call__
+    return self.call_macro(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/clients/jinja.py", line 257, in call_macro
+    return macro(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 675, in __call__
+    return self._invoke(arguments, autoescape)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 679, in _invoke
+    rv = self._func(*arguments)
+  File "<template>", line 41, in macro
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/sandbox.py", line 462, in call
+    return __context.call(__obj, *args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 290, in call
+    return __obj(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/base/impl.py", line 224, in execute
+    return self.connections.execute(
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/bigquery/connections.py", line 275, in execute
+    query_job, iterator = self.raw_execute(sql, fetch=fetch)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/bigquery/connections.py", line 268, in raw_execute
+    query_job, iterator = self._retry_and_handle(msg=sql, conn=conn, fn=fn)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/bigquery/connections.py", line 442, in _retry_and_handle
+    return retry.retry_target(
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/contextlib.py", line 131, in __exit__
+    self.gen.throw(type, value, traceback)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/bigquery/connections.py", line 134, in exception_handler
+    raise RuntimeException(exc_message)
+dbt.exceptions.RuntimeException: Runtime Error in model transaction_lines_w_accounting_period (models/transaction_lines_w_accounting_period.sql)
+  404 Not found: Dataset dbt-package-testing:netsuite was not found in location US
+  
+  (job ID: 64295129-f24b-42f8-af92-f0bfc01d6e3a)
+2020-10-22 21:29:42.022398 (Thread-3): Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '6906208d-ad78-4a94-bab5-037f3f30042b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fe662a56310>]}
+2020-10-22 21:29:42.024017 (Thread-3): 14:29:42 | 3 of 7 ERROR creating view model dbt_kristin.transaction_lines_w_accounting_period [ERROR in 2.53s]
+2020-10-22 21:29:42.024197 (Thread-3): Finished running node model.netsuite.transaction_lines_w_accounting_period
+2020-10-22 21:29:42.210210 (Thread-2): Unhandled error while running:
+/* {"app": "dbt", "dbt_version": "0.18.1", "profile_name": "integration_test", "target_name": "bigquery", "node_id": "model.netsuite.transaction_and_reporting_periods"} */
+
+
+  create or replace view `dbt-package-testing`.`dbt_kristin`.`transaction_and_reporting_periods`
+  OPTIONS()
+  as with accounting_periods as (
+    select * from `dbt-package-testing`.`netsuite`.`accounting_periods`
+),
+subsidiaries as (
+    select * from `dbt-package-testing`.`netsuite`.`subsidiaries`
+),
+transaction_and_reporting_periods as ( 
+
+  select
+    base.accounting_period_id as accounting_period_id,
+    multiplier.accounting_period_id as reporting_accounting_period_id
+  from accounting_periods as base
+  join accounting_periods as multiplier
+    on multiplier.starting >= base.starting
+    and multiplier.quarter = base.quarter
+    and multiplier.year_0 = base.year_0
+    and multiplier.fiscal_calendar_id = base.fiscal_calendar_id
+    and multiplier.starting <= CURRENT_TIMESTAMP()
+  where lower(base.quarter) = 'no'
+    and lower(base.year_0) = 'no'
+    and base.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null) -- fiscal calendar will align with parent subsidiary's default calendar
+)
+select * from transaction_and_reporting_periods;
+
+
+2020-10-22 21:29:42.210398 (Thread-2): 404 Not found: Dataset dbt-package-testing:netsuite was not found in location US
+
+(job ID: 54ac6756-58a0-45f6-9f48-0b4ff12d8e76)
+
+                                                                          -----Query Job SQL Follows-----                                                                           
+
+    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |
+   1:/* {"app": "dbt", "dbt_version": "0.18.1", "profile_name": "integration_test", "target_name": "bigquery", "node_id": "model.netsuite.transaction_and_reporting_periods"} */
+   2:
+   3:
+   4:  create or replace view `dbt-package-testing`.`dbt_kristin`.`transaction_and_reporting_periods`
+   5:  OPTIONS()
+   6:  as with accounting_periods as (
+   7:    select * from `dbt-package-testing`.`netsuite`.`accounting_periods`
+   8:),
+   9:subsidiaries as (
+  10:    select * from `dbt-package-testing`.`netsuite`.`subsidiaries`
+  11:),
+  12:transaction_and_reporting_periods as ( 
+  13:
+  14:  select
+  15:    base.accounting_period_id as accounting_period_id,
+  16:    multiplier.accounting_period_id as reporting_accounting_period_id
+  17:  from accounting_periods as base
+  18:  join accounting_periods as multiplier
+  19:    on multiplier.starting >= base.starting
+  20:    and multiplier.quarter = base.quarter
+  21:    and multiplier.year_0 = base.year_0
+  22:    and multiplier.fiscal_calendar_id = base.fiscal_calendar_id
+  23:    and multiplier.starting <= CURRENT_TIMESTAMP()
+  24:  where lower(base.quarter) = 'no'
+  25:    and lower(base.year_0) = 'no'
+  26:    and base.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null) -- fiscal calendar will align with parent subsidiary's default calendar
+  27:)
+  28:select * from transaction_and_reporting_periods;
+  29:
+    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |
+2020-10-22 21:29:42.210616 (Thread-2): finished collecting timing info
+2020-10-22 21:29:42.211126 (Thread-2): Runtime Error in model transaction_and_reporting_periods (models/transaction_and_reporting_periods.sql)
+  404 Not found: Dataset dbt-package-testing:netsuite was not found in location US
+  
+  (job ID: 54ac6756-58a0-45f6-9f48-0b4ff12d8e76)
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/bigquery/connections.py", line 103, in exception_handler
+    yield
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/bigquery/connections.py", line 442, in _retry_and_handle
+    return retry.retry_target(
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/google/api_core/retry.py", line 184, in retry_target
+    return target()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/bigquery/connections.py", line 266, in fn
+    return self._query_and_results(client, sql, conn, job_params)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/bigquery/connections.py", line 428, in _query_and_results
+    iterator = query_job.result(timeout=timeout)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/google/cloud/bigquery/job.py", line 3207, in result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/google/cloud/bigquery/job.py", line 812, in result
+    return super(_AsyncJob, self).result(timeout=timeout)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/google/api_core/future/polling.py", line 127, in result
+    raise self._exception
+google.api_core.exceptions.NotFound: 404 Not found: Dataset dbt-package-testing:netsuite was not found in location US
+
+(job ID: 54ac6756-58a0-45f6-9f48-0b4ff12d8e76)
+
+                                                                          -----Query Job SQL Follows-----                                                                           
+
+    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |
+   1:/* {"app": "dbt", "dbt_version": "0.18.1", "profile_name": "integration_test", "target_name": "bigquery", "node_id": "model.netsuite.transaction_and_reporting_periods"} */
+   2:
+   3:
+   4:  create or replace view `dbt-package-testing`.`dbt_kristin`.`transaction_and_reporting_periods`
+   5:  OPTIONS()
+   6:  as with accounting_periods as (
+   7:    select * from `dbt-package-testing`.`netsuite`.`accounting_periods`
+   8:),
+   9:subsidiaries as (
+  10:    select * from `dbt-package-testing`.`netsuite`.`subsidiaries`
+  11:),
+  12:transaction_and_reporting_periods as ( 
+  13:
+  14:  select
+  15:    base.accounting_period_id as accounting_period_id,
+  16:    multiplier.accounting_period_id as reporting_accounting_period_id
+  17:  from accounting_periods as base
+  18:  join accounting_periods as multiplier
+  19:    on multiplier.starting >= base.starting
+  20:    and multiplier.quarter = base.quarter
+  21:    and multiplier.year_0 = base.year_0
+  22:    and multiplier.fiscal_calendar_id = base.fiscal_calendar_id
+  23:    and multiplier.starting <= CURRENT_TIMESTAMP()
+  24:  where lower(base.quarter) = 'no'
+  25:    and lower(base.year_0) = 'no'
+  26:    and base.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null) -- fiscal calendar will align with parent subsidiary's default calendar
+  27:)
+  28:select * from transaction_and_reporting_periods;
+  29:
+    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/task/base.py", line 333, in safe_run
+    result = self.compile_and_execute(manifest, ctx)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/task/base.py", line 276, in compile_and_execute
+    result = self.run(ctx.node, manifest)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/task/base.py", line 378, in run
+    return self.execute(compiled_node, manifest)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/task/run.py", line 233, in execute
+    result = MacroGenerator(materialization_macro, context)()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/clients/jinja.py", line 327, in __call__
+    return self.call_macro(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/clients/jinja.py", line 257, in call_macro
+    return macro(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 675, in __call__
+    return self._invoke(arguments, autoescape)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 679, in _invoke
+    rv = self._func(*arguments)
+  File "<template>", line 22, in macro
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/sandbox.py", line 462, in call
+    return __context.call(__obj, *args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 290, in call
+    return __obj(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/clients/jinja.py", line 327, in __call__
+    return self.call_macro(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/clients/jinja.py", line 257, in call_macro
+    return macro(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 675, in __call__
+    return self._invoke(arguments, autoescape)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 679, in _invoke
+    rv = self._func(*arguments)
+  File "<template>", line 65, in macro
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/sandbox.py", line 462, in call
+    return __context.call(__obj, *args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 290, in call
+    return __obj(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/clients/jinja.py", line 327, in __call__
+    return self.call_macro(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/clients/jinja.py", line 257, in call_macro
+    return macro(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 675, in __call__
+    return self._invoke(arguments, autoescape)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 679, in _invoke
+    rv = self._func(*arguments)
+  File "<template>", line 41, in macro
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/sandbox.py", line 462, in call
+    return __context.call(__obj, *args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 290, in call
+    return __obj(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/base/impl.py", line 224, in execute
+    return self.connections.execute(
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/bigquery/connections.py", line 275, in execute
+    query_job, iterator = self.raw_execute(sql, fetch=fetch)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/bigquery/connections.py", line 268, in raw_execute
+    query_job, iterator = self._retry_and_handle(msg=sql, conn=conn, fn=fn)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/bigquery/connections.py", line 442, in _retry_and_handle
+    return retry.retry_target(
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/contextlib.py", line 131, in __exit__
+    self.gen.throw(type, value, traceback)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/bigquery/connections.py", line 134, in exception_handler
+    raise RuntimeException(exc_message)
+dbt.exceptions.RuntimeException: Runtime Error in model transaction_and_reporting_periods (models/transaction_and_reporting_periods.sql)
+  404 Not found: Dataset dbt-package-testing:netsuite was not found in location US
+  
+  (job ID: 54ac6756-58a0-45f6-9f48-0b4ff12d8e76)
+2020-10-22 21:29:42.211863 (Thread-2): Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '6906208d-ad78-4a94-bab5-037f3f30042b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fe662a60340>]}
+2020-10-22 21:29:42.213125 (Thread-2): 14:29:42 | 2 of 7 ERROR creating view model dbt_kristin.transaction_and_reporting_periods [ERROR in 2.72s]
+2020-10-22 21:29:42.213294 (Thread-2): Finished running node model.netsuite.transaction_and_reporting_periods
+2020-10-22 21:29:42.424135 (Thread-1): Unhandled error while running:
+/* {"app": "dbt", "dbt_version": "0.18.1", "profile_name": "integration_test", "target_name": "bigquery", "node_id": "model.netsuite.accountxperiod_exchange_rate_map"} */
+
+
+  create or replace view `dbt-package-testing`.`dbt_kristin`.`accountxperiod_exchange_rate_map`
+  OPTIONS()
+  as with accounts as (
+    select * from `dbt-package-testing`.`netsuite`.`accounts`
+), 
+accounting_books as (
+    select * from `dbt-package-testing`.`netsuite`.`accounting_books`
+), 
+subsidiaries as (
+    select * from `dbt-package-testing`.`netsuite`.`subsidiaries`
+),
+consolidated_exchange_rates as (
+    select * from `dbt-package-testing`.`netsuite`.`consolidated_exchange_rates`
+),
+
+period_exchange_rate_map as ( -- exchange rates used, by accounting period, to convert to parent subsidiary
+  select
+    consolidated_exchange_rates.accounting_period_id,
+    consolidated_exchange_rates.average_rate,
+    consolidated_exchange_rates.current_rate,
+    consolidated_exchange_rates.historical_rate,
+    consolidated_exchange_rates.from_subsidiary_id,
+    consolidated_exchange_rates.to_subsidiary_id
+  from consolidated_exchange_rates
+  where consolidated_exchange_rates.to_subsidiary_id in (select subsidiary_id from subsidiaries where parent_id is null)  -- constrait - only the primary subsidiary has no parent
+    and consolidated_exchange_rates.accounting_book_id in (select accounting_book_id from accounting_books where lower(is_primary) = 'yes')
+    and not consolidated_exchange_rates._fivetran_deleted
+), accountxperiod_exchange_rate_map as ( -- account table with exchange rate details by accounting period
+  select
+    period_exchange_rate_map.accounting_period_id,
+    period_exchange_rate_map.from_subsidiary_id,
+    period_exchange_rate_map.to_subsidiary_id,
+    accounts.account_id,
+    case 
+      when lower(accounts.general_rate_type) = 'historical' then period_exchange_rate_map.historical_rate
+      when lower(accounts.general_rate_type) = 'current' then period_exchange_rate_map.current_rate
+      when lower(accounts.general_rate_type) = 'average' then period_exchange_rate_map.average_rate
+      else null
+      end as exchange_rate
+  from accounts
+  cross join period_exchange_rate_map
+)
+select * from accountxperiod_exchange_rate_map;
+
+
+2020-10-22 21:29:42.424295 (Thread-1): 404 Not found: Dataset dbt-package-testing:netsuite was not found in location US
+
+(job ID: 30682b2e-008f-4267-972a-2c81542401f0)
+
+                                                                            -----Query Job SQL Follows-----                                                                            
+
+    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |
+   1:/* {"app": "dbt", "dbt_version": "0.18.1", "profile_name": "integration_test", "target_name": "bigquery", "node_id": "model.netsuite.accountxperiod_exchange_rate_map"} */
+   2:
+   3:
+   4:  create or replace view `dbt-package-testing`.`dbt_kristin`.`accountxperiod_exchange_rate_map`
+   5:  OPTIONS()
+   6:  as with accounts as (
+   7:    select * from `dbt-package-testing`.`netsuite`.`accounts`
+   8:), 
+   9:accounting_books as (
+  10:    select * from `dbt-package-testing`.`netsuite`.`accounting_books`
+  11:), 
+  12:subsidiaries as (
+  13:    select * from `dbt-package-testing`.`netsuite`.`subsidiaries`
+  14:),
+  15:consolidated_exchange_rates as (
+  16:    select * from `dbt-package-testing`.`netsuite`.`consolidated_exchange_rates`
+  17:),
+  18:
+  19:period_exchange_rate_map as ( -- exchange rates used, by accounting period, to convert to parent subsidiary
+  20:  select
+  21:    consolidated_exchange_rates.accounting_period_id,
+  22:    consolidated_exchange_rates.average_rate,
+  23:    consolidated_exchange_rates.current_rate,
+  24:    consolidated_exchange_rates.historical_rate,
+  25:    consolidated_exchange_rates.from_subsidiary_id,
+  26:    consolidated_exchange_rates.to_subsidiary_id
+  27:  from consolidated_exchange_rates
+  28:  where consolidated_exchange_rates.to_subsidiary_id in (select subsidiary_id from subsidiaries where parent_id is null)  -- constrait - only the primary subsidiary has no parent
+  29:    and consolidated_exchange_rates.accounting_book_id in (select accounting_book_id from accounting_books where lower(is_primary) = 'yes')
+  30:    and not consolidated_exchange_rates._fivetran_deleted
+  31:), accountxperiod_exchange_rate_map as ( -- account table with exchange rate details by accounting period
+  32:  select
+  33:    period_exchange_rate_map.accounting_period_id,
+  34:    period_exchange_rate_map.from_subsidiary_id,
+  35:    period_exchange_rate_map.to_subsidiary_id,
+  36:    accounts.account_id,
+  37:    case 
+  38:      when lower(accounts.general_rate_type) = 'historical' then period_exchange_rate_map.historical_rate
+  39:      when lower(accounts.general_rate_type) = 'current' then period_exchange_rate_map.current_rate
+  40:      when lower(accounts.general_rate_type) = 'average' then period_exchange_rate_map.average_rate
+  41:      else null
+  42:      end as exchange_rate
+  43:  from accounts
+  44:  cross join period_exchange_rate_map
+  45:)
+  46:select * from accountxperiod_exchange_rate_map;
+  47:
+    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |
+2020-10-22 21:29:42.424516 (Thread-1): finished collecting timing info
+2020-10-22 21:29:42.424999 (Thread-1): Runtime Error in model accountxperiod_exchange_rate_map (models/accountxperiod_exchange_rate_map.sql)
+  404 Not found: Dataset dbt-package-testing:netsuite was not found in location US
+  
+  (job ID: 30682b2e-008f-4267-972a-2c81542401f0)
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/bigquery/connections.py", line 103, in exception_handler
+    yield
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/bigquery/connections.py", line 442, in _retry_and_handle
+    return retry.retry_target(
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/google/api_core/retry.py", line 184, in retry_target
+    return target()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/bigquery/connections.py", line 266, in fn
+    return self._query_and_results(client, sql, conn, job_params)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/bigquery/connections.py", line 428, in _query_and_results
+    iterator = query_job.result(timeout=timeout)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/google/cloud/bigquery/job.py", line 3207, in result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/google/cloud/bigquery/job.py", line 812, in result
+    return super(_AsyncJob, self).result(timeout=timeout)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/google/api_core/future/polling.py", line 127, in result
+    raise self._exception
+google.api_core.exceptions.NotFound: 404 Not found: Dataset dbt-package-testing:netsuite was not found in location US
+
+(job ID: 30682b2e-008f-4267-972a-2c81542401f0)
+
+                                                                            -----Query Job SQL Follows-----                                                                            
+
+    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |
+   1:/* {"app": "dbt", "dbt_version": "0.18.1", "profile_name": "integration_test", "target_name": "bigquery", "node_id": "model.netsuite.accountxperiod_exchange_rate_map"} */
+   2:
+   3:
+   4:  create or replace view `dbt-package-testing`.`dbt_kristin`.`accountxperiod_exchange_rate_map`
+   5:  OPTIONS()
+   6:  as with accounts as (
+   7:    select * from `dbt-package-testing`.`netsuite`.`accounts`
+   8:), 
+   9:accounting_books as (
+  10:    select * from `dbt-package-testing`.`netsuite`.`accounting_books`
+  11:), 
+  12:subsidiaries as (
+  13:    select * from `dbt-package-testing`.`netsuite`.`subsidiaries`
+  14:),
+  15:consolidated_exchange_rates as (
+  16:    select * from `dbt-package-testing`.`netsuite`.`consolidated_exchange_rates`
+  17:),
+  18:
+  19:period_exchange_rate_map as ( -- exchange rates used, by accounting period, to convert to parent subsidiary
+  20:  select
+  21:    consolidated_exchange_rates.accounting_period_id,
+  22:    consolidated_exchange_rates.average_rate,
+  23:    consolidated_exchange_rates.current_rate,
+  24:    consolidated_exchange_rates.historical_rate,
+  25:    consolidated_exchange_rates.from_subsidiary_id,
+  26:    consolidated_exchange_rates.to_subsidiary_id
+  27:  from consolidated_exchange_rates
+  28:  where consolidated_exchange_rates.to_subsidiary_id in (select subsidiary_id from subsidiaries where parent_id is null)  -- constrait - only the primary subsidiary has no parent
+  29:    and consolidated_exchange_rates.accounting_book_id in (select accounting_book_id from accounting_books where lower(is_primary) = 'yes')
+  30:    and not consolidated_exchange_rates._fivetran_deleted
+  31:), accountxperiod_exchange_rate_map as ( -- account table with exchange rate details by accounting period
+  32:  select
+  33:    period_exchange_rate_map.accounting_period_id,
+  34:    period_exchange_rate_map.from_subsidiary_id,
+  35:    period_exchange_rate_map.to_subsidiary_id,
+  36:    accounts.account_id,
+  37:    case 
+  38:      when lower(accounts.general_rate_type) = 'historical' then period_exchange_rate_map.historical_rate
+  39:      when lower(accounts.general_rate_type) = 'current' then period_exchange_rate_map.current_rate
+  40:      when lower(accounts.general_rate_type) = 'average' then period_exchange_rate_map.average_rate
+  41:      else null
+  42:      end as exchange_rate
+  43:  from accounts
+  44:  cross join period_exchange_rate_map
+  45:)
+  46:select * from accountxperiod_exchange_rate_map;
+  47:
+    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |    .    |
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/task/base.py", line 333, in safe_run
+    result = self.compile_and_execute(manifest, ctx)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/task/base.py", line 276, in compile_and_execute
+    result = self.run(ctx.node, manifest)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/task/base.py", line 378, in run
+    return self.execute(compiled_node, manifest)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/task/run.py", line 233, in execute
+    result = MacroGenerator(materialization_macro, context)()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/clients/jinja.py", line 327, in __call__
+    return self.call_macro(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/clients/jinja.py", line 257, in call_macro
+    return macro(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 675, in __call__
+    return self._invoke(arguments, autoescape)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 679, in _invoke
+    rv = self._func(*arguments)
+  File "<template>", line 22, in macro
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/sandbox.py", line 462, in call
+    return __context.call(__obj, *args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 290, in call
+    return __obj(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/clients/jinja.py", line 327, in __call__
+    return self.call_macro(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/clients/jinja.py", line 257, in call_macro
+    return macro(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 675, in __call__
+    return self._invoke(arguments, autoescape)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 679, in _invoke
+    rv = self._func(*arguments)
+  File "<template>", line 65, in macro
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/sandbox.py", line 462, in call
+    return __context.call(__obj, *args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 290, in call
+    return __obj(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/clients/jinja.py", line 327, in __call__
+    return self.call_macro(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/clients/jinja.py", line 257, in call_macro
+    return macro(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 675, in __call__
+    return self._invoke(arguments, autoescape)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 679, in _invoke
+    rv = self._func(*arguments)
+  File "<template>", line 41, in macro
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/sandbox.py", line 462, in call
+    return __context.call(__obj, *args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/jinja2/runtime.py", line 290, in call
+    return __obj(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/base/impl.py", line 224, in execute
+    return self.connections.execute(
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/bigquery/connections.py", line 275, in execute
+    query_job, iterator = self.raw_execute(sql, fetch=fetch)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/bigquery/connections.py", line 268, in raw_execute
+    query_job, iterator = self._retry_and_handle(msg=sql, conn=conn, fn=fn)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/bigquery/connections.py", line 442, in _retry_and_handle
+    return retry.retry_target(
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/contextlib.py", line 131, in __exit__
+    self.gen.throw(type, value, traceback)
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/dbt/adapters/bigquery/connections.py", line 134, in exception_handler
+    raise RuntimeException(exc_message)
+dbt.exceptions.RuntimeException: Runtime Error in model accountxperiod_exchange_rate_map (models/accountxperiod_exchange_rate_map.sql)
+  404 Not found: Dataset dbt-package-testing:netsuite was not found in location US
+  
+  (job ID: 30682b2e-008f-4267-972a-2c81542401f0)
+2020-10-22 21:29:42.425704 (Thread-1): Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '6906208d-ad78-4a94-bab5-037f3f30042b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fe66268d6a0>]}
+2020-10-22 21:29:42.426907 (Thread-1): 14:29:42 | 1 of 7 ERROR creating view model dbt_kristin.accountxperiod_exchange_rate_map [ERROR in 2.96s]
+2020-10-22 21:29:42.427051 (Thread-1): Finished running node model.netsuite.accountxperiod_exchange_rate_map
+2020-10-22 21:29:42.427800 (Thread-4): Began running node model.netsuite.transactions_with_converted_amounts
+2020-10-22 21:29:42.427988 (Thread-4): 14:29:42 | 4 of 7 SKIP relation dbt_kristin.transactions_with_converted_amounts. [SKIP]
+2020-10-22 21:29:42.428125 (Thread-4): Finished running node model.netsuite.transactions_with_converted_amounts
+2020-10-22 21:29:42.428614 (Thread-2): Began running node model.netsuite.balance_sheet
+2020-10-22 21:29:42.428790 (Thread-2): 14:29:42 | 5 of 7 SKIP relation dbt_kristin.balance_sheet....................... [SKIP]
+2020-10-22 21:29:42.428963 (Thread-2): Finished running node model.netsuite.balance_sheet
+2020-10-22 21:29:42.429123 (Thread-2): Began running node model.netsuite.income_statement
+2020-10-22 21:29:42.429266 (Thread-2): 14:29:42 | 6 of 7 SKIP relation dbt_kristin.income_statement.................... [SKIP]
+2020-10-22 21:29:42.429390 (Thread-2): Finished running node model.netsuite.income_statement
+2020-10-22 21:29:42.429515 (Thread-2): Began running node model.netsuite.transaction_details
+2020-10-22 21:29:42.429643 (Thread-2): 14:29:42 | 7 of 7 SKIP relation dbt_kristin.transaction_details................. [SKIP]
+2020-10-22 21:29:42.429763 (Thread-2): Finished running node model.netsuite.transaction_details
+2020-10-22 21:29:42.430983 (MainThread): Acquiring new bigquery connection "master".
+2020-10-22 21:29:42.431376 (MainThread): 14:29:42 | 
+2020-10-22 21:29:42.431515 (MainThread): 14:29:42 | Finished running 7 view models in 7.79s.
+2020-10-22 21:29:42.431626 (MainThread): Connection 'master' was properly closed.
+2020-10-22 21:29:42.431709 (MainThread): Connection 'model.netsuite.accountxperiod_exchange_rate_map' was properly closed.
+2020-10-22 21:29:42.431788 (MainThread): Connection 'model.netsuite.transaction_and_reporting_periods' was properly closed.
+2020-10-22 21:29:42.431864 (MainThread): Connection 'model.netsuite.transaction_lines_w_accounting_period' was properly closed.
+2020-10-22 21:29:42.456538 (MainThread): 
+2020-10-22 21:29:42.456752 (MainThread): Completed with 3 errors and 0 warnings:
+2020-10-22 21:29:42.456888 (MainThread): 
+2020-10-22 21:29:42.457125 (MainThread): Runtime Error in model transaction_lines_w_accounting_period (models/transaction_lines_w_accounting_period.sql)
+2020-10-22 21:29:42.457254 (MainThread):   404 Not found: Dataset dbt-package-testing:netsuite was not found in location US
+2020-10-22 21:29:42.457373 (MainThread):   
+2020-10-22 21:29:42.457472 (MainThread):   (job ID: 64295129-f24b-42f8-af92-f0bfc01d6e3a)
+2020-10-22 21:29:42.457575 (MainThread): 
+2020-10-22 21:29:42.457686 (MainThread): Runtime Error in model transaction_and_reporting_periods (models/transaction_and_reporting_periods.sql)
+2020-10-22 21:29:42.457786 (MainThread):   404 Not found: Dataset dbt-package-testing:netsuite was not found in location US
+2020-10-22 21:29:42.457883 (MainThread):   
+2020-10-22 21:29:42.458107 (MainThread):   (job ID: 54ac6756-58a0-45f6-9f48-0b4ff12d8e76)
+2020-10-22 21:29:42.458239 (MainThread): 
+2020-10-22 21:29:42.458367 (MainThread): Runtime Error in model accountxperiod_exchange_rate_map (models/accountxperiod_exchange_rate_map.sql)
+2020-10-22 21:29:42.458476 (MainThread):   404 Not found: Dataset dbt-package-testing:netsuite was not found in location US
+2020-10-22 21:29:42.458575 (MainThread):   
+2020-10-22 21:29:42.458673 (MainThread):   (job ID: 30682b2e-008f-4267-972a-2c81542401f0)
+2020-10-22 21:29:42.458813 (MainThread): 
+Done. PASS=0 WARN=0 ERROR=3 SKIP=4 TOTAL=7
+2020-10-22 21:29:42.459250 (MainThread): Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fe6627bc910>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fe6625df850>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fe66268d580>]}
+2020-10-22 21:29:42.459589 (MainThread): Flushing usage events
+2020-10-22 21:29:51.551432 (MainThread): Running with dbt=0.18.1
+2020-10-22 21:29:51.730121 (MainThread): running dbt with arguments Namespace(cls=<class 'dbt.task.run.RunTask'>, debug=False, defer=None, exclude=None, fail_fast=False, full_refresh=False, log_cache_events=False, log_format='default', models=None, partial_parse=None, profile=None, profiles_dir='/Users/kristin/.dbt', project_dir=None, record_timing_info=None, rpc_method='run', selector_name=None, single_threaded=False, state=None, strict=False, target='dev_bigquery_internal', test_new_parser=False, threads=None, use_cache=True, use_colors=None, vars='{}', version_check=True, warn_error=False, which='run', write_json=True)
+2020-10-22 21:29:51.731003 (MainThread): Tracking: tracking
+2020-10-22 21:29:51.737792 (MainThread): Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff810e5c9d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff810e5c1f0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff810e5c8b0>]}
+2020-10-22 21:29:51.767101 (MainThread): Partial parsing not enabled
+2020-10-22 21:29:51.767952 (MainThread): Parsing macros/etc.sql
+2020-10-22 21:29:51.769575 (MainThread): Parsing macros/catalog.sql
+2020-10-22 21:29:51.775829 (MainThread): Parsing macros/adapters.sql
+2020-10-22 21:29:51.792857 (MainThread): Parsing macros/materializations/seed.sql
+2020-10-22 21:29:51.795193 (MainThread): Parsing macros/materializations/view.sql
+2020-10-22 21:29:51.797637 (MainThread): Parsing macros/materializations/table.sql
+2020-10-22 21:29:51.806516 (MainThread): Parsing macros/materializations/copy.sql
+2020-10-22 21:29:51.810389 (MainThread): Parsing macros/materializations/incremental.sql
+2020-10-22 21:29:51.821571 (MainThread): Parsing macros/materializations/snapshot.sql
+2020-10-22 21:29:51.824265 (MainThread): Parsing macros/core.sql
+2020-10-22 21:29:51.827686 (MainThread): Parsing macros/materializations/helpers.sql
+2020-10-22 21:29:51.835609 (MainThread): Parsing macros/materializations/snapshot/snapshot_merge.sql
+2020-10-22 21:29:51.837147 (MainThread): Parsing macros/materializations/snapshot/strategies.sql
+2020-10-22 21:29:51.851993 (MainThread): Parsing macros/materializations/snapshot/snapshot.sql
+2020-10-22 21:29:51.878566 (MainThread): Parsing macros/materializations/seed/seed.sql
+2020-10-22 21:29:51.898588 (MainThread): Parsing macros/materializations/incremental/helpers.sql
+2020-10-22 21:29:51.900601 (MainThread): Parsing macros/materializations/incremental/incremental.sql
+2020-10-22 21:29:51.906276 (MainThread): Parsing macros/materializations/common/merge.sql
+2020-10-22 21:29:51.918797 (MainThread): Parsing macros/materializations/table/table.sql
+2020-10-22 21:29:51.924704 (MainThread): Parsing macros/materializations/view/view.sql
+2020-10-22 21:29:51.930107 (MainThread): Parsing macros/materializations/view/create_or_replace_view.sql
+2020-10-22 21:29:51.934653 (MainThread): Parsing macros/etc/get_custom_alias.sql
+2020-10-22 21:29:51.935465 (MainThread): Parsing macros/etc/query.sql
+2020-10-22 21:29:51.936368 (MainThread): Parsing macros/etc/is_incremental.sql
+2020-10-22 21:29:51.937868 (MainThread): Parsing macros/etc/datetime.sql
+2020-10-22 21:29:51.945665 (MainThread): Parsing macros/etc/get_custom_schema.sql
+2020-10-22 21:29:51.947364 (MainThread): Parsing macros/etc/get_custom_database.sql
+2020-10-22 21:29:51.948834 (MainThread): Parsing macros/adapters/common.sql
+2020-10-22 21:29:51.987603 (MainThread): Parsing macros/schema_tests/relationships.sql
+2020-10-22 21:29:51.989188 (MainThread): Parsing macros/schema_tests/not_null.sql
+2020-10-22 21:29:51.990579 (MainThread): Parsing macros/schema_tests/unique.sql
+2020-10-22 21:29:51.992016 (MainThread): Parsing macros/schema_tests/accepted_values.sql
+2020-10-22 21:29:51.995698 (MainThread): Parsing macros/cross_db_utils/except.sql
+2020-10-22 21:29:51.996623 (MainThread): Parsing macros/cross_db_utils/replace.sql
+2020-10-22 21:29:51.997690 (MainThread): Parsing macros/cross_db_utils/concat.sql
+2020-10-22 21:29:51.999706 (MainThread): Parsing macros/cross_db_utils/datatypes.sql
+2020-10-22 21:29:52.004621 (MainThread): Parsing macros/cross_db_utils/_is_relation.sql
+2020-10-22 21:29:52.005735 (MainThread): Parsing macros/cross_db_utils/length.sql
+2020-10-22 21:29:52.007365 (MainThread): Parsing macros/cross_db_utils/dateadd.sql
+2020-10-22 21:29:52.009613 (MainThread): Parsing macros/cross_db_utils/intersect.sql
+2020-10-22 21:29:52.010614 (MainThread): Parsing macros/cross_db_utils/right.sql
+2020-10-22 21:29:52.012774 (MainThread): Parsing macros/cross_db_utils/datediff.sql
+2020-10-22 21:29:52.048327 (MainThread): Parsing macros/cross_db_utils/safe_cast.sql
+2020-10-22 21:29:52.050871 (MainThread): Parsing macros/cross_db_utils/hash.sql
+2020-10-22 21:29:52.052699 (MainThread): Parsing macros/cross_db_utils/identifier.sql
+2020-10-22 21:29:52.054548 (MainThread): Parsing macros/cross_db_utils/position.sql
+2020-10-22 21:29:52.056549 (MainThread): Parsing macros/cross_db_utils/literal.sql
+2020-10-22 21:29:52.057835 (MainThread): Parsing macros/cross_db_utils/current_timestamp.sql
+2020-10-22 21:29:52.062084 (MainThread): Parsing macros/cross_db_utils/width_bucket.sql
+2020-10-22 21:29:52.068824 (MainThread): Parsing macros/cross_db_utils/last_day.sql
+2020-10-22 21:29:52.072125 (MainThread): Parsing macros/cross_db_utils/split_part.sql
+2020-10-22 21:29:52.074240 (MainThread): Parsing macros/cross_db_utils/date_trunc.sql
+2020-10-22 21:29:52.075928 (MainThread): Parsing macros/cross_db_utils/_is_ephemeral.sql
+2020-10-22 21:29:52.077950 (MainThread): Parsing macros/materializations/insert_by_period_materialization.sql
+2020-10-22 21:29:52.102623 (MainThread): Parsing macros/logger/pretty_log_format.sql
+2020-10-22 21:29:52.103225 (MainThread): Parsing macros/logger/pretty_time.sql
+2020-10-22 21:29:52.103870 (MainThread): Parsing macros/logger/log_info.sql
+2020-10-22 21:29:52.104470 (MainThread): Parsing macros/datetime/date_spine.sql
+2020-10-22 21:29:52.107331 (MainThread): Parsing macros/web/get_url_host.sql
+2020-10-22 21:29:52.108502 (MainThread): Parsing macros/web/get_url_path.sql
+2020-10-22 21:29:52.110388 (MainThread): Parsing macros/web/get_url_parameter.sql
+2020-10-22 21:29:52.111348 (MainThread): Parsing macros/geo/haversine_distance.sql
+2020-10-22 21:29:52.112144 (MainThread): Parsing macros/schema_tests/equal_rowcount.sql
+2020-10-22 21:29:52.113296 (MainThread): Parsing macros/schema_tests/relationships_where.sql
+2020-10-22 21:29:52.115029 (MainThread): Parsing macros/schema_tests/recency.sql
+2020-10-22 21:29:52.116074 (MainThread): Parsing macros/schema_tests/not_constant.sql
+2020-10-22 21:29:52.116919 (MainThread): Parsing macros/schema_tests/test_unique_where.sql
+2020-10-22 21:29:52.118261 (MainThread): Parsing macros/schema_tests/at_least_one.sql
+2020-10-22 21:29:52.119111 (MainThread): Parsing macros/schema_tests/unique_combination_of_columns.sql
+2020-10-22 21:29:52.120130 (MainThread): Parsing macros/schema_tests/cardinality_equality.sql
+2020-10-22 21:29:52.121512 (MainThread): Parsing macros/schema_tests/expression_is_true.sql
+2020-10-22 21:29:52.122485 (MainThread): Parsing macros/schema_tests/test_not_null_where.sql
+2020-10-22 21:29:52.124020 (MainThread): Parsing macros/schema_tests/equality.sql
+2020-10-22 21:29:52.127039 (MainThread): Parsing macros/schema_tests/mutually_exclusive_ranges.sql
+2020-10-22 21:29:52.131941 (MainThread): Parsing macros/sql/nullcheck_table.sql
+2020-10-22 21:29:52.132970 (MainThread): Parsing macros/sql/get_relations_by_pattern.sql
+2020-10-22 21:29:52.135224 (MainThread): Parsing macros/sql/generate_series.sql
+2020-10-22 21:29:52.138022 (MainThread): Parsing macros/sql/get_relations_by_prefix.sql
+2020-10-22 21:29:52.141233 (MainThread): Parsing macros/sql/get_tables_by_prefix_sql.sql
+2020-10-22 21:29:52.143751 (MainThread): Parsing macros/sql/star.sql
+2020-10-22 21:29:52.146494 (MainThread): Parsing macros/sql/unpivot.sql
+2020-10-22 21:29:52.152072 (MainThread): Parsing macros/sql/union.sql
+2020-10-22 21:29:52.160311 (MainThread): Parsing macros/sql/groupby.sql
+2020-10-22 21:29:52.161106 (MainThread): Parsing macros/sql/get_tables_by_pattern.sql
+2020-10-22 21:29:52.161906 (MainThread): Parsing macros/sql/surrogate_key.sql
+2020-10-22 21:29:52.164273 (MainThread): Parsing macros/sql/safe_add.sql
+2020-10-22 21:29:52.165203 (MainThread): Parsing macros/sql/nullcheck.sql
+2020-10-22 21:29:52.166448 (MainThread): Parsing macros/sql/get_column_values.sql
+2020-10-22 21:29:52.170008 (MainThread): Parsing macros/sql/pivot.sql
+2020-10-22 21:29:52.172440 (MainThread): Parsing macros/sql/get_query_results_as_dict.sql
+2020-10-22 21:29:52.178722 (MainThread): Partial parsing not enabled
+2020-10-22 21:29:52.215954 (MainThread): Acquiring new bigquery connection "model.netsuite.income_statement".
+2020-10-22 21:29:52.229334 (MainThread): * Deprecation Warning: The "adapter_macro" macro has been deprecated. Instead,
+use the `adapter.dispatch` method to find a macro and call the result.
+adapter_macro was called for: dbt_utils.concat
+2020-10-22 21:29:52.229448 (MainThread): Sending event: {'category': 'dbt', 'action': 'deprecation', 'label': 'b1b40449-98c1-4d1a-9469-9dff9faa2845', 'property_': 'warn', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff8120bd430>]}
+2020-10-22 21:29:52.243269 (MainThread): Acquiring new bigquery connection "model.netsuite.transaction_lines_w_accounting_period".
+2020-10-22 21:29:52.253873 (MainThread): Acquiring new bigquery connection "model.netsuite.balance_sheet".
+2020-10-22 21:29:52.264967 (MainThread): Acquiring new bigquery connection "model.netsuite.transaction_and_reporting_periods".
+2020-10-22 21:29:52.275383 (MainThread): Acquiring new bigquery connection "model.netsuite.transactions_with_converted_amounts".
+2020-10-22 21:29:52.285545 (MainThread): Acquiring new bigquery connection "model.netsuite.transaction_details".
+2020-10-22 21:29:52.304692 (MainThread): Acquiring new bigquery connection "model.netsuite.accountxperiod_exchange_rate_map".
+2020-10-22 21:29:53.160706 (MainThread): Found 7 models, 36 tests, 0 snapshots, 0 analyses, 287 macros, 0 operations, 0 seed files, 17 sources
+2020-10-22 21:29:53.162924 (MainThread): 
+2020-10-22 21:29:53.163202 (MainThread): Acquiring new bigquery connection "master".
+2020-10-22 21:29:53.171309 (ThreadPoolExecutor-0_0): Acquiring new bigquery connection "list_private-internal".
+2020-10-22 21:29:53.171702 (ThreadPoolExecutor-0_0): Opening a new connection, currently in state init
+2020-10-22 21:29:53.616120 (ThreadPoolExecutor-1_0): Acquiring new bigquery connection "list_private-internal_dbt_kristin".
+2020-10-22 21:29:53.616261 (ThreadPoolExecutor-1_0): Opening a new connection, currently in state closed
+2020-10-22 21:29:53.616733 (ThreadPoolExecutor-1_0): Client.dataset is deprecated and will be removed in a future version. Use a string like 'my_project.my_dataset' or a cloud.google.bigquery.DatasetReference object, instead.
+2020-10-22 21:29:53.989445 (MainThread): 14:29:53 | Concurrency: 4 threads (target='dev_bigquery_internal')
+2020-10-22 21:29:53.989646 (MainThread): 14:29:53 | 
+2020-10-22 21:29:53.992891 (Thread-1): Began running node model.netsuite.accountxperiod_exchange_rate_map
+2020-10-22 21:29:53.994010 (Thread-1): 14:29:53 | 1 of 7 START view model dbt_kristin.accountxperiod_exchange_rate_map. [RUN]
+2020-10-22 21:29:53.994174 (Thread-2): Began running node model.netsuite.transaction_and_reporting_periods
+2020-10-22 21:29:53.994494 (Thread-1): Acquiring new bigquery connection "model.netsuite.accountxperiod_exchange_rate_map".
+2020-10-22 21:29:53.994654 (Thread-3): Began running node model.netsuite.transaction_lines_w_accounting_period
+2020-10-22 21:29:53.995691 (Thread-2): 14:29:53 | 2 of 7 START view model dbt_kristin.transaction_and_reporting_periods [RUN]
+2020-10-22 21:29:53.995851 (Thread-1): Compiling model.netsuite.accountxperiod_exchange_rate_map
+2020-10-22 21:29:53.996864 (Thread-3): 14:29:53 | 3 of 7 START view model dbt_kristin.transaction_lines_w_accounting_period [RUN]
+2020-10-22 21:29:53.997168 (Thread-2): Acquiring new bigquery connection "model.netsuite.transaction_and_reporting_periods".
+2020-10-22 21:29:54.008452 (Thread-3): Acquiring new bigquery connection "model.netsuite.transaction_lines_w_accounting_period".
+2020-10-22 21:29:54.014115 (Thread-2): Compiling model.netsuite.transaction_and_reporting_periods
+2020-10-22 21:29:54.022777 (Thread-1): Writing injected SQL for node "model.netsuite.accountxperiod_exchange_rate_map"
+2020-10-22 21:29:54.022991 (Thread-3): Compiling model.netsuite.transaction_lines_w_accounting_period
+2020-10-22 21:29:54.033142 (Thread-2): Writing injected SQL for node "model.netsuite.transaction_and_reporting_periods"
+2020-10-22 21:29:54.042644 (Thread-3): Writing injected SQL for node "model.netsuite.transaction_lines_w_accounting_period"
+2020-10-22 21:29:54.042915 (Thread-1): finished collecting timing info
+2020-10-22 21:29:54.055887 (Thread-2): finished collecting timing info
+2020-10-22 21:29:54.086580 (Thread-2): Writing runtime SQL for node "model.netsuite.transaction_and_reporting_periods"
+2020-10-22 21:29:54.087967 (Thread-1): Writing runtime SQL for node "model.netsuite.accountxperiod_exchange_rate_map"
+2020-10-22 21:29:54.088180 (Thread-3): finished collecting timing info
+2020-10-22 21:29:54.089409 (Thread-3): unclosed <socket.socket fd=22, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('192.168.4.24', 64516), raddr=('172.217.14.234', 443)>
+2020-10-22 21:29:54.089698 (Thread-2): Opening a new connection, currently in state init
+2020-10-22 21:29:54.089820 (Thread-3): unclosed <socket.socket fd=21, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('192.168.4.24', 64515), raddr=('172.217.14.234', 443)>
+2020-10-22 21:29:54.092735 (Thread-3): Writing runtime SQL for node "model.netsuite.transaction_lines_w_accounting_period"
+2020-10-22 21:29:54.093072 (Thread-2): On model.netsuite.transaction_and_reporting_periods: /* {"app": "dbt", "dbt_version": "0.18.1", "profile_name": "integration_test", "target_name": "dev_bigquery_internal", "node_id": "model.netsuite.transaction_and_reporting_periods"} */
+
+
+  create or replace view `private-internal`.`dbt_kristin`.`transaction_and_reporting_periods`
+  OPTIONS()
+  as with accounting_periods as (
+    select * from `private-internal`.`netsuite`.`accounting_periods`
+),
+subsidiaries as (
+    select * from `private-internal`.`netsuite`.`subsidiaries`
+),
+transaction_and_reporting_periods as ( 
+
+  select
+    base.accounting_period_id as accounting_period_id,
+    multiplier.accounting_period_id as reporting_accounting_period_id
+  from accounting_periods as base
+  join accounting_periods as multiplier
+    on multiplier.starting >= base.starting
+    and multiplier.quarter = base.quarter
+    and multiplier.year_0 = base.year_0
+    and multiplier.fiscal_calendar_id = base.fiscal_calendar_id
+    and multiplier.starting <= CURRENT_TIMESTAMP()
+  where lower(base.quarter) = 'no'
+    and lower(base.year_0) = 'no'
+    and base.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null) -- fiscal calendar will align with parent subsidiary's default calendar
+)
+select * from transaction_and_reporting_periods;
+
+
+2020-10-22 21:29:54.093198 (Thread-1): Opening a new connection, currently in state closed
+2020-10-22 21:29:54.093973 (Thread-3): Opening a new connection, currently in state init
+2020-10-22 21:29:54.094238 (Thread-1): On model.netsuite.accountxperiod_exchange_rate_map: /* {"app": "dbt", "dbt_version": "0.18.1", "profile_name": "integration_test", "target_name": "dev_bigquery_internal", "node_id": "model.netsuite.accountxperiod_exchange_rate_map"} */
+
+
+  create or replace view `private-internal`.`dbt_kristin`.`accountxperiod_exchange_rate_map`
+  OPTIONS()
+  as with accounts as (
+    select * from `private-internal`.`netsuite`.`accounts`
+), 
+accounting_books as (
+    select * from `private-internal`.`netsuite`.`accounting_books`
+), 
+subsidiaries as (
+    select * from `private-internal`.`netsuite`.`subsidiaries`
+),
+consolidated_exchange_rates as (
+    select * from `private-internal`.`netsuite`.`consolidated_exchange_rates`
+),
+
+period_exchange_rate_map as ( -- exchange rates used, by accounting period, to convert to parent subsidiary
+  select
+    consolidated_exchange_rates.accounting_period_id,
+    consolidated_exchange_rates.average_rate,
+    consolidated_exchange_rates.current_rate,
+    consolidated_exchange_rates.historical_rate,
+    consolidated_exchange_rates.from_subsidiary_id,
+    consolidated_exchange_rates.to_subsidiary_id
+  from consolidated_exchange_rates
+  where consolidated_exchange_rates.to_subsidiary_id in (select subsidiary_id from subsidiaries where parent_id is null)  -- constrait - only the primary subsidiary has no parent
+    and consolidated_exchange_rates.accounting_book_id in (select accounting_book_id from accounting_books where lower(is_primary) = 'yes')
+    and not consolidated_exchange_rates._fivetran_deleted
+), accountxperiod_exchange_rate_map as ( -- account table with exchange rate details by accounting period
+  select
+    period_exchange_rate_map.accounting_period_id,
+    period_exchange_rate_map.from_subsidiary_id,
+    period_exchange_rate_map.to_subsidiary_id,
+    accounts.account_id,
+    case 
+      when lower(accounts.general_rate_type) = 'historical' then period_exchange_rate_map.historical_rate
+      when lower(accounts.general_rate_type) = 'current' then period_exchange_rate_map.current_rate
+      when lower(accounts.general_rate_type) = 'average' then period_exchange_rate_map.average_rate
+      else null
+      end as exchange_rate
+  from accounts
+  cross join period_exchange_rate_map
+)
+select * from accountxperiod_exchange_rate_map;
+
+
+2020-10-22 21:29:54.094359 (Thread-3): On model.netsuite.transaction_lines_w_accounting_period: /* {"app": "dbt", "dbt_version": "0.18.1", "profile_name": "integration_test", "target_name": "dev_bigquery_internal", "node_id": "model.netsuite.transaction_lines_w_accounting_period"} */
+
+
+  create or replace view `private-internal`.`dbt_kristin`.`transaction_lines_w_accounting_period`
+  OPTIONS()
+  as with transactions as (
+    select * from `private-internal`.`netsuite`.`transactions`
+), 
+transaction_lines as (
+    select * from `private-internal`.`netsuite`.`transaction_lines`
+),
+
+transaction_lines_w_accounting_period as ( -- transaction line totals, by accounts, accounting period and subsidiary
+  select
+    transaction_lines.transaction_id,
+    transaction_lines.transaction_line_id,
+    transaction_lines.subsidiary_id,
+    transaction_lines.account_id,
+    transactions.accounting_period_id as transaction_accounting_period_id,
+    coalesce(transaction_lines.amount, 0) as unconverted_amount
+  from transaction_lines
+  join transactions on transactions.transaction_id = transaction_lines.transaction_id
+  where not transactions._fivetran_deleted
+    and lower(transactions.transaction_type) != 'revenue arrangement'
+    and lower(non_posting_line) != 'yes'
+)
+
+select * from transaction_lines_w_accounting_period;
+
+
+2020-10-22 21:29:54.945734 (Thread-3): finished collecting timing info
+2020-10-22 21:29:54.947056 (Thread-3): Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'b1b40449-98c1-4d1a-9469-9dff9faa2845', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff812570ac0>]}
+2020-10-22 21:29:54.948222 (Thread-3): 14:29:54 | 3 of 7 OK created view model dbt_kristin.transaction_lines_w_accounting_period [CREATE VIEW in 0.94s]
+2020-10-22 21:29:54.952416 (Thread-1): finished collecting timing info
+2020-10-22 21:29:54.952707 (Thread-3): Finished running node model.netsuite.transaction_lines_w_accounting_period
+2020-10-22 21:29:54.953206 (Thread-1): Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'b1b40449-98c1-4d1a-9469-9dff9faa2845', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff8123f6d90>]}
+2020-10-22 21:29:54.954486 (Thread-1): 14:29:54 | 1 of 7 OK created view model dbt_kristin.accountxperiod_exchange_rate_map [CREATE VIEW in 0.96s]
+2020-10-22 21:29:54.954622 (Thread-1): Finished running node model.netsuite.accountxperiod_exchange_rate_map
+2020-10-22 21:29:55.074209 (Thread-2): finished collecting timing info
+2020-10-22 21:29:55.074963 (Thread-2): Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'b1b40449-98c1-4d1a-9469-9dff9faa2845', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff8123ae4c0>]}
+2020-10-22 21:29:55.076200 (Thread-2): 14:29:55 | 2 of 7 OK created view model dbt_kristin.transaction_and_reporting_periods [CREATE VIEW in 1.08s]
+2020-10-22 21:29:55.076350 (Thread-2): Finished running node model.netsuite.transaction_and_reporting_periods
+2020-10-22 21:29:55.076819 (Thread-4): Began running node model.netsuite.transactions_with_converted_amounts
+2020-10-22 21:29:55.077883 (Thread-4): 14:29:55 | 4 of 7 START view model dbt_kristin.transactions_with_converted_amounts [RUN]
+2020-10-22 21:29:55.078352 (Thread-4): Acquiring new bigquery connection "model.netsuite.transactions_with_converted_amounts".
+2020-10-22 21:29:55.078480 (Thread-4): Compiling model.netsuite.transactions_with_converted_amounts
+2020-10-22 21:29:55.091200 (Thread-4): Writing injected SQL for node "model.netsuite.transactions_with_converted_amounts"
+2020-10-22 21:29:55.091716 (Thread-4): finished collecting timing info
+2020-10-22 21:29:55.096920 (Thread-4): Writing runtime SQL for node "model.netsuite.transactions_with_converted_amounts"
+2020-10-22 21:29:55.097445 (Thread-4): Opening a new connection, currently in state init
+2020-10-22 21:29:55.097869 (Thread-4): On model.netsuite.transactions_with_converted_amounts: /* {"app": "dbt", "dbt_version": "0.18.1", "profile_name": "integration_test", "target_name": "dev_bigquery_internal", "node_id": "model.netsuite.transactions_with_converted_amounts"} */
+
+
+  create or replace view `private-internal`.`dbt_kristin`.`transactions_with_converted_amounts`
+  OPTIONS()
+  as with transaction_lines_w_accounting_period as (
+    select * from `private-internal`.`dbt_kristin`.`transaction_lines_w_accounting_period`
+), 
+accountxperiod_exchange_rate_map as (
+    select * from `private-internal`.`dbt_kristin`.`accountxperiod_exchange_rate_map`
+), 
+transaction_and_reporting_periods as (
+    select * from `private-internal`.`dbt_kristin`.`transaction_and_reporting_periods`
+), 
+accounts as (
+    select * from `private-internal`.`netsuite`.`accounts`
+),
+
+transactions_in_every_calculation_period_w_exchange_rates as (
+  select
+    transaction_lines_w_accounting_period.*,
+    reporting_accounting_period_id,
+    exchange_reporting_period.exchange_rate as exchange_rate_reporting_period,
+    exchange_transaction_period.exchange_rate as exchange_rate_transaction_period
+  from transaction_lines_w_accounting_period
+  join transaction_and_reporting_periods on transaction_and_reporting_periods.accounting_period_id = transaction_lines_w_accounting_period.transaction_accounting_period_id 
+  join accountxperiod_exchange_rate_map as exchange_reporting_period
+    on exchange_reporting_period.accounting_period_id = transaction_and_reporting_periods.reporting_accounting_period_id
+    and exchange_reporting_period.account_id = transaction_lines_w_accounting_period.account_id
+    and exchange_reporting_period.from_subsidiary_id = transaction_lines_w_accounting_period.subsidiary_id
+  join accountxperiod_exchange_rate_map as exchange_transaction_period
+    on exchange_transaction_period.accounting_period_id = transaction_and_reporting_periods.accounting_period_id
+    and exchange_transaction_period.account_id = transaction_lines_w_accounting_period.account_id
+    and exchange_transaction_period.from_subsidiary_id = transaction_lines_w_accounting_period.subsidiary_id
+), transactions_with_converted_amounts as (
+  select
+    transactions_in_every_calculation_period_w_exchange_rates.*,
+    unconverted_amount * exchange_rate_transaction_period as converted_amount_using_transaction_accounting_period,
+    unconverted_amount * exchange_rate_reporting_period as converted_amount_using_reporting_month,
+    case
+      when lower(accounts.type_name) in ('income','other income','expense','other expense','other income','cost of goods sold') then true
+      else false 
+      end as is_income_statement,
+    case
+      when lower(accounts.type_name) in ('accounts receivable', 'bank', 'deferred expense', 'fixed asset', 'other asset', 'other current asset', 'unbilled receivable') then 'Asset'
+      when lower(accounts.type_name) in ('cost of goods sold', 'expense', 'other expense') then 'Expense'
+      when lower(accounts.type_name) in ('income', 'other income') then 'Income'
+      when lower(accounts.type_name) in ('accounts payable', 'credit card', 'deferred revenue', 'long term liability', 'other current liability') then 'Liability'
+      when lower(accounts.type_name) in ('equity', 'retained earnings', 'net income') then 'Equity'
+      else null 
+      end as account_category
+  from transactions_in_every_calculation_period_w_exchange_rates
+  join accounts on accounts.account_id = transactions_in_every_calculation_period_w_exchange_rates.account_id 
+)
+
+select * from transactions_with_converted_amounts;
+
+
+2020-10-22 21:29:56.313474 (Thread-4): finished collecting timing info
+2020-10-22 21:29:56.314347 (Thread-4): Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'b1b40449-98c1-4d1a-9469-9dff9faa2845', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff810fbd760>]}
+2020-10-22 21:29:56.315785 (Thread-4): 14:29:56 | 4 of 7 OK created view model dbt_kristin.transactions_with_converted_amounts [CREATE VIEW in 1.24s]
+2020-10-22 21:29:56.315948 (Thread-4): Finished running node model.netsuite.transactions_with_converted_amounts
+2020-10-22 21:29:56.316747 (Thread-1): Began running node model.netsuite.balance_sheet
+2020-10-22 21:29:56.317090 (Thread-2): Began running node model.netsuite.income_statement
+2020-10-22 21:29:56.319541 (Thread-1): 14:29:56 | 5 of 7 START view model dbt_kristin.balance_sheet.................... [RUN]
+2020-10-22 21:29:56.319747 (Thread-3): Began running node model.netsuite.transaction_details
+2020-10-22 21:29:56.321564 (Thread-2): 14:29:56 | 6 of 7 START view model dbt_kristin.income_statement................. [RUN]
+2020-10-22 21:29:56.322186 (Thread-1): Acquiring new bigquery connection "model.netsuite.balance_sheet".
+2020-10-22 21:29:56.324011 (Thread-3): 14:29:56 | 7 of 7 START view model dbt_kristin.transaction_details.............. [RUN]
+2020-10-22 21:29:56.324672 (Thread-2): Acquiring new bigquery connection "model.netsuite.income_statement".
+2020-10-22 21:29:56.324905 (Thread-1): Compiling model.netsuite.balance_sheet
+2020-10-22 21:29:56.325421 (Thread-3): Acquiring new bigquery connection "model.netsuite.transaction_details".
+2020-10-22 21:29:56.325580 (Thread-2): Compiling model.netsuite.income_statement
+2020-10-22 21:29:56.337191 (Thread-3): Compiling model.netsuite.transaction_details
+2020-10-22 21:29:56.346399 (Thread-1): Writing injected SQL for node "model.netsuite.balance_sheet"
+2020-10-22 21:29:56.372587 (Thread-3): unclosed <socket.socket fd=30, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('192.168.4.24', 64517), raddr=('172.217.14.234', 443)>
+2020-10-22 21:29:56.375702 (Thread-2): Writing injected SQL for node "model.netsuite.income_statement"
+2020-10-22 21:29:56.375919 (Thread-3): unclosed <socket.socket fd=29, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('192.168.4.24', 64518), raddr=('172.217.14.234', 443)>
+2020-10-22 21:29:56.376143 (Thread-3): unclosed <socket.socket fd=21, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('192.168.4.24', 64519), raddr=('172.217.14.234', 443)>
+2020-10-22 21:29:56.376290 (Thread-3): unclosed <socket.socket fd=22, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('192.168.4.24', 64520), raddr=('172.217.14.234', 443)>
+2020-10-22 21:29:56.376398 (Thread-3): unclosed <socket.socket fd=32, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('192.168.4.24', 64522), raddr=('172.217.14.234', 443)>
+2020-10-22 21:29:56.376504 (Thread-3): unclosed <socket.socket fd=31, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('192.168.4.24', 64521), raddr=('172.217.14.234', 443)>
+2020-10-22 21:29:56.399647 (Thread-3): Writing injected SQL for node "model.netsuite.transaction_details"
+2020-10-22 21:29:56.399897 (Thread-1): finished collecting timing info
+2020-10-22 21:29:56.403563 (Thread-1): Writing runtime SQL for node "model.netsuite.balance_sheet"
+2020-10-22 21:29:56.403815 (Thread-2): finished collecting timing info
+2020-10-22 21:29:56.407286 (Thread-2): Writing runtime SQL for node "model.netsuite.income_statement"
+2020-10-22 21:29:56.407482 (Thread-3): finished collecting timing info
+2020-10-22 21:29:56.411818 (Thread-3): Writing runtime SQL for node "model.netsuite.transaction_details"
+2020-10-22 21:29:56.412122 (Thread-1): Opening a new connection, currently in state closed
+2020-10-22 21:29:56.412365 (Thread-2): Opening a new connection, currently in state closed
+2020-10-22 21:29:56.412814 (Thread-1): On model.netsuite.balance_sheet: /* {"app": "dbt", "dbt_version": "0.18.1", "profile_name": "integration_test", "target_name": "dev_bigquery_internal", "node_id": "model.netsuite.balance_sheet"} */
+
+
+  create or replace view `private-internal`.`dbt_kristin`.`balance_sheet`
+  OPTIONS()
+  as with transactions_with_converted_amounts as (
+    select * from `private-internal`.`dbt_kristin`.`transactions_with_converted_amounts`
+), 
+accounts as (
+    select * from `private-internal`.`netsuite`.`accounts`
+), 
+accounting_periods as (
+    select * from `private-internal`.`netsuite`.`accounting_periods`
+), 
+subsidiaries as (
+    select * from `private-internal`.`netsuite`.`subsidiaries`
+)
+
+select
+  reporting_accounting_periods.accounting_period_id as accounting_period_id,
+  reporting_accounting_periods.ending as accounting_period_ending,
+  reporting_accounting_periods.full_name as accounting_period_full_name,
+  reporting_accounting_periods.name as accounting_period_name,
+  lower(reporting_accounting_periods.is_adjustment) = 'yes' as is_accounting_period_adjustment,
+  lower(reporting_accounting_periods.closed) = 'yes' as is_accounting_period_closed,
+  transactions_with_converted_amounts.account_category as account_category,
+  case
+    when (lower(accounts.is_balancesheet) = 'f' and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 'Net Income'
+    when lower(accounts.is_balancesheet) = 'f' then 'Retained Earnings'
+    else accounts.name
+    end as account_name,
+  case
+    when (lower(accounts.is_balancesheet) = 'f' and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 'Net Income'
+    when lower(accounts.is_balancesheet) = 'f' then 'Retained Earnings'
+    else accounts.type_name
+    end as account_type_name,
+  case
+    when lower(accounts.is_balancesheet) = 'f' then null
+    else accounts.account_id
+    end as account_id,
+  case
+    when lower(accounts.is_balancesheet) = 'f' then null
+    else accounts.accountnumber
+    end as account_number,
+  case
+    when lower(accounts.is_balancesheet) = 'f' or lower(transactions_with_converted_amounts.account_category) = 'equity' then -converted_amount_using_transaction_accounting_period
+    when lower(accounts.is_leftside) = 'f' then -converted_amount_using_reporting_month
+    when lower(accounts.is_leftside) = 't' then converted_amount_using_reporting_month
+    else 0
+    end as converted_amount,
+  case
+    when lower(accounts.type_name) = 'bank' then 1
+    when lower(accounts.type_name) = 'accounts receivable' then 2
+    when lower(accounts.type_name) = 'unbilled receivable' then 3
+    when lower(accounts.type_name) = 'other current asset' then 4
+    when lower(accounts.type_name) = 'fixed asset' then 5
+    when lower(accounts.type_name) = 'other asset' then 6
+    when lower(accounts.type_name) = 'deferred expense' then 7
+    when lower(accounts.type_name) = 'accounts payable' then 8
+    when lower(accounts.type_name) = 'credit card' then 9
+    when lower(accounts.type_name) = 'other current liability' then 10
+    when lower(accounts.type_name) = 'long term liability' then 11
+    when lower(accounts.type_name) = 'deferred revenue' then 12
+    when lower(accounts.type_name) = 'equity' then 13
+    when (lower(accounts.is_balancesheet) = 'f' and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 15
+    when lower(accounts.is_balancesheet) = 'f' then 14
+    else null
+    end as balance_sheet_sort_helper
+from transactions_with_converted_amounts
+join accounts on accounts.account_id = transactions_with_converted_amounts.account_id
+join accounting_periods as reporting_accounting_periods on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+join accounting_periods as transaction_accounting_periods on transaction_accounting_periods.accounting_period_id = transactions_with_converted_amounts.transaction_accounting_period_id
+where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
+  and transaction_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
+  and (lower(accounts.is_balancesheet) = 't'
+    or transactions_with_converted_amounts.is_income_statement)
+
+union all
+
+select
+  reporting_accounting_periods.accounting_period_id as accounting_period_id,
+  reporting_accounting_periods.ending as accounting_period_ending,
+  reporting_accounting_periods.full_name as accounting_period_full_name,
+  reporting_accounting_periods.name as accounting_period_name,
+  lower(reporting_accounting_periods.is_adjustment) = 'yes' as is_accounting_period_adjustment,
+  lower(reporting_accounting_periods.closed) = 'yes' as is_accounting_period_closed,
+  'Equity' as account_category,
+  'Cumulative Translation Adjustment' as account_name,
+  'Cumulative Translation Adjustment' as account_type_name,
+  null as account_id,
+  null as account_number,
+  case
+    when lower(account_category) = 'equity' or is_income_statement then converted_amount_using_transaction_accounting_period
+    else converted_amount_using_reporting_month
+    end as converted_amount,
+  16 as balance_sheet_sort_helper
+from transactions_with_converted_amounts
+join accounts on accounts.account_id = transactions_with_converted_amounts.account_id
+join accounting_periods as reporting_accounting_periods on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
+  and (lower(accounts.is_balancesheet) = 't'
+    or transactions_with_converted_amounts.is_income_statement);
+
+
+2020-10-22 21:29:56.412962 (Thread-3): Opening a new connection, currently in state closed
+2020-10-22 21:29:56.413596 (Thread-2): On model.netsuite.income_statement: /* {"app": "dbt", "dbt_version": "0.18.1", "profile_name": "integration_test", "target_name": "dev_bigquery_internal", "node_id": "model.netsuite.income_statement"} */
+
+
+  create or replace view `private-internal`.`dbt_kristin`.`income_statement`
+  OPTIONS()
+  as with transactions_with_converted_amounts as (
+    select * from `private-internal`.`dbt_kristin`.`transactions_with_converted_amounts`
+), 
+accounts as (
+    select * from `private-internal`.`netsuite`.`accounts`
+), 
+accounting_periods as (
+    select * from `private-internal`.`netsuite`.`accounting_periods`
+), 
+subsidiaries as (
+    select * from `private-internal`.`netsuite`.`subsidiaries`
+),
+transaction_lines as (
+    select * from `private-internal`.`netsuite`.`transaction_lines`
+),
+classes as (
+    select * from `private-internal`.`netsuite`.`classes`
+),
+locations as (
+    select * from `private-internal`.`netsuite`.`locations`
+),
+departments as (
+    select * from `private-internal`.`netsuite`.`departments`
+)
+
+select
+  reporting_accounting_periods.accounting_period_id as accounting_period_id,
+  reporting_accounting_periods.ending as accounting_period_ending,
+  reporting_accounting_periods.full_name as accounting_period_full_name,
+  reporting_accounting_periods.name as accounting_period_name,
+  lower(reporting_accounting_periods.is_adjustment) = 'yes' as is_accounting_period_adjustment,
+  lower(reporting_accounting_periods.closed) = 'yes' as is_accounting_period_closed,
+  accounts.name as account_name,
+  accounts.type_name as account_type_name,
+  accounts.account_id as account_id,
+  accounts.accountnumber as account_number,
+  concat(accounts.accountnumber, '-', accounts.name) as account_number_and_name,
+  classes.full_name as class_full_name,
+  locations.full_name as location_full_name,
+  departments.full_name as department_full_name,
+  -converted_amount_using_transaction_accounting_period as converted_amount,
+  transactions_with_converted_amounts.account_category as account_category,
+  case when lower(accounts.type_name) = 'income' then 1
+    when lower(accounts.type_name) = 'cost of goods sold' then 2
+    when lower(accounts.type_name) = 'expense' then 3
+    when lower(accounts.type_name) = 'other income' then 4
+    when lower(accounts.type_name) = 'other expense' then 5
+    else null
+    end as income_statement_sort_helper
+from transactions_with_converted_amounts
+join transaction_lines as transaction_lines
+  on transaction_lines.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
+  and transaction_lines.transaction_id = transactions_with_converted_amounts.transaction_id
+left join classes on classes.class_id = transaction_lines.class_id
+left join locations on locations.location_id = transaction_lines.location_id
+left join departments on departments.department_id = transaction_lines.department_id
+join accounts on accounts.account_id = transactions_with_converted_amounts.account_id
+join accounting_periods as reporting_accounting_periods on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+where reporting_accounting_periods.fiscal_calendar_id  = (select fiscal_calendar_id from subsidiaries where parent_id is null)
+  and transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+  and transactions_with_converted_amounts.is_income_statement;
+
+
+2020-10-22 21:29:56.414296 (Thread-3): On model.netsuite.transaction_details: /* {"app": "dbt", "dbt_version": "0.18.1", "profile_name": "integration_test", "target_name": "dev_bigquery_internal", "node_id": "model.netsuite.transaction_details"} */
+
+
+  create or replace view `private-internal`.`dbt_kristin`.`transaction_details`
+  OPTIONS()
+  as with transactions_with_converted_amounts as (
+    select * from `private-internal`.`dbt_kristin`.`transactions_with_converted_amounts`
+),
+accounts as (
+    select * from `private-internal`.`netsuite`.`accounts`
+),
+accounting_periods as (
+    select * from `private-internal`.`netsuite`.`accounting_periods`
+),
+subsidiaries as (
+    select * from `private-internal`.`netsuite`.`subsidiaries`
+),
+transaction_lines as (
+    select * from `private-internal`.`netsuite`.`transaction_lines`
+),
+transactions as (
+    select * from `private-internal`.`netsuite`.`transactions`
+),
+income_accounts as (
+    select * from `private-internal`.`netsuite`.`income_accounts`
+),
+expense_accounts as (
+    select * from `private-internal`.`netsuite`.`expense_accounts`
+),
+customers as (
+    select * from `private-internal`.`netsuite`.`customers`
+),
+items as (
+    select * from `private-internal`.`netsuite`.`items`
+),
+locations as (
+    select * from `private-internal`.`netsuite`.`locations`
+),
+vendors as (
+    select * from `private-internal`.`netsuite`.`vendors`
+),
+vendor_types as (
+    select * from `private-internal`.`netsuite`.`vendor_types`
+),
+departments as (
+    select * from `private-internal`.`netsuite`.`departments`
+),
+currencies as (
+    select * from `private-internal`.`netsuite`.`currencies`
+)
+
+select
+  transaction_lines.transaction_line_id,
+  transaction_lines.memo as transaction_memo,
+  lower(transaction_lines.non_posting_line) = 'yes' as is_transaction_non_posting,
+  transactions.transaction_id,
+  transactions.status as transaction_status,
+  transactions.trandate as transaction_date,
+  transactions.due_date as transaction_due_date,
+  transactions.transaction_type as transaction_type,
+  (lower(transactions.is_advanced_intercompany) = 'yes' or lower(transactions.is_intercompany) = 'yes') as is_transaction_intercompany,
+  accounting_periods.ending as accounting_period_ending,
+  accounting_periods.full_name as accounting_period_full_name,
+  accounting_periods.name as accounting_period_name,
+  lower(accounting_periods.is_adjustment) = 'yes' as is_accounting_period_adjustment,
+  lower(accounting_periods.closed) = 'yes' as is_accounting_period_closed,
+  accounts.name as account_name,
+  accounts.type_name as account_type_name,
+  accounts.account_id as account_id,
+  accounts.accountnumber as account_number,
+  lower(accounts.is_leftside) = 't' as is_account_leftside,
+  lower(accounts.type_name) like 'accounts payable%' as is_accounts_payable,
+  lower(accounts.type_name) like 'accounts receivable%' as is_accounts_receivable,
+  lower(accounts.name) like '%intercompany%' as is_account_intercompany,
+  coalesce(parent_account.name, accounts.name) as parent_account_name,
+  income_accounts.income_account_id is not null as is_income_account,
+  expense_accounts.expense_account_id is not null as is_expense_account,
+  customers.companyname as customer_company_name,
+  customers.city as customer_city,
+  customers.state as customer_state,
+  customers.zipcode as customer_zipcode,
+  customers.country as customer_country,
+  customers.date_first_order as customer_date_first_order,
+  items.name as item_name,
+  items.type_name as item_type_name,
+  items.salesdescription as item_sales_description,
+  locations.name as location_name,
+  locations.city as location_city,
+  locations.country as location_country,
+  vendor_types.name as vendor_type_name,
+  vendors.companyname as vendor_name,
+  vendors.create_date as vendor_create_date,
+  currencies.name as currency_name,
+  currencies.symbol as currency_symbol,
+  departments.name as department_name,
+  subsidiaries.name as subsidiary_name,
+  case
+    when lower(accounts.type_name) = 'income' or lower(accounts.type_name) = 'other income' then -converted_amount_using_transaction_accounting_period
+    else converted_amount_using_transaction_accounting_period
+    end as converted_amount,
+  case
+    when lower(accounts.type_name) = 'income' or lower(accounts.type_name) = 'other income' then -transaction_lines.amount
+    else transaction_lines.amount
+    end as transaction_amount
+from transaction_lines
+join transactions on transactions.transaction_id = transaction_lines.transaction_id
+  and not transactions._fivetran_deleted
+left join transactions_with_converted_amounts as transactions_with_converted_amounts
+  on transactions_with_converted_amounts.transaction_line_id = transaction_lines.transaction_line_id
+  and transactions_with_converted_amounts.transaction_id = transaction_lines.transaction_id
+  and transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+left join accounts on accounts.account_id = transaction_lines.account_id
+left join accounts as parent_account on parent_account.account_id = accounts.parent_id
+left join accounting_periods on accounting_periods.accounting_period_id = transactions.accounting_period_id
+left join income_accounts on income_accounts.income_account_id = accounts.account_id
+left join expense_accounts on expense_accounts.expense_account_id = accounts.account_id
+left join customers on customers.customer_id = transaction_lines.company_id
+  and not customers._fivetran_deleted
+left join items on items.item_id = transaction_lines.item_id
+  and not items._fivetran_deleted
+left join locations on locations.location_id = transaction_lines.location_id
+left join vendors on vendors.vendor_id = transaction_lines.company_id
+  and not vendors._fivetran_deleted
+left join vendor_types on vendor_types.vendor_type_id = vendors.vendor_type_id
+  and not vendor_types._fivetran_deleted
+left join currencies on currencies.currency_id = transactions.currency_id
+  and not currencies._fivetran_deleted
+left join departments on departments.department_id = transaction_lines.department_id
+join subsidiaries on subsidiaries.subsidiary_id = transaction_lines.subsidiary_id
+where (accounting_periods.fiscal_calendar_id is null
+  or accounting_periods.fiscal_calendar_id  = (select fiscal_calendar_id from subsidiaries where parent_id is null));
+
+
+2020-10-22 21:29:57.841413 (Thread-3): finished collecting timing info
+2020-10-22 21:29:57.842162 (Thread-3): Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'b1b40449-98c1-4d1a-9469-9dff9faa2845', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff810f4c760>]}
+2020-10-22 21:29:57.843291 (Thread-3): 14:29:57 | 7 of 7 OK created view model dbt_kristin.transaction_details......... [CREATE VIEW in 1.52s]
+2020-10-22 21:29:57.843442 (Thread-3): Finished running node model.netsuite.transaction_details
+2020-10-22 21:29:58.019536 (Thread-1): finished collecting timing info
+2020-10-22 21:29:58.020260 (Thread-1): Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'b1b40449-98c1-4d1a-9469-9dff9faa2845', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff8121738e0>]}
+2020-10-22 21:29:58.021400 (Thread-1): 14:29:58 | 5 of 7 OK created view model dbt_kristin.balance_sheet............... [CREATE VIEW in 1.70s]
+2020-10-22 21:29:58.021548 (Thread-1): Finished running node model.netsuite.balance_sheet
+2020-10-22 21:29:58.294343 (Thread-2): finished collecting timing info
+2020-10-22 21:29:58.295061 (Thread-2): Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'b1b40449-98c1-4d1a-9469-9dff9faa2845', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff8122e70a0>]}
+2020-10-22 21:29:58.296193 (Thread-2): 14:29:58 | 6 of 7 OK created view model dbt_kristin.income_statement............ [CREATE VIEW in 1.97s]
+2020-10-22 21:29:58.296340 (Thread-2): Finished running node model.netsuite.income_statement
+2020-10-22 21:29:58.297421 (MainThread): Acquiring new bigquery connection "master".
+2020-10-22 21:29:58.297753 (MainThread): 14:29:58 | 
+2020-10-22 21:29:58.297894 (MainThread): 14:29:58 | Finished running 7 view models in 5.13s.
+2020-10-22 21:29:58.298007 (MainThread): Connection 'master' was properly closed.
+2020-10-22 21:29:58.298093 (MainThread): Connection 'model.netsuite.balance_sheet' was properly closed.
+2020-10-22 21:29:58.298175 (MainThread): Connection 'model.netsuite.income_statement' was properly closed.
+2020-10-22 21:29:58.298255 (MainThread): Connection 'model.netsuite.transaction_details' was properly closed.
+2020-10-22 21:29:58.298334 (MainThread): Connection 'model.netsuite.transactions_with_converted_amounts' was properly closed.
+2020-10-22 21:29:58.322416 (MainThread): 
+2020-10-22 21:29:58.322599 (MainThread): Completed successfully
+2020-10-22 21:29:58.322725 (MainThread): 
+Done. PASS=7 WARN=0 ERROR=0 SKIP=0 TOTAL=7
+2020-10-22 21:29:58.322903 (MainThread): Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff8122f71c0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff8123fdfd0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff810f4b4f0>]}
+2020-10-22 21:29:58.323113 (MainThread): Flushing usage events

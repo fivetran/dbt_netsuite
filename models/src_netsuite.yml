@@ -2,12 +2,10 @@ version: 2
 
 sources:
   - name: netsuite
-    # If your data does not exist in the {{ target.database }}.netsuite schema
-    # copy this file into your own project, uncomment the next two lines, and
-    # update the values as required.
+    
+    database: "{{var ('netsuite_database', target.database)}}"
+    schema: "{{var ('netsuite_schema', 'netsuite')}}"
 
-    # schema: netsuite
-    # database: raw
     loader: fivetran
     loaded_at_field: _fivetran_synced
     freshness:
