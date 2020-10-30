@@ -1,11 +1,11 @@
 config-version: 2
-name: 'netsuite'
-version: '0.0.1'
-
-require-dbt-version: [">=0.18.0", "<0.19.0"]
-
 models:
-    netsuite:
-        materialized: table
-        intermediate:
-            materialized: ephemeral
+  netsuite:
+    intermediate:
+      materialized: ephemeral
+    materialized: table
+name: netsuite
+require-dbt-version:
+- '>=0.18.0'
+- <0.19.0
+version: 0.0.1
