@@ -25,6 +25,7 @@ This [dbt package](https://docs.getdbt.com/docs/package-management):
     - transactions
     - subsidiaries
     - vendors
+    - vendor_types
 
 
 ## Installation instructions
