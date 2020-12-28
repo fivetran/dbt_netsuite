@@ -1,6 +1,6 @@
 with transactions_with_converted_amounts as (
     select * 
-    from {{ref('transactions_with_converted_amounts')}}
+    from {{ref('int_netsuite__transactions_with_converted_amounts')}}
 ), 
 
 accounts as (
@@ -43,7 +43,7 @@ balance_sheet as (
         end as account_id,
     case
       when lower(accounts.is_balancesheet) = 'f' then null
-      else accounts.accountnumber
+      else accounts.account_number
         end as account_number,
     case
       when lower(accounts.is_balancesheet) = 'f' or lower(transactions_with_converted_amounts.account_category) = 'equity' then -converted_amount_using_transaction_accounting_period
@@ -89,7 +89,7 @@ balance_sheet as (
 
   select
     reporting_accounting_periods.accounting_period_id as accounting_period_id,
-    reporting_accounting_periods.ending as accounting_period_ending,
+    reporting_accounting_periods.ending_at as accounting_period_ending,
     reporting_accounting_periods.full_name as accounting_period_full_name,
     reporting_accounting_periods.name as accounting_period_name,
     lower(reporting_accounting_periods.is_adjustment) = 'yes' as is_accounting_period_adjustment,

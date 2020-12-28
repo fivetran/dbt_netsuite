@@ -1,6 +1,6 @@
 with transactions_with_converted_amounts as (
     select * 
-    from {{ref('transactions_with_converted_amounts')}}
+    from {{ref('int_netsuite__transactions_with_converted_amounts')}}
 ),
 
 accounts as (
@@ -81,7 +81,7 @@ transaction_details as (
     transactions.transaction_id,
     transactions.status as transaction_status,
     transactions.transaction_date,
-    transactions.due_date as transaction_due_date,
+    transactions.due_date_at as transaction_due_date,
     transactions.transaction_type as transaction_type,
     (lower(transactions.is_advanced_intercompany) = 'yes' or lower(transactions.is_intercompany) = 'yes') as is_transaction_intercompany,
     accounting_periods.ending_at as accounting_period_ending,
@@ -100,7 +100,7 @@ transaction_details as (
     coalesce(parent_account.name, accounts.name) as parent_account_name,
     income_accounts.income_account_id is not null as is_income_account,
     expense_accounts.expense_account_id is not null as is_expense_account,
-    customers.customer_company_name,
+    customers.company_name,
     customers.city as customer_city,
     customers.state as customer_state,
     customers.zipcode as customer_zipcode,
@@ -108,13 +108,13 @@ transaction_details as (
     customers.date_first_order_at as customer_date_first_order,
     items.name as item_name,
     items.type_name as item_type_name,
-    items.item_sales_description,
+    items.sales_description,
     locations.name as location_name,
     locations.city as location_city,
     locations.country as location_country,
     vendor_types.name as vendor_type_name,
     vendors.company_name as vendor_name,
-    vendors.create_date as vendor_create_date,
+    vendors.create_date_at as vendor_create_date,
     currencies.name as currency_name,
     currencies.symbol as currency_symbol,
     departments.name as department_name,
@@ -131,7 +131,6 @@ transaction_details as (
 
   join transactions
     on transactions.transaction_id = transaction_lines.transaction_id
-    --and not transactions._fivetran_deleted
 
   left join transactions_with_converted_amounts as transactions_with_converted_amounts
     on transactions_with_converted_amounts.transaction_line_id = transaction_lines.transaction_line_id
@@ -154,26 +153,21 @@ transaction_details as (
 
   left join customers 
     on customers.customer_id = transaction_lines.company_id
-    --and not customers._fivetran_deleted
 
   left join items 
     on items.item_id = transaction_lines.item_id
-    --and not items._fivetran_deleted
 
   left join locations 
     on locations.location_id = transaction_lines.location_id
 
   left join vendors 
     on vendors.vendor_id = transaction_lines.company_id
-    --and not vendors._fivetran_deleted
 
   left join vendor_types 
     on vendor_types.vendor_type_id = vendors.vendor_type_id
-    --and not vendor_types._fivetran_deleted
 
   left join currencies 
     on currencies.currency_id = transactions.currency_id
-    --and not currencies._fivetran_deleted
 
   left join departments 
     on departments.department_id = transaction_lines.department_id

@@ -15,11 +15,11 @@ transaction_and_reporting_periods as (
   from accounting_periods as base
 
   join accounting_periods as multiplier
-    on multiplier.starting >= base.starting
+    on multiplier.starting_at >= base.starting_at
       and multiplier.quarter = base.quarter
       and multiplier.year_0 = base.year_0
       and multiplier.fiscal_calendar_id = base.fiscal_calendar_id
-      and multiplier.starting <= {{ current_timestamp() }}
+      and multiplier.starting_at <= {{ current_timestamp() }} 
 
   where lower(base.quarter) = 'no'
     and lower(base.year_0) = 'no'

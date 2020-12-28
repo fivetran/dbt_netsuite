@@ -1,4 +1,5 @@
 config-version: 2
+
 name: 'netsuite'
 version: '0.0.1'
 
@@ -8,4 +9,28 @@ models:
     netsuite:
         materialized: table
         intermediate:
-            materialized: ephemeral
+            materialized: view
+
+vars:
+    netsuite:
+        accounting_books: "{{ ref('stg_netsuite__accounting_books') }}"
+        accounting_periods: "{{ ref('stg_netsuite__accounting_periods') }}"
+        accounts: "{{ ref('stg_netsuite__accounts') }}"
+        classes: "{{ ref('stg_netsuite__classes') }}"
+        consolidated_exchange_rates: "{{ ref('stg_netsuite__consolidated_exchange_rates') }}"
+        currencies: "{{ ref('stg_netsuite__currencies') }}"
+        customers: "{{ ref('stg_netsuite__customers') }}"
+        departments: "{{ ref('stg_netsuite__departments') }}"
+        expense_accounts: "{{ ref('stg_netsuite__expense_accounts') }}"
+        income_accounts: "{{ ref('stg_netsuite__income_accounts') }}"
+        items: "{{ ref('stg_netsuite__items') }}"
+        locations: "{{ ref('stg_netsuite__locations') }}"
+        subsidiaries: "{{ ref('stg_netsuite__subsidiaries') }}"
+        transaction_lines: "{{ ref('stg_netsuite__transaction_lines') }}"
+        transactions: "{{ ref('stg_netsuite__transactions') }}"
+        vendor_types: "{{ ref('stg_netsuite__vendor_types') }}"
+        vendors: "{{ ref('stg_netsuite__vendors') }}"
+
+clean-targets:
+    - target
+    - dbt_modules

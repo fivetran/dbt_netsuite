@@ -1,16 +1,16 @@
 with transaction_lines_w_accounting_period as (
     select * 
-    from {{ ref('transaction_lines_w_accounting_period') }}
+    from {{ ref('int_netsuite__transaction_lines_w_accounting_period') }}
 ), 
 
 accountxperiod_exchange_rate_map as (
     select * 
-    from {{ ref('accountxperiod_exchange_rate_map') }}
+    from {{ ref('int_netsuite__accountxperiod_exchange_rate_map') }}
 ), 
 
 transaction_and_reporting_periods as (
     select * 
-    from {{ ref('transaction_and_reporting_periods') }}
+    from {{ ref('int_netsuite__transaction_and_reporting_periods') }}
 ), 
 
 accounts as (

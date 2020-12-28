@@ -1,0 +1,80 @@
+name: 'netsuite_integration_tests'
+version: '0.1.0'
+profile: 'integration_tests'
+config-version: 2
+
+models: 
+  netsuite_source:
+    materialized: table
+    tmp:
+      materialized: view
+
+vars:
+  netsuite:
+    accounting_books: "{{ ref('stg_netsuite__accounting_books') }}"
+    accounting_periods: "{{ ref('stg_netsuite__accounting_periods') }}"
+    accounts: "{{ ref('stg_netsuite__accounts') }}"
+    classes: "{{ ref('stg_netsuite__classes') }}"
+    consolidated_exchange_rates: "{{ ref('stg_netsuite__consolidated_exchange_rates') }}"
+    currencies: "{{ ref('stg_netsuite__currencies') }}"
+    customers: "{{ ref('stg_netsuite__customers') }}"
+    departments: "{{ ref('stg_netsuite__departments') }}"
+    expense_accounts: "{{ ref('stg_netsuite__expense_accounts') }}"
+    income_accounts: "{{ ref('stg_netsuite__income_accounts') }}"
+    items: "{{ ref('stg_netsuite__items') }}"
+    locations: "{{ ref('stg_netsuite__locations') }}"
+    subsidiaries: "{{ ref('stg_netsuite__subsidiaries') }}"
+    transaction_lines: "{{ ref('stg_netsuite__transaction_lines') }}"
+    transactions: "{{ ref('stg_netsuite__transactions') }}"
+    vendor_types: "{{ ref('stg_netsuite__vendor_types') }}"
+    vendors: "{{ ref('stg_netsuite__vendors') }}"
+
+  netsuite_source:
+    accounting_books: "{{ ref('accounting_books_data') }}"
+    accounting_periods: "{{ ref('accounting_periods_data') }}"
+    accounts: "{{ ref('accounts_data') }}"
+    classes: "{{ ref('classes_data') }}"
+    consolidated_exchange_rates: "{{ ref('consolidated_exchange_rates_data') }}"
+    currencies: "{{ ref('currencies_data') }}"
+    customers: "{{ ref('customers_data') }}"
+    departments: "{{ ref('departments_data') }}"
+    expense_accounts: "{{ ref('expense_accounts_data') }}"
+    income_accounts: "{{ ref('income_accounts_data') }}"
+    items: "{{ ref('items_data') }}"
+    locations: "{{ ref('locations_data') }}"
+    subsidiaries: "{{ ref('subsidiaries_data') }}"
+    transaction_lines: "{{ ref('transaction_lines_data') }}"
+    transactions: "{{ ref('transactions_data') }}"
+    vendor_types: "{{ ref('vendor_types_data') }}"
+    vendors: "{{ ref('vendors_data') }}"
+    
+seeds:
+    +quote_columns: "{{ true if target.type == 'redshift' else false }}"
+    netsuite_integration_tests:
+        accounting_books_data:
+        accounting_periods_data:
+          +column_types:
+            ending: timestamp
+            starting: timestamp
+            fiscal_calendar_id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
+        accounts_data:
+        classes_data:
+        consolidated_exchange_rates_data:
+        currencies_data:
+        customers_data:
+        departments_data:
+        expense_accounts_data:
+        income_accounts_data:
+        items_data:
+        locations_data:
+        subsidiaries_data:
+        transaction_line_data:
+        transactions_data:
+          +column_types:
+            due_date: timestamp
+        vendor_types_data:
+        vendors_data:
+
+clean-targets:
+    - target
+    - dbt_modules
