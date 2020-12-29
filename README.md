@@ -1,6 +1,6 @@
 # Netsuite ([docs](https://dbt-netsuite.netlify.app/))
 
-This package models [netsuite] data from [Fivetran's connector](https://fivetran.com/docs/applications/netsuite). It uses data in the format described by [this ERD](https://fivetran.com/docs/applications/netsuite-suiteanalytics#schemainformation).
+This package models Netsuite data from [Fivetran's connector](https://fivetran.com/docs/applications/netsuite). It uses data in the format described by [this ERD](https://fivetran.com/docs/applications/netsuite-suiteanalytics#schemainformation).
 
 The main focus of this package is to enable users to insights into their netsuite data that can be used for financial statement reporting and deeper transactional analysis. This is acheived by the following:
 - Recreating both the balance sheet and income statement
@@ -11,9 +11,9 @@ This package contains transformation models, designed to work simultaneously wit
 
 | **model**                | **description**                                                                                                                                |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| [netsuite__balance_sheet](https://github.com/fivetran/dbt_netsuite/blob/master/models/netsuite__balance_sheet.sql)             | Each record represents all lines necessary for the balance sheet (converted for the appropriate exchange rate of the parent subsidiary). Transactions that are not balance sheet transactions are categorized as either Retained Earnings or Net Income. |
-| [netsuite__income_statement](https://github.com/fivetran/dbt_netsuite/blob/master/models/netsuite__income_statement.sql)       | Each record represents all lines necessary for the income statement (converted for the appropriate exchange rate of the parent subsidiary). It also joins in class, department and location information for enhanced reporting. |
-| [netsuite__transaction_details](https://github.com/fivetran/dbt_netsuite/blob/master/models/netsuite__transaction_details.sql) | This model provides all transactions of which you are able to see the associated accounting period, account and subsidiary. Where applicable, you can also see information about the customer, location, item, vendor, and department. |
+| [netsuite__balance_sheet](https://github.com/fivetran/dbt_netsuite/blob/master/models/netsuite__balance_sheet.sql)             | All lines necessary for the balance sheet (converted for the appropriate exchange rate of the parent subsidiary). Non balance sheet transactions are categorized as either Retained Earnings or Net Income. |
+| [netsuite__income_statement](https://github.com/fivetran/dbt_netsuite/blob/master/models/netsuite__income_statement.sql)       | All lines necessary for the income statement (converted for the appropriate exchange rate of the parent subsidiary). Department, class, and location information are included for additional reporting funcionality. |
+| [netsuite__transaction_details](https://github.com/fivetran/dbt_netsuite/blob/master/models/netsuite__transaction_details.sql) | All transactions with the associated accounting period, account and subsidiary information. Where applicable, you can also see data about the customer, location, item, vendor, and department. |
 
 ## Installation Instructions
 Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions, or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
