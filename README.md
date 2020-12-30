@@ -32,6 +32,24 @@ vars:
     connector_database: your_database_name
     connector_schema: your_schema_name
 ```
+This package allows users to add additional columns to the final model tables. 
+Columns passed through must be present in the downstream source tables. See 
+below for an example of how the passthrough columns should be configured within your `dbt_project.yml` file.
+
+```yml
+# dbt_project.yml
+
+...
+vars:
+  netsuite:
+    accounts_pass_through_columns: ['new_custom_field', 'we_can_account_for_that']
+    classes_pass_through_columns: ['class_is_in_session', 'pass_through_additional_fields_here']
+    departments_pass_through_columns: ['department_custom_fields']
+  netsuite_source:
+    accounts_pass_through_columns: ['new_custom_field', 'we_can_account_for_that']
+    classes_pass_through_columns: ['class_is_in_session', 'pass_through_additional_fields_here']
+    departments_pass_through_columns: ['department_custom_fields']
+```
 
 ## Contributions
 Don't see a model or specific metric you would have liked to be included? Notice any bugs when installing 
