@@ -93,6 +93,14 @@ transaction_details as (
     accounts.type_name as account_type_name,
     accounts.account_id as account_id,
     accounts.account_number,
+
+    --The below script allows for accounts table pass through columns.
+    {% if var('accounts_pass_through_columns') %}
+    ,
+    {{ var('accounts_pass_through_columns') | join (", ")}}
+
+    {% endif %}
+
     lower(accounts.is_leftside) = 't' as is_account_leftside,
     lower(accounts.type_name) like 'accounts payable%' as is_accounts_payable,
     lower(accounts.type_name) like 'accounts receivable%' as is_accounts_receivable,
@@ -118,6 +126,14 @@ transaction_details as (
     currencies.name as currency_name,
     currencies.symbol as currency_symbol,
     departments.name as department_name,
+
+    --The below script allows for departments table pass through columns.
+    {% if var('departments_pass_through_columns') %}
+    ,
+    {{ var('departments_pass_through_columns') | join (", ")}}
+
+    {% endif %}
+
     subsidiaries.name as subsidiary_name,
     case
       when lower(accounts.type_name) = 'income' or lower(accounts.type_name) = 'other income' then -converted_amount_using_transaction_accounting_period

@@ -51,6 +51,14 @@ balance_sheet as (
       when lower(accounts.is_leftside) = 't' then converted_amount_using_reporting_month
       else 0
         end as converted_amount,
+
+    --The below script allows for accounts table pass through columns.
+    {% if var('accounts_pass_through_columns') %}
+    ,
+    {{ var('accounts_pass_through_columns') | join (", ")}}
+
+    {% endif %}
+    
     case
       when lower(accounts.type_name) = 'bank' then 1
       when lower(accounts.type_name) = 'accounts receivable' then 2
@@ -69,6 +77,7 @@ balance_sheet as (
       when lower(accounts.is_balancesheet) = 'f' then 14
       else null
         end as balance_sheet_sort_helper
+
   from transactions_with_converted_amounts
 
   join accounts 
@@ -99,6 +108,14 @@ balance_sheet as (
     'Cumulative Translation Adjustment' as account_type_name,
     null as account_id,
     null as account_number,
+
+    --The below script allows for accounts table pass through columns.
+    {% if var('accounts_pass_through_columns') %}
+    ,
+    {{ var('accounts_pass_through_columns') | join (", ")}}
+
+    {% endif %}
+
     case
       when lower(account_category) = 'equity' or is_income_statement then converted_amount_using_transaction_accounting_period
       else converted_amount_using_reporting_month

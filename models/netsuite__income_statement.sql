@@ -50,10 +50,34 @@ incom_statement as (
         accounts.type_name as account_type_name,
         accounts.account_id as account_id,
         accounts.account_number,
+
+        --The below script allows for accounts table pass through columns.
+        {% if var('accounts_pass_through_columns') %}
+        ,
+        {{ var('accounts_pass_through_columns') | join (", ")}}
+
+        {% endif %}
+
         {{ dbt_utils.concat(['accounts.account_number',"'-'", 'accounts.name']) }} as account_number_and_name,
         classes.full_name as class_full_name,
+
+        --The below script allows for classes table pass through columns.
+        {% if var('classes_pass_through_columns') %}
+        ,
+        {{ var('classes_pass_through_columns') | join (", ")}}
+
+        {% endif %}
+
         locations.full_name as location_full_name,
         departments.full_name as department_full_name,
+
+        --The below script allows for departments table pass through columns.
+        {% if var('departments_pass_through_columns') %}
+        ,
+        {{ var('departments_pass_through_columns') | join (", ")}}
+
+        {% endif %}
+
         -converted_amount_using_transaction_accounting_period as converted_amount,
         transactions_with_converted_amounts.account_category as account_category,
         case when lower(accounts.type_name) = 'income' then 1

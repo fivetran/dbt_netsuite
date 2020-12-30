@@ -9,7 +9,7 @@ models:
     netsuite:
         materialized: table
         intermediate:
-            materialized: view
+            materialized: table
 
 vars:
     netsuite:
@@ -30,6 +30,10 @@ vars:
         transactions: "{{ ref('stg_netsuite__transactions') }}"
         vendor_types: "{{ ref('stg_netsuite__vendor_types') }}"
         vendors: "{{ ref('stg_netsuite__vendors') }}"
+
+        accounts_pass_through_columns: []
+        classes_pass_through_columns: []
+        departments_pass_through_columns: []
 
 clean-targets:
     - target
