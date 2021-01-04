@@ -11,8 +11,8 @@ This package contains transformation models, designed to work simultaneously wit
 
 | **model**                | **description**                                                                                                                                |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| [netsuite__balance_sheet](https://github.com/fivetran/dbt_netsuite/blob/master/models/netsuite__balance_sheet.sql)             | All lines necessary for the balance sheet (converted for the appropriate exchange rate of the parent subsidiary). Non balance sheet transactions are categorized as either Retained Earnings or Net Income. |
-| [netsuite__income_statement](https://github.com/fivetran/dbt_netsuite/blob/master/models/netsuite__income_statement.sql)       | All lines necessary for the income statement (converted for the appropriate exchange rate of the parent subsidiary). Department, class, and location information are included for additional reporting functionality. |
+| [netsuite__balance_sheet](https://github.com/fivetran/dbt_netsuite/blob/master/models/netsuite__balance_sheet.sql)             | All lines necessary to generate a balance sheet (converted for the appropriate exchange rate of the parent subsidiary). Non balance sheet transactions are categorized as either Retained Earnings or Net Income. |
+| [netsuite__income_statement](https://github.com/fivetran/dbt_netsuite/blob/master/models/netsuite__income_statement.sql)       | All lines necessary to generate an income statement (converted for the appropriate exchange rate of the parent subsidiary). Department, class, and location information are included for additional reporting functionality. |
 | [netsuite__transaction_details](https://github.com/fivetran/dbt_netsuite/blob/master/models/netsuite__transaction_details.sql) | All transactions with the associated accounting period, account and subsidiary information. Where applicable, you can also see data about the customer, location, item, vendor, and department. |
 
 ## Installation Instructions
@@ -78,7 +78,6 @@ Please create issues or open PRs against `master`. Check out [this post](https:/
 
 ## Database Support
 This package has been tested on BigQuery, Snowflake and Redshift.
-Coming soon -- compatibility with Spark
 
 ## Resources:
 - Provide [feedback](https://www.surveymonkey.com/r/DQ7K7WW) on our existing dbt packages or what you'd like to see next
