@@ -9,7 +9,7 @@ models:
     netsuite:
         materialized: table
         intermediate:
-            materialized: table
+            materialized: ephemeral
 
 vars:
     netsuite:
@@ -34,6 +34,10 @@ vars:
         accounts_pass_through_columns: []
         classes_pass_through_columns: []
         departments_pass_through_columns: []
+        transactions_pass_through_columns: []
+        transaction_lines_pass_through_columns: []
+        balance_sheet_transaction_detail_columns: []
+        income_statement_transaction_detail_columns: []
 
 clean-targets:
     - target

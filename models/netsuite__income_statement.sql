@@ -3,6 +3,14 @@ with transactions_with_converted_amounts as (
     from {{ ref('int_netsuite__transactions_with_converted_amounts') }}
 ), 
 
+--Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
+{% if var('income_statement_transaction_detail_columns') != []%}
+transaction_details as (
+    select * 
+    from {{ ref('netsuite__transaction_details') }}
+), 
+{% endif %}
+
 accounts as (
     select * 
     from {{ ref('stg_netsuite__accounts') }}
@@ -87,6 +95,15 @@ incom_statement as (
             when lower(accounts.type_name) = 'other expense' then 5
             else null
             end as income_statement_sort_helper
+
+        --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
+        {% if var('income_statement_transaction_detail_columns') %}
+        , transaction_details.
+        {{ var('income_statement_transaction_detail_columns') | join (", ")}}
+
+        {% endif %}
+    
+        
     from transactions_with_converted_amounts
 
     join transaction_lines as transaction_lines
@@ -96,7 +113,7 @@ incom_statement as (
     left join classes 
         on classes.class_id = transaction_lines.class_id
 
-    left join locations 
+    left join locations
         on locations.location_id = transaction_lines.location_id
 
     left join departments 
@@ -105,6 +122,13 @@ incom_statement as (
 
     join accounting_periods as reporting_accounting_periods 
         on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+
+    --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
+    {% if var('income_statement_transaction_detail_columns') != []%}
+    join transaction_details
+        on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
+        and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
+    {% endif %}
 
     where reporting_accounting_periods.fiscal_calendar_id  = (select fiscal_calendar_id from subsidiaries where parent_id is null)
         and transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id

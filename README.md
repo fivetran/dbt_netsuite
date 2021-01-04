@@ -12,7 +12,7 @@ This package contains transformation models, designed to work simultaneously wit
 | **model**                | **description**                                                                                                                                |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | [netsuite__balance_sheet](https://github.com/fivetran/dbt_netsuite/blob/master/models/netsuite__balance_sheet.sql)             | All lines necessary for the balance sheet (converted for the appropriate exchange rate of the parent subsidiary). Non balance sheet transactions are categorized as either Retained Earnings or Net Income. |
-| [netsuite__income_statement](https://github.com/fivetran/dbt_netsuite/blob/master/models/netsuite__income_statement.sql)       | All lines necessary for the income statement (converted for the appropriate exchange rate of the parent subsidiary). Department, class, and location information are included for additional reporting funcionality. |
+| [netsuite__income_statement](https://github.com/fivetran/dbt_netsuite/blob/master/models/netsuite__income_statement.sql)       | All lines necessary for the income statement (converted for the appropriate exchange rate of the parent subsidiary). Department, class, and location information are included for additional reporting functionality. |
 | [netsuite__transaction_details](https://github.com/fivetran/dbt_netsuite/blob/master/models/netsuite__transaction_details.sql) | All transactions with the associated accounting period, account and subsidiary information. Where applicable, you can also see data about the customer, location, item, vendor, and department. |
 
 ## Installation Instructions
@@ -45,10 +45,30 @@ vars:
     accounts_pass_through_columns: ['new_custom_field', 'we_can_account_for_that']
     classes_pass_through_columns: ['class_is_in_session', 'pass_through_additional_fields_here']
     departments_pass_through_columns: ['department_custom_fields']
+    transactions_pass_through_columns: ['transactions_can_be_custom','pass_this_transaction_field_on']
+    transaction_lines_pass_through_columns: ['transaction_lines_field']
   netsuite_source:
     accounts_pass_through_columns: ['new_custom_field', 'we_can_account_for_that']
     classes_pass_through_columns: ['class_is_in_session', 'pass_through_additional_fields_here']
     departments_pass_through_columns: ['department_custom_fields']
+    transactions_pass_through_columns: ['transactions_can_be_custom','pass_this_transaction_field_on']
+    transaction_lines_pass_through_columns: ['transaction_lines_field']
+```
+
+Additionally, this package allows users to pass columns from the `netsuite__transaction_details` table into
+the `netsuite__balance_sheet` and `netsuite__income_statement` tables. See below for an example
+of how to passthrough transaction detail columns into the respective balance sheet and income statement final tables
+within your `dbt_project.yml` file.
+
+```yml
+# dbt_project.yml
+
+...
+vars:
+  netsuite:
+    balance_sheet_transaction_detail_columns: ['company_name','vendor_name']
+    income_statement_transaction_detail_columns: ['is_account_intercompany','location_name']
+
 ```
 
 ## Contributions

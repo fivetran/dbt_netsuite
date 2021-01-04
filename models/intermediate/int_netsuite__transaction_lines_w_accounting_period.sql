@@ -25,4 +25,4 @@ transaction_lines_w_accounting_period as ( -- transaction line totals, by accoun
 )
 
 select * 
-from transaction_lines_w_accounting_period    
+from transaction_lines_w_accounting_period

@@ -84,6 +84,21 @@ transaction_details as (
     transactions.due_date_at as transaction_due_date,
     transactions.transaction_type as transaction_type,
     (lower(transactions.is_advanced_intercompany) = 'yes' or lower(transactions.is_intercompany) = 'yes') as is_transaction_intercompany,
+
+    --The below script allows for transactions table pass through columns.
+    {% if var('transactions_pass_through_columns') %}
+    , transactions.
+    {{ var('transactions_pass_through_columns') | join (", ")}}
+
+    {% endif %}
+
+    --The below script allows for transaction lines table pass through columns.
+    {% if var('transaction_lines_pass_through_columns') %}
+    , transaction_lines.
+    {{ var('transaction_lines_pass_through_columns') | join (", ")}}
+
+    {% endif %}
+
     accounting_periods.ending_at as accounting_period_ending,
     accounting_periods.full_name as accounting_period_full_name,
     accounting_periods.name as accounting_period_name,

@@ -3,6 +3,14 @@ with transactions_with_converted_amounts as (
     from {{ref('int_netsuite__transactions_with_converted_amounts')}}
 ), 
 
+--Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
+{% if var('balance_sheet_transaction_detail_columns') != []%}
+transaction_details as (
+    select * 
+    from {{ ref('netsuite__transaction_details') }}
+), 
+{% endif %}
+
 accounts as (
     select * 
     from {{ ref('stg_netsuite__accounts') }}
@@ -77,8 +85,23 @@ balance_sheet as (
       when lower(accounts.is_balancesheet) = 'f' then 14
       else null
         end as balance_sheet_sort_helper
+    
+    --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
+    {% if var('balance_sheet_transaction_detail_columns') %}
+    , transaction_details.
+    {{ var('balance_sheet_transaction_detail_columns') | join (", ")}}
+
+    {% endif %}
 
   from transactions_with_converted_amounts
+  
+  --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
+  {% if var('balance_sheet_transaction_detail_columns') != []%}
+  join transaction_details
+    on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
+      and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
+  {% endif %}
+
 
   join accounts 
     on accounts.account_id = transactions_with_converted_amounts.account_id
@@ -121,9 +144,24 @@ balance_sheet as (
       else converted_amount_using_reporting_month
         end as converted_amount,
     16 as balance_sheet_sort_helper
+
+    --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
+    {% if var('balance_sheet_transaction_detail_columns') %}
+    , transaction_details.
+    {{ var('balance_sheet_transaction_detail_columns') | join (", ")}}
+
+    {% endif %}
+
   from transactions_with_converted_amounts
 
-  join accounts 
+  --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
+  {% if var('balance_sheet_transaction_detail_columns') != []%}
+  join transaction_details
+    on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
+      and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
+  {% endif %}
+
+  join accounts
     on accounts.account_id = transactions_with_converted_amounts.account_id
 
   join accounting_periods as reporting_accounting_periods 
