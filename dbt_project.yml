@@ -2,7 +2,7 @@ config-version: 2
 name: 'netsuite'
 version: '0.0.1'
 
-require-dbt-version: [">=0.18.0", "<0.19.0"]
+require-dbt-version: [">=0.18.0", "<0.20.0"]
 
 models:
     netsuite:
