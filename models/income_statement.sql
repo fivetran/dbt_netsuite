@@ -46,7 +46,10 @@ select
     when lower(accounts.type_name) = 'other income' then 4
     when lower(accounts.type_name) = 'other expense' then 5
     else null
-    end as income_statement_sort_helper
+    end as income_statement_sort_helper,
+  subsidiaries.subsidiary_id,
+  subsidiaries.full_name as subsidiary_full_name,
+  subsidiaries.name as subsidiary_name
 from transactions_with_converted_amounts
 join transaction_lines as transaction_lines
   on transaction_lines.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
@@ -56,6 +59,7 @@ left join locations on locations.location_id = transaction_lines.location_id
 left join departments on departments.department_id = transaction_lines.department_id
 join accounts on accounts.account_id = transactions_with_converted_amounts.account_id
 join accounting_periods as reporting_accounting_periods on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+join subsidiaries on transactions_with_converted_amounts.subsidiary_id = subsidiaries.subsidiary_id
 where reporting_accounting_periods.fiscal_calendar_id  = (select fiscal_calendar_id from subsidiaries where parent_id is null)
   and transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
   and transactions_with_converted_amounts.is_income_statement
