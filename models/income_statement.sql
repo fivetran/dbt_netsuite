@@ -36,6 +36,7 @@ select
   accounts.accountnumber as account_number,
   {{ dbt_utils.concat(['accounts.accountnumber',"'-'", 'accounts.name']) }} as account_number_and_name,
   classes.full_name as class_full_name,
+  coalesce(parent_class.full_name, classes.full_name) as parent_class_full_name,
   locations.full_name as location_full_name,
   departments.full_name as department_full_name,
   -converted_amount_using_transaction_accounting_period as converted_amount,
@@ -55,6 +56,7 @@ join transaction_lines as transaction_lines
   on transaction_lines.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
   and transaction_lines.transaction_id = transactions_with_converted_amounts.transaction_id
 left join classes on classes.class_id = transaction_lines.class_id
+left join classes as parent_class on parent_class.class_id = classes.parent_id
 left join locations on locations.location_id = transaction_lines.location_id
 left join departments on departments.department_id = transaction_lines.department_id
 join accounts on accounts.account_id = transactions_with_converted_amounts.account_id
