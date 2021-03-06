@@ -42,6 +42,9 @@ departments as (
 ),
 currencies as (
     select * from {{ source('netsuite', 'currencies') }}
+),
+classes as (
+    select * from {{ source('netsuite', 'classes') }}
 )
 
 select
@@ -76,6 +79,7 @@ select
   customers.zipcode as customer_zipcode,
   customers.country as customer_country,
   customers.date_first_order as customer_date_first_order,
+  customers.customer_extid,
   items.name as item_name,
   items.type_name as item_type_name,
   items.salesdescription as item_sales_description,
@@ -96,7 +100,9 @@ select
   case
     when lower(accounts.type_name) = 'income' or lower(accounts.type_name) = 'other income' then -transaction_lines.amount
     else transaction_lines.amount
-    end as transaction_amount
+    end as transaction_amount,
+  transaction_lines.class_id as class_id,
+  classes.full_name as class_full_name
 from transaction_lines
 join transactions on transactions.transaction_id = transaction_lines.transaction_id
   and not transactions._fivetran_deleted
@@ -121,6 +127,7 @@ left join vendor_types on vendor_types.vendor_type_id = vendors.vendor_type_id
 left join currencies on currencies.currency_id = transactions.currency_id
   and not currencies._fivetran_deleted
 left join departments on departments.department_id = transaction_lines.department_id
+left join classes on classes.class_id = transaction_lines.class_id
 join subsidiaries on subsidiaries.subsidiary_id = transaction_lines.subsidiary_id
 where (accounting_periods.fiscal_calendar_id is null
   or accounting_periods.fiscal_calendar_id  = (select fiscal_calendar_id from subsidiaries where parent_id is null))
