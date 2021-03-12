@@ -79,7 +79,7 @@ select
   customers.zipcode as customer_zipcode,
   customers.country as customer_country,
   customers.date_first_order as customer_date_first_order,
-  customers.customer_extid,
+  customers.customer_extid as customer_external_id,
   items.name as item_name,
   items.type_name as item_type_name,
   items.salesdescription as item_sales_description,
