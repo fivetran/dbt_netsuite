@@ -40,18 +40,11 @@ below for an example of how the passthrough columns should be configured within 
 
 ...
 vars:
-  netsuite:
-    accounts_pass_through_columns: ['new_custom_field', 'we_can_account_for_that']
-    classes_pass_through_columns: ['class_is_in_session', 'pass_through_additional_fields_here']
-    departments_pass_through_columns: ['department_custom_fields']
-    transactions_pass_through_columns: ['transactions_can_be_custom','pass_this_transaction_field_on']
-    transaction_lines_pass_through_columns: ['transaction_lines_field']
-  netsuite_source:
-    accounts_pass_through_columns: ['new_custom_field', 'we_can_account_for_that']
-    classes_pass_through_columns: ['class_is_in_session', 'pass_through_additional_fields_here']
-    departments_pass_through_columns: ['department_custom_fields']
-    transactions_pass_through_columns: ['transactions_can_be_custom','pass_this_transaction_field_on']
-    transaction_lines_pass_through_columns: ['transaction_lines_field']
+  accounts_pass_through_columns: ['new_custom_field', 'we_can_account_for_that']
+  classes_pass_through_columns: ['class_is_in_session', 'pass_through_additional_fields_here']
+  departments_pass_through_columns: ['department_custom_fields']
+  transactions_pass_through_columns: ['transactions_can_be_custom','pass_this_transaction_field_on']
+  transaction_lines_pass_through_columns: ['transaction_lines_field']
 ```
 
 Additionally, this package allows users to pass columns from the `netsuite__transaction_details` table into
@@ -69,6 +62,21 @@ vars:
     income_statement_transaction_detail_columns: ['is_account_intercompany','location_name']
 
 ```
+
+### Changing the Build Schema
+By default this package will build the Netsuite staging models within a schema titled (<target_schema> + `_stg_netsuite`) and the Netsuite final models with a schema titled (<target_schema> + `_netsuite`) in your target database. If this is not where you would like your modeled Netsuite data to be written to, add the following configuration to your `dbt_project.yml` file:
+
+```yml
+# dbt_project.yml 
+
+...
+models:
+  netsuite:
+    +schema: my_new_schema_name # leave blank for just the target_schema
+  netsuite_source:
+    +schema: my_new_schema_name # leave blank for just the target_schema
+```
+
 
 ## Contributions
 Don't see a model or specific metric you would have liked to be included? Notice any bugs when installing 
