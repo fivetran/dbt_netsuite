@@ -5,72 +5,72 @@ with transactions_with_converted_amounts as (
 
 accounts as (
     select * 
-    from {{ ref('stg_netsuite__accounts') }}
+    from {{ var('accounts') }}
 ),
 
 accounting_periods as (
     select * 
-    from {{ ref('stg_netsuite__accounting_periods') }}
+    from {{ var('accounting_periods') }}
 ),
 
 subsidiaries as (
     select * 
-    from {{ ref('stg_netsuite__subsidiaries') }}
+    from {{ var('subsidiaries') }}
 ),
 
 transaction_lines as (
     select * 
-    from {{ ref('stg_netsuite__transaction_lines') }}
+    from {{ var('transaction_lines') }}
 ),
 
 transactions as (
     select * 
-    from {{ ref('stg_netsuite__transactions') }}
+    from {{ var('transactions') }}
 ),
 
 income_accounts as (
     select * 
-    from {{ ref('stg_netsuite__income_accounts') }}
+    from {{ var('income_accounts') }}
 ),
 
 expense_accounts as (
     select * 
-    from {{ ref('stg_netsuite__expense_accounts') }}
+    from {{ var('expense_accounts') }}
 ),
 
 customers as (
     select * 
-    from {{ ref('stg_netsuite__customers') }}
+    from {{ var('customers') }}
 ),
 
 items as (
     select * 
-    from {{ ref('stg_netsuite__items') }}
+    from {{ var('items') }}
 ),
 
 locations as (
     select * 
-    from {{ ref('stg_netsuite__locations') }}
+    from {{ var('locations') }}
 ),
 
 vendors as (
     select * 
-    from {{ ref('stg_netsuite__vendors') }}
+    from {{ var('vendors') }}
 ),
 
 vendor_types as (
     select * 
-    from {{ ref('stg_netsuite__vendor_types') }}
+    from {{ var('vendor_types') }}
 ),
 
 departments as (
     select * 
-    from {{ ref('stg_netsuite__departments') }}
+    from {{ var('departments') }}
 ),
 
 currencies as (
     select * 
-    from {{ ref('stg_netsuite__currencies') }}
+    from {{ var('currencies') }}
 ),
 
 transaction_details as (

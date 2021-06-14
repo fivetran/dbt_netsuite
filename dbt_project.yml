@@ -15,7 +15,7 @@ models:
             materialized: ephemeral
 
 vars:
-    netsuite:
+    netsuite_source:
         accounting_books: "{{ ref('stg_netsuite__accounting_books') }}"
         accounting_periods: "{{ ref('stg_netsuite__accounting_periods') }}"
         accounts: "{{ ref('stg_netsuite__accounts') }}"
