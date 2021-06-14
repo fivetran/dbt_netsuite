@@ -61,8 +61,8 @@ incom_statement as (
 
         --The below script allows for accounts table pass through columns.
         {% if var('accounts_pass_through_columns') %}
-        ,
-        {{ var('accounts_pass_through_columns') | join (", ")}}
+
+        accounts.{{ var('accounts_pass_through_columns') | join (", accounts.")}} ,
 
         {% endif %}
 
@@ -71,8 +71,8 @@ incom_statement as (
 
         --The below script allows for classes table pass through columns.
         {% if var('classes_pass_through_columns') %}
-        ,
-        {{ var('classes_pass_through_columns') | join (", ")}}
+        
+        classes.{{ var('classes_pass_through_columns') | join (", classes.")}} ,
 
         {% endif %}
 
@@ -81,8 +81,8 @@ incom_statement as (
 
         --The below script allows for departments table pass through columns.
         {% if var('departments_pass_through_columns') %}
-        ,
-        {{ var('departments_pass_through_columns') | join (", ")}}
+        
+        departments.{{ var('departments_pass_through_columns') | join (", departments.")}} ,
 
         {% endif %}
 
@@ -98,8 +98,8 @@ incom_statement as (
 
         --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
         {% if var('income_statement_transaction_detail_columns') %}
-        , transaction_details.
-        {{ var('income_statement_transaction_detail_columns') | join (", ")}}
+
+        , transaction_details.{{ var('income_statement_transaction_detail_columns') | join (", transaction_details.")}}
 
         {% endif %}
     

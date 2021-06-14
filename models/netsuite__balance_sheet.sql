@@ -53,19 +53,20 @@ balance_sheet as (
       when lower(accounts.is_balancesheet) = 'f' then null
       else accounts.account_number
         end as account_number,
+    
+    --The below script allows for accounts table pass through columns.
+    {% if var('accounts_pass_through_columns') %}
+    
+    accounts.{{ var('accounts_pass_through_columns') | join (", accounts.")}} ,
+
+    {% endif %}
+
     case
       when lower(accounts.is_balancesheet) = 'f' or lower(transactions_with_converted_amounts.account_category) = 'equity' then -converted_amount_using_transaction_accounting_period
       when lower(accounts.is_leftside) = 'f' then -converted_amount_using_reporting_month
       when lower(accounts.is_leftside) = 't' then converted_amount_using_reporting_month
       else 0
         end as converted_amount,
-
-    --The below script allows for accounts table pass through columns.
-    {% if var('accounts_pass_through_columns') %}
-    ,
-    {{ var('accounts_pass_through_columns') | join (", ")}}
-
-    {% endif %}
     
     case
       when lower(accounts.type_name) = 'bank' then 1
@@ -88,8 +89,8 @@ balance_sheet as (
     
     --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
     {% if var('balance_sheet_transaction_detail_columns') %}
-    , transaction_details.
-    {{ var('balance_sheet_transaction_detail_columns') | join (", ")}}
+    
+    , transaction_details.{{ var('balance_sheet_transaction_detail_columns') | join (", transaction_details.")}}
 
     {% endif %}
 
@@ -134,8 +135,8 @@ balance_sheet as (
 
     --The below script allows for accounts table pass through columns.
     {% if var('accounts_pass_through_columns') %}
-    ,
-    {{ var('accounts_pass_through_columns') | join (", ")}}
+
+    null as {{ var('accounts_pass_through_columns') | join (", null as ")}} ,
 
     {% endif %}
 
@@ -147,8 +148,8 @@ balance_sheet as (
 
     --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
     {% if var('balance_sheet_transaction_detail_columns') %}
-    , transaction_details.
-    {{ var('balance_sheet_transaction_detail_columns') | join (", ")}}
+
+    , transaction_details.{{ var('balance_sheet_transaction_detail_columns') | join (", transaction_details.")}}
 
     {% endif %}
 
@@ -174,3 +175,4 @@ balance_sheet as (
 
 select *
 from balance_sheet
+limit 100

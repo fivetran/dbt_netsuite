@@ -87,15 +87,15 @@ transaction_details as (
 
     --The below script allows for transactions table pass through columns.
     {% if var('transactions_pass_through_columns') %}
-    , transactions.
-    {{ var('transactions_pass_through_columns') | join (", ")}}
+
+    transactions.{{ var('transactions_pass_through_columns') | join (", transactions.")}} ,
 
     {% endif %}
 
     --The below script allows for transaction lines table pass through columns.
     {% if var('transaction_lines_pass_through_columns') %}
-    , transaction_lines.
-    {{ var('transaction_lines_pass_through_columns') | join (", ")}}
+    
+    transaction_lines.{{ var('transaction_lines_pass_through_columns') | join (", transaction_lines.")}} ,
 
     {% endif %}
 
@@ -111,8 +111,8 @@ transaction_details as (
 
     --The below script allows for accounts table pass through columns.
     {% if var('accounts_pass_through_columns') %}
-    ,
-    {{ var('accounts_pass_through_columns') | join (", ")}}
+    
+    accounts.{{ var('accounts_pass_through_columns') | join (", accounts.")}} ,
 
     {% endif %}
 
@@ -144,8 +144,8 @@ transaction_details as (
 
     --The below script allows for departments table pass through columns.
     {% if var('departments_pass_through_columns') %}
-    ,
-    {{ var('departments_pass_through_columns') | join (", ")}}
+    
+    departments.{{ var('departments_pass_through_columns') | join (", departments.")}} ,
 
     {% endif %}
 

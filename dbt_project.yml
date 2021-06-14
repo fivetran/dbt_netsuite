@@ -3,11 +3,14 @@ config-version: 2
 name: 'netsuite'
 version: '0.3.0'
 
+profile: 'integration'
+
 require-dbt-version: [">=0.18.0", "<0.20.0"]
 
 models:
     netsuite:
         materialized: table
+        +schema: netsuite
         intermediate:
             materialized: ephemeral
 
