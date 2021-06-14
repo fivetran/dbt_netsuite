@@ -46,7 +46,7 @@ departments as (
     from {{ ref('stg_netsuite__departments') }}
 ),
 
-incom_statement as (
+income_statement as (
     select
         reporting_accounting_periods.accounting_period_id as accounting_period_id,
         reporting_accounting_periods.ending_at as accounting_period_ending,
