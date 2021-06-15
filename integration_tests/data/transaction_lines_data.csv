@@ -1,0 +1,11 @@
+transaction_id,transaction_line_id,subsidiary_id,account_id,company_id,item_id,amount,non_posting_line,class_id,location_id,department_id,memo
+31192,6,1,,,-7,0,Yes,,,,ukaNJqM5WW7qBs/vsAP8+w==
+786136,2,1,,82110,14039,0,Yes,,,,ukaNJqM5WW7qBs/vsAP8+w==
+934944,4,1,,82110,14039,0,Yes,,,,ukaNJqM5WW7qBs/vsAP8+w==
+934522,5,1,,,-7,0,Yes,,,,ukaNJqM5WW7qBs/vsAP8+w==
+35289,2,1,,,-7,0,Yes,,,,ukaNJqM5WW7qBs/vsAP8+w==
+121843,4,1,,,-7,0,Yes,,,,ukaNJqM5WW7qBs/vsAP8+w==
+440240,8,1,,82110,14039,0,Yes,,,,ukaNJqM5WW7qBs/vsAP8+w==
+14338,4,1,,,-7,0,Yes,,,,ukaNJqM5WW7qBs/vsAP8+w==
+100635,8,1,,,-7,0,Yes,,,,ukaNJqM5WW7qBs/vsAP8+w==
+962678,4,1,,82110,14039,0,Yes,,,,ukaNJqM5WW7qBs/vsAP8+w==

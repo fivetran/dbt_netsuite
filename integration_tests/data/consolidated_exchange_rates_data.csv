@@ -1,0 +1,11 @@
+consolidated_exchange_rate_id,accounting_book_id,accounting_period_id,average_rate,current_rate,historical_rate,from_subsidiary_id,to_subsidiary_id,_fivetran_deleted
+1,1,173,1,1,1,2,2,FALSE
+2,1,142,1,1,1,2,2,FALSE
+3,1,182,1,1,1,2,2,FALSE
+4,1,132,1,1,1,2,2,FALSE
+5,1,294,1,1,1,2,2,FALSE
+6,1,114,1,1,1,2,2,FALSE
+7,1,166,1,1,1,2,2,FALSE
+8,1,141,1,1,1,2,2,FALSE
+9,1,187,1,1,1,2,2,FALSE
+10,1,129,1,1,1,2,2,FALSE

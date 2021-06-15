@@ -1,0 +1,11 @@
+currency_id,name,symbol,_fivetran_deleted
+4,Euro,EUR,FALSE
+11,Norwegian Krone,NOK,FALSE
+1,US Dollar,USD,FALSE
+10,Israeli New Shekel,ILS,FALSE
+9,Icelandic Krona,ISK,FALSE
+5,Indian Rupee,INR,FALSE
+8,Swedish Krona,SEK,FALSE
+3,Canadian Dollar,CAD,FALSE
+14,United Arab Emirates Dirham,AED,FALSE
+2,British Pound,GBP,FALSE
