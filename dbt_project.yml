@@ -1,7 +1,7 @@
 config-version: 2
 
 name: 'netsuite'
-version: '0.3.0'
+version: '0.3.1'
 
 profile: 'integration'
 
@@ -15,7 +15,7 @@ models:
             materialized: ephemeral
 
 vars:
-    netsuite_source:
+    netsuite:
         accounting_books: "{{ ref('stg_netsuite__accounting_books') }}"
         accounting_periods: "{{ ref('stg_netsuite__accounting_periods') }}"
         accounts: "{{ ref('stg_netsuite__accounts') }}"
