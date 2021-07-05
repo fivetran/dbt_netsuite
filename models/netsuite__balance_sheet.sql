@@ -175,4 +175,3 @@ balance_sheet as (
 
 select *
 from balance_sheet
-limit 100
