@@ -28,8 +28,8 @@ If this is not where your netsuite data is, add the below configuration to your 
 config-version: 2
 
 vars:
-    connector_database: your_database_name
-    connector_schema: your_schema_name
+    netsuite_database: your_database_name
+    netsuite_schema: your_schema_name
 ```
 This package allows users to add additional columns to the final model tables. 
 Columns passed through must be present in the downstream source tables. See 
