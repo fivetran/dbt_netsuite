@@ -1,47 +1,40 @@
 config-version: 2
-
 name: 'netsuite'
-version: '0.3.1'
-
+version: '0.4.0'
 profile: 'integration'
-
-require-dbt-version: [">=0.18.0", "<0.20.0"]
-
+require-dbt-version: [">=0.20.0"]
 models:
-    netsuite:
-        materialized: table
-        +schema: netsuite
-        intermediate:
-            materialized: ephemeral
-
+  netsuite:
+    materialized: table
+    +schema: netsuite
+    intermediate:
+      materialized: ephemeral
 vars:
-    netsuite:
-        accounting_books: "{{ ref('stg_netsuite__accounting_books') }}"
-        accounting_periods: "{{ ref('stg_netsuite__accounting_periods') }}"
-        accounts: "{{ ref('stg_netsuite__accounts') }}"
-        classes: "{{ ref('stg_netsuite__classes') }}"
-        consolidated_exchange_rates: "{{ ref('stg_netsuite__consolidated_exchange_rates') }}"
-        currencies: "{{ ref('stg_netsuite__currencies') }}"
-        customers: "{{ ref('stg_netsuite__customers') }}"
-        departments: "{{ ref('stg_netsuite__departments') }}"
-        expense_accounts: "{{ ref('stg_netsuite__expense_accounts') }}"
-        income_accounts: "{{ ref('stg_netsuite__income_accounts') }}"
-        items: "{{ ref('stg_netsuite__items') }}"
-        locations: "{{ ref('stg_netsuite__locations') }}"
-        subsidiaries: "{{ ref('stg_netsuite__subsidiaries') }}"
-        transaction_lines: "{{ ref('stg_netsuite__transaction_lines') }}"
-        transactions: "{{ ref('stg_netsuite__transactions') }}"
-        vendor_types: "{{ ref('stg_netsuite__vendor_types') }}"
-        vendors: "{{ ref('stg_netsuite__vendors') }}"
-
-    accounts_pass_through_columns: []
-    classes_pass_through_columns: []
-    departments_pass_through_columns: []
-    transactions_pass_through_columns: []
-    transaction_lines_pass_through_columns: []
-    balance_sheet_transaction_detail_columns: []
-    income_statement_transaction_detail_columns: []
-
+  netsuite:
+    accounting_books: "{{ ref('stg_netsuite__accounting_books') }}"
+    accounting_periods: "{{ ref('stg_netsuite__accounting_periods') }}"
+    accounts: "{{ ref('stg_netsuite__accounts') }}"
+    classes: "{{ ref('stg_netsuite__classes') }}"
+    consolidated_exchange_rates: "{{ ref('stg_netsuite__consolidated_exchange_rates') }}"
+    currencies: "{{ ref('stg_netsuite__currencies') }}"
+    customers: "{{ ref('stg_netsuite__customers') }}"
+    departments: "{{ ref('stg_netsuite__departments') }}"
+    expense_accounts: "{{ ref('stg_netsuite__expense_accounts') }}"
+    income_accounts: "{{ ref('stg_netsuite__income_accounts') }}"
+    items: "{{ ref('stg_netsuite__items') }}"
+    locations: "{{ ref('stg_netsuite__locations') }}"
+    subsidiaries: "{{ ref('stg_netsuite__subsidiaries') }}"
+    transaction_lines: "{{ ref('stg_netsuite__transaction_lines') }}"
+    transactions: "{{ ref('stg_netsuite__transactions') }}"
+    vendor_types: "{{ ref('stg_netsuite__vendor_types') }}"
+    vendors: "{{ ref('stg_netsuite__vendors') }}"
+  accounts_pass_through_columns: []
+  classes_pass_through_columns: []
+  departments_pass_through_columns: []
+  transactions_pass_through_columns: []
+  transaction_lines_pass_through_columns: []
+  balance_sheet_transaction_detail_columns: []
+  income_statement_transaction_detail_columns: []
 clean-targets:
-    - target
-    - dbt_modules
+- target
+- dbt_modules
