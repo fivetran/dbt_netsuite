@@ -58,6 +58,7 @@ income_statement as (
         accounts.type_name as account_type_name,
         accounts.account_id as account_id,
         accounts.account_number,
+        transaction_details.subsidiary_name,
 
         --The below script allows for accounts table pass through columns.
         {% if var('accounts_pass_through_columns') %}
