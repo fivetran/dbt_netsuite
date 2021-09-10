@@ -58,7 +58,7 @@ income_statement as (
         accounts.type_name as account_type_name,
         accounts.account_id as account_id,
         accounts.account_number,
-        transaction_details.subsidiary_name,
+        subsidiaries.name as subsidiary_name,
 
         --The below script allows for accounts table pass through columns.
         {% if var('accounts_pass_through_columns') %}
@@ -123,6 +123,9 @@ income_statement as (
 
     join accounting_periods as reporting_accounting_periods 
         on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+    
+    join subsidiaries
+        on transactions_with_converted_amounts.subsidiary_id = subsidiaries.subsidiary_id
 
     --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
     {% if var('income_statement_transaction_detail_columns') != []%}
