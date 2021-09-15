@@ -73,6 +73,11 @@ currencies as (
     from {{ var('currencies') }}
 ),
 
+classes as (
+    select *
+    from {{var('classes')}}
+),
+
 transaction_details as (
   select
     transaction_lines.transaction_line_id,
@@ -129,6 +134,8 @@ transaction_details as (
     customers.zipcode as customer_zipcode,
     customers.country as customer_country,
     customers.date_first_order_at as customer_date_first_order,
+    customers.customer_external_id,
+    classes.full_name as class_full_name,
     items.name as item_name,
     items.type_name as item_type_name,
     items.sales_description,
@@ -184,6 +191,9 @@ transaction_details as (
 
   left join customers 
     on customers.customer_id = transaction_lines.company_id
+  
+  left join classes
+    on classes.class_id = transaction_lines.class_id
 
   left join items 
     on items.item_id = transaction_lines.item_id
