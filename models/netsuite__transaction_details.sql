@@ -75,7 +75,7 @@ currencies as (
 
 classes as (
     select *
-    from {{var('classes')}}
+    from {{ var('classes') }}
 ),
 
 transaction_details as (

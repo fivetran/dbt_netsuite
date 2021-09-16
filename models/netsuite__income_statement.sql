@@ -58,6 +58,8 @@ income_statement as (
         accounts.type_name as account_type_name,
         accounts.account_id as account_id,
         accounts.account_number,
+        subsidiaries.subsidiary_id,
+        subsidiaries.full_name as subsidiary_full_name,
         subsidiaries.name as subsidiary_name,
 
         --The below script allows for accounts table pass through columns.

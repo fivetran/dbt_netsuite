@@ -1,3 +1,7 @@
 packages:
-  - package: fivetran/netsuite_source
-    version: [">=0.3.0", "<0.4.0"]
+  # - package: fivetran/netsuite_source
+  #   version: [">=0.3.0", "<0.4.0"]
+  
+  - git: https://github.com/fivetran/dbt_netsuite_source.git
+    revision: customer/norina-sun
+    warn-unpinned: false
