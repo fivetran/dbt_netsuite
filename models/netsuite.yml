@@ -116,6 +116,12 @@ models:
       description: Category of the account. Options include Asset, Liability, Equity, Expense or Income.
     - name: income_statement_sort_helper
       description: Helper column for sorting income statement records.
+    - name: subsidiary_id
+      description: The unique identifier of the subsidiary.
+    - name: subsidiary_full_name
+      description: The full name of the subsidiary.
+    - name: subsidiary_name
+      description: Name of the subsidiary.
 
   - name: netsuite__transaction_details
     description: >
@@ -186,6 +192,10 @@ models:
       description: Country where the customer is located.
     - name: customer_date_first_order
       description: Date customer placed first order.
+    - name: customer_external_id
+      description: The unique identifier of the external customer reference.
+    - name: class_full_name
+      description: Full name of the class.
     - name: item_name
       description: Name of the item.
     - name: item_type_name
