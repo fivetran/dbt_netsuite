@@ -54,6 +54,8 @@ vars:
   departments_pass_through_columns: ['department_custom_fields']
   transactions_pass_through_columns: ['transactions_can_be_custom','pass_this_transaction_field_on']
   transaction_lines_pass_through_columns: ['transaction_lines_field']
+  customers_pass_through_columns: ['customers_field']
+  locations_pass_through_columns: ['this_new_location','lets_also_add_this_location_field']
 ```
 
 Additionally, this package allows users to pass columns from the `netsuite__transaction_details` table into
