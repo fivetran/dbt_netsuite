@@ -1,3 +1,5 @@
+{{ config(materialized = "table") }}
+
 with transaction_lines_w_accounting_period as (
     select * 
     from {{ ref('int_netsuite__transaction_lines_w_accounting_period') }}
