@@ -3,14 +3,25 @@ name: 'netsuite'
 version: '0.5.0'
 profile: 'integration'
 require-dbt-version: [">=1.0.0", "<2.0.0"]
+
 models:
   netsuite:
-    materialized: table
+    +materialized: table
     +schema: netsuite
-    intermediate:
-      materialized: ephemeral
+    netsuite:
+      +enabled: "{{ var('data_model', 'netsuite2') == 'netsuite' }}"
+      intermediate:
+        +materialized: ephemeral
+
+    netsuite2:
+      +enabled: "{{ var('data_model', 'netsuite2') == 'netsuite2' }}"
+      # intermediate:
+      #   +materialized: ephemeral 
+
 vars:
   netsuite:
+    data_model: netsuite2
+
     accounting_books: "{{ ref('stg_netsuite__accounting_books') }}"
     accounting_periods: "{{ ref('stg_netsuite__accounting_periods') }}"
     accounts: "{{ ref('stg_netsuite__accounts') }}"
@@ -28,13 +39,24 @@ vars:
     transactions: "{{ ref('stg_netsuite__transactions') }}"
     vendor_types: "{{ ref('stg_netsuite__vendor_types') }}"
     vendors: "{{ ref('stg_netsuite__vendors') }}"
-  accounts_pass_through_columns: []
-  classes_pass_through_columns: []
-  departments_pass_through_columns: []
-  transactions_pass_through_columns: []
-  transaction_lines_pass_through_columns: []
-  balance_sheet_transaction_detail_columns: []
-  income_statement_transaction_detail_columns: []
+    accounting_book_subsidiaries: "{{ ref('stg_netsuite__accounting_book_subsidiaries') }}"
+    accounting_period_fiscal_calendars: "{{ ref('stg_netsuite__accounting_period_fiscal_calendars') }}"
+    account_types: "{{ ref('stg_netsuite__account_types') }}"
+    entity_address: "{{ ref('stg_netsuite__entity_address') }}"
+    location_main_address: "{{ ref('stg_netsuite__location_main_address') }}"
+    vendor_category: "{{ ref('stg_netsuite__vendor_categories') }}"
+    jobs: "{{ ref('stg_netsuite__jobs') }}"
+    entities: "{{ ref('stg_netsuite__entities') }}"
+    transaction_accounting_lines: "{{ ref('stg_netsuite__transaction_accounting_lines') }}"
+
+    accounts_pass_through_columns: []
+    classes_pass_through_columns: []
+    departments_pass_through_columns: []
+    transactions_pass_through_columns: []
+    transaction_lines_pass_through_columns: []
+    balance_sheet_transaction_detail_columns: []
+    income_statement_transaction_detail_columns: []
+
 clean-targets:
 - target
 - dbt_modules
