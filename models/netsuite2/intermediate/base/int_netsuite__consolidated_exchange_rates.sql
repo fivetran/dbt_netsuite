@@ -1,13 +1,13 @@
 with consolidated_exchange_rates as (
 
     select *
-    from {{ var('consolidated_exchange_rates' )}}
+    from {{ var('consolidated_exchange_rates') }}
 ),
 
 accounting_book_subsidiaries as (
 
     select *
-    from {{ var('accounting_book_subsidiaries')}}
+    from {{ var('accounting_book_subsidiaries') }}
 ),
 
 joined as (

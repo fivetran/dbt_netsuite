@@ -1,13 +1,13 @@
 with accounts as (
 
     select *
-    from {{ var('accounts' )}}
+    from {{ var('accounts') }}
 ),
 
 account_types as (
 
     select *
-    from {{ var('account_types')}}
+    from {{ var('account_types') }}
 ),
 
 joined as (

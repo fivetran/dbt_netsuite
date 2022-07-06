@@ -1,13 +1,13 @@
 with customers as (
 
     select *
-    from {{ var('customers' )}}
+    from {{ var('customers') }}
 ),
 
 entity_address as (
 
     select *
-    from {{ var('entity_address')}}
+    from {{ var('entity_address') }}
 ),
 
 joined as (
