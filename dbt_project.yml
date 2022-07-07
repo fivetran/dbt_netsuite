@@ -14,7 +14,7 @@ models:
         +materialized: ephemeral
 
     netsuite2:
-      +enabled: "{{ var('data_model', 'netsuite2') == 'netsuite2' }}"
+      +enabled: "{{ var('data_model', 'netsuite2') == 'netsuite2' }}" # it's just using the default value
       # intermediate:
       #   +materialized: ephemeral 
 
@@ -44,7 +44,7 @@ vars:
     account_types: "{{ ref('stg_netsuite__account_types') }}"
     entity_address: "{{ ref('stg_netsuite__entity_address') }}"
     location_main_address: "{{ ref('stg_netsuite__location_main_address') }}"
-    vendor_category: "{{ ref('stg_netsuite__vendor_categories') }}"
+    vendor_categories: "{{ ref('stg_netsuite__vendor_categories') }}"
     jobs: "{{ ref('stg_netsuite__jobs') }}"
     entities: "{{ ref('stg_netsuite__entities') }}"
     transaction_accounting_lines: "{{ ref('stg_netsuite__transaction_accounting_lines') }}"
