@@ -138,7 +138,7 @@ transaction_details as (
     locations.name as location_name,
     locations.city as location_city,
     locations.country as location_country,
-    vendor_categories.name as vendor_categories_name,
+    vendor_categories.name as vendor_category_name,
     vendors.company_name as vendor_name,
     vendors.create_date_at as vendor_create_date,
     currencies.name as currency_name,
@@ -180,11 +180,8 @@ transaction_details as (
   left join accounting_periods 
     on accounting_periods.accounting_period_id = transactions.accounting_period_id
 
-  {# left join entities 
-    on transaction_lines.entity_id = transaction_lines.entity_id #}
-
   left join customers 
-    on customers.customer_id = transaction_lines.entity_id
+    on customers.customer_id = coalesce(transaction_lines.entity_id, transactions.entity_id)
   
   left join classes
     on classes.class_id = transaction_lines.class_id
@@ -196,7 +193,7 @@ transaction_details as (
     on locations.location_id = transaction_lines.location_id
 
   left join vendors 
-    on vendors.vendor_id = transaction_lines.entity_id
+    on vendors.vendor_id = coalesce(transaction_lines.entity_id, transactions.entity_id)
 
   left join vendor_categories 
     on vendor_categories.vendor_category_id = vendors.vendor_category_id
