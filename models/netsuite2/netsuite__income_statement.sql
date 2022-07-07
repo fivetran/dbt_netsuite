@@ -13,12 +13,12 @@ transaction_details as (
 
 accounts as (
     select * 
-    from {{ var('accounts') }}
+    from {{ ref('int_netsuite__accounts') }}
 ), 
 
 accounting_periods as (
     select * 
-    from {{ var('accounting_periods') }}
+    from {{ ref('int_netsuite__accounting_periods') }}
 ),
 
 subsidiaries as (
@@ -28,7 +28,7 @@ subsidiaries as (
 
 transaction_lines as (
     select * 
-    from {{ var('transaction_lines') }}
+    from {{ ref('int_netsuite__transaction_lines') }}
 ),
 
 classes as (
@@ -50,10 +50,9 @@ income_statement as (
     select
         reporting_accounting_periods.accounting_period_id as accounting_period_id,
         reporting_accounting_periods.ending_at as accounting_period_ending,
-        reporting_accounting_periods.full_name as accounting_period_full_name,
         reporting_accounting_periods.name as accounting_period_name,
-        lower(reporting_accounting_periods.is_adjustment) = 'yes' as is_accounting_period_adjustment,
-        lower(reporting_accounting_periods.closed) = 'yes' as is_accounting_period_closed,
+        reporting_accounting_periods.is_adjustment as is_accounting_period_adjustment,
+        reporting_accounting_periods.is_closed as is_accounting_period_closed,
         accounts.name as account_name,
         accounts.type_name as account_type_name,
         accounts.account_id as account_id,

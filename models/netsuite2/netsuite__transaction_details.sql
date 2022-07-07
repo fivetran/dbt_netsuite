@@ -100,7 +100,6 @@ transaction_details as (
     {% endif %}
 
     accounting_periods.ending_at as accounting_period_ending,
-    accounting_periods.full_name as accounting_period_full_name,
     accounting_periods.name as accounting_period_name,
     accounting_periods.is_adjustment as is_accounting_period_adjustment,
     accounting_periods.is_closed as is_accounting_period_closed,
@@ -195,7 +194,7 @@ transaction_details as (
     on locations.location_id = transaction_lines.location_id
 
   left join vendors 
-    on vendors.vendor_id = transaction_lines.company_id
+    on vendors.vendor_id = transaction_lines.entity_id
 
   left join vendor_categories 
     on vendor_categories.vendor_category_id = vendors.vendor_category_id

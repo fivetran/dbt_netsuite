@@ -30,27 +30,30 @@ balance_sheet as (
   select
     reporting_accounting_periods.accounting_period_id as accounting_period_id,
     reporting_accounting_periods.ending_at as accounting_period_ending,
-    reporting_accounting_periods.full_name as accounting_period_full_name,
     reporting_accounting_periods.name as accounting_period_name,
     reporting_accounting_periods.is_adjustment as is_accounting_period_adjustment,
-    reporting_accounting_periods.closed as is_accounting_period_closed,
+    reporting_accounting_periods.is_closed as is_accounting_period_closed,
     transactions_with_converted_amounts.account_category as account_category,
     case
-      when (not accounts.is_balancesheet and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 'Net Income'
+      when (not accounts.is_balancesheet 
+            and {{ dbt_utils.date_trunc('year', 'reporting_accounting_periods.starting_at') }} = {{ dbt_utils.date_trunc('year', 'transaction_accounting_periods.starting_at') }} 
+            and reporting_accounting_periods.fiscal_calendar_id = transaction_accounting_periods.fiscal_calendar_id) then 'Net Income'
       when not accounts.is_balancesheet then 'Retained Earnings'
       else accounts.name
         end as account_name,
     case
-      when (lower(accounts.is_balancesheet) = 'f' and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 'Net Income'
-      when lower(accounts.is_balancesheet) = 'f' then 'Retained Earnings'
+      when (not accounts.is_balancesheet 
+            and {{ dbt_utils.date_trunc('year', 'reporting_accounting_periods.starting_at') }} = {{ dbt_utils.date_trunc('year', 'transaction_accounting_periods.starting_at') }} 
+            and reporting_accounting_periods.fiscal_calendar_id = transaction_accounting_periods.fiscal_calendar_id) then 'Net Income'
+      when not accounts.is_balancesheet then 'Retained Earnings'
       else accounts.type_name
         end as account_type_name,
     case
-      when lower(accounts.is_balancesheet) = 'f' then null
+      when not accounts.is_balancesheet then null
       else accounts.account_id
         end as account_id,
     case
-      when lower(accounts.is_balancesheet) = 'f' then null
+      when not accounts.is_balancesheet then null
       else accounts.account_number
         end as account_number,
     
@@ -62,9 +65,9 @@ balance_sheet as (
     {% endif %}
 
     case
-      when lower(accounts.is_balancesheet) = 'f' or lower(transactions_with_converted_amounts.account_category) = 'equity' then -converted_amount_using_transaction_accounting_period
-      when lower(accounts.is_leftside) = 'f' then -converted_amount_using_reporting_month
-      when lower(accounts.is_leftside) = 't' then converted_amount_using_reporting_month
+      when not accounts.is_balancesheet or lower(transactions_with_converted_amounts.account_category) = 'equity' then -converted_amount_using_transaction_accounting_period
+      when not accounts.is_leftside then -converted_amount_using_reporting_month
+      when accounts.is_leftside then converted_amount_using_reporting_month
       else 0
         end as converted_amount,
     
@@ -82,8 +85,10 @@ balance_sheet as (
       when lower(accounts.type_name) = 'long term liability' then 11
       when lower(accounts.type_name) = 'deferred revenue' then 12
       when lower(accounts.type_name) = 'equity' then 13
-      when (lower(accounts.is_balancesheet) = 'f' and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 15
-      when lower(accounts.is_balancesheet) = 'f' then 14
+      when (not accounts.is_balancesheet 
+            and {{ dbt_utils.date_trunc('year', 'reporting_accounting_periods.starting_at') }} = {{ dbt_utils.date_trunc('year', 'transaction_accounting_periods.starting_at') }} 
+            and reporting_accounting_periods.fiscal_calendar_id = transaction_accounting_periods.fiscal_calendar_id) then 15
+      when not accounts.is_balancesheet then 14
       else null
         end as balance_sheet_sort_helper
     
@@ -115,7 +120,7 @@ balance_sheet as (
 
   where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
     and transaction_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
-    and (lower(accounts.is_balancesheet) = 't'
+    and (accounts.is_balancesheet
       or transactions_with_converted_amounts.is_income_statement)
 
   union all
@@ -123,10 +128,9 @@ balance_sheet as (
   select
     reporting_accounting_periods.accounting_period_id as accounting_period_id,
     reporting_accounting_periods.ending_at as accounting_period_ending,
-    reporting_accounting_periods.full_name as accounting_period_full_name,
     reporting_accounting_periods.name as accounting_period_name,
-    lower(reporting_accounting_periods.is_adjustment) = 'yes' as is_accounting_period_adjustment,
-    lower(reporting_accounting_periods.closed) = 'yes' as is_accounting_period_closed,
+    reporting_accounting_periods.is_adjustment as is_accounting_period_adjustment,
+    reporting_accounting_periods.is_closed as is_accounting_period_closed,
     'Equity' as account_category,
     'Cumulative Translation Adjustment' as account_name,
     'Cumulative Translation Adjustment' as account_type_name,
@@ -169,7 +173,7 @@ balance_sheet as (
     on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
     
   where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
-    and (lower(accounts.is_balancesheet) = 't'
+    and (accounts.is_balancesheet
       or transactions_with_converted_amounts.is_income_statement)
 )
 
