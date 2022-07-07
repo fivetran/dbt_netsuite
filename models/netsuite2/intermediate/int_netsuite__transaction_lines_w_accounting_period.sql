@@ -1,3 +1,5 @@
+{{ config(enabled=var('data_model', 'netsuite') == 'netsuite2') }}
+
 with transactions as (
     select * 
     from {{ var('transactions') }}

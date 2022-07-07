@@ -1,3 +1,5 @@
+{{ config(enabled=var('data_model', 'netsuite') == 'netsuite') }}
+
 with transactions_with_converted_amounts as (
     select * 
     from {{ ref('int_netsuite__transactions_with_converted_amounts') }}

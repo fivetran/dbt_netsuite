@@ -1,3 +1,5 @@
+{{ config(enabled=var('data_model', 'netsuite') == 'netsuite2') }}
+
 with accounts as (
 
     select *

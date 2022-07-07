@@ -9,12 +9,11 @@ models:
     +materialized: table
     +schema: netsuite
     netsuite:
-      +enabled: "{{ var('data_model', 'netsuite2') == 'netsuite' }}" # doesn't work
       intermediate:
         +materialized: ephemeral
 
-    netsuite2:
-      +enabled: "{{ var('data_model', 'netsuite2') == 'netsuite2' }}" # it's just using the default value
+    # netsuite2:
+    #   +enabled: "{{ var('data_model', 'netsuite2') == 'netsuite2' }}" # it's just using the default value
       # intermediate:
       #   +materialized: ephemeral 
 

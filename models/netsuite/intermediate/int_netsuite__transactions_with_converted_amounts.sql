@@ -1,3 +1,5 @@
+{{ config(enabled=var('data_model', 'netsuite') == 'netsuite') }}
+
 with transaction_lines_w_accounting_period as (
     select * 
     from {{ ref('int_netsuite__transaction_lines_w_accounting_period') }}

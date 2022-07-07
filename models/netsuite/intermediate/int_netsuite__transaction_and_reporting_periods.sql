@@ -1,3 +1,5 @@
+{{ config(enabled=var('data_model', 'netsuite') == 'netsuite') }}
+
 with accounting_periods as (
     select * 
     from {{ var('accounting_periods') }}
