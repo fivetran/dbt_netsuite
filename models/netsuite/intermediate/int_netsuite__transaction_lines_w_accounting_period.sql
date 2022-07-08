@@ -2,12 +2,12 @@
 
 with transactions as (
     select * 
-    from {{ var('transactions') }}
+    from {{ var('netsuite_transactions') }}
 ), 
 
 transaction_lines as (
     select * 
-    from {{ var('transaction_lines') }}
+    from {{ var('netsuite_transaction_lines') }}
 ),
 
 transaction_lines_w_accounting_period as ( -- transaction line totals, by accounts, accounting period and subsidiary

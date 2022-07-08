@@ -13,19 +13,19 @@ transaction_details as (
 
 accounts as (
     select * 
-    from {{ var('accounts') }}
+    from {{ var('netsuite_accounts') }}
 ), 
 
 {{ config(enabled=var('data_model', 'netsuite') == 'netsuite') }}
 
 accounting_periods as (
     select * 
-    from {{ var('accounting_periods') }}
+    from {{ var('netsuite_accounting_periods') }}
 ), 
 
 subsidiaries as (
     select * 
-    from {{ var('subsidiaries') }}
+    from {{ var('netsuite_subsidiaries') }}
 ),
 
 balance_sheet as ( 

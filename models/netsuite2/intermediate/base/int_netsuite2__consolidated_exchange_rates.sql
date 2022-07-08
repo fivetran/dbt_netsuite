@@ -3,13 +3,13 @@
 with consolidated_exchange_rates as (
 
     select *
-    from {{ var('consolidated_exchange_rates') }}
+    from {{ var('netsuite2_consolidated_exchange_rates') }}
 ),
 
 accounting_book_subsidiaries as (
 
     select *
-    from {{ var('accounting_book_subsidiaries') }}
+    from {{ var('netsuite2_accounting_book_subsidiaries') }}
 ),
 
 joined as (

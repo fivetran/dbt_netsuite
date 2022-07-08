@@ -7,77 +7,77 @@ with transactions_with_converted_amounts as (
 
 accounts as (
     select * 
-    from {{ var('accounts') }}
+    from {{ var('netsuite_accounts') }}
 ),
 
 accounting_periods as (
     select * 
-    from {{ var('accounting_periods') }}
+    from {{ var('netsuite_accounting_periods') }}
 ),
 
 subsidiaries as (
     select * 
-    from {{ var('subsidiaries') }}
+    from {{ var('netsuite_subsidiaries') }}
 ),
 
 transaction_lines as (
     select * 
-    from {{ var('transaction_lines') }}
+    from {{ var('netsuite_transaction_lines') }}
 ),
 
 transactions as (
     select * 
-    from {{ var('transactions') }}
+    from {{ var('netsuite_transactions') }}
 ),
 
 income_accounts as (
     select * 
-    from {{ var('income_accounts') }}
+    from {{ var('netsuite_income_accounts') }}
 ),
 
 expense_accounts as (
     select * 
-    from {{ var('expense_accounts') }}
+    from {{ var('netsuite_expense_accounts') }}
 ),
 
 customers as (
     select * 
-    from {{ var('customers') }}
+    from {{ var('netsuite_customers') }}
 ),
 
 items as (
     select * 
-    from {{ var('items') }}
+    from {{ var('netsuite_items') }}
 ),
 
 locations as (
     select * 
-    from {{ var('locations') }}
+    from {{ var('netsuite_locations') }}
 ),
 
 vendors as (
     select * 
-    from {{ var('vendors') }}
+    from {{ var('netsuite_vendors') }}
 ),
 
 vendor_types as (
     select * 
-    from {{ var('vendor_types') }}
+    from {{ var('netsuite_vendor_types') }}
 ),
 
 departments as (
     select * 
-    from {{ var('departments') }}
+    from {{ var('netsuite_departments') }}
 ),
 
 currencies as (
     select * 
-    from {{ var('currencies') }}
+    from {{ var('netsuite_currencies') }}
 ),
 
 classes as (
     select *
-    from {{ var('classes') }}
+    from {{ var('netsuite_classes') }}
 ),
 
 transaction_details as (

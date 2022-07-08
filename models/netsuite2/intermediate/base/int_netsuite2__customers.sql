@@ -3,13 +3,13 @@
 with customers as (
 
     select *
-    from {{ var('customers') }}
+    from {{ var('netsuite2_customers') }}
 ),
 
 entity_address as (
 
     select *
-    from {{ var('entity_address') }}
+    from {{ var('netsuite2_entity_address') }}
 ),
 
 joined as (

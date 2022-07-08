@@ -2,77 +2,77 @@
 
 with transactions_with_converted_amounts as (
     select * 
-    from {{ref('int_netsuite__transactions_with_converted_amounts')}}
+    from {{ref('int_netsuite2__transactions_with_converted_amounts')}}
 ),
 
 accounts as (
     select * 
-    from {{ ref('int_netsuite__accounts') }}
+    from {{ ref('int_netsuite2__accounts') }}
 ),
 
 accounting_periods as (
     select * 
-    from {{ ref('int_netsuite__accounting_periods') }}
+    from {{ ref('int_netsuite2__accounting_periods') }}
 ),
 
 subsidiaries as (
     select * 
-    from {{ var('subsidiaries') }}
+    from {{ var('netsuite2_subsidiaries') }}
 ),
 
 transaction_lines as (
     select * 
-    from {{ ref('int_netsuite__transaction_lines') }}
+    from {{ ref('int_netsuite2__transaction_lines') }}
 ),
 
 transactions as (
     select * 
-    from {{ var('transactions') }}
+    from {{ var('netsuite2_transactions') }}
 ),
 
 customers as (
     select * 
-    from {{ ref('int_netsuite__customers') }}
+    from {{ ref('int_netsuite2__customers') }}
 ),
 
 items as (
     select * 
-    from {{ var('items') }}
+    from {{ var('netsuite2_items') }}
 ),
 
 locations as (
     select * 
-    from {{ ref('int_netsuite__locations') }}
+    from {{ ref('int_netsuite2__locations') }}
 ),
 
 vendors as (
     select * 
-    from {{ var('vendors') }}
+    from {{ var('netsuite2_vendors') }}
 ),
 
 vendor_categories as (
     select * 
-    from {{ var('vendor_categories') }}
+    from {{ var('netsuite2_vendor_categories') }}
 ),
 
 departments as (
     select * 
-    from {{ var('departments') }}
+    from {{ var('netsuite2_departments') }}
 ),
 
 currencies as (
     select * 
-    from {{ var('currencies') }}
+    from {{ var('netsuite2_currencies') }}
 ),
 
 classes as (
     select *
-    from {{ var('classes') }}
+    from {{ var('netsuite2_classes') }}
 ),
 
 entities as (
     select *
-    from {{ var('entities') }}
+    from {{ var('netsuite2_entities') }}
 ),
 
 transaction_details as (

@@ -11,42 +11,55 @@ models:
     netsuite:
       intermediate:
         +materialized: ephemeral
-
-    # netsuite2:
-    #   +enabled: "{{ var('data_model', 'netsuite2') == 'netsuite2' }}" # it's just using the default value
-      # intermediate:
-      #   +materialized: ephemeral 
+    netsuite2:
+      intermediate:
+        +materialized: ephemeral
 
 vars:
   netsuite:
-    data_model: netsuite2
+    ## Netsuite staging models
+    netsuite_accounting_books: "{{ ref('stg_netsuite__accounting_books') }}"
+    netsuite_accounting_periods: "{{ ref('stg_netsuite__accounting_periods') }}"
+    netsuite_accounts: "{{ ref('stg_netsuite__accounts') }}"
+    netsuite_classes: "{{ ref('stg_netsuite__classes') }}"
+    netsuite_consolidated_exchange_rates: "{{ ref('stg_netsuite__consolidated_exchange_rates') }}"
+    netsuite_currencies: "{{ ref('stg_netsuite__currencies') }}"
+    netsuite_customers: "{{ ref('stg_netsuite__customers') }}"
+    netsuite_departments: "{{ ref('stg_netsuite__departments') }}"
+    netsuite_expense_accounts: "{{ ref('stg_netsuite__expense_accounts') }}"
+    netsuite_income_accounts: "{{ ref('stg_netsuite__income_accounts') }}"
+    netsuite_items: "{{ ref('stg_netsuite__items') }}"
+    netsuite_locations: "{{ ref('stg_netsuite__locations') }}"
+    netsuite_subsidiaries: "{{ ref('stg_netsuite__subsidiaries') }}"
+    netsuite_transaction_lines: "{{ ref('stg_netsuite__transaction_lines') }}"
+    netsuite_transactions: "{{ ref('stg_netsuite__transactions') }}"
+    netsuite_vendor_types: "{{ ref('stg_netsuite__vendor_types') }}"
+    netsuite_vendors: "{{ ref('stg_netsuite__vendors') }}"
 
-    accounting_books: "{{ ref('stg_netsuite__accounting_books') }}"
-    accounting_periods: "{{ ref('stg_netsuite__accounting_periods') }}"
-    accounts: "{{ ref('stg_netsuite__accounts') }}"
-    classes: "{{ ref('stg_netsuite__classes') }}"
-    consolidated_exchange_rates: "{{ ref('stg_netsuite__consolidated_exchange_rates') }}"
-    currencies: "{{ ref('stg_netsuite__currencies') }}"
-    customers: "{{ ref('stg_netsuite__customers') }}"
-    departments: "{{ ref('stg_netsuite__departments') }}"
-    expense_accounts: "{{ ref('stg_netsuite__expense_accounts') }}"
-    income_accounts: "{{ ref('stg_netsuite__income_accounts') }}"
-    items: "{{ ref('stg_netsuite__items') }}"
-    locations: "{{ ref('stg_netsuite__locations') }}"
-    subsidiaries: "{{ ref('stg_netsuite__subsidiaries') }}"
-    transaction_lines: "{{ ref('stg_netsuite__transaction_lines') }}"
-    transactions: "{{ ref('stg_netsuite__transactions') }}"
-    vendor_types: "{{ ref('stg_netsuite__vendor_types') }}"
-    vendors: "{{ ref('stg_netsuite__vendors') }}"
-    accounting_book_subsidiaries: "{{ ref('stg_netsuite__accounting_book_subsidiaries') }}"
-    accounting_period_fiscal_calendars: "{{ ref('stg_netsuite__accounting_period_fiscal_calendars') }}"
-    account_types: "{{ ref('stg_netsuite__account_types') }}"
-    entity_address: "{{ ref('stg_netsuite__entity_address') }}"
-    location_main_address: "{{ ref('stg_netsuite__location_main_address') }}"
-    vendor_categories: "{{ ref('stg_netsuite__vendor_categories') }}"
-    jobs: "{{ ref('stg_netsuite__jobs') }}"
-    entities: "{{ ref('stg_netsuite__entities') }}"
-    transaction_accounting_lines: "{{ ref('stg_netsuite__transaction_accounting_lines') }}"
+    ## Netsuite2 staging models
+    netsuite2_account_types: "{{ ref('stg_netsuite2__account_types') }}"
+    netsuite2_accounting_book_subsidiaries: "{{ ref('stg_netsuite2__accounting_book_subsidiaries') }}"
+    netsuite2_accounting_books: "{{ ref('stg_netsuite2__accounting_books') }}"
+    netsuite2_accounting_period_fiscal_calendars: "{{ ref('stg_netsuite2__accounting_period_fiscal_calendars') }}"
+    netsuite2_accounting_periods: "{{ ref('stg_netsuite2__accounting_periods') }}"
+    netsuite2_accounts: "{{ ref('stg_netsuite2__accounts') }}"
+    netsuite2_classes: "{{ ref('stg_netsuite2__classes') }}"
+    netsuite2_consolidated_exchange_rates: "{{ ref('stg_netsuite2__consolidated_exchange_rates') }}"
+    netsuite2_currencies: "{{ ref('stg_netsuite2__currencies') }}"
+    netsuite2_customers: "{{ ref('stg_netsuite2__customers') }}"
+    netsuite2_departments: "{{ ref('stg_netsuite2__departments') }}"
+    netsuite2_entities: "{{ ref('stg_netsuite2__entities') }}"
+    netsuite2_entity_address: "{{ ref('stg_netsuite2__entity_address') }}"
+    netsuite2_items: "{{ ref('stg_netsuite2__items') }}"
+    netsuite2_jobs: "{{ ref('stg_netsuite2__jobs') }}"
+    netsuite2_location_main_address: "{{ ref('stg_netsuite2__location_main_address') }}"
+    netsuite2_locations: "{{ ref('stg_netsuite2__locations') }}"
+    netsuite2_subsidiaries: "{{ ref('stg_netsuite2__subsidiaries') }}"
+    netsuite2_transaction_accounting_lines: "{{ ref('stg_netsuite2__transaction_accounting_lines') }}"
+    netsuite2_transaction_lines: "{{ ref('stg_netsuite2__transaction_lines') }}"
+    netsuite2_transactions: "{{ ref('stg_netsuite2__transactions') }}"
+    netsuite2_vendor_categories: "{{ ref('stg_netsuite2__vendor_categories') }}"
+    netsuite2_vendors: "{{ ref('stg_netsuite2__vendors') }}"
 
     accounts_pass_through_columns: []
     classes_pass_through_columns: []
