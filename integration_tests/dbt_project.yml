@@ -59,5 +59,7 @@ seeds:
     +quote_columns: "{{ true if target.type in ('redshift','postgres') else false }}"
     netsuite_integration_tests:
       +column_types:
-          ending: timestamp
-          due_date: timestamp
+        ending: timestamp
+        due_date: timestamp
+        startdate: timestamp
+        starting: timestamp
