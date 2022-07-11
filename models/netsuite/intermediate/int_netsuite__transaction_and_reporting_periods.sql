@@ -21,7 +21,7 @@ transaction_and_reporting_periods as (
       and multiplier.quarter = base.quarter
       and multiplier.year_0 = base.year_0
       and multiplier.fiscal_calendar_id = base.fiscal_calendar_id
-      and multiplier.starting_at <= {{ current_timestamp() }} 
+      and cast(multiplier.starting_at as {{ dbt_utils.type_timestamp() }})
 
   where lower(base.quarter) = 'no'
     and lower(base.year_0) = 'no'
