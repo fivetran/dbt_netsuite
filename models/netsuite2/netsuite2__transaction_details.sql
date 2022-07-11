@@ -1,8 +1,8 @@
-{{ config(enabled=var('data_model', 'netsuite') == 'netsuite2') }}
+{{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite2_variable_name','netsuite2')) }}
 
 with transactions_with_converted_amounts as (
     select * 
-    from {{ref('int_netsuite2__transactions_with_converted_amounts')}}
+    from {{ref('int_netsuite2__tran_with_converted_amounts')}}
 ),
 
 accounts as (

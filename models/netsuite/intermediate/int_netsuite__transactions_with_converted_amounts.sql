@@ -1,4 +1,4 @@
-{{ config(enabled=var('data_model', 'netsuite') == 'netsuite') }}
+{{ config(enabled=var('netsuite_data_model', 'netsuite') == 'netsuite') }}
 
 with transaction_lines_w_accounting_period as (
     select * 

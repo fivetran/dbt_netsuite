@@ -16,7 +16,7 @@ accounts as (
     from {{ var('netsuite_accounts') }}
 ), 
 
-{{ config(enabled=var('data_model', 'netsuite') == 'netsuite') }}
+{{ config(enabled=var('netsuite_data_model', 'netsuite') == 'netsuite') }}
 
 accounting_periods as (
     select * 
@@ -35,7 +35,7 @@ balance_sheet as (
     reporting_accounting_periods.full_name as accounting_period_full_name,
     reporting_accounting_periods.name as accounting_period_name,
     lower(reporting_accounting_periods.is_adjustment) = 'yes' as is_accounting_period_adjustment,
-    lower(reporting_accounting_periods.closed) = 'yes' as is_accounting_period_closed,
+    lower(reporting_accounting_periods.is_closed) = 'yes' as is_accounting_period_closed,
     transactions_with_converted_amounts.account_category as account_category,
     case
       when (lower(accounts.is_balancesheet) = 'f' and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 'Net Income'
@@ -128,7 +128,7 @@ balance_sheet as (
     reporting_accounting_periods.full_name as accounting_period_full_name,
     reporting_accounting_periods.name as accounting_period_name,
     lower(reporting_accounting_periods.is_adjustment) = 'yes' as is_accounting_period_adjustment,
-    lower(reporting_accounting_periods.closed) = 'yes' as is_accounting_period_closed,
+    lower(reporting_accounting_periods.is_closed) = 'yes' as is_accounting_period_closed,
     'Equity' as account_category,
     'Cumulative Translation Adjustment' as account_name,
     'Cumulative Translation Adjustment' as account_type_name,

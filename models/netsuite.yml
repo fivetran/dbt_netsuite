@@ -1,5 +1,5 @@
 version: 2
- 
+
 models:
   - name: int_netsuite__accountxperiod_exchange_rate_map
     description: >
@@ -48,11 +48,6 @@ models:
       either Retained Earnings or Net Income.  The Cumulative Translation
       Adjustment total, which in most cases does not have transactions
       associated with it, is calculated manually in the second part of the query.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - accounting_period_id
-            - account_id
     columns:
     - name: accounting_period_id
       description: The unique identifier of the accounting period.
@@ -86,11 +81,6 @@ models:
       The income statement query uses the transactions_with_converted_amount transformation 
       to recreate all lines necessary for the income statement.  It also joins in class, 
       department and location information for enhanced reporting. 
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - accounting_period_id
-            - account_id
     columns:
     - name: accounting_period_id
       description: The unique identifier of the accounting period.

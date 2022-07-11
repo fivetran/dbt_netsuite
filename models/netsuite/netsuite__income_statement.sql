@@ -1,4 +1,4 @@
-{{ config(enabled=var('data_model', 'netsuite') == 'netsuite') }}
+{{ config(enabled=var('netsuite_data_model', 'netsuite') == 'netsuite') }}
 
 with transactions_with_converted_amounts as (
     select * 
@@ -55,7 +55,7 @@ income_statement as (
         reporting_accounting_periods.full_name as accounting_period_full_name,
         reporting_accounting_periods.name as accounting_period_name,
         lower(reporting_accounting_periods.is_adjustment) = 'yes' as is_accounting_period_adjustment,
-        lower(reporting_accounting_periods.closed) = 'yes' as is_accounting_period_closed,
+        lower(reporting_accounting_periods.is_closed) = 'yes' as is_accounting_period_closed,
         accounts.name as account_name,
         accounts.type_name as account_type_name,
         accounts.account_id as account_id,

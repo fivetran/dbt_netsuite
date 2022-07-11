@@ -1,80 +1,63 @@
 name: 'netsuite_integration_tests'
-version: '0.5.0'
+version: '0.6.0'
 profile: 'integration_tests'
 config-version: 2
 
 models: 
-  netsuite_source:
-    materialized: table
-    tmp:
-      materialized: view
+  +materialized: table
 
 vars:
-  netsuite:
-    accounting_books: "{{ ref('stg_netsuite__accounting_books') }}"
-    accounting_periods: "{{ ref('stg_netsuite__accounting_periods') }}"
-    accounts: "{{ ref('stg_netsuite__accounts') }}"
-    classes: "{{ ref('stg_netsuite__classes') }}"
-    consolidated_exchange_rates: "{{ ref('stg_netsuite__consolidated_exchange_rates') }}"
-    currencies: "{{ ref('stg_netsuite__currencies') }}"
-    customers: "{{ ref('stg_netsuite__customers') }}"
-    departments: "{{ ref('stg_netsuite__departments') }}"
-    expense_accounts: "{{ ref('stg_netsuite__expense_accounts') }}"
-    income_accounts: "{{ ref('stg_netsuite__income_accounts') }}"
-    items: "{{ ref('stg_netsuite__items') }}"
-    locations: "{{ ref('stg_netsuite__locations') }}"
-    subsidiaries: "{{ ref('stg_netsuite__subsidiaries') }}"
-    transaction_lines: "{{ ref('stg_netsuite__transaction_lines') }}"
-    transactions: "{{ ref('stg_netsuite__transactions') }}"
-    vendor_types: "{{ ref('stg_netsuite__vendor_types') }}"
-    vendors: "{{ ref('stg_netsuite__vendors') }}"
+  netsuite_schema: netsuite_source_integration_tests
+  netsuite2_variable_name: netsuite # Set the variable to the same data model to generate run both sources for integration testing.
 
   netsuite_source:
-    accounting_books: "{{ ref('accounting_books_data') }}"
-    accounting_periods: "{{ ref('accounting_periods_data') }}"
-    accounts: "{{ ref('accounts_data') }}"
-    classes: "{{ ref('classes_data') }}"
-    consolidated_exchange_rates: "{{ ref('consolidated_exchange_rates_data') }}"
-    currencies: "{{ ref('currencies_data') }}"
-    customers: "{{ ref('customers_data') }}"
-    departments: "{{ ref('departments_data') }}"
-    expense_accounts: "{{ ref('expense_accounts_data') }}"
-    income_accounts: "{{ ref('income_accounts_data') }}"
-    items: "{{ ref('items_data') }}"
-    locations: "{{ ref('locations_data') }}"
-    subsidiaries: "{{ ref('subsidiaries_data') }}"
-    transaction_lines: "{{ ref('transaction_lines_data') }}"
-    transactions: "{{ ref('transactions_data') }}"
-    vendor_types: "{{ ref('vendor_types_data') }}"
-    vendors: "{{ ref('vendors_data') }}"
+    # Netsuite Seed Data
+    netsuite_accounting_books_identifier: "netsuite_accounting_books_data"
+    netsuite_accounting_periods_identifier: "netsuite_accounting_periods_data"
+    netsuite_accounts_identifier: "netsuite_accounts_data"
+    netsuite_classes_identifier: "netsuite_classes_data"
+    netsuite_consolidated_exchange_rates_identifier: "netsuite_consolidated_exchange_rates_data"
+    netsuite_currencies_identifier: "netsuite_currencies_data"
+    netsuite_customers_identifier: "netsuite_customers_data"
+    netsuite_departments_identifier: "netsuite_departments_data"
+    netsuite_expense_accounts_identifier: "netsuite_expense_accounts_data"
+    netsuite_income_accounts_identifier: "netsuite_income_accounts_data"
+    netsuite_items_identifier: "netsuite_items_data"
+    netsuite_locations_identifier: "netsuite_locations_data"
+    netsuite_subsidiaries_identifier: "netsuite_subsidiaries_data"
+    netsuite_transaction_lines_identifier: "netsuite_transaction_lines_data"
+    netsuite_transactions_identifier: "netsuite_transactions_data"
+    netsuite_vendor_types_identifier: "netsuite_vendor_types_data"
+    netsuite_vendors_identifier: "netsuite_vendors_data"
+
+    # Netsuite2 Seed Data
+    netsuite2_accounting_book_identifier: "netsuite2_accounting_book_data"  
+    netsuite2_accounting_period_identifier: "netsuite2_accounting_period_data"  
+    netsuite2_account_identifier: "netsuite2_account_data"  
+    netsuite2_classification_identifier: "netsuite2_classification_data"  
+    netsuite2_consolidated_exchange_rate_identifier: "netsuite2_consolidated_exchange_rate_data"  
+    netsuite2_currency_identifier: "netsuite2_currency_data"  
+    netsuite2_customer_identifier: "netsuite2_customer_data"  
+    netsuite2_department_identifier: "netsuite2_department_data"  
+    netsuite2_entity_identifier: "netsuite2_entities_data"  
+    netsuite2_item_identifier: "netsuite2_item_data"  
+    netsuite2_job_identifier: "netsuite2_job_data"  
+    netsuite2_location_identifier: "netsuite2_location_data"  
+    netsuite2_subsidiary_identifier: "netsuite2_subsidiary_data"  
+    netsuite2_transaction_accounting_line_identifier: "netsuite2_tran_acct_line_data"  
+    netsuite2_transaction_line_identifier: "netsuite2_transaction_line_data"  
+    netsuite2_transaction_identifier: "netsuite2_transaction_data"  
+    netsuite2_vendor_identifier: "netsuite2_vendor_data"  
+    netsuite2_vendor_category_identifier: "netsuite2_vendor_category_data"  
+    netsuite2_accounting_book_subsidiaries_identifier: "netsuite2_accounting_book_sub_data"  
+    netsuite2_accounting_period_fiscal_calendars_identifier: "netsuite2_accounting_period_fiscal_cal_data"  
+    netsuite2_account_type_identifier: "netsuite2_account_type_data"  
+    netsuite2_entity_address_identifier: "netsuite2_entity_address_data"  
+    netsuite2_location_main_address_identifier: "netsuite2_location_main_address_data"  
     
 seeds:
-    +quote_columns: "{{ true if target.type == 'redshift' else false }}"
+    +quote_columns: "{{ true if target.type in ('redshift','postgres') else false }}"
     netsuite_integration_tests:
-        accounting_books_data:
-        accounting_periods_data:
-          +column_types:
-            ending: timestamp
-            starting: timestamp
-            fiscal_calendar_id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
-        accounts_data:
-        classes_data:
-        consolidated_exchange_rates_data:
-        currencies_data:
-        customers_data:
-        departments_data:
-        expense_accounts_data:
-        income_accounts_data:
-        items_data:
-        locations_data:
-        subsidiaries_data:
-        transaction_line_data:
-        transactions_data:
-          +column_types:
-            due_date: timestamp
-        vendor_types_data:
-        vendors_data:
-
-clean-targets:
-    - target
-    - dbt_modules
+      +column_types:
+          ending: timestamp
+          due_date: timestamp

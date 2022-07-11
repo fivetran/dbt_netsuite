@@ -1,0 +1,3 @@
+id,_fivetran_deleted,_fivetran_synced,country,currency,date_deleted,dropdownstate,edition,email,externalid,fax,federalidnumber,fiscalcalendar,fullname,iselimination,isinactive,languagelocale,lastmodifieddate,legalname,mainaddress,name,parent,purchaseorderamount,purchaseorderquantity,purchaseorderquantitydiff,receiptamount,receiptquantity,receiptquantitydiff,returnaddress,shippingaddress,showsubsidiaryname,ssnortin,state,state1taxnumber,tranprefix,url
+4,FALSE,2022-07-10 23:14:17,US,1,,AK,US,,,,,1,CeCe,F,F,en_US,2019-07-06 21:13:49,,1126,Meow Meow,3,,,,,,,,,F,,AK,,,
+6,FALSE,2022-05-27 13:56:54,US,1,,GA,US,,,,,1,Cat Jam,F,F,en_US,2017-06-13 5:39:53,,4659,Purr,3,,,,,,,,,F,,GA,,,

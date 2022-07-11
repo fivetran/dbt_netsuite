@@ -1,6 +1,6 @@
 config-version: 2
 name: 'netsuite'
-version: '0.5.0'
+version: '0.6.0'
 profile: 'integration'
 require-dbt-version: [">=1.0.0", "<2.0.0"]
 
@@ -40,7 +40,7 @@ vars:
     netsuite2_account_types: "{{ ref('stg_netsuite2__account_types') }}"
     netsuite2_accounting_book_subsidiaries: "{{ ref('stg_netsuite2__accounting_book_subsidiaries') }}"
     netsuite2_accounting_books: "{{ ref('stg_netsuite2__accounting_books') }}"
-    netsuite2_accounting_period_fiscal_calendars: "{{ ref('stg_netsuite2__accounting_period_fiscal_calendars') }}"
+    netsuite2_accounting_period_fiscal_calendars: "{{ ref('stg_netsuite2__accounting_period_fiscal_cal') }}"
     netsuite2_accounting_periods: "{{ ref('stg_netsuite2__accounting_periods') }}"
     netsuite2_accounts: "{{ ref('stg_netsuite2__accounts') }}"
     netsuite2_classes: "{{ ref('stg_netsuite2__classes') }}"
@@ -68,8 +68,3 @@ vars:
     transaction_lines_pass_through_columns: []
     balance_sheet_transaction_detail_columns: []
     income_statement_transaction_detail_columns: []
-
-clean-targets:
-- target
-- dbt_modules
-- dbt_packages

@@ -1,8 +1,8 @@
-{{ config(enabled=var('data_model', 'netsuite') == 'netsuite2') }}
+{{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite2_variable_name','netsuite2')) }}
 
 with transactions_with_converted_amounts as (
     select * 
-    from {{ref('int_netsuite2__transactions_with_converted_amounts')}}
+    from {{ref('int_netsuite2__tran_with_converted_amounts')}}
 ), 
 
 --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
@@ -30,6 +30,8 @@ subsidiaries as (
 
 balance_sheet as ( 
   select
+    transactions_with_converted_amounts.transaction_id,
+    transactions_with_converted_amounts.transaction_line_id,
     reporting_accounting_periods.accounting_period_id as accounting_period_id,
     reporting_accounting_periods.ending_at as accounting_period_ending,
     reporting_accounting_periods.name as accounting_period_name,
@@ -105,19 +107,19 @@ balance_sheet as (
   
   --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
   {% if var('balance_sheet_transaction_detail_columns') != []%}
-  join transaction_details
+  left join transaction_details
     on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
       and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
   {% endif %}
 
 
-  join accounts 
+  left join accounts 
     on accounts.account_id = transactions_with_converted_amounts.account_id
 
-  join accounting_periods as reporting_accounting_periods 
+  left join accounting_periods as reporting_accounting_periods 
     on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
 
-  join accounting_periods as transaction_accounting_periods 
+  left join accounting_periods as transaction_accounting_periods 
     on transaction_accounting_periods.accounting_period_id = transactions_with_converted_amounts.transaction_accounting_period_id
 
   where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
@@ -128,6 +130,8 @@ balance_sheet as (
   union all
 
   select
+    transactions_with_converted_amounts.transaction_id,
+    transactions_with_converted_amounts.transaction_line_id,
     reporting_accounting_periods.accounting_period_id as accounting_period_id,
     reporting_accounting_periods.ending_at as accounting_period_ending,
     reporting_accounting_periods.name as accounting_period_name,
@@ -163,15 +167,15 @@ balance_sheet as (
 
   --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
   {% if var('balance_sheet_transaction_detail_columns') != []%}
-  join transaction_details
+  left join transaction_details
     on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
       and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
   {% endif %}
 
-  join accounts
+  left join accounts
     on accounts.account_id = transactions_with_converted_amounts.account_id
 
-  join accounting_periods as reporting_accounting_periods 
+  left join accounting_periods as reporting_accounting_periods 
     on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
     
   where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)

@@ -1,18 +1,18 @@
-{{ config(enabled=var('data_model', 'netsuite') == 'netsuite2') }}
+{{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite2_variable_name','netsuite2')) }}
 
 with transaction_lines_w_accounting_period as (
     select * 
-    from {{ ref('int_netsuite2__transaction_lines_w_accounting_period') }}
+    from {{ ref('int_netsuite2__tran_lines_w_accounting_period') }}
 ), 
 
 accountxperiod_exchange_rate_map as (
     select * 
-    from {{ ref('int_netsuite2__accountxperiod_exchange_rate_map') }}
+    from {{ ref('int_netsuite2__acctxperiod_exchange_rate_map') }}
 ), 
 
 transaction_and_reporting_periods as (
     select * 
-    from {{ ref('int_netsuite2__transaction_and_reporting_periods') }}
+    from {{ ref('int_netsuite2__tran_and_reporting_periods') }}
 ), 
 
 accounts as (
