@@ -181,17 +181,10 @@ models:
       description: Timestamp of the date which the transaction is due.
     - name: transaction_type
       description: Type identifier of the transaction.
-<<<<<<< HEAD
-    - name: is_transaction_intercompany
-      description: Boolean field, indicating whether or not the transaction is an intercompany transaction or an advanced intercompany transaction.
-=======
     - name: is_transaction_intercompany_adjustment
-      description: Yes/No field, indicating whether or not the transaction is an intercompany adjustment transaction.
->>>>>>> 582849d4cb7e9872db6d7cd9e574a7de08ac0759
+      description: Boolean field, indicating whether or not the transaction is an intercompany transaction or an advanced intercompany transaction.
     - name: accounting_period_ending
       description: End date of the accounting period.
-    - name: accounting_period_full_name
-      description: Full name of the accounting period.
     - name: accounting_period_name
       description: Name of the accounting period.
     - name: is_accounting_period_adjustment
@@ -219,11 +212,7 @@ models:
     - name: is_income_account
       description: Boolean field indicating whether or not the account is an income account.
     - name: is_expense_account
-<<<<<<< HEAD
       description: Boolean field indicating whether or not the account is an expense account.
-=======
-      description: Yes/No field indicating whether or not the account is an expense account. Includes deferred expense accounts.
->>>>>>> 582849d4cb7e9872db6d7cd9e574a7de08ac0759
     - name: company_name
       description: Name of the company.
     - name: customer_city
