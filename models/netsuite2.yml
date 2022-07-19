@@ -68,8 +68,6 @@ models:
       description: The unique identifier of the accounting period.
     - name: accounting_period_ending
       description: End date of the accounting period
-    - name: accounting_period_full_name
-      description: Accounting periods full name.
     - name: accounting_period_name
       description: Name of the accounting period.
     - name: is_accounting_period_adjustment
