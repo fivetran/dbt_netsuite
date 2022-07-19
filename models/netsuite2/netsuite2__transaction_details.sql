@@ -85,6 +85,7 @@ transaction_details as (
     transactions.transaction_date,
     transactions.due_date_at as transaction_due_date,
     transactions.transaction_type as transaction_type,
+    transactions.is_intercompany_adjustment as is_transaction_intercompany_adjustment,
     {# (lower(transactions.is_advanced_intercompany) = 'yes' or lower(transactions.is_intercompany) = 'yes') as is_transaction_intercompany, #}
 
     --The below script allows for transactions table pass through columns.
