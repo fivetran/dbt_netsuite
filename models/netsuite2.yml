@@ -218,7 +218,7 @@ models:
     - name: is_income_account
       description: Yes/No field indicating whether or not the account is an income account.
     - name: is_expense_account
-      description: Yes/No field indicating whether or not the account is an expense account.
+      description: Yes/No field indicating whether or not the account is an expense account. Includes deferred expense accounts.
     - name: company_name
       description: Name of the company.
     - name: customer_city
