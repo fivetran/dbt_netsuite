@@ -73,9 +73,9 @@ models:
     - name: accounting_period_name
       description: Name of the accounting period.
     - name: is_accounting_period_adjustment
-      description: Yes/No field, indicating whether or not the selecting accounting period is an adjustment period.
+      description: Boolean field, indicating whether or not the selecting accounting period is an adjustment period.
     - name: is_accounting_period_closed
-      description: Yes/No field, indicating whether or not the selecting accounting period is closed.
+      description: Boolean field, indicating whether or not the selecting accounting period is closed.
     - name: account_category
       description: Category of the account.  Options include Asset, Liability, Equity, Expense or Income.
     - name: account_name
@@ -121,9 +121,9 @@ models:
     - name: accounting_period_name
       description: Name of the accounting period.
     - name: is_accounting_period_adjustment
-      description: Yes/No field, indicating whether or not the selecting accounting period is an adjustment period.
+      description: Boolean field, indicating whether or not the selecting accounting period is an adjustment period.
     - name: is_accounting_period_closed
-      description: Yes/No field, indicating whether or not the selecting accounting period is closed.
+      description: Boolean field, indicating whether or not the selecting accounting period is closed.
     - name: account_name
       description: Name of the account.
     - name: account_type_name
@@ -172,7 +172,7 @@ models:
     - name: transaction_memo
       description: Memo associated with the transaction line.
     - name: is_transaction_non_posting
-      description: Yes/No field, indicating whether or not the transaction line is non-posting.
+      description: Boolean field, indicating whether or not the transaction line is non-posting.
     - name: transaction_id
       description: Netsuite internal transaction ID.
       tests:
@@ -186,7 +186,7 @@ models:
     - name: transaction_type
       description: Type identifier of the transaction.
     - name: is_transaction_intercompany
-      description: Yes/No field, indicating whether or not the transaction is an intercompany transaction or an advanced intercompany transaction.
+      description: Boolean field, indicating whether or not the transaction is an intercompany transaction or an advanced intercompany transaction.
     - name: accounting_period_ending
       description: End date of the accounting period.
     - name: accounting_period_full_name
@@ -194,9 +194,9 @@ models:
     - name: accounting_period_name
       description: Name of the accounting period.
     - name: is_accounting_period_adjustment
-      description: Yes/No field, indicating whether or not the selecting accounting period is an adjustment period.
+      description: Boolean field, indicating whether or not the selecting accounting period is an adjustment period.
     - name: is_accounting_period_closed
-      description: Yes/No field, indicating whether or not the selecting accounting period is closed.
+      description: Boolean field, indicating whether or not the selecting accounting period is closed.
     - name: account_name
       description: Name of the account.
     - name: account_type_name
@@ -206,19 +206,19 @@ models:
     - name: account_number
       description: Account number associated with the account.
     - name: is_account_leftside
-      description: Yes/No field indicating whether or not the account is leftside.
+      description: Boolean field indicating whether or not the account is leftside.
     - name: is_accounts_payable
-      description: Yes/No field indicating whether or not the account type name includes 'accounts payable'.
+      description: Boolean field indicating whether or not the account type name includes 'accounts payable'.
     - name: is_accounts_receivable
-      description: Yes/No field indicating whether or not the account type name includes 'accounts receivable'.
+      description: Boolean field indicating whether or not the account type name includes 'accounts receivable'.
     - name: is_account_intercompany
-      description: Yes/No field indicating whether or not the account type name includes 'intercompany'.
+      description: Boolean field indicating whether or not the account type name includes 'intercompany'.
     - name: parent_account_name
       description: Name of the parent account, if parent account relationship exists.  Otherwise, the name of the account.
     - name: is_income_account
-      description: Yes/No field indicating whether or not the account is an income account.
+      description: Boolean field indicating whether or not the account is an income account.
     - name: is_expense_account
-      description: Yes/No field indicating whether or not the account is an expense account.
+      description: Boolean field indicating whether or not the account is an expense account.
     - name: company_name
       description: Name of the company.
     - name: customer_city

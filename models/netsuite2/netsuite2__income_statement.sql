@@ -123,10 +123,10 @@ income_statement as (
         on accounts.account_id = transactions_with_converted_amounts.account_id
 
     left join locations
-        on accounts.location_id = transaction_lines.location_id
+        on locations.location_id = transaction_lines.location_id
 
     left join classes 
-        on classes.class_id = accounts.class_id
+        on classes.class_id = transaction_lines.class_id
 
     left join accounting_periods as reporting_accounting_periods 
         on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id

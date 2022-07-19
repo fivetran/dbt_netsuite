@@ -15,7 +15,7 @@ vars:
 - Addition of the `netsuite_data_model` variable. This variable may either be `netsuite` (the original Netsuite.com connector endpoint) or `netsuite2` (the new Netsuite2 connector endpoint).
   - The variable is set to `netsuite` by default. If you wish to run the data models for the Netsuite2 connector, you may simply change the variable within your root dbt_project.yml to `netsuite2`.
 - Postgres compatibility!
-- Added identifier variables to each Netsuite.com and Netsuite2 source to enable dynamic source adjustments.
+- Added identifier variables to each Netsuite.com and Netsuite2 source to enable dynamic source-table adjustments.
 - Applied schema level tests to each Netsuite2 end model to ensure data validation.
 - README updates for easier navigation and package use.
 # dbt_netsuite v0.5.0

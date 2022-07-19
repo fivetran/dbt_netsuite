@@ -16,7 +16,6 @@
 - Enables users to insights into their netsuite data that can be used for financial statement reporting and deeper transactional analysis. This is achieved by the following:
     - Recreating both the balance sheet and income statement
     - Recreating commonly used data by using the transaction lines as the base table and joining other data
-- Materializes output models designed to work simultaneously with our [multi-platform Ad Reporting package](https://github.com/fivetran/dbt_ad_reporting).
 - Generates a comprehensive data dictionary of your source and modeled Netsuite data through the [dbt docs site](https://fivetran.github.io/dbt_netsuite/).
 
 The following table provides a detailed list of all models materialized within this package by default. 
@@ -64,6 +63,9 @@ To use this dbt package, you must have At least either one Fivetran **Netsuite**
 - customer
 - classification
 - department
+- entity
+- entityaddress
+- item
 - item
 - job
 - location
@@ -87,10 +89,10 @@ packages:
     version: [">=0.6.0", "<0.7.0"]
 ```
 ## Step 3: Define Netsuite.com or Netsuite2 Source
-As of April 2022 Fivetran made available a new Netsuite connector which leverages the Netsuite2 endpoint opposed to the original Netsuite.com endpoint. This package is designed to run for either or, not both. By default the `netsuite_netsuite_data_model` variable for this package is set to the original `netsuite` value which runs the netsuite.com version of the package. If you would like to run the package on Netsuite2 data, you may adjust the `netsuite_data_model` variable to run the `netsuite2` version of the package.
+As of April 2022 Fivetran made available a new Netsuite connector which leverages the Netsuite2 endpoint opposed to the original Netsuite.com endpoint. This package is designed to run for either or, not both. By default the `netsuite_data_model` variable for this package is set to the original `netsuite` value which runs the netsuite.com version of the package. If you would like to run the package on Netsuite2 data, you may adjust the `netsuite_data_model` variable to run the `netsuite2` version of the package.
 ```yml
 vars:
-    netsuite_netsuite_data_model: netsuite2 #netsuite by default
+    netsuite_data_model: netsuite2 #netsuite by default
 ```
 
 ## Step 4: Define database and schema variables
@@ -109,15 +111,31 @@ This package includes all source columns defined in the macros folder. To add ad
 
 ```yml
 vars:
-    accounts_pass_through_columns: ['new_custom_field', 'we_can_account_for_that']
-    classes_pass_through_columns: ['class_is_in_session', 'pass_through_additional_fields_here']
-    departments_pass_through_columns: ['department_custom_fields']
-    transactions_pass_through_columns: ['transactions_can_be_custom','pass_this_transaction_field_on']
-    transaction_lines_pass_through_columns: ['transaction_lines_field']
-    customers_pass_through_columns: ['customers_field']
-    locations_pass_through_columns: ['this_new_location','lets_also_add_this_location_field']
-    subsidiaries_pass_through_columns: ['subsidiaries_field']
-    consolidated_exchange_rates_pass_through_columns: ['this_exchange_rate','that_exchange_rate']
+    accounts_pass_through_columns: 
+        - name: "new_custom_field"
+          alias: "custom_field"
+    classes_pass_through_columns: 
+        - name: "this_field"
+    departments_pass_through_columns: 
+        - name: "unique_string_field"
+          alias: "field_id"
+          transform_sql: "cast(field_id as string)"
+    transactions_pass_through_columns: 
+        - name: "that_field"
+    transaction_lines_pass_through_columns: 
+        - name: "other_id"
+          alias: "another_id"
+          transform_sql: "cast(another_id as int64)"
+    customers_pass_through_columns: 
+        - name: "customer_custom_field"
+          alias: "customer_field"
+    locations_pass_through_columns: 
+        - name: "location_custom_field"
+    subsidiaries_pass_through_columns: 
+        - name: "sub_field"
+          alias: "subsidiary_field"
+    consolidated_exchange_rates_pass_through_columns: 
+        - name: "consolidate_this_field"
 ```
 
 ### Passing Through Transaction Detail Fields
@@ -146,7 +164,7 @@ models:
 ### Change the source table references
 If an individual source table has a different name than the package expects, add the table name as it appears in your destination to the respective variable:
 
-> IMPORTANT: See this project's [`dbt_project.yml`](https://github.com/fivetran/dbt_netsuite/blob/main/dbt_project.yml) variable declarations to see the expected names.
+> IMPORTANT: See this project's [`dbt_project.yml`](https://github.com/fivetran/dbt_netsuite_source/blob/main/dbt_project.yml) variable declarations to see the expected names.
 
 ```yml
 vars:
