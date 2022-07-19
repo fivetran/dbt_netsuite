@@ -185,8 +185,8 @@ models:
       description: Timestamp of the date which the transaction is due.
     - name: transaction_type
       description: Type identifier of the transaction.
-    - name: is_transaction_intercompany
-      description: Yes/No field, indicating whether or not the transaction is an intercompany transaction or an advanced intercompany transaction.
+    - name: is_transaction_intercompany_adjustment
+      description: Yes/No field, indicating whether or not the transaction is an intercompany adjustment transaction.
     - name: accounting_period_ending
       description: End date of the accounting period.
     - name: accounting_period_full_name

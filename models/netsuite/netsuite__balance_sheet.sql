@@ -1,3 +1,5 @@
+{{ config(enabled=var('netsuite_data_model', 'netsuite') == 'netsuite') }}
+
 with transactions_with_converted_amounts as (
     select * 
     from {{ref('int_netsuite__transactions_with_converted_amounts')}}
@@ -15,8 +17,6 @@ accounts as (
     select * 
     from {{ var('netsuite_accounts') }}
 ), 
-
-{{ config(enabled=var('netsuite_data_model', 'netsuite') == 'netsuite') }}
 
 accounting_periods as (
     select * 
