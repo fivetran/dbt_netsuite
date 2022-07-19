@@ -252,8 +252,8 @@ models:
       description: City used as a location reference.
     - name: location_country
       description: Country used as a location reference.
-    - name: vendor_type_name
-      description: Type name of the vendor.
+    - name: vendor_category_name
+      description: Category name of the vendor.
     - name: vendor_name
       description: Name of the vendor.
     - name: vendor_create_date
