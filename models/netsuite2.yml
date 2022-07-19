@@ -68,8 +68,6 @@ models:
       description: The unique identifier of the accounting period.
     - name: accounting_period_ending
       description: End date of the accounting period
-    - name: accounting_period_full_name
-      description: Accounting periods full name.
     - name: accounting_period_name
       description: Name of the accounting period.
     - name: is_accounting_period_adjustment
@@ -116,8 +114,6 @@ models:
       description: The unique identifier of the accounting period.
     - name: accounting_period_ending
       description: End date of the accounting period.
-    - name: accounting_period_full_name
-      description: Accounting periods full name.
     - name: accounting_period_name
       description: Name of the accounting period.
     - name: is_accounting_period_adjustment
@@ -256,8 +252,8 @@ models:
       description: City used as a location reference.
     - name: location_country
       description: Country used as a location reference.
-    - name: vendor_type_name
-      description: Type name of the vendor.
+    - name: vendor_category_name
+      description: Category name of the vendor.
     - name: vendor_name
       description: Name of the vendor.
     - name: vendor_create_date
