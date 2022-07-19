@@ -121,9 +121,9 @@ models:
     - name: accounting_period_name
       description: Name of the accounting period.
     - name: is_accounting_period_adjustment
-      description: Boolean field, indicating whether or not the selecting accounting period is an adjustment period.
+      description: Boolean field, indicating whether or not the selected accounting period is an adjustment period.
     - name: is_accounting_period_closed
-      description: Boolean field, indicating whether or not the selecting accounting period is closed.
+      description: Boolean field, indicating whether or not the selected accounting period is closed.
     - name: account_name
       description: Name of the account.
     - name: account_type_name
