@@ -1,4 +1,7 @@
 packages:
+## TO SWITCH BEFORE MERGE
 # - package: fivetran/netsuite_source
-#   version: [">=0.4.0", "<0.5.0"]
-- local: ../dbt_netsuite_source
+#   version: [">=0.5.0", "<0.6.0"]
+  - git: https://github.com/fivetran/dbt_netsuite_source.git
+    revision: review/jm-netsuite2-updates
+    warn-unpinned: false

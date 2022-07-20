@@ -1,0 +1,4 @@
+_fivetran_synced,id,fullname,itemtype,description,department,class,location,subsidiary,assetaccount,expenseaccount,gainlossaccount,incomeaccount,deferralaccount,parent
+2022-05-27 13:00:58,640,This,Payment,Deposit,,11,,3,,,,6,,
+2022-05-27 13:00:58,976,That,Subtotal,Sub-Total,,,,3,,,,,,
+2022-05-27 13:00:58,628,Those,DwnLdItem,How To Optimize Performance Guide,,,,3,,,,55,,

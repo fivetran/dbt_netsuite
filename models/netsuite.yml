@@ -1,5 +1,5 @@
 version: 2
- 
+
 models:
   - name: int_netsuite__accountxperiod_exchange_rate_map
     description: >
@@ -132,6 +132,9 @@ models:
     columns:
     - name: transaction_line_id
       description: Netsuite internal transaction line ID.
+      tests:
+        - unique
+        - not_null
     - name: transaction_memo
       description: Memo associated with the transaction line.
     - name: is_transaction_non_posting

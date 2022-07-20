@@ -1,3 +1,23 @@
+# dbt_netsuite v0.6.0
+🎉 Netsuite2 Compatibility 🎉
+PR [#41](https://github.com/fivetran/dbt_netsuite/pull/41) includes the following update to the dbt_netsuite_source package:
+## 🚨 Breaking Changes 🚨
+- The declaration of passthrough variables within your root `dbt_project.yml` has changed. To allow for more flexibility and better tracking of passthrough columns, you will now want to define passthrough columns in the following format:
+> This applies to all passthrough columns within the `dbt_netsuite_source` package and not just the `customers_pass_through_columns` example.
+```yml
+vars:
+  customers_pass_through_columns:
+    - name: "my_field_to_include" # Required: Name of the field within the source.
+      alias: "field_alias" # Optional: If you wish to alias the field within the staging model.
+      transform_sql: "cast(field_alias as string)" # Optional: If you wish to define the datatype or apply a light transformation.
+```
+## Features 🎉
+- Addition of the `netsuite_data_model` variable. This variable may either be `netsuite` (the original Netsuite.com connector endpoint) or `netsuite2` (the new Netsuite2 connector endpoint).
+  - The variable is set to `netsuite` by default. If you wish to run the data models for the Netsuite2 connector, you may simply change the variable within your root dbt_project.yml to `netsuite2`.
+- Postgres compatibility!
+- Added identifier variables to each Netsuite.com and Netsuite2 source to enable dynamic source-table adjustments.
+- Applied schema level tests to each Netsuite2 end model to ensure data validation.
+- README updates for easier navigation and package use.
 # dbt_netsuite v0.5.0
 🎉 dbt v1.0.0 Compatibility 🎉
 ## 🚨 Breaking Changes 🚨

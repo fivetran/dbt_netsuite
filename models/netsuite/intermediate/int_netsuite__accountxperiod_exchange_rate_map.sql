@@ -1,23 +1,23 @@
-{{ config(enabled=var('data_model', 'netsuite') == 'netsuite') }}
+{{ config(enabled=var('netsuite_data_model', 'netsuite') == 'netsuite') }}
 
 with accounts as (
     select * 
-    from {{ var('accounts') }}
+    from {{ var('netsuite_accounts') }}
 ), 
 
 accounting_books as (
     select * 
-    from {{ var('accounting_books') }}
+    from {{ var('netsuite_accounting_books') }}
 ), 
 
 subsidiaries as (
     select * 
-    from {{ var('subsidiaries') }}
+    from {{ var('netsuite_subsidiaries') }}
 ),
 
 consolidated_exchange_rates as (
     select * 
-    from {{ var('consolidated_exchange_rates') }}
+    from {{ var('netsuite_consolidated_exchange_rates') }}
 ),
 
 period_exchange_rate_map as ( -- exchange rates used, by accounting period, to convert to parent subsidiary

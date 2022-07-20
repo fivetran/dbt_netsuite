@@ -1,55 +1,57 @@
-{{ config(enabled=var('data_model', 'netsuite') == 'netsuite2') }}
+{{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
 
 with transactions_with_converted_amounts as (
     select * 
-    from {{ ref('int_netsuite__transactions_with_converted_amounts') }}
+    from {{ ref('int_netsuite2__tran_with_converted_amounts') }}
 ), 
 
 --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
 {% if var('income_statement_transaction_detail_columns') != []%}
 transaction_details as (
     select * 
-    from {{ ref('netsuite__transaction_details') }}
+    from {{ ref('netsuite2__transaction_details') }}
 ), 
 {% endif %}
 
 accounts as (
     select * 
-    from {{ ref('int_netsuite__accounts') }}
+    from {{ ref('int_netsuite2__accounts') }}
 ), 
 
 accounting_periods as (
     select * 
-    from {{ ref('int_netsuite__accounting_periods') }}
+    from {{ ref('int_netsuite2__accounting_periods') }}
 ),
 
 subsidiaries as (
     select * 
-    from {{ var('subsidiaries') }}
+    from {{ var('netsuite2_subsidiaries') }}
 ),
 
 transaction_lines as (
     select * 
-    from {{ ref('int_netsuite__transaction_lines') }}
+    from {{ ref('int_netsuite2__transaction_lines') }}
 ),
 
 classes as (
     select * 
-    from {{ var('classes') }}
+    from {{ var('netsuite2_classes') }}
 ),
 
 locations as (
     select * 
-    from {{ var('locations') }}
+    from {{ var('netsuite2_locations') }}
 ),
 
 departments as (
     select * 
-    from {{ var('departments') }}
+    from {{ var('netsuite2_departments') }}
 ),
 
 income_statement as (
     select
+        transactions_with_converted_amounts.transaction_id,
+        transactions_with_converted_amounts.transaction_line_id,
         reporting_accounting_periods.accounting_period_id as accounting_period_id,
         reporting_accounting_periods.ending_at as accounting_period_ending,
         reporting_accounting_periods.name as accounting_period_name,
@@ -90,7 +92,6 @@ income_statement as (
 
         {% endif %}
 
-        -converted_amount_using_transaction_accounting_period as converted_amount,
         transactions_with_converted_amounts.account_category as account_category,
         case when lower(accounts.type_name) = 'income' then 1
             when lower(accounts.type_name) = 'cost of goods sold' then 2
@@ -106,7 +107,8 @@ income_statement as (
         , transaction_details.{{ var('income_statement_transaction_detail_columns') | join (", transaction_details.")}}
 
         {% endif %}
-    
+
+        , -converted_amount_using_transaction_accounting_period as converted_amount
         
     from transactions_with_converted_amounts
 
@@ -114,20 +116,22 @@ income_statement as (
         on transaction_lines.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
             and transaction_lines.transaction_id = transactions_with_converted_amounts.transaction_id
 
-    left join classes 
-        on classes.class_id = transaction_lines.class_id
+    left join departments 
+        on departments.department_id = transaction_lines.department_id
+    
+    left join accounts 
+        on accounts.account_id = transactions_with_converted_amounts.account_id
 
     left join locations
         on locations.location_id = transaction_lines.location_id
 
-    left join departments 
-        on departments.department_id = transaction_lines.department_id
-    join accounts on accounts.account_id = transactions_with_converted_amounts.account_id
+    left join classes 
+        on classes.class_id = transaction_lines.class_id
 
-    join accounting_periods as reporting_accounting_periods 
+    left join accounting_periods as reporting_accounting_periods 
         on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
     
-    join subsidiaries
+    left join subsidiaries
         on transactions_with_converted_amounts.subsidiary_id = subsidiaries.subsidiary_id
 
     --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.

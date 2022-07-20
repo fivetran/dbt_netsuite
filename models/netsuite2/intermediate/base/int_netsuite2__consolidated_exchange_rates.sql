@@ -1,15 +1,15 @@
-{{ config(enabled=var('data_model', 'netsuite') == 'netsuite2') }}
+{{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
 
 with consolidated_exchange_rates as (
 
     select *
-    from {{ var('consolidated_exchange_rates') }}
+    from {{ var('netsuite2_consolidated_exchange_rates') }}
 ),
 
 accounting_book_subsidiaries as (
 
     select *
-    from {{ var('accounting_book_subsidiaries') }}
+    from {{ var('netsuite2_accounting_book_subsidiaries') }}
 ),
 
 joined as (

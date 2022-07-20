@@ -1,92 +1,91 @@
-{{ config(enabled=var('data_model', 'netsuite') == 'netsuite2') }}
+{{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
 
 with transactions_with_converted_amounts as (
     select * 
-    from {{ref('int_netsuite__transactions_with_converted_amounts')}}
+    from {{ref('int_netsuite2__tran_with_converted_amounts')}}
 ),
 
 accounts as (
     select * 
-    from {{ ref('int_netsuite__accounts') }}
+    from {{ ref('int_netsuite2__accounts') }}
 ),
 
 accounting_periods as (
     select * 
-    from {{ ref('int_netsuite__accounting_periods') }}
+    from {{ ref('int_netsuite2__accounting_periods') }}
 ),
 
 subsidiaries as (
     select * 
-    from {{ var('subsidiaries') }}
+    from {{ var('netsuite2_subsidiaries') }}
 ),
 
 transaction_lines as (
     select * 
-    from {{ ref('int_netsuite__transaction_lines') }}
+    from {{ ref('int_netsuite2__transaction_lines') }}
 ),
 
 transactions as (
     select * 
-    from {{ var('transactions') }}
+    from {{ var('netsuite2_transactions') }}
 ),
 
 customers as (
     select * 
-    from {{ ref('int_netsuite__customers') }}
+    from {{ ref('int_netsuite2__customers') }}
 ),
 
 items as (
     select * 
-    from {{ var('items') }}
+    from {{ var('netsuite2_items') }}
 ),
 
 locations as (
     select * 
-    from {{ ref('int_netsuite__locations') }}
+    from {{ ref('int_netsuite2__locations') }}
 ),
 
 vendors as (
     select * 
-    from {{ var('vendors') }}
+    from {{ var('netsuite2_vendors') }}
 ),
 
 vendor_categories as (
     select * 
-    from {{ var('vendor_categories') }}
+    from {{ var('netsuite2_vendor_categories') }}
 ),
 
 departments as (
     select * 
-    from {{ var('departments') }}
+    from {{ var('netsuite2_departments') }}
 ),
 
 currencies as (
     select * 
-    from {{ var('currencies') }}
+    from {{ var('netsuite2_currencies') }}
 ),
 
 classes as (
     select *
-    from {{ var('classes') }}
+    from {{ var('netsuite2_classes') }}
 ),
 
 entities as (
     select *
-    from {{ var('entities') }}
+    from {{ var('netsuite2_entities') }}
 ),
 
 transaction_details as (
   select
     transaction_lines.transaction_line_id,
     transaction_lines.memo as transaction_memo,
-    transaction_lines.is_posting as is_transaction_non_posting,
+    not transaction_lines.is_posting as is_transaction_non_posting,
     transactions.transaction_id,
     transactions.status as transaction_status,
     transactions.transaction_date,
     transactions.due_date_at as transaction_due_date,
     transactions.transaction_type as transaction_type,
     transactions.is_intercompany_adjustment as is_transaction_intercompany_adjustment,
-    {# (lower(transactions.is_advanced_intercompany) = 'yes' or lower(transactions.is_intercompany) = 'yes') as is_transaction_intercompany, #}
 
     --The below script allows for transactions table pass through columns.
     {% if var('transactions_pass_through_columns') %}

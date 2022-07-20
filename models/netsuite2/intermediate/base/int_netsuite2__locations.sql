@@ -1,15 +1,15 @@
-{{ config(enabled=var('data_model', 'netsuite') == 'netsuite2') }}
+{{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
 
 with locations as (
 
     select *
-    from {{ var('locations') }}
+    from {{ var('netsuite2_locations') }}
 ),
 
 location_main_address as (
 
     select *
-    from {{ var('location_main_address') }}
+    from {{ var('netsuite2_location_main_address') }}
 ),
 
 joined as (

@@ -1,23 +1,23 @@
-{{ config(enabled=var('data_model', 'netsuite') == 'netsuite2') }}
+{{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
 
 with accounts as (
     select * 
-    from {{ ref('int_netsuite__accounts') }}
+    from {{ ref('int_netsuite2__accounts') }}
 ), 
 
 accounting_books as (
     select * 
-    from {{ var('accounting_books') }}
+    from {{ var('netsuite2_accounting_books') }}
 ), 
 
 subsidiaries as (
     select * 
-    from {{ var('subsidiaries') }}
+    from {{ var('netsuite2_subsidiaries') }}
 ),
 
 consolidated_exchange_rates as (
     select * 
-    from {{ ref('int_netsuite__consolidated_exchange_rates') }}
+    from {{ ref('int_netsuite2__consolidated_exchange_rates') }}
 ),
 
 period_exchange_rate_map as ( -- exchange rates used, by accounting period, to convert to parent subsidiary

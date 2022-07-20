@@ -1,0 +1,6 @@
+id,_fivetran_deleted,_fivetran_synced,date_deleted,externalid,fullname,includechildren,isinactive,lastmodifieddate,name,parent,subsidiary
+15,FALSE,2022-07-10 22:53:58,,,Internal,T,F,2017-05-17 16:56:08,Internal,,"1, 3, 4, 6"
+10,FALSE,2022-05-27 13:36:34,,,Accessories,T,F,2017-05-10 14:39:12,Accessories,,"1, 3, 4, 6"
+2,FALSE,2022-05-27 13:36:34,,,Furniture,T,F,2017-05-10 14:39:12,Furniture,,"1, 3, 4, 6"
+1,FALSE,2022-05-27 13:36:34,,,Hardware,T,F,2017-05-10 14:39:12,Hardware,,"1, 3, 4, 6"
+13,FALSE,2022-05-27 13:36:34,,,Consumer Goods,T,F,2017-05-10 14:39:12,Consumer Goods,,"1, 3, 4, 6"

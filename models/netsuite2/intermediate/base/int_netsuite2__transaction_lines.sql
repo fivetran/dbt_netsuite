@@ -1,15 +1,15 @@
-{{ config(enabled=var('data_model', 'netsuite') == 'netsuite2') }}
+{{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
 
 with transaction_lines as (
 
     select *
-    from {{ var('transaction_lines') }}
+    from {{ var('netsuite2_transaction_lines') }}
 ),
 
 transaction_accounting_lines as (
 
     select *
-    from {{ var('transaction_accounting_lines') }}
+    from {{ var('netsuite2_transaction_accounting_lines') }}
 ),
 
 joined as (

@@ -1,0 +1,4 @@
+id,_fivetran_deleted,_fivetran_synced,currencyprecision,date_deleted,displaysymbol,exchangerate,externalid,fxrateupdatetimezone,includeinfxrateupdates,isbasecurrency,isinactive,lastmodifieddate,name,overridecurrencyformat,symbol,symbolplacement
+4,FALSE,2022-05-27 10:58:32,2,,€,1.11289001,,,T,F,F,2017-05-13 15:44:05,Euro,F,EUR,1
+3,FALSE,2022-05-27 10:58:32,2,,$,0.76457273,,,T,F,F,2017-05-12 22:50:55,Canadian dollar,F,CAD,1
+2,FALSE,2022-05-27 10:58:32,2,,£,1.33165497,,,T,F,F,2017-05-12 22:51:06,British pound,F,GBP,1

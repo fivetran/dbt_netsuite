@@ -1,0 +1,4 @@
+_fivetran_synced,id,transactionnumber,type,memo,trandate,status,createddate,duedate,closedate,currency,entity,postingperiod,posting,isreversal
+2022-05-27 13:41:13,5914,,VendBill,,2017-05-07 0:00:00,A,2017-05-07 10:34:43,2017-05-05 0:00:00,,1,1570,,T,F
+2022-05-27 13:41:13,3,,VendBill,,2015-09-10 0:00:00,B,2017-05-12 3:41:25,2015-10-09 0:00:00,2015-10-05 0:00:00,1,36,251,T,F
+2022-05-27 13:41:13,302,,VendBill,ZZZZZ,2016-03-20 0:00:00,B,2017-04-25 3:41:25,2016-04-19 0:00:00,2017-05-07 0:00:00,1,5,261,T,F

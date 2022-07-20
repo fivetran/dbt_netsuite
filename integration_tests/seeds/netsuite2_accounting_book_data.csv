@@ -1,0 +1,2 @@
+id,_fivetran_deleted,_fivetran_synced,basebook,date_deleted,effectiveperiod,externalid,isadjustmentonly,isconsolidated,isprimary,lastmodifieddate,name,subsidiariesstring
+1,FALSE,2022-07-10 22:45:15,,,,,F,T,T,2017-09-13 4:51:41,Primary Accounting Book,"test, test1, test2"

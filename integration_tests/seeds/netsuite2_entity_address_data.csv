@@ -1,0 +1,5 @@
+nkey,_fivetran_deleted,_fivetran_synced,addr1,addr2,addr3,addressee,addrphone,addrtext,attention,city,country,date_deleted,dropdownstate,lastmodifieddate,override,recordowner,state,zip
+1657,FALSE,2022-05-27 12:57:24,,,,,,fake address,,,US,,,,F,1657,,
+472,FALSE,2022-05-27 12:57:24,,,,,8675309,real address,,,US,,,,F,472,,
+1990,FALSE,2022-05-27 12:57:24,1212 Waddap,,,,,super real address,,Chicago,US,,IL,,F,1990,IL,
+3773,FALSE,2022-05-27 12:57:24,,,,,,like legit address,,,,,,,F,3773,,

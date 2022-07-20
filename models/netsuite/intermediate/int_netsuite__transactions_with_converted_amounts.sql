@@ -1,4 +1,4 @@
-{{ config(enabled=var('data_model', 'netsuite') == 'netsuite') }}
+{{ config(enabled=var('netsuite_data_model', 'netsuite') == 'netsuite') }}
 
 with transaction_lines_w_accounting_period as (
     select * 
@@ -17,7 +17,7 @@ transaction_and_reporting_periods as (
 
 accounts as (
     select * 
-    from {{ var('accounts') }}
+    from {{ var('netsuite_accounts') }}
 ),
 
 transactions_in_every_calculation_period_w_exchange_rates as (

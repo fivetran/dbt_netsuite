@@ -1,15 +1,15 @@
-{{ config(enabled=var('data_model', 'netsuite') == 'netsuite2') }}
+{{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
 
 with accounts as (
 
     select *
-    from {{ var('accounts') }}
+    from {{ var('netsuite2_accounts') }}
 ),
 
 account_types as (
 
     select *
-    from {{ var('account_types') }}
+    from {{ var('netsuite2_account_types') }}
 ),
 
 joined as (

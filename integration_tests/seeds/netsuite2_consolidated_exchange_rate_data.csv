@@ -1,0 +1,6 @@
+id,_fivetran_deleted,_fivetran_synced,averagerate,currentrate,date_deleted,externalid,fromcurrency,fromsubsidiary,historicalrate,postingperiod,tocurrency,tosubsidiary
+1979,FALSE,2022-07-10 22:16:59,1,1,,,1,1,1,289,1,1
+1944,FALSE,2022-07-10 22:16:59,1,1,,,1,1,1,282,1,1
+1930,FALSE,2022-07-10 22:16:59,1,1,,,1,1,1,280,1,1
+1958,FALSE,2022-07-10 22:16:59,1,1,,,1,1,1,285,1,1
+1951,FALSE,2022-07-10 22:16:59,1,1,,,1,1,1,284,1,1

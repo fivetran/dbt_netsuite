@@ -1,0 +1,6 @@
+accountingbook,transaction,transactionline,_fivetran_deleted,_fivetran_synced,account,amount,amountpaid,amountunpaid,credit,date_deleted,debit,exchangerate,netamount,overheadparentitem,paymentamountunused,paymentamountused,posting,amountlinked
+1,4735,0,FALSE,2022-07-10 22:40:48,,,,,,,,1,,,,,T,0
+1,4455,0,FALSE,2022-07-10 22:40:48,,,,,,,,1,,,,,T,0
+1,2399,0,FALSE,2022-07-10 22:40:48,,,,,,,,1,,,,,T,0
+1,4458,0,FALSE,2022-07-10 22:40:48,,,,,,,,1,,,,,T,0
+1,4533,0,FALSE,2022-07-10 22:40:48,,,,,,,,1,,,,,T,0

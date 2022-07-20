@@ -1,15 +1,15 @@
-{{ config(enabled=var('data_model', 'netsuite') == 'netsuite2') }}
+{{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
 
 with customers as (
 
     select *
-    from {{ var('customers') }}
+    from {{ var('netsuite2_customers') }}
 ),
 
 entity_address as (
 
     select *
-    from {{ var('entity_address') }}
+    from {{ var('netsuite2_entity_address') }}
 ),
 
 joined as (

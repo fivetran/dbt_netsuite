@@ -1,15 +1,15 @@
-{{ config(enabled=var('data_model', 'netsuite') == 'netsuite2') }}
+{{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
 
 with accounting_periods as (
 
     select *
-    from {{ var('accounting_periods') }}
+    from {{ var('netsuite2_accounting_periods') }}
 ),
 
 accounting_period_fiscal_calendars as (
 
     select *
-    from {{ var('accounting_period_fiscal_calendars') }}
+    from {{ var('netsuite2_accounting_period_fiscal_calendars') }}
 ),
 
 joined as (

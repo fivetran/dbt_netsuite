@@ -1,0 +1,5 @@
+id,_fivetran_deleted,_fivetran_synced,date_deleted,externalid,isinactive,istaxagency,lastmodifieddate,name
+4,FALSE,2022-05-27 10:46:16,,,F,F,,Carlos Sainz
+8,FALSE,2022-05-27 10:46:16,,,F,F,,Sergio Perez
+1,FALSE,2022-05-27 10:46:16,,,F,F,,Luis Hamilton
+19,FALSE,2022-05-27 10:46:16,,,F,F,,Daniel Riccardo
