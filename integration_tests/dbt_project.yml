@@ -7,7 +7,7 @@ models:
   +materialized: table
 
 vars:
-  netsuite_schema: netsuite_source_integration_tests
+  netsuite_schema: netsuite_integration_tests
   netsuite_data_model_override: netsuite # Set the variable to the same data model to generate run both sources for integration testing.
 
   netsuite_source:
