@@ -1,9 +1,9 @@
 # dbt_netsuite v0.6.0
-🎉 Netsuite2 Compatibility 🎉
-PR [#41](https://github.com/fivetran/dbt_netsuite/pull/41) includes the following update to the dbt_netsuite_source package:
+🎉 [Netsuite2](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/article_163465025391.html) Compatibility 🎉
+PR [#41](https://github.com/fivetran/dbt_netsuite/pull/41) includes the following update to the dbt_netsuite package:
 ## 🚨 Breaking Changes 🚨
 - The declaration of passthrough variables within your root `dbt_project.yml` has changed. To allow for more flexibility and better tracking of passthrough columns, you will now want to define passthrough columns in the following format:
-> This applies to all passthrough columns within the `dbt_netsuite_source` package and not just the `customers_pass_through_columns` example.
+> This applies to all passthrough columns within the `dbt_netsuite` package and not just the `customers_pass_through_columns` example.
 ```yml
 vars:
   customers_pass_through_columns:
