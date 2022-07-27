@@ -1,0 +1,7 @@
+id,_fivetran_deleted,_fivetran_synced,balancesheet,date_deleted,defaultcashflowratetype,defaultgeneralratetype,eliminationalgo,includeinrevaldefault,internalid,left,longname,seqnum,usercanchangerevaloption
+NonPosting,FALSE,2022-07-10 22:45:54,F,,AVERAGE,AVERAGE,,F,16,F,Non Posting,16,F
+OthIncome,FALSE,2022-07-10 22:45:53,F,,AVERAGE,AVERAGE,IS,F,14,F,Other Income,14,F
+Income,FALSE,2022-07-10 22:45:55,F,,AVERAGE,AVERAGE,IS,F,11,F,Income,11,F
+OthExpense,FALSE,2022-07-10 22:45:57,F,,AVERAGE,AVERAGE,IS,F,15,T,Other Expense,15,F
+COGS,FALSE,2022-07-10 22:45:51,F,,AVERAGE,AVERAGE,IS,F,12,T,Cost of Goods Sold,12,F
+Expense,FALSE,2022-07-10 22:45:55,F,,AVERAGE,AVERAGE,IS,F,13,T,Expense,13,F

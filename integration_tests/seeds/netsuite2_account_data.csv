@@ -1,0 +1,7 @@
+id,_fivetran_deleted,_fivetran_synced,accountsearchdisplayname,accountsearchdisplaynamecopy,acctnumber,accttype,billableexpensesacct,cashflowrate,category1099misc,class,currency,custrecord_fam_account_showinfixedasset,date_deleted,deferralacct,department,description,displaynamewithhierarchy,eliminate,externalid,fullname,generalrate,includechildren,inventory,isinactive,issummary,lastmodifieddate,location,parent,reconcilewithmatching,revalue,sbankname,sbankroutingnumber,sspecacct,subsidiary
+133,FALSE,2022-04-07 7:05:11,Power,Power,,OthExpense,,AVERAGE,,,,"3, 4, 5, 6",,,,,Power,,Allowance for Doubtful Account,Power,AVERAGE,T,F,F,F,2017-05-21 1:41:07,,,F,F,,,Power,"1, 3, 4, 6"
+157,FALSE,2022-04-07 7:05:11,Levels,Levels,,OthExpense,,AVERAGE,,,,"3, 4, 5, 6",,,,,Levels,,,Levels,AVERAGE,T,F,F,F,2017-05-02 22:46:13,,,F,F,,,Levels,"1, 3, 4, 6"
+118,FALSE,2022-04-07 7:05:11,Are,Are,,NonPosting,,AVERAGE,,,,,,,,,Are,,,Are,AVERAGE,T,F,F,F,,,,F,F,,,Are,"1, 3, 4, 6"
+125,FALSE,2022-04-07 7:05:11,Over,Over,,NonPosting,,AVERAGE,,,,,,,,,Over,,,Over,AVERAGE,T,F,F,F,,,,F,F,,,Over,"1, 3, 4, 6"
+121,FALSE,2022-04-07 7:05:11,Nine,Nine,,COGS,,AVERAGE,,,,,,,,,Nine,,,Nine,AVERAGE,T,F,F,F,2021-02-10 9:19:54,,,F,F,,,Nine,"1, 3, 4, 6"
+117,FALSE,2022-04-07 7:05:11,Thousand,Thousand,,NonPosting,,AVERAGE,,,,,,,,,Thousand,,,Thousand,AVERAGE,T,F,F,F,,,,F,F,,,Thousand,"1, 3, 4, 6"

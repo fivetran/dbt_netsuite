@@ -1,94 +1,91 @@
+{{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
+
 with transactions_with_converted_amounts as (
     select * 
-    from {{ref('int_netsuite__transactions_with_converted_amounts')}}
+    from {{ref('int_netsuite2__tran_with_converted_amounts')}}
 ),
 
 accounts as (
     select * 
-    from {{ var('accounts') }}
+    from {{ ref('int_netsuite2__accounts') }}
 ),
 
 accounting_periods as (
     select * 
-    from {{ var('accounting_periods') }}
+    from {{ ref('int_netsuite2__accounting_periods') }}
 ),
 
 subsidiaries as (
     select * 
-    from {{ var('subsidiaries') }}
+    from {{ var('netsuite2_subsidiaries') }}
 ),
 
 transaction_lines as (
     select * 
-    from {{ var('transaction_lines') }}
+    from {{ ref('int_netsuite2__transaction_lines') }}
 ),
 
 transactions as (
     select * 
-    from {{ var('transactions') }}
-),
-
-income_accounts as (
-    select * 
-    from {{ var('income_accounts') }}
-),
-
-expense_accounts as (
-    select * 
-    from {{ var('expense_accounts') }}
+    from {{ var('netsuite2_transactions') }}
 ),
 
 customers as (
     select * 
-    from {{ var('customers') }}
+    from {{ ref('int_netsuite2__customers') }}
 ),
 
 items as (
     select * 
-    from {{ var('items') }}
+    from {{ var('netsuite2_items') }}
 ),
 
 locations as (
     select * 
-    from {{ var('locations') }}
+    from {{ ref('int_netsuite2__locations') }}
 ),
 
 vendors as (
     select * 
-    from {{ var('vendors') }}
+    from {{ var('netsuite2_vendors') }}
 ),
 
-vendor_types as (
+vendor_categories as (
     select * 
-    from {{ var('vendor_types') }}
+    from {{ var('netsuite2_vendor_categories') }}
 ),
 
 departments as (
     select * 
-    from {{ var('departments') }}
+    from {{ var('netsuite2_departments') }}
 ),
 
 currencies as (
     select * 
-    from {{ var('currencies') }}
+    from {{ var('netsuite2_currencies') }}
 ),
 
 classes as (
     select *
-    from {{ var('classes') }}
+    from {{ var('netsuite2_classes') }}
+),
+
+entities as (
+    select *
+    from {{ var('netsuite2_entities') }}
 ),
 
 transaction_details as (
   select
     transaction_lines.transaction_line_id,
     transaction_lines.memo as transaction_memo,
-    lower(transaction_lines.non_posting_line) = 'yes' as is_transaction_non_posting,
+    not transaction_lines.is_posting as is_transaction_non_posting,
     transactions.transaction_id,
     transactions.status as transaction_status,
     transactions.transaction_date,
     transactions.due_date_at as transaction_due_date,
     transactions.transaction_type as transaction_type,
-    (lower(transactions.is_advanced_intercompany) = 'yes' or lower(transactions.is_intercompany) = 'yes') as is_transaction_intercompany,
+    transactions.is_intercompany_adjustment as is_transaction_intercompany_adjustment,
 
     --The below script allows for transactions table pass through columns.
     {% if var('transactions_pass_through_columns') %}
@@ -105,10 +102,9 @@ transaction_details as (
     {% endif %}
 
     accounting_periods.ending_at as accounting_period_ending,
-    accounting_periods.full_name as accounting_period_full_name,
     accounting_periods.name as accounting_period_name,
-    lower(accounting_periods.is_adjustment) = 'yes' as is_accounting_period_adjustment,
-    lower(accounting_periods.closed) = 'yes' as is_accounting_period_closed,
+    accounting_periods.is_adjustment as is_accounting_period_adjustment,
+    accounting_periods.is_closed as is_accounting_period_closed,
     accounts.name as account_name,
     accounts.type_name as account_type_name,
     accounts.account_id as account_id,
@@ -121,13 +117,13 @@ transaction_details as (
 
     {% endif %}
 
-    lower(accounts.is_leftside) = 't' as is_account_leftside,
+    accounts.is_leftside as is_account_leftside,
     lower(accounts.type_name) like 'accounts payable%' as is_accounts_payable,
     lower(accounts.type_name) like 'accounts receivable%' as is_accounts_receivable,
     lower(accounts.name) like '%intercompany%' as is_account_intercompany,
     coalesce(parent_account.name, accounts.name) as parent_account_name,
-    income_accounts.income_account_id is not null as is_income_account,
-    expense_accounts.expense_account_id is not null as is_expense_account,
+    lower(accounts.type_name) like '%expense' as is_expense_account, -- includes deferred expense
+    lower(accounts.type_name) like '%income' as is_income_account,
     customers.company_name,
     customers.city as customer_city,
     customers.state as customer_state,
@@ -142,7 +138,7 @@ transaction_details as (
     locations.name as location_name,
     locations.city as location_city,
     locations.country as location_country,
-    vendor_types.name as vendor_type_name,
+    vendor_categories.name as vendor_category_name,
     vendors.company_name as vendor_name,
     vendors.create_date_at as vendor_create_date,
     currencies.name as currency_name,
@@ -183,14 +179,9 @@ transaction_details as (
 
   left join accounting_periods 
     on accounting_periods.accounting_period_id = transactions.accounting_period_id
-  left join income_accounts 
-    on income_accounts.income_account_id = accounts.account_id
-
-  left join expense_accounts 
-    on expense_accounts.expense_account_id = accounts.account_id
 
   left join customers 
-    on customers.customer_id = transaction_lines.company_id
+    on customers.customer_id = coalesce(transaction_lines.entity_id, transactions.entity_id)
   
   left join classes
     on classes.class_id = transaction_lines.class_id
@@ -202,10 +193,10 @@ transaction_details as (
     on locations.location_id = transaction_lines.location_id
 
   left join vendors 
-    on vendors.vendor_id = transaction_lines.company_id
+    on vendors.vendor_id = coalesce(transaction_lines.entity_id, transactions.entity_id)
 
-  left join vendor_types 
-    on vendor_types.vendor_type_id = vendors.vendor_type_id
+  left join vendor_categories 
+    on vendor_categories.vendor_category_id = vendors.vendor_category_id
 
   left join currencies 
     on currencies.currency_id = transactions.currency_id

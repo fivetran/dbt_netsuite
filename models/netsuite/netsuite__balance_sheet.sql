@@ -1,3 +1,5 @@
+{{ config(enabled=var('netsuite_data_model', 'netsuite') == 'netsuite') }}
+
 with transactions_with_converted_amounts as (
     select * 
     from {{ref('int_netsuite__transactions_with_converted_amounts')}}
@@ -13,17 +15,17 @@ transaction_details as (
 
 accounts as (
     select * 
-    from {{ var('accounts') }}
+    from {{ var('netsuite_accounts') }}
 ), 
 
 accounting_periods as (
     select * 
-    from {{ var('accounting_periods') }}
+    from {{ var('netsuite_accounting_periods') }}
 ), 
 
 subsidiaries as (
     select * 
-    from {{ var('subsidiaries') }}
+    from {{ var('netsuite_subsidiaries') }}
 ),
 
 balance_sheet as ( 
@@ -33,7 +35,7 @@ balance_sheet as (
     reporting_accounting_periods.full_name as accounting_period_full_name,
     reporting_accounting_periods.name as accounting_period_name,
     lower(reporting_accounting_periods.is_adjustment) = 'yes' as is_accounting_period_adjustment,
-    lower(reporting_accounting_periods.closed) = 'yes' as is_accounting_period_closed,
+    lower(reporting_accounting_periods.is_closed) = 'yes' as is_accounting_period_closed,
     transactions_with_converted_amounts.account_category as account_category,
     case
       when (lower(accounts.is_balancesheet) = 'f' and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 'Net Income'
@@ -126,7 +128,7 @@ balance_sheet as (
     reporting_accounting_periods.full_name as accounting_period_full_name,
     reporting_accounting_periods.name as accounting_period_name,
     lower(reporting_accounting_periods.is_adjustment) = 'yes' as is_accounting_period_adjustment,
-    lower(reporting_accounting_periods.closed) = 'yes' as is_accounting_period_closed,
+    lower(reporting_accounting_periods.is_closed) = 'yes' as is_accounting_period_closed,
     'Equity' as account_category,
     'Cumulative Translation Adjustment' as account_name,
     'Cumulative Translation Adjustment' as account_type_name,

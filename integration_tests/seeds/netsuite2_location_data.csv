@@ -1,0 +1,4 @@
+id,_fivetran_deleted,_fivetran_synced,date_deleted,defaultallocationpriority,externalid,fullname,includeinsupplyplanning,isinactive,lastmodifieddate,latitude,locationtype,longitude,mainaddress,makeinventoryavailable,makeinventoryavailablestore,name,parent,returnaddress,subsidiary,tranprefix,usebins
+9,FALSE,2022-07-10 23:20:30,,,,Sweet Home Chicago,F,F,2017-07-25 8:27:47,,,,,F,F,Looking,2,,3,,F
+4,FALSE,2022-05-27 14:03:12,,,,Chi Town,F,F,2017-05-24 20:12:05,,,,44,F,F,For,2,45,1,,T
+3,FALSE,2022-05-27 14:03:12,,,,Blues Brothers,F,F,2017-05-24 20:12:30,,,,42,F,F,Data,1,43,1,,T
