@@ -59,14 +59,15 @@ balance_sheet as (
     case
       when not accounts.is_balancesheet then null
       else accounts.account_number
-        end as account_number,
+        end as account_number
     
     --The below script allows for accounts table pass through columns.
-    {% if var('accounts_pass_through_columns') %}
-    
-    accounts.{{ var('accounts_pass_through_columns') | join (", accounts.")}} ,
+    {# {% if var('accounts_pass_through_columns') %} #}
 
-    {% endif %}
+    {{ fivetran_utils.persist_pass_through_columns('accounts_pass_through_columns', identifier='accounts') }},
+    {# accounts.{{ var('accounts_pass_through_columns') | join (", accounts.")}} ,
+
+    {% endif %} #}
 
     case
       when not accounts.is_balancesheet or lower(transactions_with_converted_amounts.account_category) = 'equity' then -converted_amount_using_transaction_accounting_period
@@ -143,11 +144,10 @@ balance_sheet as (
     null as account_id,
     null as account_number,
 
-    --The below script allows for accounts table pass through columns.
     {% if var('accounts_pass_through_columns') %}
-
-    null as {{ var('accounts_pass_through_columns') | join (", null as ")}} ,
-
+      {% for field in var('accounts_pass_through_columns') %}
+        null as {{ field.alias if field.alias else field.name }},
+      {% endfor %}
     {% endif %}
 
     case
