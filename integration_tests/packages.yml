@@ -1,5 +1,2 @@
 packages:
-  # - local: ../
-  - git: https://github.com/fivetran/dbt_netsuite_source.git
-    revision: bugfix/passthrough
-    warn-unpinned: false
+  - local: ../
