@@ -1,3 +1,4 @@
 packages:
-- package: fivetran/netsuite_source
-  version: [">=0.5.0", "<0.6.0"]
+# - package: fivetran/netsuite_source
+#   version: [">=0.5.0", "<0.6.0"]
+- local: ../Netsuite/dbt_netsuite_source

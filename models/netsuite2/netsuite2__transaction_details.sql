@@ -85,21 +85,13 @@ transaction_details as (
     transactions.transaction_date,
     transactions.due_date_at as transaction_due_date,
     transactions.transaction_type as transaction_type,
-    transactions.is_intercompany_adjustment as is_transaction_intercompany_adjustment,
+    transactions.is_intercompany_adjustment as is_transaction_intercompany_adjustment
 
     --The below script allows for transactions table pass through columns.
-    {% if var('transactions_pass_through_columns') %}
-
-    transactions.{{ var('transactions_pass_through_columns') | join (", transactions.")}} ,
-
-    {% endif %}
+    {{ fivetran_utils.persist_pass_through_columns('transactions_pass_through_columns', identifier='transactions') }}
 
     --The below script allows for transaction lines table pass through columns.
-    {% if var('transaction_lines_pass_through_columns') %}
-    
-    transaction_lines.{{ var('transaction_lines_pass_through_columns') | join (", transaction_lines.")}} ,
-
-    {% endif %}
+    {{ fivetran_utils.persist_pass_through_columns('transaction_lines_pass_through_columns', identifier='transaction_lines') }},
 
     accounting_periods.ending_at as accounting_period_ending,
     accounting_periods.name as accounting_period_name,
@@ -108,14 +100,10 @@ transaction_details as (
     accounts.name as account_name,
     accounts.type_name as account_type_name,
     accounts.account_id as account_id,
-    accounts.account_number,
+    accounts.account_number
 
     --The below script allows for accounts table pass through columns.
-    {% if var('accounts_pass_through_columns') %}
-    
-    accounts.{{ var('accounts_pass_through_columns') | join (", accounts.")}} ,
-
-    {% endif %}
+    {{ fivetran_utils.persist_pass_through_columns('accounts_pass_through_columns', identifier='accounts') }},
 
     accounts.is_leftside as is_account_leftside,
     lower(accounts.type_name) like 'accounts payable%' as is_accounts_payable,
@@ -143,14 +131,10 @@ transaction_details as (
     vendors.create_date_at as vendor_create_date,
     currencies.name as currency_name,
     currencies.symbol as currency_symbol,
-    departments.name as department_name,
+    departments.name as department_name
 
     --The below script allows for departments table pass through columns.
-    {% if var('departments_pass_through_columns') %}
-    
-    departments.{{ var('departments_pass_through_columns') | join (", departments.")}} ,
-
-    {% endif %}
+    {{ fivetran_utils.persist_pass_through_columns('departments_pass_through_columns', identifier='departments') }},
 
     subsidiaries.name as subsidiary_name,
     case
