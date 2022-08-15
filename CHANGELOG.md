@@ -1,7 +1,5 @@
 # dbt_netsuite v0.6.1
 
-PR [#42](https://github.com/fivetran/dbt_netsuite/pull/42) includes the following update to the dbt_netsuite package:
-
 ## Bug Fixes 🐞
 - Properly applies new passthrough column logic to allow for the use of `alias` and `transform_sql` (see v0.6.0 below). ([#43](https://github.com/fivetran/dbt_netsuite/issues/43))
 
