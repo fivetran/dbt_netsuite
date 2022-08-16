@@ -63,34 +63,22 @@ income_statement as (
         accounts.account_number,
         subsidiaries.subsidiary_id,
         subsidiaries.full_name as subsidiary_full_name,
-        subsidiaries.name as subsidiary_name,
+        subsidiaries.name as subsidiary_name
 
         --The below script allows for accounts table pass through columns.
-        {% if var('accounts_pass_through_columns') %}
-
-        accounts.{{ var('accounts_pass_through_columns') | join (", accounts.")}} ,
-
-        {% endif %}
+        {{ fivetran_utils.persist_pass_through_columns('accounts_pass_through_columns', identifier='accounts') }},
 
         {{ dbt_utils.concat(['accounts.account_number',"'-'", 'accounts.name']) }} as account_number_and_name,
-        classes.full_name as class_full_name,
+        classes.full_name as class_full_name
 
-        --The below script allows for classes table pass through columns.
-        {% if var('classes_pass_through_columns') %}
-        
-        classes.{{ var('classes_pass_through_columns') | join (", classes.")}} ,
-
-        {% endif %}
+        --The below script allows for accounts table pass through columns.
+        {{ fivetran_utils.persist_pass_through_columns('classes_pass_through_columns', identifier='classes') }},
 
         locations.full_name as location_full_name,
-        departments.full_name as department_full_name,
+        departments.full_name as department_full_name
 
         --The below script allows for departments table pass through columns.
-        {% if var('departments_pass_through_columns') %}
-        
-        departments.{{ var('departments_pass_through_columns') | join (", departments.")}} ,
-
-        {% endif %}
+        {{ fivetran_utils.persist_pass_through_columns('departments_pass_through_columns', identifier='departments') }},
 
         transactions_with_converted_amounts.account_category as account_category,
         case when lower(accounts.type_name) = 'income' then 1
