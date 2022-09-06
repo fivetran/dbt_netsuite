@@ -1,3 +1,12 @@
+# dbt_netsuite v0.6.2
+
+PR [#41](https://github.com/fivetran/dbt_netsuite/pull/41) includes the following update to the dbt_netsuite package:
+## Features 🎉
+- Introduces the `netsuite2__using_accounting_book_subsidiaries` and `netsuite2__using_vendor_categories` variables to disable the `accountingbooksubsidiaries` and `vendorcategory` source tables and their downstream staging models and transforms (affects Netsuite2.com users only). These variables are `True` by default.
+
+## Bug Fixes 🐞
+- Fixes the grain at which the `netsuite__transaction_details` model is tested (Netsuite.com users only).
+
 # dbt_netsuite v0.6.1
 
 ## Bug Fixes 🐞

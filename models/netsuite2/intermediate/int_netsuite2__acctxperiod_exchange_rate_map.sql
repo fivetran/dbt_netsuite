@@ -17,7 +17,7 @@ subsidiaries as (
 
 consolidated_exchange_rates as (
     select * 
-    from {{ ref('int_netsuite2__consolidated_exchange_rates') }}
+    from {{ ref('int_netsuite2__consolidated_exchange_rates') if var('netsuite2__using_accounting_book_subsidiaries', true) else var('netsuite2_consolidated_exchange_rates') }}
 ),
 
 period_exchange_rate_map as ( -- exchange rates used, by accounting period, to convert to parent subsidiary
@@ -31,7 +31,9 @@ period_exchange_rate_map as ( -- exchange rates used, by accounting period, to c
   from consolidated_exchange_rates
 
   where consolidated_exchange_rates.to_subsidiary_id in (select subsidiary_id from subsidiaries where parent_id is null)  -- constrait - only the primary subsidiary has no parent
+  {% if var('netsuite2__using_accounting_book_subsidiaries', true) %}
     and consolidated_exchange_rates.accounting_book_id in (select accounting_book_id from accounting_books where is_primary)
+  {% endif %}
 ), 
 
 accountxperiod_exchange_rate_map as ( -- account table with exchange rate details by accounting period

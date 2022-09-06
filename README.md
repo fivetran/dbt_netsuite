@@ -104,7 +104,16 @@ vars:
     netsuite_schema: your_schema_name 
 ```
 
-## (Optional) Step 5: Additional configurations
+## Step 5: Disable models for non-existent sources (Netsuite2 only)
+It's possible that your Netsuite connector does not sync every table that this package expects. If your syncs exclude certain tables, it is because you either don't use that functionality in Netsuite or actively excluded some tables from your syncs. To disable the corresponding functionality in the package, you must add the relevant variables. By default, all variables are assumed to be true. Add variables for only the tables you would like to disable:
+```yml
+vars:
+    netsuite2__using_accounting_book_subsidiaries: false # True by default
+    netsuite2__using_vendor_categories: false # True by default 
+```
+> **Note**: The Netsuite dbt package currently only supports disabling transforms of the `accountingbooksubsidiary` and `vendorcategory` source tables. Please create an issue to request additional tables to exclude. 
+
+## (Optional) Step 6: Additional configurations
 
 ### Passing Through Additional Fields
 This package includes all source columns defined in the macros folder. To add additional columns to this package, do so by adding our pass-through column variables to your `dbt_project.yml` file:
@@ -175,7 +184,7 @@ vars:
     netsuite2_<default_source_table_name>_identifier: your_table_name 
 ```
 
-## (Optional) Step 5: Orchestrate your models with Fivetran Transformations for dbt Core™    
+## (Optional) Step 7: Orchestrate your models with Fivetran Transformations for dbt Core™    
 Fivetran offers the ability for you to orchestrate your dbt project through [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/transformations/dbt). Learn how to set up your project for orchestration through Fivetran in our [Transformations for dbt Core setup guides](https://fivetran.com/docs/transformations/dbt#setupguide).
 
 
