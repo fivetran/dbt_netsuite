@@ -105,13 +105,13 @@ vars:
 ```
 
 ## Step 5: Disable models for non-existent sources (Netsuite2 only)
-It's possible that your Netsuite connector does not sync every table that this package expects. If your syncs exclude certain tables, it is because you either don't use that functionality in Netsuite or actively excluded some tables from your syncs. To disable the corresponding functionality in the package, you must add the relevant variables. By default, all variables are assumed to be true. Add variables for only the tables you would like to disable:
+It's possible that your Netsuite connector does not sync every table that this package expects. If your syncs exclude certain tables, it is because you either don't use that feature in Netsuite or actively excluded some tables from your syncs. To disable the corresponding functionality in the package, you must add the relevant variables. By default, all variables are assumed to be true. Add variables for only the tables you would like to disable:
 ```yml
 vars:
-    netsuite2__using_accounting_book_subsidiaries: false # True by default
-    netsuite2__using_vendor_categories: false # True by default 
+    netsuite2__multibook_accounting: false # True by default. Disable `accountingbooksubsidiary` and `accountingbook` if you are not using the Multi-Book Accounting feature
+    netsuite2__using_vendor_categories: false # True by default. Disable `vendorcategory` if you don't categorize your vendors
 ```
-> **Note**: The Netsuite dbt package currently only supports disabling transforms of the `accountingbooksubsidiary` and `vendorcategory` source tables. Please create an issue to request additional tables to exclude. 
+> **Note**: The Netsuite dbt package currently only supports disabling transforms of [Multi-Book Accounting](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/book_3831565332.html) related tables (`accountingbooksubsidiary` and `accountingbook`) and the `vendorcategory` source table. Please create an issue to request additional tables and/or [features](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/bridgehead_N233872.html) to exclude. 
 
 ## (Optional) Step 6: Additional configurations
 
