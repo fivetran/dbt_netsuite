@@ -129,11 +129,15 @@ models:
       other tables to add more detail to those line items.  For all transactions, you are 
       able to see the associated accounting period, account and subsidiary.  Where applicable, 
       you can also see information about the customer, location, item, vendor, and department.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - transaction_line_id
+            - transaction_id
     columns:
     - name: transaction_line_id
       description: Netsuite internal transaction line ID.
       tests:
-        - unique
         - not_null
     - name: transaction_memo
       description: Memo associated with the transaction line.
@@ -141,6 +145,8 @@ models:
       description: Yes/No field, indicating whether or not the transaction line is non-posting.
     - name: transaction_id
       description: Netsuite internal transaction ID.
+      tests:
+        - not_null
     - name: transaction_status
       description: Status of the transaction (Closed, Pending Billing, Billing, etc.).
     - name: transaction_date

@@ -1,3 +1,14 @@
+# dbt_netsuite v0.6.2
+
+PR [#48](https://github.com/fivetran/dbt_netsuite/pull/48) includes the following updates to the dbt_netsuite package:
+## Features 🎉 (affects Netsuite2 users only)
+- Introduces the `netsuite2__multibook_accounting_enabled` and `netsuite2__using_vendor_categories` variables to disable their related source tables and downstream models.
+  - `netsuite2__multibook_accounting_enabled` is `True` by default. Set it to `False` if you do not use the [Multi-Book Accounting](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/book_3831565332.html) feature in Netsuite and/or do not have the `accountingbook` and `accountingbooksubsidiaries` source tables.
+  - `netsuite2__using_vendor_categories` is `True` by default. Set it to `False` if you do not categorize vendors in Netsuite and/or do not have the `vendorcategory` source table.
+
+## Bug Fixes 🐞
+- Fixes the grain at which the `netsuite__transaction_details` model is tested (Netsuite.com users only).
+
 # dbt_netsuite v0.6.1
 
 ## Bug Fixes 🐞

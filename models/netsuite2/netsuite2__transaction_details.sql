@@ -50,10 +50,12 @@ vendors as (
     from {{ var('netsuite2_vendors') }}
 ),
 
+{% if var('netsuite2__using_vendor_categories', true) %}
 vendor_categories as (
     select * 
     from {{ var('netsuite2_vendor_categories') }}
 ),
+{% endif %}
 
 departments as (
     select * 
@@ -126,7 +128,9 @@ transaction_details as (
     locations.name as location_name,
     locations.city as location_city,
     locations.country as location_country,
+    {% if var('netsuite2__using_vendor_categories', true) %}
     vendor_categories.name as vendor_category_name,
+    {% endif %}
     vendors.company_name as vendor_name,
     vendors.create_date_at as vendor_create_date,
     currencies.name as currency_name,
@@ -179,8 +183,10 @@ transaction_details as (
   left join vendors 
     on vendors.vendor_id = coalesce(transaction_lines.entity_id, transactions.entity_id)
 
+  {% if var('netsuite2__using_vendor_categories', true) %}
   left join vendor_categories 
     on vendor_categories.vendor_category_id = vendors.vendor_category_id
+  {% endif %}
 
   left join currencies 
     on currencies.currency_id = transactions.currency_id
