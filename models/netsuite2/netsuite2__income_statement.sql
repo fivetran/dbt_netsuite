@@ -68,7 +68,7 @@ income_statement as (
         --The below script allows for accounts table pass through columns.
         {{ fivetran_utils.persist_pass_through_columns('accounts_pass_through_columns', identifier='accounts') }},
 
-        {{ dbt_utils.concat(['accounts.account_number',"'-'", 'accounts.name']) }} as account_number_and_name,
+        {{ dbt.concat(['accounts.account_number',"'-'", 'accounts.name']) }} as account_number_and_name,
         classes.full_name as class_full_name
 
         --The below script allows for accounts table pass through columns.

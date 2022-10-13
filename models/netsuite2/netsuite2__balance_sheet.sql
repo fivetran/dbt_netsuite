@@ -40,14 +40,14 @@ balance_sheet as (
     transactions_with_converted_amounts.account_category as account_category,
     case
       when (not accounts.is_balancesheet 
-            and {{ dbt_utils.date_trunc('year', 'reporting_accounting_periods.starting_at') }} = {{ dbt_utils.date_trunc('year', 'transaction_accounting_periods.starting_at') }} 
+            and {{ dbt.date_trunc('year', 'reporting_accounting_periods.starting_at') }} = {{ dbt.date_trunc('year', 'transaction_accounting_periods.starting_at') }} 
             and reporting_accounting_periods.fiscal_calendar_id = transaction_accounting_periods.fiscal_calendar_id) then 'Net Income'
       when not accounts.is_balancesheet then 'Retained Earnings'
       else accounts.name
         end as account_name,
     case
       when (not accounts.is_balancesheet 
-            and {{ dbt_utils.date_trunc('year', 'reporting_accounting_periods.starting_at') }} = {{ dbt_utils.date_trunc('year', 'transaction_accounting_periods.starting_at') }} 
+            and {{ dbt.date_trunc('year', 'reporting_accounting_periods.starting_at') }} = {{ dbt.date_trunc('year', 'transaction_accounting_periods.starting_at') }} 
             and reporting_accounting_periods.fiscal_calendar_id = transaction_accounting_periods.fiscal_calendar_id) then 'Net Income'
       when not accounts.is_balancesheet then 'Retained Earnings'
       else accounts.type_name
@@ -86,7 +86,7 @@ balance_sheet as (
       when lower(accounts.type_name) = 'deferred revenue' then 12
       when lower(accounts.type_name) = 'equity' then 13
       when (not accounts.is_balancesheet 
-            and {{ dbt_utils.date_trunc('year', 'reporting_accounting_periods.starting_at') }} = {{ dbt_utils.date_trunc('year', 'transaction_accounting_periods.starting_at') }} 
+            and {{ dbt.date_trunc('year', 'reporting_accounting_periods.starting_at') }} = {{ dbt.date_trunc('year', 'transaction_accounting_periods.starting_at') }} 
             and reporting_accounting_periods.fiscal_calendar_id = transaction_accounting_periods.fiscal_calendar_id) then 15
       when not accounts.is_balancesheet then 14
       else null

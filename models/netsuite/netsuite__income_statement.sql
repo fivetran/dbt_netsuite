@@ -71,7 +71,7 @@ income_statement as (
 
         {% endif %}
 
-        {{ dbt_utils.concat(['accounts.account_number',"'-'", 'accounts.name']) }} as account_number_and_name,
+        {{ dbt.concat(['accounts.account_number',"'-'", 'accounts.name']) }} as account_number_and_name,
         classes.full_name as class_full_name,
 
         --The below script allows for classes table pass through columns.
