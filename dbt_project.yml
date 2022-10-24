@@ -13,6 +13,7 @@ models:
     netsuite2:
       intermediate:
         +materialized: ephemeral
+
 vars:
   netsuite:
     ## Netsuite staging models
