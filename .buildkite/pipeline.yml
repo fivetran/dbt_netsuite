@@ -57,17 +57,3 @@ steps:
             - "CI_REDSHIFT_DBT_USER"
     commands: |
       bash .buildkite/scripts/run_models.sh redshift
-
-  - label: ":upside_down_face: Run Tests - Databricks"
-    key: "run_dbt_databricks"
-    plugins:
-      - docker#v3.13.0:
-          image: "python:3.8"
-          shell: [ "/bin/bash", "-e", "-c" ]
-          environment:
-            - "BASH_ENV=/tmp/.bashrc"
-            - "CI_DATABRICKS_DBT_HOST"
-            - "CI_DATABRICKS_DBT_HTTP_PATH"
-            - "CI_DATABRICKS_DBT_TOKEN"
-    commands: |
-      bash .buildkite/scripts/run_models.sh databricks
