@@ -23,7 +23,7 @@ transaction_lines_w_accounting_period as ( -- transaction line totals, by accoun
   join transactions on transactions.transaction_id = transaction_lines.transaction_id
 
   where lower(transactions.transaction_type) != 'revenue arrangement'
-    and not transaction_lines.is_posting
+    and transaction_lines.is_posting
 )
 
 select * 
