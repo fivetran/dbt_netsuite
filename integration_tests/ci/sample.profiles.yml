@@ -1,5 +1,5 @@
 
-# HEY! This file is used in the netsuite integrations tests with CircleCI.
+# HEY! This file is used in the dbt package integrations tests with Buildkite.
 # You should __NEVER__ check credentials into version control. Thanks for reading :)
 
 config:
@@ -7,7 +7,7 @@ config:
     use_colors: True
 
 integration_tests:
-  target: snowflake
+  target: redshift
   outputs:
     redshift:
       type: redshift
@@ -20,11 +20,11 @@ integration_tests:
       threads: 8
     bigquery:
       type: bigquery
-      method: service-account
-      keyfile: "{{ env_var('GCLOUD_SERVICE_KEY_PATH') }}"
+      method: service-account-json
       project: 'dbt-package-testing'
       schema: netsuite_integration_tests
       threads: 8
+      keyfile_json: "{{ env_var('GCLOUD_SERVICE_KEY') | as_native }}"
     snowflake:
       type: snowflake
       account: "{{ env_var('CI_SNOWFLAKE_DBT_ACCOUNT') }}"
@@ -39,10 +39,16 @@ integration_tests:
       type: postgres
       host: "{{ env_var('CI_POSTGRES_DBT_HOST') }}"
       user: "{{ env_var('CI_POSTGRES_DBT_USER') }}"
-      password: "{{ env_var('CI_POSTGRES_DBT_PASS') }}"
+      pass: "{{ env_var('CI_POSTGRES_DBT_PASS') }}"
+      dbname: "{{ env_var('CI_POSTGRES_DBT_DBNAME') }}"
       port: 5432
-      dbname: "{{ env_var('CI_POSTGRES_DBT_DATABASE') }}"
       schema: netsuite_integration_tests
       threads: 8
-      keepalives_idle: 0
-      sslmode: prefer
+    databricks:
+      catalog: null
+      host: "{{ env_var('CI_DATABRICKS_DBT_HOST') }}"
+      http_path: "{{ env_var('CI_DATABRICKS_DBT_HTTP_PATH') }}"
+      schema: netsuite_integration_tests
+      threads: 2
+      token: "{{ env_var('CI_DATABRICKS_DBT_TOKEN') }}"
+      type: databricks
