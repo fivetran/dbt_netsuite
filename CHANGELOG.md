@@ -36,6 +36,9 @@
     - `dbt.current_timestamp_backcompat`
     - `dbt.current_timestamp_in_utc_backcompat`
 - `packages.yml` has been updated to reflect new default `fivetran/fivetran_utils` version, previously `[">=0.3.0", "<0.4.0"]` now `[">=0.4.0", "<0.5.0"]`.
+# dbt_netsuite v0.6.3
+## Bug Fixes 🐞
+- Adjustment within the `int_netsuite2_tran_lines_w_accounting_period` model to correctly filter **only** posting accounts. Previously this filter filtered for only non-posting accounts. In order to replicate a true income statement, the posting accounts should only be included downstream. ([#56](https://github.com/fivetran/dbt_netsuite/pull/56))
 
 # dbt_netsuite v0.6.2
 
