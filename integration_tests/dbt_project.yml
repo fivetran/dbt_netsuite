@@ -1,15 +1,12 @@
 name: 'netsuite_integration_tests'
-version: '0.6.3'
+version: '0.7.0'
 profile: 'integration_tests'
 config-version: 2
-
-models: 
+models:
   +materialized: table
-
 vars:
   netsuite_schema: netsuite_integration_tests
-  netsuite_data_model_override: netsuite # Set the variable to the same data model to generate run both sources for integration testing.
-
+  netsuite_data_model_override: netsuite
   netsuite_source:
     # Netsuite Seed Data
     netsuite_accounting_books_identifier: "netsuite_accounting_books_data"
@@ -29,37 +26,34 @@ vars:
     netsuite_transactions_identifier: "netsuite_transactions_data"
     netsuite_vendor_types_identifier: "netsuite_vendor_types_data"
     netsuite_vendors_identifier: "netsuite_vendors_data"
-
-    # Netsuite2 Seed Data
-    netsuite2_accounting_book_identifier: "netsuite2_accounting_book_data"  
-    netsuite2_accounting_period_identifier: "netsuite2_accounting_period_data"  
-    netsuite2_account_identifier: "netsuite2_account_data"  
-    netsuite2_classification_identifier: "netsuite2_classification_data"  
-    netsuite2_consolidated_exchange_rate_identifier: "netsuite2_consolidated_exchange_rate_data"  
-    netsuite2_currency_identifier: "netsuite2_currency_data"  
-    netsuite2_customer_identifier: "netsuite2_customer_data"  
-    netsuite2_department_identifier: "netsuite2_department_data"  
-    netsuite2_entity_identifier: "netsuite2_entities_data"  
-    netsuite2_item_identifier: "netsuite2_item_data"  
-    netsuite2_job_identifier: "netsuite2_job_data"  
-    netsuite2_location_identifier: "netsuite2_location_data"  
-    netsuite2_subsidiary_identifier: "netsuite2_subsidiary_data"  
-    netsuite2_transaction_accounting_line_identifier: "netsuite2_tran_acct_line_data"  
-    netsuite2_transaction_line_identifier: "netsuite2_transaction_line_data"  
-    netsuite2_transaction_identifier: "netsuite2_transaction_data"  
-    netsuite2_vendor_identifier: "netsuite2_vendor_data"  
-    netsuite2_vendor_category_identifier: "netsuite2_vendor_category_data"  
-    netsuite2_accounting_book_subsidiaries_identifier: "netsuite2_accounting_book_sub_data"  
-    netsuite2_accounting_period_fiscal_calendars_identifier: "netsuite2_accounting_period_fiscal_cal_data"  
-    netsuite2_account_type_identifier: "netsuite2_account_type_data"  
-    netsuite2_entity_address_identifier: "netsuite2_entity_address_data"  
-    netsuite2_location_main_address_identifier: "netsuite2_location_main_address_data"  
-    
+    netsuite2_accounting_book_identifier: "netsuite2_accounting_book_data"
+    netsuite2_accounting_period_identifier: "netsuite2_accounting_period_data"
+    netsuite2_account_identifier: "netsuite2_account_data"
+    netsuite2_classification_identifier: "netsuite2_classification_data"
+    netsuite2_consolidated_exchange_rate_identifier: "netsuite2_consolidated_exchange_rate_data"
+    netsuite2_currency_identifier: "netsuite2_currency_data"
+    netsuite2_customer_identifier: "netsuite2_customer_data"
+    netsuite2_department_identifier: "netsuite2_department_data"
+    netsuite2_entity_identifier: "netsuite2_entities_data"
+    netsuite2_item_identifier: "netsuite2_item_data"
+    netsuite2_job_identifier: "netsuite2_job_data"
+    netsuite2_location_identifier: "netsuite2_location_data"
+    netsuite2_subsidiary_identifier: "netsuite2_subsidiary_data"
+    netsuite2_transaction_accounting_line_identifier: "netsuite2_tran_acct_line_data"
+    netsuite2_transaction_line_identifier: "netsuite2_transaction_line_data"
+    netsuite2_transaction_identifier: "netsuite2_transaction_data"
+    netsuite2_vendor_identifier: "netsuite2_vendor_data"
+    netsuite2_vendor_category_identifier: "netsuite2_vendor_category_data"
+    netsuite2_accounting_book_subsidiaries_identifier: "netsuite2_accounting_book_sub_data"
+    netsuite2_accounting_period_fiscal_calendars_identifier: "netsuite2_accounting_period_fiscal_cal_data"
+    netsuite2_account_type_identifier: "netsuite2_account_type_data"
+    netsuite2_entity_address_identifier: "netsuite2_entity_address_data"
+    netsuite2_location_main_address_identifier: "netsuite2_location_main_address_data"
 seeds:
-    +quote_columns: "{{ true if target.type in ('redshift','postgres') else false }}"
-    netsuite_integration_tests:
-      +column_types:
-        ending: timestamp
-        due_date: timestamp
-        startdate: timestamp
-        starting: timestamp
+  +quote_columns: "{{ true if target.type in ('redshift','postgres') else false }}"
+  netsuite_integration_tests:
+    +column_types:
+      ending: timestamp
+      due_date: timestamp
+      startdate: timestamp
+      starting: timestamp
