@@ -1,6 +1,13 @@
 # dbt_netsuite v0.7.1
+
 ## 🎉 Feature Updates 🎉
-Now introducing...Databricks compatibility 🧱 ([PR #61](https://github.com/fivetran/dbt_netsuite/pull/61))
+- Now introducing...Databricks compatibility 🧱 ([PR #61](https://github.com/fivetran/dbt_netsuite/pull/61))
+
+## Bug Fixes
+- Adjustment to add persist pass_through_columns macro to Netsuite1 models ([#60](https://github.com/fivetran/dbt_netsuite/issues/60))
+
+## Contributors
+- [@kchiodo](https://github.com/kchiodo) ([#60](https://github.com/fivetran/dbt_netsuite/issues/60))
 
 # dbt_netsuite v0.7.0
 
