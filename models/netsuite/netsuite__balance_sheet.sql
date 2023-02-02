@@ -131,11 +131,10 @@ balance_sheet as (
     null as account_id,
     null as account_number,
 
-    --The below script allows for accounts table pass through columns.
     {% if var('accounts_pass_through_columns') %}
-
-    null as {{ var('accounts_pass_through_columns') | join (", null as ")}} ,
-
+      {% for field in var('accounts_pass_through_columns') %}
+        null as {{ field.alias if field.alias else field.name }},
+      {% endfor %}
     {% endif %}
 
     case
