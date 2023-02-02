@@ -80,7 +80,15 @@ To use this dbt package, you must have At least either one Fivetran **Netsuite**
 - vendorcategory
 
 ### Database Compatibility
-This package is compatible with either a **BigQuery**, **Snowflake**, **Redshift**, or **PostgreSQL** destination.
+This package is compatible with either a **BigQuery**, **Snowflake**, **Redshift**, **PostgreSQL**, or **Databricks** destination.
+
+### Databricks dispatch configuration
+If you are using a Databricks destination with this package, you must add the following (or a variation of the following) dispatch configuration within your `dbt_project.yml`. This is required in order for the package to accurately search for macros within the `dbt-labs/spark_utils` then the `dbt-labs/dbt_utils` packages respectively.
+```yml
+dispatch:
+  - macro_namespace: dbt_utils
+    search_order: ['spark_utils', 'dbt_utils']
+```
 
 ## Step 2: Install the package
 Include the following netsuite package version in your `packages.yml` file:
@@ -216,6 +224,9 @@ packages:
 
     - package: dbt-labs/dbt_utils
       version: [">=1.0.0", "<2.0.0"]
+
+    - package: dbt-labs/spark_utils
+      version: [">=0.3.0", "<0.4.0"]
 ```
 # 🙌 How is this package maintained and can I contribute?
 ## Package Maintenance
