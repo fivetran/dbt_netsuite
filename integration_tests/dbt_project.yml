@@ -57,3 +57,7 @@ seeds:
       due_date: timestamp
       startdate: timestamp
       starting: timestamp
+
+dispatch:
+  - macro_namespace: dbt_utils
+    search_order: ['spark_utils', 'dbt_utils']
