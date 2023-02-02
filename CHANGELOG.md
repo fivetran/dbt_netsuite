@@ -1,5 +1,12 @@
+# dbt_netsuite v0.7.1
+
+## Bug Fixes
+- Adjustment to add persist pass_through_columns macro to Netsuite1 models ([#60](https://github.com/fivetran/dbt_netsuite/issues/60))
+
+## Contributors
+- [@kchiodo](https://github.com/kchiodo) ([#60](https://github.com/fivetran/dbt_netsuite/issues/60))
+
 # dbt_netsuite v0.7.0
--Adjustment to add persist pass_through_columns macro to Netsuite1 models (https://github.com/fivetran/dbt_netsuite/issues/59) 
 
 ## 🚨 Breaking Changes 🚨:
 [PR #53](https://github.com/fivetran/dbt_netsuite/pull/53) includes the following breaking changes:
