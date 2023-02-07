@@ -5,5 +5,3 @@ packages:
 - git: https://github.com/fivetran/dbt_netsuite_source.git
   revision: releases/v0.6.latest
   warn-unpinned: false
-
-# - local: ../Netsuite/dbt_netsuite_source
