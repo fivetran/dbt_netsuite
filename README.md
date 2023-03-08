@@ -8,9 +8,9 @@
         <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" /></a>
     <a alt="PRs">
         <img src="https://img.shields.io/badge/Contributions-welcome-blueviolet" /></a>
-    <a alt="Fivetran Quickstart Compatibile"
+    <a alt="Fivetran Quickstart Compatible"
         href="https://fivetran.com/docs/transformations/dbt/quickstart">
-        <img src="https://img.shields.io/badge/Fivetran_Quickstart_Compatibile%3F-yes-green.svg" /></a>
+        <img src="https://img.shields.io/badge/Fivetran_Quickstart_Compatible%3F-yes-green.svg" /></a>
 </p>
 
 # Netsuite Transformation dbt Package ([Docs](https://fivetran.github.io/dbt_netsuite/))
