@@ -52,11 +52,12 @@ transactions_with_converted_amounts as (
       else false 
         end as is_income_statement,
     case
-      when lower(accounts.type_name) in ('accounts receivable', 'bank', 'deferred expense', 'fixed asset', 'other asset', 'other current asset', 'unbilled receivable') then 'Asset'
+      when lower(accounts.type_name) in ('accounts receivable', 'bank', 'deferred expense', 'fixed asset', 'other asset', 'other current asset', 'unbilled receivable', 'prepaid expense') then 'Asset'
       when lower(accounts.type_name) in ('cost of goods sold', 'expense', 'other expense') then 'Expense'
       when lower(accounts.type_name) in ('income', 'other income') then 'Income'
       when lower(accounts.type_name) in ('accounts payable', 'credit card', 'deferred revenue', 'long term liability', 'other current liability') then 'Liability'
       when lower(accounts.type_name) in ('equity', 'retained earnings', 'net income') then 'Equity'
+      when lower(accounts.type_name) in ('non posting', 'statistical') then 'Other'
       else null 
         end as account_category
   from transactions_in_every_calculation_period_w_exchange_rates
