@@ -78,7 +78,7 @@ balance_sheet as (
       when lower(accounts.type_name) = 'other current asset' then 4
       when lower(accounts.type_name) = 'fixed asset' then 5
       when lower(accounts.type_name) = 'other asset' then 6
-      when lower(accounts.type_name) = 'deferred expense' then 7
+      when lower(accounts.type_name) in ('deferred expense', 'prepaid expense') then 7
       when lower(accounts.type_name) = 'accounts payable' then 8
       when lower(accounts.type_name) = 'credit card' then 9
       when lower(accounts.type_name) = 'other current liability' then 10
