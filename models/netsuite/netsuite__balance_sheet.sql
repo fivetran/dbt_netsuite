@@ -98,19 +98,19 @@ balance_sheet as (
   
   --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
   {% if var('balance_sheet_transaction_detail_columns') != []%}
-  join transaction_details
+  left join transaction_details
     on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
       and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
   {% endif %}
 
 
-  join accounts 
+  left join accounts 
     on accounts.account_id = transactions_with_converted_amounts.account_id
 
-  join accounting_periods as reporting_accounting_periods 
+  left join accounting_periods as reporting_accounting_periods 
     on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
 
-  join accounting_periods as transaction_accounting_periods 
+  left join accounting_periods as transaction_accounting_periods 
     on transaction_accounting_periods.accounting_period_id = transactions_with_converted_amounts.transaction_accounting_period_id
 
   where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
@@ -158,15 +158,15 @@ balance_sheet as (
 
   --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
   {% if var('balance_sheet_transaction_detail_columns') != []%}
-  join transaction_details
+  left join transaction_details
     on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
       and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
   {% endif %}
 
-  join accounts
+  left join accounts
     on accounts.account_id = transactions_with_converted_amounts.account_id
 
-  join accounting_periods as reporting_accounting_periods 
+  left join accounting_periods as reporting_accounting_periods 
     on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
     
   where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
