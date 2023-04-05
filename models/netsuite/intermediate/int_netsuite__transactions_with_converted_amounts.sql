@@ -62,7 +62,7 @@ transactions_with_converted_amounts as (
         end as account_category
   from transactions_in_every_calculation_period_w_exchange_rates
 
-  join accounts 
+  left join accounts 
     on accounts.account_id = transactions_in_every_calculation_period_w_exchange_rates.account_id 
 )
 

@@ -1,3 +1,12 @@
+# dbt_netsuite v0.7.2
+## Under the Hood
+[PR #66](https://github.com/fivetran/dbt_netsuite/pull/66) applies the following changes:
+- Aligns join types in Netsuite end models with the joins in Netsuite2 end models.
+- Adds `transaction_id` and `transaction_line_id` to the Netsuite (1) income statement and balance sheet models. These fields were already present in the Netsuite2 versions of these models.
+- Adds new account type <> account category mappings in the `int_netsuite__transactions_with_converted_amounts`/`int_netsuite2__tran_with_converted_amounts` model. 
+  - `Prepaid Expense` account types are treated as `Deferred Expense` accounts. 
+  - `Non Posting` and `Statistical` account types will be placed in a new `Other` category.
+
 # dbt_netsuite v0.7.1
 
 ## 🎉 Feature Updates 🎉
