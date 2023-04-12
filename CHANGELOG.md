@@ -9,6 +9,7 @@
 - Adds an `accepted_values` test on the transaction detail end models that will raise a **warning** if unexpected account types are encountered. 
 - Adds a [DECISIONLOG](https://github.com/fivetran/dbt_netsuite/DECISIONLOG.md).
 - Updates README to include the `netsuite2__using_jobs` variable.
+- Adds uniqueness and not-null tests to the Netsuite (1) income statement and balance sheet models. These tests were already present in the Netsuite2 models.
 
 # dbt_netsuite v0.7.1
 
