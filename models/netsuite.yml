@@ -171,6 +171,11 @@ models:
       description: Name of the account.
     - name: account_type_name
       description: The accounts type name.
+      tests:
+        - accepted_values:
+            values: ['Accounts Receivable', 'Bank', 'Deferred Expense', 'Fixed Asset', 'Other Asset', 'Other Current Asset', 'Unbilled Receivable', 'Prepaid Expense', 'Cost of Goods Sold', 'Expense', 'Other Expense', 'Income', 'Other Income', 'Accounts Payable', 'Credit Card', 'Deferred Revenue', 'Long Term Liability', 'Other Current Liability', 'Equity', 'Retained Earnings', 'Net Income', 'Non Posting', 'Statistical']
+            config:
+              severity: warn
     - name: account_id
       description: Unique identifier of the account.
     - name: account_number

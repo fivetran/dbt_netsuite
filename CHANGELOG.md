@@ -6,6 +6,9 @@
 - Adds new account type <> account category mappings in the `int_netsuite__transactions_with_converted_amounts`/`int_netsuite2__tran_with_converted_amounts` model. 
   - `Prepaid Expense` account types are treated as `Deferred Expense` accounts. 
   - `Non Posting` and `Statistical` account types will be placed in a new `Other` category.
+- Adds an `accepted_values` test on the transaction detail end models that will raise a **warning** if unexpected account types are encountered. 
+- Adds a [DECISIONLOG](https://github.com/fivetran/dbt_netsuite/DECISIONLOG.md).
+- Updates README to include the `netsuite2__using_jobs` variable.
 
 # dbt_netsuite v0.7.1
 
