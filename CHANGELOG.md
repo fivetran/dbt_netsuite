@@ -1,3 +1,20 @@
+# dbt_netsuite v0.8.0
+[PR #66](https://github.com/fivetran/dbt_netsuite/pull/66) applies the following changes:
+
+## 🚨 Breaking Changes 🚨 (Netsuite.com Endpoint Only)
+- Adds `transaction_id` and `transaction_line_id` to the Netsuite (1) income statement and balance sheet models. These fields were already present in the Netsuite2 versions of these models. These columns are included in newly added Primary Key tests on the Netsuite (1) income statement and balance sheet models.
+> **Note**: Ensure that neither of these columns are included in your `balance_sheet_transaction_detail_columns` or `income_statement_transaction_detail_columns` variables.
+
+## Under the Hood
+- Aligns join types in Netsuite end models with the joins in Netsuite2 end models.
+- Adds new account type <> account category mappings in the `int_netsuite__transactions_with_converted_amounts`/`int_netsuite2__tran_with_converted_amounts` model. 
+  - `Prepaid Expense` account types are treated as `Deferred Expense` accounts. 
+  - `Non Posting` and `Statistical` account types will be placed in a new `Other` category.
+- Adds an `accepted_values` test on the transaction detail end models that will raise a **warning** if unexpected account types are encountered. 
+- Adds a [DECISIONLOG](https://github.com/fivetran/dbt_netsuite/DECISIONLOG.md).
+- Updates README to include the `netsuite2__using_jobs` variable.
+- Adds uniqueness and not-null tests to the Netsuite (1) income statement and balance sheet models. These tests were already present in the Netsuite2 models.
+
 # dbt_netsuite v0.7.1
 
 ## 🎉 Feature Updates 🎉

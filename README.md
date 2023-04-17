@@ -99,7 +99,7 @@ Include the following netsuite package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/netsuite
-    version: [">=0.7.0", "<0.8.0"]
+    version: [">=0.8.0", "<0.9.0"]
 ```
 ## Step 3: Define Netsuite.com or Netsuite2 Source
 As of April 2022 Fivetran made available a new Netsuite connector which leverages the Netsuite2 endpoint opposed to the original Netsuite.com endpoint. This package is designed to run for either or, not both. By default the `netsuite_data_model` variable for this package is set to the original `netsuite` value which runs the netsuite.com version of the package. If you would like to run the package on Netsuite2 data, you may adjust the `netsuite_data_model` variable to run the `netsuite2` version of the package.
@@ -123,8 +123,9 @@ It's possible that your Netsuite connector does not sync every table that this p
 vars:
     netsuite2__multibook_accounting_enabled: false # True by default. Disable `accountingbooksubsidiary` and `accountingbook` if you are not using the Multi-Book Accounting feature
     netsuite2__using_vendor_categories: false # True by default. Disable `vendorcategory` if you don't categorize your vendors
+    netsuite2__using_jobs: false # True by default. Disable `job` if you don't use jobs
 ```
-> **Note**: The Netsuite dbt package currently only supports disabling transforms of [Multi-Book Accounting](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/book_3831565332.html) related tables (`accountingbooksubsidiary` and `accountingbook`) and the `vendorcategory` source table. Please create an issue to request additional tables and/or [features](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/bridgehead_N233872.html) to exclude. 
+> **Note**: The Netsuite dbt package currently only supports disabling transforms of [Multi-Book Accounting](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/book_3831565332.html) related tables (`accountingbooksubsidiary` and `accountingbook`) and the `vendorcategory` and `job` source tables. Please create an issue to request additional tables and/or [features](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/bridgehead_N233872.html) to exclude. 
 > 
 > To determine if a table or field is activated by a feature, access the [Records Catalog](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/article_159367781370.html).
 
