@@ -1,3 +1,9 @@
+# dbt_netsuite v0.UPDATE.UPDATE
+
+ ## Under the Hood:
+
+- Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job.
+- Updated the pull request [templates](/.github).
 # dbt_netsuite v0.8.0
 [PR #66](https://github.com/fivetran/dbt_netsuite/pull/66) applies the following changes:
 
