@@ -92,6 +92,7 @@ dispatch:
   - macro_namespace: dbt_utils
     search_order: ['spark_utils', 'dbt_utils']
 ```
+Do **NOT** include the `netsuite_source` package in this file. The transformation package itself has a dependency on it and will install the source package as well. 
 
 ## Step 2: Install the package
 Include the following netsuite package version in your `packages.yml` file:
