@@ -2,7 +2,7 @@
 [PR #70](https://github.com/fivetran/dbt_netsuite/pull/70) applies the following changes:
 
 ## 🎉 Feature Updates 🎉
-- Introduce variable `netsuite2__using_exchange_rate` to disable exchange rates in Netsuite2 version for users who don't utilize exchange rates.
+- Introduce variable `netsuite2__using_exchange_rate` to allow users who don't utilize exchange rates in Netsuite2 the ability to disable that functionality, and return only the unconverted amount as the final converted amount.
 - This variable will also disable upstream models utilizing exchange rates, since they only flow into the intermediate model that converts amounts into their default subsidiary currency.
 - Updated documentation in `netsuite2.yml` to provide context on how disabling exchange rates impacts specific models. 
 
