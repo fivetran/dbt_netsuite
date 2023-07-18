@@ -1,7 +1,12 @@
-# dbt_netsuite v0.UPDATE.UPDATE
+# dbt_netsuite v0.8.1
+[PR #70](https://github.com/fivetran/dbt_netsuite/pull/70) applies the following changes:
 
- ## Under the Hood:
+## 🎉 Feature Updates 🎉
+- Introduce variable `netsuite2__using_exchange_rate` to disable exchange rates in Netsuite2 version for users who don't utilize exchange rates.
+- This variable will also disable upstream models utilizing exchange rates, since they only flow into the intermediate model that converts amounts into their default subsidiary currency.
+- Updated documentation in `netsuite2.yml` to provide context on how disabling exchange rates impacts specific models. 
 
+## Under the Hood:
 - Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job.
 - Updated the pull request [templates](/.github).
 # dbt_netsuite v0.8.0

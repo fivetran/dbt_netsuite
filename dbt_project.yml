@@ -1,6 +1,6 @@
 config-version: 2
 name: 'netsuite'
-version: '0.8.0'
+version: '0.8.1'
 require-dbt-version: [">=1.3.0", "<2.0.0"]
 
 models:
@@ -9,10 +9,10 @@ models:
     +schema: netsuite
     netsuite:
       intermediate:
-        +materialized: ephemeral
+        +materialized: table
     netsuite2:
       intermediate:
-        +materialized: ephemeral
+        +materialized: table
 
 vars:
   netsuite:

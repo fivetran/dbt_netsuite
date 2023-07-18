@@ -4,19 +4,20 @@ models:
   - name: int_netsuite2__acctxperiod_exchange_rate_map
     description: >
       (Step 1/4) In order to accurately recreate the balance sheet and income statement, 
-      it is necessary to convert all transaction amounts into the currency of 
-      the parent subsidiary. The logic gets complicated fast, mostly because 
-      of the behavior of the balance sheet.  On the balance sheet, the conversion 
-      rate you use for a single transaction will differ by accounting period.  
+      it is necessary to convert all transaction amounts into the parent subsidiary currency. 
+      The logic gets complicated because of balance sheet behavior. On the balance sheet, 
+      the conversion rate you use for a single transaction will differ by accounting period.  
       For example, if a transaction took place in August, and you are generating 
       balances for the December period, you will need to convert the August transaction 
-      using the December conversion rate.
+      using December's conversion rate.
 
-      The first step here is to create a mapping of all accounting periods and the 
-      respective exchange rates, by subsidiary. This is called period_exchange_rate_map
+      So we created a mapping of all accounting periods and the respective
+      exchange rates, by subsidiary, naming it period_exchange_rate_map.
 
-      Next, we cross join the accounts table to the period_exchange_rate_map, so we can 
-      generate a map of exchange rates, by account, accounting period, and subsidiary.
+      Next, we cross join the accounts table to the period_exchange_rate_map,
+      generating a map of exchange rates, by account, accounting period, and subsidiary.
+
+      NOTE: This is only applicable if you're using exchange rates. Consult the README on how to disable in your dbt_project.yml.
   
   - name: int_netsuite2__tran_lines_w_accounting_period
     description: >
@@ -36,9 +37,11 @@ models:
   - name: int_netsuite2__tran_with_converted_amounts
     description: >
       (Step 4/4) Now that we have the exchange rates and the unconverted amounts, the next step is 
-      to calculate the converted total.
-      Additionally, we add in a couple of extra fields that will help us in our final balance sheet 
-      and income statement queries.
+      to calculate the converted total. Additionally, we add in a couple of extra fields that will 
+      help us in our final balance sheet and income statement queries.
+            
+      Note: This is only applicable if you're using exchange rates. See the README for instructions
+      on how to disable this in your dbt_project.yml.
 
   - name: netsuite2__balance_sheet
     description: >
