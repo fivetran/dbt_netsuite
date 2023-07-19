@@ -21,6 +21,7 @@ joined as (
     from consolidated_exchange_rates
     left join accounting_book_subsidiaries
         on consolidated_exchange_rates.to_subsidiary_id = accounting_book_subsidiaries.subsidiary_id
+        and consolidated_exchange_rates.accounting_book = accounting_book_subsidiaries.accounting_book_id
 )
 
 select *
