@@ -9,10 +9,10 @@ models:
     +schema: netsuite
     netsuite:
       intermediate:
-        +materialized: table
+        +materialized: ephemeral
     netsuite2:
       intermediate:
-        +materialized: table
+        +materialized: ephemeral
 
 vars:
   netsuite:

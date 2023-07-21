@@ -17,7 +17,8 @@ models:
       Next, we cross join the accounts table to the period_exchange_rate_map,
       generating a map of exchange rates, by account, accounting period, and subsidiary.
 
-      NOTE: This is only applicable if you're using exchange rates. Consult the README on how to disable in your dbt_project.yml.
+      NOTE: This is only applicable if you're using exchange rates. Consult the README on how to 
+      disable exchange rates using the `netsuite2__using_exchange_rate` in your dbt_project.yml.
   
   - name: int_netsuite2__tran_lines_w_accounting_period
     description: >
@@ -41,7 +42,7 @@ models:
       help us in our final balance sheet and income statement queries.
             
       Note: This is only applicable if you're using exchange rates. See the README for instructions
-      on how to disable this in your dbt_project.yml.
+      on how to disable exchange rates using the `netsuite2__using_exchange_rate` in your dbt_project.yml.
 
   - name: netsuite2__balance_sheet
     description: >
