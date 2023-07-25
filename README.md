@@ -123,7 +123,7 @@ It's possible that your Netsuite connector does not sync every table that this p
 ```yml
 vars:
     netsuite2__multibook_accounting_enabled: false # True by default. Disable `accountingbooksubsidiary` and `accountingbook` if you are not using the Multi-Book Accounting feature
-    netsuite2__using_exchange_rate: false #True by default. Disable `exchange_rate` if you don't utilize exchange rates.
+    netsuite2__using_exchange_rate: false #True by default. Disable `exchange_rate` if you don't utilize exchange rates. Also set this variable to `false` in the [`dbt_netsuite_source` package](https://github.com/fivetran/dbt_netsuite).  
     netsuite2__using_vendor_categories: false # True by default. Disable `vendorcategory` if you don't categorize your vendors
     netsuite2__using_jobs: false # True by default. Disable `job` if you don't use jobs
 ```
