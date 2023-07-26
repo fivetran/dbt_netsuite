@@ -1,5 +1,5 @@
 # dbt_netsuite v0.8.1
-[PR #70](https://github.com/fivetran/dbt_netsuite/pull/70) applies the following changes:
+[PR #73](https://github.com/fivetran/dbt_netsuite/pull/73) applies the following changes:
 
 ## 🎉 Feature Updates 🎉
 - Introduces variable `netsuite2__using_exchange_rate` to allow users who don't utilize exchange rates in Netsuite2 the ability to disable that functionality, and return only the unconverted amount as the final converted amount.
