@@ -12,7 +12,7 @@ vars:
 
 - Updated documentation in `netsuite2.yml` to provide context on how disabling exchange rates impacts specific models. 
 
-## Under the Hood:
+## 🔧 Under the Hood 🔩
 - Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job.
 - Updated the pull request [templates](/.github).
 
