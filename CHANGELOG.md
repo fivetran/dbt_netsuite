@@ -1,3 +1,4 @@
+# dbt_netsuite v0.8.1
 # dbt_netsuite v0.UPDATE.UPDATE
 
  ## Under the Hood:
