@@ -1,12 +1,15 @@
-# dbt_netsuite v0.8.1
+# dbt_netsuite v0.9.0
 
+## 🚨 Breaking Changes 🚨
 ## Bugfix
-- Change the way `accounting_book_id` was being brought into the `int_netsuite2__acctxperiod_exchange_rate_map` model. Originally from `int_netsuite2__consolidated_exchange_rates`, this was resulting in duplicate records downstream in the `netsuite2__transaction_details` model due to the way it was being joined. However, now we have brought in `accounting_book_id` (accountingbook) via the `stg_netsuite2__consolidated_exchange_rates` model, so we have removed the need for `int_netsuite2__consolidated_exchange_rates` ([PR #74](https://github.com/fivetran/dbt_netsuite/pull/74))
+- Removed the `int_netsuite2__consolidated_exchange_rates` model ([PR #74](https://github.com/fivetran/dbt_netsuite/pull/74))
+  - Originally the `accounting_book_id` field was brought into the `int_netsuite2__acctxperiod_exchange_rate_map` model via `int_netsuite2__consolidated_exchange_rates`, but this was resulting in duplicate records downstream in the `netsuite2__transaction_details` model due to the way it was being joined. Now we have brought in `accounting_book_id` (accountingbook) via the `stg_netsuite2__consolidated_exchange_rates` model, so we do not have a need for `int_netsuite2__consolidated_exchange_rates` 
 
  ## Under the Hood:
 
-- Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job.
-- Updated the pull request [templates](/.github).
+- Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job. ([PR #69](https://github.com/fivetran/dbt_netsuite/pull/69))
+- Updated the pull request [templates](/.github). ([PR #69](https://github.com/fivetran/dbt_netsuite/pull/69))
+
 # dbt_netsuite v0.8.0
 [PR #66](https://github.com/fivetran/dbt_netsuite/pull/66) applies the following changes:
 
