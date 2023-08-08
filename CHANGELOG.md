@@ -1,7 +1,6 @@
 # dbt_netsuite v0.9.0
 
 ## 🚨 Breaking Changes 🚨
-## Bugfix
 - Removed the `int_netsuite2__consolidated_exchange_rates` model ([PR #74](https://github.com/fivetran/dbt_netsuite/pull/74))
   - Originally the `accounting_book_id` field was brought into the `int_netsuite2__acctxperiod_exchange_rate_map` model via `int_netsuite2__consolidated_exchange_rates`, but this was resulting in duplicate records downstream in the `netsuite2__transaction_details` model due to the way it was being joined. Now we have brought in `accounting_book_id` (accountingbook) via the `stg_netsuite2__consolidated_exchange_rates` model, so we do not have a need for `int_netsuite2__consolidated_exchange_rates` 
 
