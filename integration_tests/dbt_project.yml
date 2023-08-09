@@ -5,7 +5,7 @@ config-version: 2
 models:
   +materialized: table
 vars:
-  netsuite_schema: netsuite_integration_tests_2
+  netsuite_schema: netsuite_integration_tests_3
   netsuite_data_model_override: netsuite
   netsuite_source:
     # Netsuite Seed Data
