@@ -1,11 +1,11 @@
 name: 'netsuite_integration_tests'
-version: '0.8.1'
+version: '0.9.0'
 profile: 'integration_tests'
 config-version: 2
 models:
   +materialized: table
 vars:
-  netsuite_schema: netsuite_integration_tests_1
+  netsuite_schema: netsuite_integration_tests_3
   netsuite_data_model_override: netsuite
   netsuite_source:
     # Netsuite Seed Data

@@ -9,7 +9,7 @@ with accounts as (
 accounting_books as (
     select * 
     from {{ var('netsuite2_accounting_books') }}
-), 
+),
 {% endif %}
 
 subsidiaries as (
@@ -18,8 +18,8 @@ subsidiaries as (
 ),
 
 consolidated_exchange_rates as (
-    select * 
-    from {{ ref('int_netsuite2__consolidated_exchange_rates') if var('netsuite2__multibook_accounting_enabled', true) else var('netsuite2_consolidated_exchange_rates') }}
+    select *
+    from {{ var('netsuite2_consolidated_exchange_rates') }}
 ),
 
 period_exchange_rate_map as ( -- exchange rates used, by accounting period, to convert to parent subsidiary
@@ -55,5 +55,5 @@ accountxperiod_exchange_rate_map as ( -- account table with exchange rate detail
   cross join period_exchange_rate_map
 )
 
-select * 
+select *
 from accountxperiod_exchange_rate_map
