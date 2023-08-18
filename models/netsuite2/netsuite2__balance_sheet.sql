@@ -65,12 +65,12 @@ balance_sheet as (
     {{ fivetran_utils.persist_pass_through_columns('accounts_pass_through_columns', identifier='accounts') }},
 
     case
-      when lower(accounts.general_rate_type) = 'historical' or not accounts.is_balancesheet then -converted_amount_using_transaction_accounting_period
+      when not accounts.is_leftside and (lower(accounts.general_rate_type) = 'historical' or not accounts.is_balancesheet) then -converted_amount_using_transaction_accounting_period
+      when accounts.is_leftside and (lower(accounts.general_rate_type) = 'historical' or not accounts.is_balancesheet) then converted_amount_using_transaction_accounting_period
       when not accounts.is_leftside then -converted_amount_using_reporting_month
       when accounts.is_leftside then converted_amount_using_reporting_month
       else 0
         end as converted_amount,
-    
     case
       when lower(accounts.type_name) = 'bank' then 1
       when lower(accounts.type_name) = 'accounts receivable' then 2
