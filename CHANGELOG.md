@@ -1,6 +1,15 @@
+# dbt_netsuite v0.9.1
+[PR #78](https://github.com/fivetran/dbt_netsuite/pull/78) includes the following updates:
+
+## 🐛 Bug Fixes 🩹
+- Adjusted our translation rate logic to calculate `converted_amount` in `netsuite__balance_sheet` and `netsuite2__balance_sheet`. 
+  - The logic is adjusted so we examine the `general_rate_type`, where historical rates now convert amounts into the `converted_amount_using_transaction_accounting_period`. Otherwise, it looks at `converted_amount_using_reporting_month`.
+  - The `is_leftside` logic is added to make sure debit values are properly assigned as negative converted values if false and positive if true.
+  - If the `account_category` is `expense`, those values are converted to negative amounts to ensure balances are properly tabulated. 
+
 # dbt_netsuite v0.9.0
 
-[PR #74](https://github.com/fivetran/dbt_netsuite/pull/74)includes the following updates:
+[PR #74](https://github.com/fivetran/dbt_netsuite/pull/74) includes the following updates:
 ## 🚨 Breaking Changes 🚨
 - Removed the `int_netsuite2__consolidated_exchange_rates` model 
   - Originally the `accounting_book_id` field was brought into the `int_netsuite2__acctxperiod_exchange_rate_map` model via `int_netsuite2__consolidated_exchange_rates`, but this was resulting in duplicate records downstream in the `netsuite2__transaction_details` model due to the way it was being joined. Now we have brought in `accounting_book_id` (accountingbook) via the `stg_netsuite2__consolidated_exchange_rates` model, so we do not have a need for `int_netsuite2__consolidated_exchange_rates` 
