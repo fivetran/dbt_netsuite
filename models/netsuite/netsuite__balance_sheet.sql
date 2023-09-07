@@ -62,14 +62,15 @@ balance_sheet as (
     {{ fivetran_utils.persist_pass_through_columns('accounts_pass_through_columns', identifier='accounts') }},
 
     case
-      when lower(account_category) = 'expense' then -converted_amount_using_transaction_accounting_period
-      when lower(accounts.is_leftside) = 'f' and (lower(accounts.is_balancesheet) = 'f' or lower(accounts.general_rate_type) = 'historical') then -converted_amount_using_transaction_accounting_period
-      when lower(accounts.is_leftside) = 't' and (lower(accounts.is_balancesheet) = 'f' or lower(accounts.general_rate_type) = 'historical') then converted_amount_using_transaction_accounting_period
-      when lower(accounts.is_leftside) = 'f' then -converted_amount_using_reporting_month
-      when lower(accounts.is_leftside) = 't' then converted_amount_using_reporting_month
+      when lower(accounts.is_balancesheet) = 'f' and lower(accounts.general_rate_type) in ('historical', 'average') then -converted_amount_using_transaction_accounting_period
+      when lower(accounts.is_balancesheet) = 'f' then -converted_amount_using_reporting_month
+      when lower(accounts.is_balancesheet) = 't' and lower(accounts.is_leftside) = 'f' and lower(accounts.general_rate_type) in ('historical', 'average') then -converted_amount_using_transaction_accounting_period
+      when lower(accounts.is_balancesheet) = 't' and lower(accounts.is_leftside) = 't' and lower(accounts.general_rate_type) in ('historical', 'average') then converted_amount_using_transaction_accounting_period
+      when lower(accounts.is_balancesheet) = 't' and lower(accounts.is_leftside) = 'f' then -converted_amount_using_reporting_month
+      when lower(accounts.is_balancesheet) = 't' and lower(accounts.is_leftside) = 't' then converted_amount_using_reporting_month
       else 0
         end as converted_amount,
-    
+        
     case
       when lower(accounts.type_name) = 'bank' then 1
       when lower(accounts.type_name) = 'accounts receivable' then 2
@@ -144,7 +145,7 @@ balance_sheet as (
     {% endif %}
 
     case
-      when lower(accounts.general_rate_type) = 'historical' or is_income_statement then converted_amount_using_transaction_accounting_period
+      when lower(account_category) = 'equity' or is_income_statement then converted_amount_using_transaction_accounting_period
       else converted_amount_using_reporting_month
         end as converted_amount,
     16 as balance_sheet_sort_helper
