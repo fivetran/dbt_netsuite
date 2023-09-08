@@ -52,6 +52,7 @@ income_statement as (
     select
         transactions_with_converted_amounts.transaction_id,
         transactions_with_converted_amounts.transaction_line_id,
+        transactions_with_converted_amounts.accounting_book_id,
         reporting_accounting_periods.accounting_period_id as accounting_period_id,
         reporting_accounting_periods.ending_at as accounting_period_ending,
         reporting_accounting_periods.name as accounting_period_name,

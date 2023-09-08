@@ -62,5 +62,5 @@ vars:
     departments_pass_through_columns: []
     transactions_pass_through_columns: []
     transaction_lines_pass_through_columns: []
-    balance_sheet_transaction_detail_columns: []
+    balance_sheet_transaction_detail_columns: [subsidiary_id, subsidiary_name]
     income_statement_transaction_detail_columns: []
