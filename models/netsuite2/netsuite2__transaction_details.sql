@@ -79,6 +79,7 @@ entities as (
 
 transaction_details as (
   select
+    transactions_with_converted_amounts.accounting_book_id,
     transaction_lines.transaction_line_id,
     transaction_lines.memo as transaction_memo,
     not transaction_lines.is_posting as is_transaction_non_posting,
@@ -140,6 +141,7 @@ transaction_details as (
     --The below script allows for departments table pass through columns.
     {{ fivetran_utils.persist_pass_through_columns('departments_pass_through_columns', identifier='departments') }},
 
+    subsidiaries.subsidiary_id,
     subsidiaries.name as subsidiary_name,
     case
       when lower(accounts.type_name) = 'income' or lower(accounts.type_name) = 'other income' then -converted_amount_using_transaction_accounting_period
