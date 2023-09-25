@@ -61,16 +61,16 @@ transactions_with_converted_amounts as (
     unconverted_amount as converted_amount_using_reporting_month,
     {% endif %}
     case
-      when lower(accounts.type_name) in ('income','other income','expense','other expense','other income','cost of goods sold') then true
+      when lower(accounts.account_type_id) in ('income','othincome','expense','othexpense','cogs') then true
       else false 
         end as is_income_statement,
     case
-      when lower(accounts.type_name) in ('accounts receivable', 'bank', 'deferred expense', 'fixed asset', 'other asset', 'other current asset', 'unbilled receivable', 'prepaid expense') then 'Asset'
-      when lower(accounts.type_name) in ('cost of goods sold', 'expense', 'other expense') then 'Expense'
-      when lower(accounts.type_name) in ('income', 'other income') then 'Income'
-      when lower(accounts.type_name) in ('accounts payable', 'credit card', 'deferred revenue', 'long term liability', 'other current liability') then 'Liability'
-      when lower(accounts.type_name) in ('equity', 'retained earnings', 'net income') then 'Equity'
-      when lower(accounts.type_name) in ('non posting', 'statistical') then 'Other'
+      when lower(accounts.account_type_id) in ('acctrec', 'bank', 'deferexpense', 'fixedasset', 'othasset', 'othcurrasset', 'unbilledrec', 'prepaid expense') then 'asset' --prepaid???
+      when lower(accounts.account_type_id) in ('cogs', 'expense', 'othexpense') then 'expense'
+      when lower(accounts.account_type_id) in ('income', 'othincome') then 'income'
+      when lower(accounts.account_type_id) in ('acctpay', 'credcard', 'deferrevenue', 'longtermliab', 'othcurrliab') then 'liability'
+      when lower(accounts.account_type_id) in ('equity', 'retained_earnings', 'net_income') then 'equity' --need to update where retained earnings and net income coming from
+      when lower(accounts.account_type_id) in ('nonposting', 'stat') then 'other'
       else null 
         end as account_category
   from transactions_in_every_calculation_period_w_exchange_rates
