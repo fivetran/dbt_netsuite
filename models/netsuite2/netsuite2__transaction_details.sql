@@ -143,11 +143,11 @@ transaction_details as (
 
     subsidiaries.name as subsidiary_name,
     case
-      when lower(accounts.type_name) = 'income' or lower(accounts.type_name) = 'other income' then -converted_amount_using_transaction_accounting_period
+      when lower(accounts.account_type_id) = 'income' or lower(accounts.type_name) = 'othincome' then -converted_amount_using_transaction_accounting_period
       else converted_amount_using_transaction_accounting_period
         end as converted_amount,
     case
-      when lower(accounts.type_name) = 'income' or lower(accounts.type_name) = 'other income' then -transaction_lines.amount
+      when lower(accounts.account_type_id) = 'income' or lower(accounts.type_name) = 'othincome' then -transaction_lines.amount
       else transaction_lines.amount
         end as transaction_amount
   from transaction_lines

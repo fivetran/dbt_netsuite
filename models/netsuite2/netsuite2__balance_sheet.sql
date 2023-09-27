@@ -48,6 +48,13 @@ balance_sheet as (
     case
       when (not accounts.is_balancesheet 
             and {{ dbt.date_trunc('year', 'reporting_accounting_periods.starting_at') }} = {{ dbt.date_trunc('year', 'transaction_accounting_periods.starting_at') }} 
+            and reporting_accounting_periods.fiscal_calendar_id = transaction_accounting_periods.fiscal_calendar_id) then 'Net Income'
+      when not accounts.is_balancesheet then 'Retained Earnings'
+      else accounts.type_name
+        end as account_type_name,
+    case
+      when (not accounts.is_balancesheet 
+            and {{ dbt.date_trunc('year', 'reporting_accounting_periods.starting_at') }} = {{ dbt.date_trunc('year', 'transaction_accounting_periods.starting_at') }} 
             and reporting_accounting_periods.fiscal_calendar_id = transaction_accounting_periods.fiscal_calendar_id) then 'net_income'
       when not accounts.is_balancesheet then 'retained_earnings'
       else accounts.account_type_id
@@ -135,6 +142,7 @@ balance_sheet as (
     reporting_accounting_periods.is_closed as is_accounting_period_closed,
     'Equity' as account_category,
     'Cumulative Translation Adjustment' as account_name,
+    'Cumulative Translation Adjustment' as account_type_name,
     'cumulative_translation_adjustment' as account_type_id,
     null as account_id,
     null as account_number,
