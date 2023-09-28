@@ -83,7 +83,7 @@ income_statement as (
 
         transactions_with_converted_amounts.account_category as account_category,
         case when lower(accounts.account_type_id) = 'income' then 1
-            when lower(accounts.account_type_id) = 'COGS' then 2
+            when lower(accounts.account_type_id) = 'cogs' then 2
             when lower(accounts.account_type_id) = 'expense' then 3
             when lower(accounts.account_type_id) = 'othincome' then 4
             when lower(accounts.account_type_id) = 'othexpense' then 5
