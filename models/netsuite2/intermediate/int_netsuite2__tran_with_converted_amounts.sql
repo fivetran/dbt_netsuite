@@ -65,12 +65,12 @@ transactions_with_converted_amounts as (
       else false 
         end as is_income_statement,
     case
-      when lower(accounts.account_type_id) in ('acctrec', 'bank', 'deferexpense', 'fixedasset', 'othasset', 'othcurrasset', 'unbilledrec') then 'asset'
-      when lower(accounts.account_type_id) in ('cogs', 'expense', 'othexpense') then 'expense'
-      when lower(accounts.account_type_id) in ('income', 'othincome') then 'income'
-      when lower(accounts.account_type_id) in ('acctpay', 'credcard', 'deferrevenue', 'longtermliab', 'othcurrliab') then 'liability'
-      when lower(accounts.account_type_id) in ('equity', 'retained_earnings', 'net_income') then 'equity'
-      when lower(accounts.account_type_id) in ('nonposting', 'stat') then 'other'
+      when lower(accounts.account_type_id) in ('acctrec', 'bank', 'deferexpense', 'fixedasset', 'othasset', 'othcurrasset', 'unbilledrec') then 'Asset'
+      when lower(accounts.account_type_id) in ('cogs', 'expense', 'othexpense') then 'Expense'
+      when lower(accounts.account_type_id) in ('income', 'othincome') then 'Income'
+      when lower(accounts.account_type_id) in ('acctpay', 'credcard', 'deferrevenue', 'longtermliab', 'othcurrliab') then 'Liability'
+      when lower(accounts.account_type_id) in ('equity', 'retained_earnings', 'net_income') then 'Equity'
+      when lower(accounts.account_type_id) in ('nonposting', 'stat') then 'Other'
       else null 
         end as account_category
   from transactions_in_every_calculation_period_w_exchange_rates
