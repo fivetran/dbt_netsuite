@@ -1,3 +1,17 @@
+# dbt_netsuite v0.10.0
+[PR #84](https://github.com/fivetran/dbt_netsuite/pull/84)includes the following updates:
+## 🚨 Breaking Changes 🚨
+- Updated the following models to reference `account_type_id` instead of `type_name`:
+  - int_netsuite2__tran_with_converted_amounts
+  - netsuite2__balance_sheet
+  - netsuite2__income_statement
+  - netsuite2__transaction_details
+- This change was implemented because `type_name` was previously utilized to categorize records, which was causing issues for users that customized the `type_name` values. Utilizing the unique identifier `account_type_id` instead produces more accurate results in the final models.
+
+## Under the Hood
+- Removed `accepted_values` test from column `account_type_names` in model `netsuite2__transaction_details` since logic is now based on `account_type_id` instead, and type names can be changed by the user.
+- Updated documents with descriptions for `account_type_id`
+
 # dbt_netsuite v0.9.0
 
 [PR #74](https://github.com/fivetran/dbt_netsuite/pull/74)includes the following updates:
