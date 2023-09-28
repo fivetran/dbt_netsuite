@@ -1,33 +1,31 @@
 version: 2
 
 models:
-  - name: int_netsuite2__acctxperiod_exchange_rate_map
+  - name: int_netsuite__accountxperiod_exchange_rate_map
     description: >
       (Step 1/4) In order to accurately recreate the balance sheet and income statement, 
-      it is necessary to convert all transaction amounts into the parent subsidiary currency. 
-      The logic gets complicated because of balance sheet behavior. On the balance sheet, 
-      the conversion rate you use for a single transaction will differ by accounting period.  
+      it is necessary to convert all transaction amounts into the currency of 
+      the parent subsidiary. The logic gets complicated fast, mostly because 
+      of the behavior of the balance sheet.  On the balance sheet, the conversion 
+      rate you use for a single transaction will differ by accounting period.  
       For example, if a transaction took place in August, and you are generating 
       balances for the December period, you will need to convert the August transaction 
-      using December's conversion rate.
+      using the December conversion rate.
 
-      So we created a mapping of all accounting periods and the respective
-      exchange rates, by subsidiary, naming it period_exchange_rate_map.
+      The first step here is to create a mapping of all accounting periods and the 
+      respective exchange rates, by subsidiary. This is called period_exchange_rate_map
 
-      Next, we cross join the accounts table to the period_exchange_rate_map,
-      generating a map of exchange rates, by account, accounting period, and subsidiary.
-
-      NOTE: This is only applicable if you're using exchange rates. Consult the README on how to 
-      disable exchange rates using the `netsuite2__using_exchange_rate` in your dbt_project.yml.
+      Next, we cross join the accounts table to the period_exchange_rate_map, so we can 
+      generate a map of exchange rates, by account, accounting period, and subsidiary.
   
-  - name: int_netsuite2__tran_lines_w_accounting_period
+  - name: int_netsuite__transaction_lines_w_accounting_period
     description: >
       (Step 2/4) Next, we need to prepare a cleaned version of all transactions we need.  
       Using the transactions and transaction_lines tables, the necessary fields are extracted, 
       and transactions that are deleted, revenue arrangements, or non-posting transactions are 
       filtered out. This is called transaction_lines_w_accounting_period. 
     
-  - name: int_netsuite2__tran_and_reporting_periods
+  - name: int_netsuite__transaction_and_reporting_periods
     description: >
       (Step 3/4) Once we have the cleaned transaction_lines_w_accounting_periods, we now need to figure out
       which exchange rate we should use for the currency conversion.  The balance sheet complicates 
@@ -35,16 +33,14 @@ models:
       need to be converted not only for the period in which the transaction took place in, but also 
       all subsequent periods. transaction_and_reporting_periods creates the necessary mapping for this.
 
-  - name: int_netsuite2__tran_with_converted_amounts
+  - name: int_netsuite__transactions_with_converted_amounts
     description: >
       (Step 4/4) Now that we have the exchange rates and the unconverted amounts, the next step is 
-      to calculate the converted total. Additionally, we add in a couple of extra fields that will 
-      help us in our final balance sheet and income statement queries.
-            
-      Note: This is only applicable if you're using exchange rates. See the README for instructions
-      on how to disable exchange rates using the `netsuite2__using_exchange_rate` in your dbt_project.yml.
+      to calculate the converted total.
+      Additionally, we add in a couple of extra fields that will help us in our final balance sheet 
+      and income statement queries.
 
-  - name: netsuite2__balance_sheet
+  - name: netsuite__balance_sheet
     description: >
       The balance sheet query uses the transactions_with_converted_amount
       transformation to recreate all lines necessary for the balance sheet.
@@ -59,7 +55,6 @@ models:
             - transaction_id
             - accounting_period_id
             - account_name
-            - account_id
     columns:
     - name: transaction_id
       description: Netsuite internal transaction ID.
@@ -73,20 +68,20 @@ models:
       description: The unique identifier of the accounting period.
     - name: accounting_period_ending
       description: End date of the accounting period
+    - name: accounting_period_full_name
+      description: Accounting periods full name.
     - name: accounting_period_name
       description: Name of the accounting period.
     - name: is_accounting_period_adjustment
-      description: Boolean field, indicating whether or not the selecting accounting period is an adjustment period.
+      description: Yes/No field, indicating whether or not the selecting accounting period is an adjustment period.
     - name: is_accounting_period_closed
-      description: Boolean field, indicating whether or not the selecting accounting period is closed.
+      description: Yes/No field, indicating whether or not the selecting accounting period is closed.
     - name: account_category
       description: Category of the account.  Options include Asset, Liability, Equity, Expense or Income.
     - name: account_name
       description: Name of the account.
     - name: account_type_name
       description: The accounts type name.
-    - name: account_type_id
-      description: The unique identifier of the account type.
     - name: account_id
       description: The unique identifier of the account.
     - name: account_number
@@ -96,7 +91,7 @@ models:
     - name: balance_sheet_sort_helper
       description: Helper column for sorting balance sheet records.
 
-  - name: netsuite2__income_statement
+  - name: netsuite__income_statement
     description: >
       The income statement query uses the transactions_with_converted_amount transformation 
       to recreate all lines necessary for the income statement.  It also joins in class, 
@@ -121,18 +116,18 @@ models:
       description: The unique identifier of the accounting period.
     - name: accounting_period_ending
       description: End date of the accounting period.
+    - name: accounting_period_full_name
+      description: Accounting periods full name.
     - name: accounting_period_name
       description: Name of the accounting period.
     - name: is_accounting_period_adjustment
-      description: Boolean field, indicating whether or not the selected accounting period is an adjustment period.
+      description: Yes/No field, indicating whether or not the selecting accounting period is an adjustment period.
     - name: is_accounting_period_closed
-      description: Boolean field, indicating whether or not the selected accounting period is closed.
+      description: Yes/No field, indicating whether or not the selecting accounting period is closed.
     - name: account_name
       description: Name of the account.
     - name: account_type_name
       description: The accounts type name.
-    - name: account_type_id
-      description: The unique identifier of the account type.
     - name: account_id
       description: The unique identifier of the account.
     - name: account_number
@@ -158,7 +153,7 @@ models:
     - name: subsidiary_name
       description: Name of the subsidiary.
 
-  - name: netsuite2__transaction_details
+  - name: netsuite__transaction_details
     description: >
       This table uses Netsuite's core table, transaction_lines, and joins a handful of 
       other tables to add more detail to those line items.  For all transactions, you are 
@@ -177,7 +172,7 @@ models:
     - name: transaction_memo
       description: Memo associated with the transaction line.
     - name: is_transaction_non_posting
-      description: Boolean field, indicating whether or not the transaction line is non-posting.
+      description: Yes/No field, indicating whether or not the transaction line is non-posting.
     - name: transaction_id
       description: Netsuite internal transaction ID.
       tests:
@@ -190,40 +185,45 @@ models:
       description: Timestamp of the date which the transaction is due.
     - name: transaction_type
       description: Type identifier of the transaction.
-    - name: is_transaction_intercompany_adjustment
-      description: Boolean field, indicating whether or not the transaction is an intercompany transaction or an advanced intercompany transaction.
+    - name: is_transaction_intercompany
+      description: Yes/No field, indicating whether or not the transaction is an intercompany transaction or an advanced intercompany transaction.
     - name: accounting_period_ending
       description: End date of the accounting period.
+    - name: accounting_period_full_name
+      description: Full name of the accounting period.
     - name: accounting_period_name
       description: Name of the accounting period.
     - name: is_accounting_period_adjustment
-      description: Boolean field, indicating whether or not the selecting accounting period is an adjustment period.
+      description: Yes/No field, indicating whether or not the selecting accounting period is an adjustment period.
     - name: is_accounting_period_closed
-      description: Boolean field, indicating whether or not the selecting accounting period is closed.
+      description: Yes/No field, indicating whether or not the selecting accounting period is closed.
     - name: account_name
       description: Name of the account.
     - name: account_type_name
       description: The accounts type name.
-    - name: account_type_id
-      description: The unique identifier of the account type.
+      tests:
+        - accepted_values:
+            values: ['Accounts Receivable', 'Bank', 'Deferred Expense', 'Fixed Asset', 'Other Asset', 'Other Current Asset', 'Unbilled Receivable', 'Prepaid Expense', 'Cost of Goods Sold', 'Expense', 'Other Expense', 'Income', 'Other Income', 'Accounts Payable', 'Credit Card', 'Deferred Revenue', 'Long Term Liability', 'Other Current Liability', 'Equity', 'Retained Earnings', 'Net Income', 'Non Posting', 'Statistical']
+            config:
+              severity: warn
     - name: account_id
       description: Unique identifier of the account.
     - name: account_number
       description: Account number associated with the account.
     - name: is_account_leftside
-      description: Boolean field indicating whether or not the account is leftside.
+      description: Yes/No field indicating whether or not the account is leftside.
     - name: is_accounts_payable
-      description: Boolean field indicating whether or not the account type name includes 'accounts payable'.
+      description: Yes/No field indicating whether or not the account type name includes 'accounts payable'.
     - name: is_accounts_receivable
-      description: Boolean field indicating whether or not the account type name includes 'accounts receivable'.
+      description: Yes/No field indicating whether or not the account type name includes 'accounts receivable'.
     - name: is_account_intercompany
-      description: Boolean field indicating whether or not the account type name includes 'intercompany'.
+      description: Yes/No field indicating whether or not the account type name includes 'intercompany'.
     - name: parent_account_name
       description: Name of the parent account, if parent account relationship exists.  Otherwise, the name of the account.
     - name: is_income_account
-      description: Boolean field indicating whether or not the account is an income account.
+      description: Yes/No field indicating whether or not the account is an income account.
     - name: is_expense_account
-      description: Boolean field indicating whether or not the account is an expense account.
+      description: Yes/No field indicating whether or not the account is an expense account.
     - name: company_name
       description: Name of the company.
     - name: customer_city
@@ -252,8 +252,8 @@ models:
       description: City used as a location reference.
     - name: location_country
       description: Country used as a location reference.
-    - name: vendor_category_name
-      description: Category name of the vendor.
+    - name: vendor_type_name
+      description: Type name of the vendor.
     - name: vendor_name
       description: Name of the vendor.
     - name: vendor_create_date
