@@ -65,11 +65,11 @@ transactions_with_converted_amounts as (
       else false 
         end as is_income_statement,
     case
-      when lower(accounts.account_type_id) in ('acctrec', 'bank', 'deferexpense', 'fixedasset', 'othasset', 'othcurrasset', 'unbilledrec', 'prepaid expense') then 'asset' --prepaid???
+      when lower(accounts.account_type_id) in ('acctrec', 'bank', 'deferexpense', 'fixedasset', 'othasset', 'othcurrasset', 'unbilledrec') then 'asset'
       when lower(accounts.account_type_id) in ('cogs', 'expense', 'othexpense') then 'expense'
       when lower(accounts.account_type_id) in ('income', 'othincome') then 'income'
       when lower(accounts.account_type_id) in ('acctpay', 'credcard', 'deferrevenue', 'longtermliab', 'othcurrliab') then 'liability'
-      when lower(accounts.account_type_id) in ('equity', 'retained_earnings', 'net_income') then 'equity' --need to update where retained earnings and net income coming from
+      when lower(accounts.account_type_id) in ('equity', 'retained_earnings', 'net_income') then 'equity'
       when lower(accounts.account_type_id) in ('nonposting', 'stat') then 'other'
       else null 
         end as account_category

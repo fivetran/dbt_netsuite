@@ -85,7 +85,7 @@ balance_sheet as (
       when lower(accounts.account_type_id) = 'othcurrasset' then 4
       when lower(accounts.account_type_id) = 'fixedasset' then 5
       when lower(accounts.account_type_id) = 'othasset' then 6
-      when lower(accounts.account_type_id) in ('deferexpense', 'prepaid expense') then 7 --is 'prepaid expense' still relevant???
+      when lower(accounts.account_type_id) = 'deferexpense' then 7
       when lower(accounts.account_type_id) = 'acctpay' then 8
       when lower(accounts.account_type_id) = 'credcard' then 9
       when lower(accounts.account_type_id) = 'othcurrliab' then 10
