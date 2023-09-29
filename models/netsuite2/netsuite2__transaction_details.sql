@@ -111,6 +111,8 @@ transaction_details as (
     accounts.is_leftside as is_account_leftside,
     lower(accounts.account_type_id) = 'acctpay' as is_accounts_payable,
     lower(accounts.account_type_id) = 'acctrec' as is_accounts_receivable,
+    accounts.eliminate,
+    accounts.eliminate = 'T' as is_account_intercompany2,
     lower(accounts.name) like '%intercompany%' as is_account_intercompany,
     coalesce(parent_account.name, accounts.name) as parent_account_name,
     lower(accounts.account_type_id) in ('expense', 'othexpense', 'deferexpense') as is_expense_account, -- includes deferred expense

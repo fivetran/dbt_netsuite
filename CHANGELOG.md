@@ -1,12 +1,38 @@
 # dbt_netsuite v0.10.0
 [PR #84](https://github.com/fivetran/dbt_netsuite/pull/84)includes the following updates:
 ## 🚨 Breaking Changes 🚨
-- Updated the following models to reference `account_type_id` instead of `type_name`:
+- For **Netsuite2**: updated the following models to reference `account_type_id` instead of `type_name`:
   - int_netsuite2__tran_with_converted_amounts
   - netsuite2__balance_sheet
   - netsuite2__income_statement
   - netsuite2__transaction_details
-- This change was implemented because `type_name` was previously utilized to categorize records, which was causing issues for users that customized the `type_name` values. Utilizing the unique identifier `account_type_id` instead produces more accurate results in the final models.
+- The above change was implemented for Netsuite2 because `type_name` was previously utilized to categorize records, which was causing issues for users that customized the `type_name` values. Utilizing the unique identifier `account_type_id` instead produces more accurate results in the final models. Below is a list of the account type name and type id pairings used:
+
+<center>
+
+Type Name |	Type ID
+---- | ----
+Accounts Receivable | AcctRec
+Accounts Payable | AcctPay
+Bank | Bank
+Cost of Goods Sold | COGS
+Credit Card | CredCard
+Deferred Expense | DeferExpense
+Deferred Revenue | DeferRevenue
+Equity | Equity
+Expense | Expense
+Fixed Asset | FixedAsset
+Income | Income
+Long Term Liabilit | LongTermLiab
+Non Posting | NonPosting
+Other Asset | OthAsset
+Other Current Asset | OthCurrAsset
+Other Current Liability | OthCurrLiab
+Other Expense | OthExpense
+Other Income | OthIncome
+Statistical | Stat
+Unbilled Receivable | UnbilledRec
+</center>
 
 ## Under the Hood
 - Removed `accepted_values` test from column `account_type_names` in model `netsuite2__transaction_details` since logic is now based on `account_type_id` instead, and type names can be changed by the user.
