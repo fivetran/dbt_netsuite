@@ -25,7 +25,6 @@ consolidated_exchange_rates as (
 period_exchange_rate_map as ( -- exchange rates used, by accounting period, to convert to parent subsidiary
   select
     consolidated_exchange_rates.accounting_period_id,
-    consolidated_exchange_rates.accounting_book_id,
     consolidated_exchange_rates.average_rate,
     consolidated_exchange_rates.current_rate,
     consolidated_exchange_rates.historical_rate,
@@ -42,7 +41,6 @@ period_exchange_rate_map as ( -- exchange rates used, by accounting period, to c
 accountxperiod_exchange_rate_map as ( -- account table with exchange rate details by accounting period
   select
     period_exchange_rate_map.accounting_period_id,
-    period_exchange_rate_map.accounting_book_id,
     period_exchange_rate_map.from_subsidiary_id,
     period_exchange_rate_map.to_subsidiary_id,
     accounts.account_id,
