@@ -29,7 +29,6 @@ transactions_in_every_calculation_period_w_exchange_rates as (
     
     {% if var('netsuite2__using_exchange_rate', true) %}
     , exchange_reporting_period.exchange_rate as exchange_rate_reporting_period
-    , exchange_transaction_period.accounting_book_id as accounting_book_id
     , exchange_transaction_period.exchange_rate as exchange_rate_transaction_period
     {% endif %}
 
