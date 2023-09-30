@@ -104,6 +104,7 @@ income_statement as (
     join transaction_lines as transaction_lines
         on transaction_lines.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
             and transaction_lines.transaction_id = transactions_with_converted_amounts.transaction_id
+            and transaction_lines.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
 
     left join departments 
         on departments.department_id = transaction_lines.department_id
@@ -128,6 +129,7 @@ income_statement as (
     join transaction_details
         on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
         and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
+        and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
     {% endif %}
 
     where reporting_accounting_periods.fiscal_calendar_id  = (select fiscal_calendar_id from subsidiaries where parent_id is null)
