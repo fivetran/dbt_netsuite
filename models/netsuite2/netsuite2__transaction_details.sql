@@ -113,7 +113,7 @@ transaction_details as (
     lower(accounts.account_type_id) = 'acctrec' as is_accounts_receivable,
     lower(accounts.name) like '%intercompany%' as is_account_intercompany,
     coalesce(parent_account.name, accounts.name) as parent_account_name,
-    lower(accounts.account_type_id) in ('expense', 'othexpense', 'deferexpense') as is_expense_account, -- includes deferred expense
+    lower(accounts.account_type_id) in ('expense', 'othexpense', 'deferexpense') as is_expense_account,
     lower(accounts.account_type_id) in ('income', 'othincome') as is_income_account,
     customers.company_name,
     customers.city as customer_city,
