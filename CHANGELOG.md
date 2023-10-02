@@ -1,5 +1,5 @@
 # dbt_netsuite v0.10.0
-[PR #84](https://github.com/fivetran/dbt_netsuite/pull/84)includes the following updates:
+[PR #84](https://github.com/fivetran/dbt_netsuite/pull/84) includes the following updates:
 ## 🚨 Breaking Changes 🚨
 - For **Netsuite2**: updated the following models to reference `account_type_id` instead of `type_name`:
   - int_netsuite2__tran_with_converted_amounts
