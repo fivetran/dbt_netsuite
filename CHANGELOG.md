@@ -8,8 +8,6 @@
   - netsuite2__transaction_details
 - The above change was implemented for Netsuite2 because `type_name` was previously utilized to categorize records, which was causing issues for users that customized the `type_name` values. Utilizing the unique identifier `account_type_id` instead produces more accurate results in the final models. Below is a list of the account type name and type id pairings used (list also found [here](https://blog.prolecto.com/2013/09/10/netsuite-searchfilter-internal-account-type-codes/)):
 
-<center>
-
 Type Name |	Type ID
 ---- | ----
 Accounts Receivable | AcctRec
@@ -23,7 +21,7 @@ Equity | Equity
 Expense | Expense
 Fixed Asset | FixedAsset
 Income | Income
-Long Term Liabilit | LongTermLiab
+Long Term Liability | LongTermLiab
 Non Posting | NonPosting
 Other Asset | OthAsset
 Other Current Asset | OthCurrAsset
@@ -32,7 +30,13 @@ Other Expense | OthExpense
 Other Income | OthIncome
 Statistical | Stat
 Unbilled Receivable | UnbilledRec
-</center>
+
+- We also added the following `account_type_id` values for use in model `netsuite2__balance_sheet` and its downstream models:
+
+account_type_name |	account_type_id
+---- | ----
+Net Income | net_income
+Retained Earnings | retained_earnings
 
 ## Under the Hood
 - Removed `accepted_values` test from column `account_type_names` in model `netsuite2__transaction_details` since logic is now based on `account_type_id` instead, and type names can be changed by the user.
