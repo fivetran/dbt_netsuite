@@ -110,6 +110,7 @@ balance_sheet as (
   left join transaction_details
     on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
       and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
+      and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
   {% endif %}
 
 
@@ -170,6 +171,7 @@ balance_sheet as (
   left join transaction_details
     on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
       and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
+      and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
   {% endif %}
 
   left join accounts
