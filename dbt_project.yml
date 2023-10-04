@@ -57,10 +57,12 @@ vars:
     netsuite2_transactions: "{{ ref('stg_netsuite2__transactions') }}"
     netsuite2_vendor_categories: "{{ ref('stg_netsuite2__vendor_categories') }}"
     netsuite2_vendors: "{{ ref('stg_netsuite2__vendors') }}"
-    accounts_pass_through_columns: []
+    accounts_pass_through_columns:
+      - name: "special_account_type_id"
+        alias: "special_account_type_id"
     classes_pass_through_columns: []
     departments_pass_through_columns: []
     transactions_pass_through_columns: []
     transaction_lines_pass_through_columns: []
-    balance_sheet_transaction_detail_columns: []
+    balance_sheet_transaction_detail_columns: [subsidiary_id, subsidiary_name]
     income_statement_transaction_detail_columns: []
