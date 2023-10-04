@@ -60,6 +60,7 @@ income_statement as (
         reporting_accounting_periods.is_closed as is_accounting_period_closed,
         accounts.name as account_name,
         accounts.type_name as account_type_name,
+        accounts.account_type_id,
         accounts.account_id as account_id,
         accounts.account_number,
         subsidiaries.subsidiary_id,
@@ -82,11 +83,11 @@ income_statement as (
         {{ fivetran_utils.persist_pass_through_columns('departments_pass_through_columns', identifier='departments') }},
 
         transactions_with_converted_amounts.account_category as account_category,
-        case when lower(accounts.type_name) = 'income' then 1
-            when lower(accounts.type_name) = 'cost of goods sold' then 2
-            when lower(accounts.type_name) = 'expense' then 3
-            when lower(accounts.type_name) = 'other income' then 4
-            when lower(accounts.type_name) = 'other expense' then 5
+        case when lower(accounts.account_type_id) = 'income' then 1
+            when lower(accounts.account_type_id) = 'cogs' then 2
+            when lower(accounts.account_type_id) = 'expense' then 3
+            when lower(accounts.account_type_id) = 'othincome' then 4
+            when lower(accounts.account_type_id) = 'othexpense' then 5
             else null
             end as income_statement_sort_helper
 

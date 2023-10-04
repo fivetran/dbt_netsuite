@@ -102,6 +102,7 @@ transaction_details as (
     accounting_periods.is_closed as is_accounting_period_closed,
     accounts.name as account_name,
     accounts.type_name as account_type_name,
+    accounts.account_type_id,
     accounts.account_id as account_id,
     accounts.account_number
 
@@ -109,12 +110,12 @@ transaction_details as (
     {{ fivetran_utils.persist_pass_through_columns('accounts_pass_through_columns', identifier='accounts') }},
 
     accounts.is_leftside as is_account_leftside,
-    lower(accounts.type_name) like 'accounts payable%' as is_accounts_payable,
-    lower(accounts.type_name) like 'accounts receivable%' as is_accounts_receivable,
+    lower(accounts.account_type_id) = 'acctpay' as is_accounts_payable,
+    lower(accounts.account_type_id) = 'acctrec' as is_accounts_receivable,
     lower(accounts.name) like '%intercompany%' as is_account_intercompany,
     coalesce(parent_account.name, accounts.name) as parent_account_name,
-    lower(accounts.type_name) like '%expense' as is_expense_account, -- includes deferred expense
-    lower(accounts.type_name) like '%income' as is_income_account,
+    lower(accounts.account_type_id) in ('expense', 'othexpense', 'deferexpense') as is_expense_account,
+    lower(accounts.account_type_id) in ('income', 'othincome') as is_income_account,
     customers.company_name,
     customers.city as customer_city,
     customers.state as customer_state,
@@ -144,11 +145,11 @@ transaction_details as (
     subsidiaries.subsidiary_id,
     subsidiaries.name as subsidiary_name,
     case
-      when lower(accounts.type_name) = 'income' or lower(accounts.type_name) = 'other income' then -converted_amount_using_transaction_accounting_period
+      when lower(accounts.account_type_id) in ('income', 'othincome') then -converted_amount_using_transaction_accounting_period
       else converted_amount_using_transaction_accounting_period
         end as converted_amount,
     case
-      when lower(accounts.type_name) = 'income' or lower(accounts.type_name) = 'other income' then -transaction_lines.amount
+      when lower(accounts.account_type_id) in ('income', 'othincome') then -transaction_lines.amount
       else transaction_lines.amount
         end as transaction_amount
   from transaction_lines
