@@ -1,5 +1,5 @@
 packages:
 #- package: fivetran/netsuite_source
 #  version: [">=0.7.0", "<0.8.0"]
-  - git: "git@github.com:LyraHealth/dbt_netsuite_source_fork.git"
+  - git: "https://github.com/LyraHealth/dbt_netsuite_source_fork.git"
     warn-unpinned: false
