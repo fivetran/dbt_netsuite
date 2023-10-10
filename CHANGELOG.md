@@ -7,6 +7,9 @@
   - Historical and average rates now convert amounts into the `converted_amount_using_transaction_accounting_period`. Otherwise, it looks at `converted_amount_using_reporting_month`.
   - The `is_leftside` logic is added to make sure debit values are properly assigned as negative converted values if false and positive if true.
 
+## Contributors
+- [@jmongerlyra](https://github.com/jmongerlyra) ([#75](https://github.com/fivetran/dbt_netsuite/issues/75))
+
 # dbt_netsuite v0.9.0
 
 [PR #74](https://github.com/fivetran/dbt_netsuite/pull/74) includes the following updates:
