@@ -10,6 +10,49 @@
 
 ## Contributors
 - [@jmongerlyra](https://github.com/jmongerlyra) ([#75](https://github.com/fivetran/dbt_netsuite/issues/75))
+# dbt_netsuite v0.10.0
+[PR #84](https://github.com/fivetran/dbt_netsuite/pull/84) includes the following updates:
+## 🚨 Breaking Changes 🚨
+- For **Netsuite2**: updated the following models to reference `account_type_id` instead of `type_name`:
+  - int_netsuite2__tran_with_converted_amounts
+  - netsuite2__balance_sheet
+  - netsuite2__income_statement
+  - netsuite2__transaction_details
+- The above change was implemented for Netsuite2 because `type_name` was previously utilized to categorize records, which was causing issues for users that customized the `type_name` values. Utilizing the unique identifier `account_type_id` instead produces more accurate results in the final models. Below is a list of the account type name and type id pairings used (list also found [here](https://blog.prolecto.com/2013/09/10/netsuite-searchfilter-internal-account-type-codes/)):
+
+Type Name |	Type ID
+---- | ----
+Accounts Receivable | AcctRec
+Accounts Payable | AcctPay
+Bank | Bank
+Cost of Goods Sold | COGS
+Credit Card | CredCard
+Deferred Expense | DeferExpense
+Deferred Revenue | DeferRevenue
+Equity | Equity
+Expense | Expense
+Fixed Asset | FixedAsset
+Income | Income
+Long Term Liability | LongTermLiab
+Non Posting | NonPosting
+Other Asset | OthAsset
+Other Current Asset | OthCurrAsset
+Other Current Liability | OthCurrLiab
+Other Expense | OthExpense
+Other Income | OthIncome
+Statistical | Stat
+Unbilled Receivable | UnbilledRec
+
+- We also added the following `account_type_id` values for use in model `netsuite2__balance_sheet` and its downstream models:
+
+account_type_name |	account_type_id
+---- | ----
+Net Income | net_income
+Retained Earnings | retained_earnings
+
+## Under the Hood
+- Removed `accepted_values` test from column `account_type_names` in model `netsuite2__transaction_details` since logic is now based on `account_type_id` instead, and type names can be changed by the user.
+- Updated documents with descriptions for `account_type_id`
 
 # dbt_netsuite v0.9.0
 

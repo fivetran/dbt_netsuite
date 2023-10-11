@@ -53,6 +53,13 @@ balance_sheet as (
       else accounts.type_name
         end as account_type_name,
     case
+      when (not accounts.is_balancesheet 
+            and {{ dbt.date_trunc('year', 'reporting_accounting_periods.starting_at') }} = {{ dbt.date_trunc('year', 'transaction_accounting_periods.starting_at') }} 
+            and reporting_accounting_periods.fiscal_calendar_id = transaction_accounting_periods.fiscal_calendar_id) then 'net_income'
+      when not accounts.is_balancesheet then 'retained_earnings'
+      else accounts.account_type_id
+        end as account_type_id,
+    case
       when not accounts.is_balancesheet then null
       else accounts.account_id
         end as account_id,
@@ -75,19 +82,19 @@ balance_sheet as (
         end as converted_amount,
 
     case
-      when lower(accounts.type_name) = 'bank' then 1
-      when lower(accounts.type_name) = 'accounts receivable' then 2
-      when lower(accounts.type_name) = 'unbilled receivable' then 3
-      when lower(accounts.type_name) = 'other current asset' then 4
-      when lower(accounts.type_name) = 'fixed asset' then 5
-      when lower(accounts.type_name) = 'other asset' then 6
-      when lower(accounts.type_name) in ('deferred expense', 'prepaid expense') then 7
-      when lower(accounts.type_name) = 'accounts payable' then 8
-      when lower(accounts.type_name) = 'credit card' then 9
-      when lower(accounts.type_name) = 'other current liability' then 10
-      when lower(accounts.type_name) = 'long term liability' then 11
-      when lower(accounts.type_name) = 'deferred revenue' then 12
-      when lower(accounts.type_name) = 'equity' then 13
+      when lower(accounts.account_type_id) = 'bank' then 1
+      when lower(accounts.account_type_id) = 'acctrec' then 2
+      when lower(accounts.account_type_id) = 'unbilledrec' then 3
+      when lower(accounts.account_type_id) = 'othcurrasset' then 4
+      when lower(accounts.account_type_id) = 'fixedasset' then 5
+      when lower(accounts.account_type_id) = 'othasset' then 6
+      when lower(accounts.account_type_id) = 'deferexpense' then 7
+      when lower(accounts.account_type_id) = 'acctpay' then 8
+      when lower(accounts.account_type_id) = 'credcard' then 9
+      when lower(accounts.account_type_id) = 'othcurrliab' then 10
+      when lower(accounts.account_type_id) = 'longtermliab' then 11
+      when lower(accounts.account_type_id) = 'deferrevenue' then 12
+      when lower(accounts.account_type_id) = 'equity' then 13
       when (not accounts.is_balancesheet 
             and {{ dbt.date_trunc('year', 'reporting_accounting_periods.starting_at') }} = {{ dbt.date_trunc('year', 'transaction_accounting_periods.starting_at') }} 
             and reporting_accounting_periods.fiscal_calendar_id = transaction_accounting_periods.fiscal_calendar_id) then 15
@@ -139,6 +146,7 @@ balance_sheet as (
     'Equity' as account_category,
     'Cumulative Translation Adjustment' as account_name,
     'Cumulative Translation Adjustment' as account_type_name,
+    'cumulative_translation_adjustment' as account_type_id,
     null as account_id,
     null as account_number,
 
