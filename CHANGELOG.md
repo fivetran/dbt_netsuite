@@ -1,11 +1,12 @@
-# dbt_netsuite v0.RELEASE.RELEASE
-[PR #78](https://github.com/fivetran/dbt_netsuite/pull/78) includes the following updates:
+# dbt_netsuite v0.11.0
 
 ## 🐛 Bug Fixes 🩹
-- Adjusted our translation rate logic to calculate `converted_amount` in `netsuite__balance_sheet` and `netsuite2__balance_sheet`. 
+- Adjusted our translation rate logic to calculate `converted_amount` in `netsuite__balance_sheet` and `netsuite2__balance_sheet`. ([PR #78](https://github.com/fivetran/dbt_netsuite/pull/78))
   - The logic is adjusted so we examine the `general_rate_type` rather than `account_category`, as is intended by Netsuite definitions.
   - Historical and average rates now convert amounts into the `converted_amount_using_transaction_accounting_period`. Otherwise, it looks at `converted_amount_using_reporting_month`.
   - The `is_leftside` logic is added to make sure debit values are properly assigned as negative converted values if false and positive if true.
+- Modified the Cumulative Translation Adjustment calculation within the `netsuite2__balance_sheet` model to be built upon referencing that the general_rate_type is either `historical` or `average` as opposed to checking that the account_category is `equity`.
+  - This update more accurately reflects the behavior of how the Cumulative Translation Adjustment should be calculated. The `equity` check was not as robust as had an opportunity to generate an incorrect value. 
 
 ## Contributors
 - [@jmongerlyra](https://github.com/jmongerlyra) ([#75](https://github.com/fivetran/dbt_netsuite/issues/75))

@@ -149,7 +149,7 @@ balance_sheet as (
     {% endif %}
 
     case
-      when lower(account_category) = 'equity' or is_income_statement then converted_amount_using_transaction_accounting_period
+      when lower(accounts.general_rate_type) in ('historical', 'average') then converted_amount_using_transaction_accounting_period
       else converted_amount_using_reporting_month
         end as converted_amount,
     16 as balance_sheet_sort_helper
