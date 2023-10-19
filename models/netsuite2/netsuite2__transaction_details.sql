@@ -81,6 +81,8 @@ transaction_details as (
   select
     transactions_with_converted_amounts.accounting_book_id,
     transactions_with_converted_amounts.to_subsidiary_id,
+    transactions_with_converted_amounts.to_subsidiary_name,
+    transactions_with_converted_amounts.to_subsidiary_currency_symbol,
     transaction_lines.transaction_line_id,
     transaction_lines.memo as transaction_memo,
     not transaction_lines.is_posting as is_transaction_non_posting,

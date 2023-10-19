@@ -31,6 +31,8 @@ transactions_in_every_calculation_period_w_exchange_rates as (
     , exchange_reporting_period.exchange_rate as exchange_rate_reporting_period
     , exchange_transaction_period.exchange_rate as exchange_rate_transaction_period
     , exchange_reporting_period.to_subsidiary_id
+    , exchange_reporting_period.to_subsidiary_name
+    , exchange_reporting_period.to_subsidiary_currency_symbol
     {% endif %}
 
   from transaction_lines_w_accounting_period
