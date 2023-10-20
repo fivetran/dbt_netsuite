@@ -12,6 +12,11 @@ transaction_accounting_lines as (
     from {{ var('netsuite2_transaction_accounting_lines') }}
 ),
 
+accounting_books as (
+    select * 
+    from   {{ var('netsuite2_accounting_books') }}
+),
+
 joined as (
 
     select 
@@ -28,6 +33,8 @@ joined as (
     left join transaction_accounting_lines
         on transaction_lines.transaction_line_id = transaction_accounting_lines.transaction_line_id
         and transaction_lines.transaction_id = transaction_accounting_lines.transaction_id
+
+    where transaction_accounting_lines.accounting_book_id in (select accounting_book_id from accounting_books where is_primary)
 )
 
 select *
