@@ -85,7 +85,7 @@ balance_sheet as (
       when accounts.is_balancesheet and accounts.is_leftside then converted_amount_using_reporting_month
       else 0
         end as converted_amount,
-    
+
     case
       when lower(accounts.account_type_id) = 'bank' then 1
       when lower(accounts.account_type_id) = 'acctrec' then 2
