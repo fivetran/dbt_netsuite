@@ -134,6 +134,7 @@ income_statement as (
         on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
         and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
         and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
+        and transaction_details.to_subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
     {% endif %}
 
     where reporting_accounting_periods.fiscal_calendar_id  = (select fiscal_calendar_id from subsidiaries where parent_id is null)
