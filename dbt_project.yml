@@ -62,7 +62,11 @@ vars:
         alias: "special_account_type_id"
     classes_pass_through_columns: []
     departments_pass_through_columns: []
-    transactions_pass_through_columns: []
+    transactions_pass_through_columns:
+      - name: "lyra_subledger"
+        alias: "lyra_subledger"
+      - name: "lyra_subledger_id"
+        alias: "lyra_subledger_id"
     transaction_lines_pass_through_columns: []
     balance_sheet_transaction_detail_columns: [subsidiary_id, subsidiary_name]
-    income_statement_transaction_detail_columns: []
+    income_statement_transaction_detail_columns: [lyra_subledger, lyra_subledger_id]
