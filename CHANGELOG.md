@@ -1,3 +1,9 @@
+# dbt_netsuite v0.12.0
+
+## Contributors:
+- [@jmongerlyra](https://github.com/jmongerlyra) ([#90](https://github.com/fivetran/dbt_netsuite/issues/90))
+- [@rwang-lyra](https://github.com/rwang-lyra ) ([#90](https://github.com/fivetran/dbt_netsuite/issues/90))
+
 # dbt_netsuite v0.11.0
 
 ## 🚨 Breaking Changes 🚨:

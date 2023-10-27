@@ -35,9 +35,13 @@ balance_sheet as (
     transactions_with_converted_amounts.subsidiary_id,
     subsidiaries.name as subsidiary_name,
     transactions_with_converted_amounts.accounting_book_id,
+    
+    {% if var('netsuite2__using_exchange_rate', true) %}
     transactions_with_converted_amounts.to_subsidiary_id,
     transactions_with_converted_amounts.to_subsidiary_name,
     transactions_with_converted_amounts.to_subsidiary_currency_symbol,
+    {% endif %}
+    
     reporting_accounting_periods.accounting_period_id as accounting_period_id,
     reporting_accounting_periods.ending_at as accounting_period_ending,
     reporting_accounting_periods.name as accounting_period_name,
