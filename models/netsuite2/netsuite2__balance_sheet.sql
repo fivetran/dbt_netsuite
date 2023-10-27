@@ -32,6 +32,10 @@ balance_sheet as (
   select
     transactions_with_converted_amounts.transaction_id,
     transactions_with_converted_amounts.transaction_line_id,
+    transactions_with_converted_amounts.accounting_book_id,
+    transactions_with_converted_amounts.to_subsidiary_id,
+    transactions_with_converted_amounts.to_subsidiary_name,
+    transactions_with_converted_amounts.to_subsidiary_currency_symbol,
     reporting_accounting_periods.accounting_period_id as accounting_period_id,
     reporting_accounting_periods.ending_at as accounting_period_ending,
     reporting_accounting_periods.name as accounting_period_name,
@@ -50,6 +54,8 @@ balance_sheet as (
             and {{ dbt.date_trunc('year', 'reporting_accounting_periods.starting_at') }} = {{ dbt.date_trunc('year', 'transaction_accounting_periods.starting_at') }} 
             and reporting_accounting_periods.fiscal_calendar_id = transaction_accounting_periods.fiscal_calendar_id) then 'Net Income'
       when not accounts.is_balancesheet then 'Retained Earnings'
+      when lower(accounts.special_account_type_id) = 'retearnings' then 'Retained Earnings'
+      when lower(accounts.special_account_type_id) IN ('cta-e', 'cumultransadj') then 'Cumulative Translation Adjustment'
       else accounts.type_name
         end as account_type_name,
     case
@@ -57,6 +63,8 @@ balance_sheet as (
             and {{ dbt.date_trunc('year', 'reporting_accounting_periods.starting_at') }} = {{ dbt.date_trunc('year', 'transaction_accounting_periods.starting_at') }} 
             and reporting_accounting_periods.fiscal_calendar_id = transaction_accounting_periods.fiscal_calendar_id) then 'net_income'
       when not accounts.is_balancesheet then 'retained_earnings'
+      when lower(accounts.special_account_type_id) = 'retearnings' then 'retained_earnings'
+      when lower(accounts.special_account_type_id) IN ('cta-e', 'cumultransadj') then 'cumulative_translation_adjustment'
       else accounts.account_type_id
         end as account_type_id,
     case
@@ -94,6 +102,8 @@ balance_sheet as (
       when lower(accounts.account_type_id) = 'othcurrliab' then 10
       when lower(accounts.account_type_id) = 'longtermliab' then 11
       when lower(accounts.account_type_id) = 'deferrevenue' then 12
+      when lower(accounts.special_account_type_id) = 'retearnings' then 14
+      when lower(accounts.special_account_type_id) IN ('cta-e', 'cumultransadj') then 16
       when lower(accounts.account_type_id) = 'equity' then 13
       when (not accounts.is_balancesheet 
             and {{ dbt.date_trunc('year', 'reporting_accounting_periods.starting_at') }} = {{ dbt.date_trunc('year', 'transaction_accounting_periods.starting_at') }} 
@@ -116,6 +126,8 @@ balance_sheet as (
   left join transaction_details
     on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
       and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
+      and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
+      and transaction_details.to_subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
   {% endif %}
 
 
@@ -138,6 +150,10 @@ balance_sheet as (
   select
     transactions_with_converted_amounts.transaction_id,
     transactions_with_converted_amounts.transaction_line_id,
+    transactions_with_converted_amounts.accounting_book_id,
+    transactions_with_converted_amounts.to_subsidiary_id,
+    transactions_with_converted_amounts.to_subsidiary_name,
+    transactions_with_converted_amounts.to_subsidiary_currency_symbol,
     reporting_accounting_periods.accounting_period_id as accounting_period_id,
     reporting_accounting_periods.ending_at as accounting_period_ending,
     reporting_accounting_periods.name as accounting_period_name,
@@ -176,6 +192,8 @@ balance_sheet as (
   left join transaction_details
     on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
       and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
+      and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
+      and transaction_details.to_subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
   {% endif %}
 
   left join accounts

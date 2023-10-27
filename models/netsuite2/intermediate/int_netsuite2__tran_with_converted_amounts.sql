@@ -30,6 +30,9 @@ transactions_in_every_calculation_period_w_exchange_rates as (
     {% if var('netsuite2__using_exchange_rate', true) %}
     , exchange_reporting_period.exchange_rate as exchange_rate_reporting_period
     , exchange_transaction_period.exchange_rate as exchange_rate_transaction_period
+    , exchange_reporting_period.to_subsidiary_id
+    , exchange_reporting_period.to_subsidiary_name
+    , exchange_reporting_period.to_subsidiary_currency_symbol
     {% endif %}
 
   from transaction_lines_w_accounting_period
@@ -42,11 +45,14 @@ transactions_in_every_calculation_period_w_exchange_rates as (
     on exchange_reporting_period.accounting_period_id = transaction_and_reporting_periods.reporting_accounting_period_id
       and exchange_reporting_period.account_id = transaction_lines_w_accounting_period.account_id
       and exchange_reporting_period.from_subsidiary_id = transaction_lines_w_accounting_period.subsidiary_id
+      and exchange_reporting_period.accounting_book_id = transaction_lines_w_accounting_period.accounting_book_id
       
   left join accountxperiod_exchange_rate_map as exchange_transaction_period
     on exchange_transaction_period.accounting_period_id = transaction_and_reporting_periods.accounting_period_id
       and exchange_transaction_period.account_id = transaction_lines_w_accounting_period.account_id
       and exchange_transaction_period.from_subsidiary_id = transaction_lines_w_accounting_period.subsidiary_id
+      and exchange_transaction_period.accounting_book_id = transaction_lines_w_accounting_period.accounting_book_id
+      and exchange_transaction_period.to_subsidiary_id = exchange_reporting_period.to_subsidiary_id
   {% endif %}
 ), 
 
