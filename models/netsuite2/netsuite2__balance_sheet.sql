@@ -32,6 +32,8 @@ balance_sheet as (
   select
     transactions_with_converted_amounts.transaction_id,
     transactions_with_converted_amounts.transaction_line_id,
+    transactions_with_converted_amounts.subsidiary_id,
+    subsidiaries.name as subsidiary_name,
     transactions_with_converted_amounts.accounting_book_id,
     transactions_with_converted_amounts.to_subsidiary_id,
     transactions_with_converted_amounts.to_subsidiary_name,
@@ -140,6 +142,9 @@ balance_sheet as (
   left join accounting_periods as transaction_accounting_periods 
     on transaction_accounting_periods.accounting_period_id = transactions_with_converted_amounts.transaction_accounting_period_id
 
+  left join subsidiaries
+    on subsidiaries.subsidiary_id = transactions_with_converted_amounts.subsidiary_id
+
   where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
     and transaction_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
     and (accounts.is_balancesheet
@@ -150,6 +155,8 @@ balance_sheet as (
   select
     transactions_with_converted_amounts.transaction_id,
     transactions_with_converted_amounts.transaction_line_id,
+    transactions_with_converted_amounts.subsidiary_id,
+    subsidiaries.name as subsidiary_name,
     transactions_with_converted_amounts.accounting_book_id,
     transactions_with_converted_amounts.to_subsidiary_id,
     transactions_with_converted_amounts.to_subsidiary_name,
@@ -201,7 +208,10 @@ balance_sheet as (
 
   left join accounting_periods as reporting_accounting_periods 
     on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
-    
+
+  left join subsidiaries
+    on subsidiaries.subsidiary_id = transactions_with_converted_amounts.subsidiary_id
+
   where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
     and (accounts.is_balancesheet
       or transactions_with_converted_amounts.is_income_statement)
