@@ -95,6 +95,18 @@ models:
       description: Transaction amount, converted into the primary subsidiary's default currency.
     - name: balance_sheet_sort_helper
       description: Helper column for sorting balance sheet records.
+    - name: subsidiary_id
+      description: "{{ doc('subsidiary_id') }}"
+    - name: subsidiary_name
+      description: Name of the subsidiary.
+    - name: accounting_book_id
+      description: The unique identifier od the accounting book.
+    - name: to_subsidiary_id
+      description: The subsidiary id which the consolidated exchange rate is for.
+    - name: to_subsidiary_name
+      description: The subsidiary name which the consolidated exchange rate is for.
+    - name: to_subsidiary_currency_symbol
+      description: Currency symbol for the consolidated exchange rate.
 
   - name: netsuite2__income_statement
     description: >
@@ -157,6 +169,14 @@ models:
       description: The full name of the subsidiary.
     - name: subsidiary_name
       description: Name of the subsidiary.
+    - name: accounting_book_id
+      description: The unique identifier od the accounting book.
+    - name: to_subsidiary_id
+      description: The subsidiary id which the consolidated exchange rate is for.
+    - name: to_subsidiary_name
+      description: The subsidiary name which the consolidated exchange rate is for.
+    - name: to_subsidiary_currency_symbol
+      description: Currency symbol for the consolidated exchange rate.
 
   - name: netsuite2__transaction_details
     description: >
@@ -270,3 +290,13 @@ models:
       description: Transaction amount, converted into the primary subsidiary's default currency.
     - name: transaction_amount
       description: Total amount of the transaction line.
+    - name: subsidiary_id
+      description: The unique identifier of the subsidiary.
+    - name: accounting_book_id
+      description: The unique identifier od the accounting book.
+    - name: to_subsidiary_id
+      description: The subsidiary id which the consolidated exchange rate is for.
+    - name: to_subsidiary_name
+      description: The subsidiary name which the consolidated exchange rate is for.
+    - name: to_subsidiary_currency_symbol
+      description: Currency symbol for the consolidated exchange rate.
