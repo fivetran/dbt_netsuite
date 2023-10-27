@@ -12,11 +12,13 @@ transaction_accounting_lines as (
     from {{ var('netsuite2_transaction_accounting_lines') }}
 ),
 
+{% if var('netsuite2__multibook_accounting_enabled', true) %}
 accounting_books as (
 
     select *
     from {{ var('netsuite2_accounting_books') }}
-),
+), 
+{% endif %}
 
 joined as (
 
@@ -36,7 +38,7 @@ joined as (
         on transaction_lines.transaction_line_id = transaction_accounting_lines.transaction_line_id
         and transaction_lines.transaction_id = transaction_accounting_lines.transaction_id
 
-  {% if var('netsuite2__multibook_accounting_enabled', true) %}
+    {% if var('netsuite2__multibook_accounting_enabled', true) %}
     union all
 
     select
@@ -57,7 +59,7 @@ joined as (
     left join accounting_books
         on accounting_books.base_book_id = transaction_accounting_lines.accounting_book_id
     where accounting_books.base_book_id is not null
-  {% endif %}
+    {% endif %}
 
 )
 
