@@ -80,6 +80,7 @@ entities as (
 transaction_details as (
   select
     transactions_with_converted_amounts.accounting_book_id,
+    transactions_with_converted_amounts.accounting_book_name,
     transactions_with_converted_amounts.to_subsidiary_id,
     transactions_with_converted_amounts.to_subsidiary_name,
     transactions_with_converted_amounts.to_subsidiary_currency_symbol,
