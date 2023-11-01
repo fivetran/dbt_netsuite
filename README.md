@@ -30,6 +30,8 @@ The following table provides a detailed list of all models materialized within t
 | [netsuite__transaction_details](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite__transaction_details) or [netsuite2__transaction_details](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__transaction_details)             | All transactions with the associated accounting period, account and subsidiary information. Where applicable, you can also see data about the customer, location, item, vendor, and department. |
 | [netsuite__income_statement](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite__income_statement) or [netsuite2__income_statement](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__income_statement)             | All transaction lines necessary to generate an income statement (converted for the appropriate exchange rate of the parent subsidiary). Department, class, and location information are included for additional reporting functionality. |
 | [netsuite__balance_sheet](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite__balance_sheet) or [netsuite2__balance_sheet](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__balance_sheet)            | All transaction lines necessary to generate a balance sheet (converted for the appropriate exchange rate of the parent subsidiary). Non balance sheet transactions are categorized as either Retained Earnings or Net Income. |
+
+Many of the above reports are now configurable for [visualization via Streamlit](https://github.com/fivetran/streamlit_netsuite)! Check out some [sample reports here](https://fivetran-netsuite.streamlit.app/).
 <!--section-end-->
 
 
@@ -208,7 +210,12 @@ This package is designed to run **either** the Netsuite.com or Netsuite2 data mo
 
 </details>
 
-## (Optional) Step 7: Orchestrate your models with Fivetran Transformations for dbt Core™    
+## (Optional) Step 7: Produce Analytics-Ready Reports with Streamlit App (Bigquery and Snowflake users only)
+For those who want to take their reports a step further, our team has created the [Fivetran Netsuite Streamlit App](https://fivetran-netsuite.streamlit.app/) to generate end model visualizations based off of the reports we created in this package.  This way you can replicate much of the reporting you see internally in Netsuite and automate a lot of the work needed to report on your core metrics.
+
+[We recommend following the instructions here](https://github.com/fivetran/streamlit_netsuite) to fork the app for your own data and create end reports leveraging our Netsuite models. You can see a sample version of [these reports here]((https://fivetran-netsuite.streamlit.app/)).
+
+## (Optional) Step 8: Orchestrate your models with Fivetran Transformations for dbt Core™    
 <details><summary>Expand for details</summary>
 <br>
 

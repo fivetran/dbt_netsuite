@@ -1,3 +1,6 @@
+# dbt_netsuite v0.RELEASE.RELEASE
+## 📈 New Visualization Support (BigQuery & Snowflake users) 📊
+- Our team has created the [Netsuite Streamlit app](https://fivetran-netsuite.streamlit.app/) to help you visualize the end reports created in this package! [See instructions here](https://github.com/fivetran/streamlit_netsuite) on how to fork our Streamlit repo and configure your own reports.
 # dbt_netsuite v0.12.0
 
 ## Contributors:
