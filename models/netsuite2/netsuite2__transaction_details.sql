@@ -85,12 +85,10 @@ transaction_details as (
     transactions_with_converted_amounts.accounting_book_name,
     {% endif %}
 
-    {% if var('netsuite2__using_exchange_rate', true) %}
+    {% if var('netsuite2__using_to_subsidiary', true) %}
     transactions_with_converted_amounts.to_subsidiary_id,
     transactions_with_converted_amounts.to_subsidiary_name,
     transactions_with_converted_amounts.to_subsidiary_currency_symbol,
-    {% else %}
-    cast(null as {{ dbt.type_int() }}) as to_subsidiary_id
     {% endif %}
     
     transaction_lines.transaction_line_id,

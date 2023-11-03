@@ -30,21 +30,30 @@ currencies as (
 period_exchange_rate_map as ( -- exchange rates used, by accounting period, to convert to parent subsidiary
   select
     consolidated_exchange_rates.accounting_period_id,
+
+    {% if var('netsuite2__multibook_accounting_enabled', true) %}
     consolidated_exchange_rates.accounting_book_id,
+    {% endif %}
+
     consolidated_exchange_rates.average_rate,
     consolidated_exchange_rates.current_rate,
     consolidated_exchange_rates.historical_rate,
-    consolidated_exchange_rates.from_subsidiary_id,
-    consolidated_exchange_rates.to_subsidiary_id,
-    to_subsidiaries.name as to_subsidiary_name,
-    currencies.symbol as to_subsidiary_currency_symbol
+    consolidated_exchange_rates.from_subsidiary_id
+
+    {% if var('netsuite2__using_to_subsidiary', true) %}
+    , consolidated_exchange_rates.to_subsidiary_id
+    , to_subsidiaries.name as to_subsidiary_name
+    , currencies.symbol as to_subsidiary_currency_symbol
+    {% endif %}
   from consolidated_exchange_rates
   
+  {% if var('netsuite2__using_to_subsidiary', true) %}
   left join subsidiaries as to_subsidiaries
     on consolidated_exchange_rates.to_subsidiary_id = to_subsidiaries.subsidiary_id
 
   left join currencies
     on currencies.currency_id = to_subsidiaries.currency_id
+  {% endif %}
 
   {# {% if not var('netsuite2__using_to_subsidiary', true) %}
   where consolidated_exchange_rates.to_subsidiary_id in (select subsidiary_id from subsidiaries where parent_id is null)  -- constraint - only the primary subsidiary has no parent
@@ -58,7 +67,11 @@ period_exchange_rate_map as ( -- exchange rates used, by accounting period, to c
 accountxperiod_exchange_rate_map as ( -- account table with exchange rate details by accounting period
   select
     period_exchange_rate_map.accounting_period_id,
+
+    {% if var('netsuite2__multibook_accounting_enabled', true) %}
     period_exchange_rate_map.accounting_book_id,
+    {% endif %}
+    
     period_exchange_rate_map.from_subsidiary_id,
     period_exchange_rate_map.to_subsidiary_id,
     period_exchange_rate_map.to_subsidiary_name,

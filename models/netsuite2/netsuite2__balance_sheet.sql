@@ -40,7 +40,7 @@ balance_sheet as (
     transactions_with_converted_amounts.accounting_book_name,
     {% endif %}
     
-    {% if var('netsuite2__using_exchange_rate', true) %}
+    {% if var('netsuite2__using_to_subsidiary', true) %}
     transactions_with_converted_amounts.to_subsidiary_id,
     transactions_with_converted_amounts.to_subsidiary_name,
     transactions_with_converted_amounts.to_subsidiary_currency_symbol,
@@ -138,7 +138,7 @@ balance_sheet as (
       and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
       and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
 
-      {% if var('netsuite2__using_exchange_rate', true) %}
+      {% if var('netsuite2__using_to_subsidiary', true) %}
       and transaction_details.to_subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
       {% endif %}
   {% endif %}
@@ -174,7 +174,7 @@ balance_sheet as (
     transactions_with_converted_amounts.accounting_book_name,
     {% endif %}
 
-    {% if var('netsuite2__using_exchange_rate', true) %}
+    {% if var('netsuite2__using_to_subsidiary', true) %}
     transactions_with_converted_amounts.to_subsidiary_id,
     transactions_with_converted_amounts.to_subsidiary_name,
     transactions_with_converted_amounts.to_subsidiary_currency_symbol,
@@ -220,7 +220,7 @@ balance_sheet as (
       and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
       and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
 
-      {% if var('netsuite2__using_exchange_rate', true) %}
+      {% if var('netsuite2__using_to_subsidiary', true) %}
       and transaction_details.to_subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
       {% endif %}
   {% endif %}

@@ -42,6 +42,7 @@ joined as (
     left join transaction_accounting_lines
         on transaction_lines.transaction_line_id = transaction_accounting_lines.transaction_line_id
         and transaction_lines.transaction_id = transaction_accounting_lines.transaction_id
+        
     {% if var('netsuite2__multibook_accounting_enabled', true) %}
     left join accounting_books
         on accounting_books.accounting_book_id = transaction_accounting_lines.accounting_book_id

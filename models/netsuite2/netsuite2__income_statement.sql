@@ -62,8 +62,6 @@ income_statement as (
         transactions_with_converted_amounts.to_subsidiary_id,
         transactions_with_converted_amounts.to_subsidiary_name,
         transactions_with_converted_amounts.to_subsidiary_currency_symbol,
-        {% else %}
-        cast(null as {{ dbt.type_int() }}) as to_subsidiary_id
         {% endif %}
 
         reporting_accounting_periods.accounting_period_id as accounting_period_id,
@@ -150,7 +148,7 @@ income_statement as (
         and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
         {% endif %}
 
-        {% if var('netsuite2__using_exchange_rate', true) %}
+        {% if var('netsuite2__using_to_subsidiary', true) %}
         and transaction_details.to_subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
         {% endif %}
     {% endif %}
