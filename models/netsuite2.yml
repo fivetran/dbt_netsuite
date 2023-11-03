@@ -60,9 +60,7 @@ models:
             - accounting_period_id
             - account_name
             - account_id
-            - >
-              {% if var('netsuite2__using_exchange_rate', true) -%} to_subsidiary_id 
-              {%- else %} accounting_period_name {% endif %}
+            - to_subsidiary_id 
     columns:
     - name: transaction_id
       description: Netsuite internal transaction ID.
@@ -124,9 +122,7 @@ models:
             - accounting_period_id
             - account_id
             - subsidiary_id
-            - >
-              {% if var('netsuite2__using_exchange_rate', true) -%} to_subsidiary_id 
-              {%- else %} account_name {% endif %}
+            - to_subsidiary_id 
     columns:
     - name: transaction_id
       description: Netsuite internal transaction ID.

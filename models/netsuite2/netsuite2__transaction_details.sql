@@ -89,6 +89,8 @@ transaction_details as (
     transactions_with_converted_amounts.to_subsidiary_id,
     transactions_with_converted_amounts.to_subsidiary_name,
     transactions_with_converted_amounts.to_subsidiary_currency_symbol,
+    {% else %}
+    cast(null as {{ dbt.type_int() }}) as to_subsidiary_id
     {% endif %}
     
     transaction_lines.transaction_line_id,
