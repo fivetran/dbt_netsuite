@@ -26,6 +26,7 @@ joined as (
         transaction_lines.*,
         transaction_accounting_lines.account_id,
         transaction_accounting_lines.accounting_book_id,
+        accounting_books.accounting_book_name,
         transaction_accounting_lines.amount,
         transaction_accounting_lines.credit_amount,
         transaction_accounting_lines.debit_amount,
@@ -37,6 +38,8 @@ joined as (
     left join transaction_accounting_lines
         on transaction_lines.transaction_line_id = transaction_accounting_lines.transaction_line_id
         and transaction_lines.transaction_id = transaction_accounting_lines.transaction_id
+    left join accounting_books
+        on accounting_books.accounting_book_id = transaction_accounting_lines.accounting_book_id
 
     {% if var('netsuite2__multibook_accounting_enabled', true) %}
     union all
@@ -45,6 +48,7 @@ joined as (
         transaction_lines.*,
         transaction_accounting_lines.account_id,
         accounting_books.accounting_book_id,
+        accounting_books.accounting_book_name,
         transaction_accounting_lines.amount,
         transaction_accounting_lines.credit_amount,
         transaction_accounting_lines.debit_amount,
