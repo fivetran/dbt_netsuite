@@ -172,7 +172,9 @@ transaction_details as (
     on transactions_with_converted_amounts.transaction_line_id = transaction_lines.transaction_line_id
       and transactions_with_converted_amounts.transaction_id = transaction_lines.transaction_id
       and transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+      {% if var('netsuite2__multibook_accounting_enabled', true) %}
       and transactions_with_converted_amounts.accounting_book_id = transaction_lines.accounting_book_id
+      {% endif %}
 
   left join accounts 
     on accounts.account_id = transaction_lines.account_id
