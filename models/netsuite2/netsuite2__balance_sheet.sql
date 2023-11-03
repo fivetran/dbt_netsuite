@@ -35,6 +35,7 @@ balance_sheet as (
     transactions_with_converted_amounts.subsidiary_id,
     subsidiaries.name as subsidiary_name,
     transactions_with_converted_amounts.accounting_book_id,
+    transactions_with_converted_amounts.accounting_book_name,
     
     {% if var('netsuite2__using_exchange_rate', true) %}
     transactions_with_converted_amounts.to_subsidiary_id,
@@ -165,6 +166,7 @@ balance_sheet as (
     transactions_with_converted_amounts.subsidiary_id,
     subsidiaries.name as subsidiary_name,
     transactions_with_converted_amounts.accounting_book_id,
+    transactions_with_converted_amounts.accounting_book_name,
 
     {% if var('netsuite2__using_exchange_rate', true) %}
     transactions_with_converted_amounts.to_subsidiary_id,
