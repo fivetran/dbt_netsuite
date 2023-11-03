@@ -52,8 +52,11 @@ income_statement as (
     select
         transactions_with_converted_amounts.transaction_id,
         transactions_with_converted_amounts.transaction_line_id,
+
+        {% if var('netsuite2__multibook_accounting_enabled', true) %}
         transactions_with_converted_amounts.accounting_book_id,
         transactions_with_converted_amounts.accounting_book_name,
+        {% endif %}
 
         {% if var('netsuite2__using_exchange_rate', true) %}
         transactions_with_converted_amounts.to_subsidiary_id,

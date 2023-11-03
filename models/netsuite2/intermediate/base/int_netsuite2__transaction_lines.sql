@@ -25,10 +25,12 @@ joined as (
     select 
         transaction_lines.*,
         transaction_accounting_lines.account_id,
-        transaction_accounting_lines.accounting_book_id,
+
         {% if var('netsuite2__multibook_accounting_enabled', true) %}
+        transaction_accounting_lines.accounting_book_id,
         accounting_books.accounting_book_name,
         {% endif %}
+        
         transaction_accounting_lines.amount,
         transaction_accounting_lines.credit_amount,
         transaction_accounting_lines.debit_amount,
