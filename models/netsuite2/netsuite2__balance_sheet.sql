@@ -32,11 +32,17 @@ balance_sheet as (
   select
     transactions_with_converted_amounts.transaction_id,
     transactions_with_converted_amounts.transaction_line_id,
+    transactions_with_converted_amounts.subsidiary_id,
+    subsidiaries.name as subsidiary_name,
     transactions_with_converted_amounts.accounting_book_id,
     transactions_with_converted_amounts.accounting_book_name,
+    
+    {% if var('netsuite2__using_exchange_rate', true) %}
     transactions_with_converted_amounts.to_subsidiary_id,
     transactions_with_converted_amounts.to_subsidiary_name,
     transactions_with_converted_amounts.to_subsidiary_currency_symbol,
+    {% endif %}
+
     reporting_accounting_periods.accounting_period_id as accounting_period_id,
     reporting_accounting_periods.ending_at as accounting_period_ending,
     reporting_accounting_periods.name as accounting_period_name,
@@ -89,7 +95,7 @@ balance_sheet as (
       when accounts.is_balancesheet and accounts.is_leftside then converted_amount_using_reporting_month
       else 0
         end as converted_amount,
-    
+
     case
       when lower(accounts.account_type_id) = 'bank' then 1
       when lower(accounts.account_type_id) = 'acctrec' then 2
@@ -128,7 +134,10 @@ balance_sheet as (
     on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
       and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
       and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
+
+      {% if var('netsuite2__using_exchange_rate', true) %}
       and transaction_details.to_subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
+      {% endif %}
   {% endif %}
 
 
@@ -141,6 +150,9 @@ balance_sheet as (
   left join accounting_periods as transaction_accounting_periods 
     on transaction_accounting_periods.accounting_period_id = transactions_with_converted_amounts.transaction_accounting_period_id
 
+  left join subsidiaries
+    on subsidiaries.subsidiary_id = transactions_with_converted_amounts.subsidiary_id
+
   where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
     and transaction_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
     and (accounts.is_balancesheet
@@ -151,11 +163,17 @@ balance_sheet as (
   select
     transactions_with_converted_amounts.transaction_id,
     transactions_with_converted_amounts.transaction_line_id,
+    transactions_with_converted_amounts.subsidiary_id,
+    subsidiaries.name as subsidiary_name,
     transactions_with_converted_amounts.accounting_book_id,
     transactions_with_converted_amounts.accounting_book_name,
+
+    {% if var('netsuite2__using_exchange_rate', true) %}
     transactions_with_converted_amounts.to_subsidiary_id,
     transactions_with_converted_amounts.to_subsidiary_name,
     transactions_with_converted_amounts.to_subsidiary_currency_symbol,
+    {% endif %}
+    
     reporting_accounting_periods.accounting_period_id as accounting_period_id,
     reporting_accounting_periods.ending_at as accounting_period_ending,
     reporting_accounting_periods.name as accounting_period_name,
@@ -195,7 +213,10 @@ balance_sheet as (
     on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
       and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
       and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
+
+      {% if var('netsuite2__using_exchange_rate', true) %}
       and transaction_details.to_subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
+      {% endif %}
   {% endif %}
 
   left join accounts
@@ -203,7 +224,10 @@ balance_sheet as (
 
   left join accounting_periods as reporting_accounting_periods 
     on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
-    
+
+  left join subsidiaries
+    on subsidiaries.subsidiary_id = transactions_with_converted_amounts.subsidiary_id
+
   where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
     and (accounts.is_balancesheet
       or transactions_with_converted_amounts.is_income_statement)

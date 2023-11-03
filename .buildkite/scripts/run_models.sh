@@ -9,6 +9,7 @@ python3 -m venv venv
 . venv/bin/activate
 pip install --upgrade pip setuptools
 pip install -r integration_tests/requirements.txt
+
 mkdir -p ~/.dbt
 cp integration_tests/ci/sample.profiles.yml ~/.dbt/profiles.yml
 

@@ -1,6 +1,6 @@
 config-version: 2
 name: 'netsuite'
-version: '0.10.0'
+version: '0.11.0'
 require-dbt-version: [">=1.3.0", "<2.0.0"]
 
 models:
@@ -57,12 +57,10 @@ vars:
     netsuite2_transactions: "{{ ref('stg_netsuite2__transactions') }}"
     netsuite2_vendor_categories: "{{ ref('stg_netsuite2__vendor_categories') }}"
     netsuite2_vendors: "{{ ref('stg_netsuite2__vendors') }}"
-    accounts_pass_through_columns:
-      - name: "special_account_type_id"
-        alias: "special_account_type_id"
+    accounts_pass_through_columns: []
     classes_pass_through_columns: []
     departments_pass_through_columns: []
     transactions_pass_through_columns: []
     transaction_lines_pass_through_columns: []
-    balance_sheet_transaction_detail_columns: [subsidiary_id, subsidiary_name]
+    balance_sheet_transaction_detail_columns: []
     income_statement_transaction_detail_columns: []

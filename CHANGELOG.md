@@ -1,3 +1,29 @@
+# dbt_netsuite v0.RELEASE.RELEASE
+## 📈 New Visualization Support (BigQuery & Snowflake users) 📊
+- Our team has created the [Netsuite Streamlit app](https://fivetran-netsuite.streamlit.app/) to help you visualize the end reports created in this package! [See instructions here](https://github.com/fivetran/streamlit_netsuite) on how to fork our Streamlit repo and configure your own reports.
+# dbt_netsuite v0.12.0
+
+## Contributors:
+- [@jmongerlyra](https://github.com/jmongerlyra) ([#90](https://github.com/fivetran/dbt_netsuite/issues/90))
+- [@rwang-lyra](https://github.com/rwang-lyra ) ([#90](https://github.com/fivetran/dbt_netsuite/issues/90))
+
+# dbt_netsuite v0.11.0
+
+## 🚨 Breaking Changes 🚨:
+- This release includes a breaking change in the upstream `dbt_netsuite_source` dependency. Please refer to the respective [dbt_netsuite_source v0.8.0](https://github.com/fivetran/dbt_netsuite_source/releases/tag/v0.8.0) release notes for more information.
+
+## 🐛 Bug Fixes 🐛:
+- Adjusted our translation rate logic to calculate `converted_amount` in `netsuite__balance_sheet` and `netsuite2__balance_sheet`. 
+  - The logic is adjusted so we examine the `general_rate_type` rather than `account_category`, as is intended by Netsuite definitions.
+  - Historical and average rates now convert amounts into the `converted_amount_using_transaction_accounting_period`. Otherwise, it looks at `converted_amount_using_reporting_month`.
+  - The `is_leftside` logic is added to make sure debit values are properly assigned as negative converted values if false and positive if true.
+- Modified the Cumulative Translation Adjustment calculation within the `netsuite2__balance_sheet` model to be built upon referencing that the general_rate_type is either `historical` or `average` as opposed to checking that the account_category is `equity`.
+  - This update more accurately reflects the behavior of how the Cumulative Translation Adjustment should be calculated. The `equity` check was not as robust and had an opportunity to generate an incorrect value. 
+
+## Contributors:
+- [@jmongerlyra](https://github.com/jmongerlyra) ([#75](https://github.com/fivetran/dbt_netsuite/issues/75))
+- [@rwang-lyra](https://github.com/rwang-lyra ) ([#75](https://github.com/fivetran/dbt_netsuite/issues/75))
+  
 # dbt_netsuite v0.10.0
 [PR #84](https://github.com/fivetran/dbt_netsuite/pull/84) includes the following updates:
 ## 🚨 Breaking Changes 🚨
@@ -44,7 +70,7 @@ Retained Earnings | retained_earnings
 
 # dbt_netsuite v0.9.0
 
-[PR #74](https://github.com/fivetran/dbt_netsuite/pull/74)includes the following updates:
+[PR #74](https://github.com/fivetran/dbt_netsuite/pull/74) includes the following updates:
 ## 🚨 Breaking Changes 🚨
 - Removed the `int_netsuite2__consolidated_exchange_rates` model 
   - Originally the `accounting_book_id` field was brought into the `int_netsuite2__acctxperiod_exchange_rate_map` model via `int_netsuite2__consolidated_exchange_rates`, but this was resulting in duplicate records downstream in the `netsuite2__transaction_details` model due to the way it was being joined. Now we have brought in `accounting_book_id` (accountingbook) via the `stg_netsuite2__consolidated_exchange_rates` model, so we do not have a need for `int_netsuite2__consolidated_exchange_rates` 

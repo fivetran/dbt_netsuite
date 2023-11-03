@@ -81,9 +81,13 @@ transaction_details as (
   select
     transactions_with_converted_amounts.accounting_book_id,
     transactions_with_converted_amounts.accounting_book_name,
+
+    {% if var('netsuite2__using_exchange_rate', true) %}
     transactions_with_converted_amounts.to_subsidiary_id,
     transactions_with_converted_amounts.to_subsidiary_name,
     transactions_with_converted_amounts.to_subsidiary_currency_symbol,
+    {% endif %}
+    
     transaction_lines.transaction_line_id,
     transaction_lines.memo as transaction_memo,
     not transaction_lines.is_posting as is_transaction_non_posting,
@@ -116,7 +120,7 @@ transaction_details as (
     accounts.is_leftside as is_account_leftside,
     lower(accounts.account_type_id) = 'acctpay' as is_accounts_payable,
     lower(accounts.account_type_id) = 'acctrec' as is_accounts_receivable,
-    lower(accounts.name) like '%intercompany%' as is_account_intercompany,
+    accounts.is_eliminate as is_account_intercompany,
     coalesce(parent_account.name, accounts.name) as parent_account_name,
     lower(accounts.account_type_id) in ('expense', 'othexpense', 'deferexpense') as is_expense_account,
     lower(accounts.account_type_id) in ('income', 'othincome') as is_income_account,
