@@ -85,7 +85,7 @@ transaction_details as (
     transaction_lines.accounting_book_name,
     {% endif %}
 
-    {% if var('netsuite2__using_to_subsidiary', false) %}
+    {% if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
     transactions_with_converted_amounts.to_subsidiary_id,
     transactions_with_converted_amounts.to_subsidiary_name,
     transactions_with_converted_amounts.to_subsidiary_currency_symbol,
