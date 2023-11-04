@@ -52,15 +52,6 @@ models:
       either Retained Earnings or Net Income.  The Cumulative Translation
       Adjustment total, which in most cases does not have transactions
       associated with it, is calculated manually in the second part of the query.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - transaction_line_id
-            - transaction_id
-            - accounting_period_id
-            - account_name
-            - account_id
-            - to_subsidiary_id 
     columns:
     - name: transaction_id
       description: Netsuite internal transaction ID.
@@ -108,21 +99,17 @@ models:
       description: The subsidiary name which the consolidated exchange rate is for.
     - name: to_subsidiary_currency_symbol
       description: Currency symbol for the consolidated exchange rate.
+    - name: balance_sheet_id
+      description: Surrogate key hashed on `transaction_line_id`, `transaction_id`, `accounting_period_id`, `account_name`, and `account_id`. Adds `to_subsidiary_id` if using subsidiaries and `accounting_book_id` if using multibook accounting. 
+      tests:
+          - unique
+          - not_null
 
   - name: netsuite2__income_statement
     description: >
       The income statement query uses the transactions_with_converted_amount transformation 
       to recreate all lines necessary for the income statement.  It also joins in class, 
       department and location information for enhanced reporting. 
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - transaction_line_id
-            - transaction_id
-            - accounting_period_id
-            - account_id
-            - subsidiary_id
-            - to_subsidiary_id 
     columns:
     - name: transaction_id
       description: Netsuite internal transaction ID.
@@ -180,6 +167,12 @@ models:
       description: The subsidiary name which the consolidated exchange rate is for.
     - name: to_subsidiary_currency_symbol
       description: Currency symbol for the consolidated exchange rate.
+    - name: income_statement_id
+      description: Surrogate key hashed on `transaction_line_id`, `transaction_id`, `accounting_period_id`, and `account_name`. Adds `to_subsidiary_id` if using subsidiaries and `accounting_book_id` if using multibook accounting. 
+      tests:
+          - unique
+          - not_null
+
 
   - name: netsuite2__transaction_details
     description: >
@@ -187,11 +180,6 @@ models:
       other tables to add more detail to those line items.  For all transactions, you are 
       able to see the associated accounting period, account and subsidiary.  Where applicable, 
       you can also see information about the customer, location, item, vendor, and department.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - transaction_line_id
-            - transaction_id
     columns:
     - name: transaction_line_id
       description: Netsuite internal transaction line ID.
@@ -303,3 +291,8 @@ models:
       description: The subsidiary name which the consolidated exchange rate is for.
     - name: to_subsidiary_currency_symbol
       description: Currency symbol for the consolidated exchange rate.
+    - name: transaction_details_id
+      description: Surrogate key hashed on `transaction_line_id`, `transaction_id`, and `subsidiary_id`. Adds `to_subsidiary_id` if using subsidiaries and `accounting_book_id` if using multibook accounting. 
+      tests:
+          - unique
+          - not_null

@@ -81,11 +81,11 @@ transaction_details as (
   select
 
     {% if var('netsuite2__multibook_accounting_enabled', true) %}
-    transactions_with_converted_amounts.accounting_book_id,
-    transactions_with_converted_amounts.accounting_book_name,
+    transaction_lines.accounting_book_id,
+    transaction_lines.accounting_book_name,
     {% endif %}
 
-    {% if var('netsuite2__using_to_subsidiary', true) %}
+    {% if var('netsuite2__using_to_subsidiary', false) %}
     transactions_with_converted_amounts.to_subsidiary_id,
     transactions_with_converted_amounts.to_subsidiary_name,
     transactions_with_converted_amounts.to_subsidiary_currency_symbol,
@@ -172,6 +172,7 @@ transaction_details as (
     on transactions_with_converted_amounts.transaction_line_id = transaction_lines.transaction_line_id
       and transactions_with_converted_amounts.transaction_id = transaction_lines.transaction_id
       and transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+      
       {% if var('netsuite2__multibook_accounting_enabled', true) %}
       and transactions_with_converted_amounts.accounting_book_id = transaction_lines.accounting_book_id
       {% endif %}
@@ -216,7 +217,19 @@ transaction_details as (
     
   where (accounting_periods.fiscal_calendar_id is null
     or accounting_periods.fiscal_calendar_id  = (select fiscal_calendar_id from subsidiaries where parent_id is null))
+),
+
+surrogate_key as ( 
+    {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id'] %}
+    {% do surrogate_key_fields.append('to_subsidiary_id') if var('netsuite2__using_to_subsidiary', false) %}
+    {% do surrogate_key_fields.append('accounting_book_id') if var('netsuite2__multibook_accounting_enabled', true) %}
+
+    select 
+        *,
+        {{ dbt_utils.generate_surrogate_key(surrogate_key_fields) }} as transaction_details_id
+
+    from transaction_details
 )
 
 select *
-from transaction_details
+from surrogate_key

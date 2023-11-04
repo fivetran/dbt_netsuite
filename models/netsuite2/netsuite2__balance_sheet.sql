@@ -40,7 +40,7 @@ balance_sheet as (
     transactions_with_converted_amounts.accounting_book_name,
     {% endif %}
     
-    {% if var('netsuite2__using_to_subsidiary', true) %}
+    {% if var('netsuite2__using_to_subsidiary', false) %}
     transactions_with_converted_amounts.to_subsidiary_id,
     transactions_with_converted_amounts.to_subsidiary_name,
     transactions_with_converted_amounts.to_subsidiary_currency_symbol,
@@ -138,7 +138,7 @@ balance_sheet as (
       and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
       and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
 
-      {% if var('netsuite2__using_to_subsidiary', true) %}
+      {% if var('netsuite2__using_to_subsidiary', false) %}
       and transaction_details.to_subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
       {% endif %}
   {% endif %}
@@ -174,7 +174,7 @@ balance_sheet as (
     transactions_with_converted_amounts.accounting_book_name,
     {% endif %}
 
-    {% if var('netsuite2__using_to_subsidiary', true) %}
+    {% if var('netsuite2__using_to_subsidiary', false) %}
     transactions_with_converted_amounts.to_subsidiary_id,
     transactions_with_converted_amounts.to_subsidiary_name,
     transactions_with_converted_amounts.to_subsidiary_currency_symbol,
@@ -220,7 +220,7 @@ balance_sheet as (
       and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
       and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
 
-      {% if var('netsuite2__using_to_subsidiary', true) %}
+      {% if var('netsuite2__using_to_subsidiary', false) %}
       and transaction_details.to_subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
       {% endif %}
   {% endif %}
@@ -237,7 +237,19 @@ balance_sheet as (
   where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
     and (accounts.is_balancesheet
       or transactions_with_converted_amounts.is_income_statement)
+),
+
+surrogate_key as ( 
+  {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id', 'accounting_period_id', 'account_name', 'account_id'] %}
+  {% do surrogate_key_fields.append('to_subsidiary_id') if var('netsuite2__using_to_subsidiary', false) %}
+  {% do surrogate_key_fields.append('accounting_book_id') if var('netsuite2__multibook_accounting_enabled', true) %}
+
+  select 
+    *,
+    {{ dbt_utils.generate_surrogate_key(surrogate_key_fields) }} as balance_sheet_id
+
+  from balance_sheet
 )
 
 select *
-from balance_sheet
+from surrogate_key
