@@ -241,7 +241,7 @@ balance_sheet as (
 
 surrogate_key as ( 
   {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id', 'accounting_period_id', 'account_name', 'account_id'] %}
-  {% do surrogate_key_fields.append('to_subsidiary_id') if var('netsuite2__using_to_subsidiary', false) %}
+  {% do surrogate_key_fields.append('to_subsidiary_id') if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
   {% do surrogate_key_fields.append('accounting_book_id') if var('netsuite2__multibook_accounting_enabled', true) %}
 
   select 
