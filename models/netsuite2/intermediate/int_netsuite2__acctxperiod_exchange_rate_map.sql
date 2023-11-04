@@ -38,16 +38,12 @@ period_exchange_rate_map as ( -- exchange rates used, by accounting period, to c
     consolidated_exchange_rates.average_rate,
     consolidated_exchange_rates.current_rate,
     consolidated_exchange_rates.historical_rate,
-    consolidated_exchange_rates.from_subsidiary_id
-
-    {% if var('netsuite2__using_to_subsidiary', false) %}
-    , consolidated_exchange_rates.to_subsidiary_id
-    , to_subsidiaries.name as to_subsidiary_name
-    , currencies.symbol as to_subsidiary_currency_symbol
-    {% endif %}
+    consolidated_exchange_rates.from_subsidiary_id,
+    consolidated_exchange_rates.to_subsidiary_id,
+    to_subsidiaries.name as to_subsidiary_name,
+    currencies.symbol as to_subsidiary_currency_symbol
   from consolidated_exchange_rates
   
-  {% if var('netsuite2__using_to_subsidiary', false) %}
   left join subsidiaries as to_subsidiaries
     on consolidated_exchange_rates.to_subsidiary_id = to_subsidiaries.subsidiary_id
 
