@@ -80,7 +80,7 @@ entities as (
 transaction_details as (
   select
 
-    {% if var('netsuite2__multibook_accounting_enabled', true) %}
+    {% if var('netsuite2__multibook_accounting_enabled', false) %}
     transaction_lines.accounting_book_id,
     transaction_lines.accounting_book_name,
     {% endif %}
@@ -173,7 +173,7 @@ transaction_details as (
       and transactions_with_converted_amounts.transaction_id = transaction_lines.transaction_id
       and transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
       
-      {% if var('netsuite2__multibook_accounting_enabled', true) %}
+      {% if var('netsuite2__multibook_accounting_enabled', false) %}
       and transactions_with_converted_amounts.accounting_book_id = transaction_lines.accounting_book_id
       {% endif %}
 
@@ -222,7 +222,7 @@ transaction_details as (
 surrogate_key as ( 
     {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id'] %}
     {% do surrogate_key_fields.append('to_subsidiary_id') if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
-    {% do surrogate_key_fields.append('accounting_book_id') if var('netsuite2__multibook_accounting_enabled', true) %}
+    {% do surrogate_key_fields.append('accounting_book_id') if var('netsuite2__multibook_accounting_enabled', false) %}
 
     select 
         *,

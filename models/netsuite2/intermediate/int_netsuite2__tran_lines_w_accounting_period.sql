@@ -17,7 +17,7 @@ transaction_lines_w_accounting_period as ( -- transaction line totals, by accoun
     transaction_lines.subsidiary_id,
     transaction_lines.account_id,
 
-    {% if var('netsuite2__multibook_accounting_enabled', true) %}
+    {% if var('netsuite2__multibook_accounting_enabled', false) %}
     transaction_lines.accounting_book_id,
     transaction_lines.accounting_book_name,
     {% endif %}

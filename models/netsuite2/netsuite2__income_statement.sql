@@ -53,7 +53,7 @@ income_statement as (
         transactions_with_converted_amounts.transaction_id,
         transactions_with_converted_amounts.transaction_line_id,
 
-        {% if var('netsuite2__multibook_accounting_enabled', true) %}
+        {% if var('netsuite2__multibook_accounting_enabled', false) %}
         transactions_with_converted_amounts.accounting_book_id,
         transactions_with_converted_amounts.accounting_book_name,
         {% endif %}
@@ -117,7 +117,7 @@ income_statement as (
         on transaction_lines.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
             and transaction_lines.transaction_id = transactions_with_converted_amounts.transaction_id
 
-            {% if var('netsuite2__multibook_accounting_enabled', true) %}
+            {% if var('netsuite2__multibook_accounting_enabled', false) %}
             and transaction_lines.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
             {% endif %}
 
@@ -144,7 +144,7 @@ income_statement as (
     join transaction_details
         on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
         and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
-        {% if var('netsuite2__multibook_accounting_enabled', true) %}
+        {% if var('netsuite2__multibook_accounting_enabled', false) %}
         and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
         {% endif %}
 
@@ -161,7 +161,7 @@ income_statement as (
 surrogate_key as ( 
     {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id', 'accounting_period_id', 'account_name'] %}
     {% do surrogate_key_fields.append('to_subsidiary_id') if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
-    {% do surrogate_key_fields.append('accounting_book_id') if var('netsuite2__multibook_accounting_enabled', true) %}
+    {% do surrogate_key_fields.append('accounting_book_id') if var('netsuite2__multibook_accounting_enabled', false) %}
 
     select 
         *,
