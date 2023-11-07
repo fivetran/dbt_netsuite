@@ -46,9 +46,7 @@ joined as (
     {% if var('netsuite2__multibook_accounting_enabled', true) %}
     left join accounting_books
         on accounting_books.accounting_book_id = transaction_accounting_lines.accounting_book_id
-    {% endif %}
 
-    {% if var('netsuite2__multibook_accounting_enabled', true) %}
     union all
 
     select
