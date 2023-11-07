@@ -38,8 +38,6 @@ transactions_in_every_calculation_period_w_exchange_rates as (
     , exchange_reporting_period.to_subsidiary_currency_symbol
     {% endif %}
 
-    , exchange_reporting_period.accounting_book_id as exchange_reporting_period_accounting_book_id
-
   from transaction_lines_w_accounting_period
 
   left join transaction_and_reporting_periods 
