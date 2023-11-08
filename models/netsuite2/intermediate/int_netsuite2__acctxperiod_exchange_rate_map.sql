@@ -44,7 +44,7 @@ period_exchange_rate_map as ( -- exchange rates used, by accounting period, to c
     on consolidated_exchange_rates.to_subsidiary_id = to_subsidiaries.subsidiary_id
 
   left join currencies
-    on currencies.currency_id = to_subsidiaries.currency
+    on currencies.currency_id = to_subsidiaries.currency_id
 
 ), 
 

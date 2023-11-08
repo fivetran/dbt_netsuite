@@ -67,6 +67,8 @@ vars:
         alias: "lyra_subledger"
       - name: "lyra_subledger_id"
         alias: "lyra_subledger_id"
+      - name: "type_based_document_number"
+        alias: "type_based_document_number"
     transaction_lines_pass_through_columns: []
-    balance_sheet_transaction_detail_columns: [subsidiary_id, subsidiary_name, is_account_intercompany]
-    income_statement_transaction_detail_columns: [lyra_subledger, lyra_subledger_id, is_account_intercompany]
+    balance_sheet_transaction_detail_columns: [subsidiary_id, subsidiary_name, is_account_intercompany, is_eliminate, currency_symbol, type_based_document_number]
+    income_statement_transaction_detail_columns: [lyra_subledger, lyra_subledger_id, is_account_intercompany, is_eliminate, currency_symbol, type_based_document_number]
