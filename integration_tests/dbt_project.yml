@@ -5,11 +5,12 @@ config-version: 2
 models:
   +materialized: table
 vars:
-  netsuite_schema: zz_dbt_catherine_test_2
+  netsuite_schema: netsuite_integration_tests_5
   netsuite_data_model_override: netsuite
 
-  netsuite2__multibook_accounting_enabled: true
-  netsuite2__using_to_subsidiary: true
+  # Enable below when generating docs
+  # netsuite2__multibook_accounting_enabled: true
+  # netsuite2__using_to_subsidiary: true
 
   netsuite_source:
     # Netsuite Seed Data
