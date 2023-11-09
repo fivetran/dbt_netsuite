@@ -109,6 +109,7 @@ transaction_details as (
 
     accounting_periods.ending_at as accounting_period_ending,
     accounting_periods.name as accounting_period_name,
+    accounting_periods.accounting_period_id as accounting_period_id,
     accounting_periods.is_adjustment as is_accounting_period_adjustment,
     accounting_periods.is_closed as is_accounting_period_closed,
     accounts.name as account_name,

@@ -92,7 +92,9 @@ models:
     - name: subsidiary_name
       description: Name of the subsidiary.
     - name: accounting_book_id
-      description: The unique identifier od the accounting book.
+      description: The unique identifier of the accounting book.
+    - name: accounting_book_name
+      description: The name of the accounting book.
     - name: to_subsidiary_id
       description: The subsidiary id which the consolidated exchange rate is for.
     - name: to_subsidiary_name
@@ -160,7 +162,9 @@ models:
     - name: subsidiary_name
       description: Name of the subsidiary.
     - name: accounting_book_id
-      description: The unique identifier od the accounting book.
+      description: The unique identifier of the accounting book.
+    - name: accounting_book_name
+      description: The name of the accounting book.
     - name: to_subsidiary_id
       description: The subsidiary id which the consolidated exchange rate is for.
     - name: to_subsidiary_name
@@ -205,6 +209,8 @@ models:
       description: Boolean field, indicating whether or not the transaction is an intercompany transaction or an advanced intercompany transaction.
     - name: accounting_period_ending
       description: End date of the accounting period.
+    - name: accounting_period_id
+      description: The unique identifier of the accounting period.
     - name: accounting_period_name
       description: Name of the accounting period.
     - name: is_accounting_period_adjustment
@@ -277,14 +283,16 @@ models:
       description: Name of the department.
     - name: subsidiary_name
       description: Name of the subsidiary.
+    - name: subsidiary_id
+      description: The unique identifier of the subsidiary.
     - name: converted_amount
       description: Transaction amount, converted into the primary subsidiary's default currency.
     - name: transaction_amount
       description: Total amount of the transaction line.
-    - name: subsidiary_id
-      description: The unique identifier of the subsidiary.
     - name: accounting_book_id
-      description: The unique identifier od the accounting book.
+      description: The unique identifier of the accounting book.
+    - name: accounting_book_name
+      description: The name of the accounting book.
     - name: to_subsidiary_id
       description: The subsidiary id which the consolidated exchange rate is for.
     - name: to_subsidiary_name
@@ -292,7 +300,7 @@ models:
     - name: to_subsidiary_currency_symbol
       description: Currency symbol for the consolidated exchange rate.
     - name: transaction_details_id
-      description: Surrogate key hashed on `transaction_line_id`, `transaction_id`, and `subsidiary_id`. Adds `to_subsidiary_id` if using subsidiaries and `accounting_book_id` if using multibook accounting. 
+      description: Surrogate key hashed on `transaction_line_id` and `transaction_id`. Adds `to_subsidiary_id` if using subsidiaries and `accounting_book_id` if using multibook accounting. 
       tests:
           - unique
           - not_null
