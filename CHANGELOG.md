@@ -52,7 +52,7 @@ netsuite2__income_statement | accounting_book_id <br> accounting_book_name
 netsuite2__balance_sheet | accounting_book_id <br> accounting_book_name 
 
 ### to_subsidiary
-- Added the option to include `to_subsidiary` information in all end models. This feature is disabled by default, so to enable it, set the below variable to `true` in your `dbt_project.yml`. 
+- Added the option to include `to_subsidiary` information in all end models. This feature is disabled by default, so to enable it, set the below variable to `true` in your `dbt_project.yml`. You will also need to be using exchange rates, which is enabled by default.
   - ❗Notes:  
     - If you choose to enable this feature, this will add rows for transactions where `to_subsidiary` is not a top-level subsidiary. Your downstream use cases may need to be adjusted. 
     - The surrogate keys mentioned above are dynamically generated depending on your enabled/disabled features, so adding these rows should not cause test failures.

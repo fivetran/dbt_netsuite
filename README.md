@@ -149,7 +149,7 @@ vars:
 ```
 
 ### To Subsidiary (Netsuite2 only)
-To include `to_subsidiary_id` and `to_subsidiary_name` columns in the end models, set the below variable to `true` in your `dbt_project.yml`. This feature is disabled by default.
+To include `to_subsidiary_id` and `to_subsidiary_name` columns in the end models, set the below variable to `true` in your `dbt_project.yml`. This feature is disabled by default. You will also need to be using exchange rates, which is enabled by default.
 
 >❗Notes:  
 > - If you choose to enable this feature, this will add rows for transactions where `to_subsidiary` is not a top-level subsidiary. Your downstream use cases may need to be adjusted. 
