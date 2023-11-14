@@ -65,7 +65,7 @@ balance_sheet as (
             and reporting_accounting_periods.fiscal_calendar_id = transaction_accounting_periods.fiscal_calendar_id) then 'Net Income'
       when not accounts.is_balancesheet then 'Retained Earnings'
       when lower(accounts.special_account_type_id) = 'retearnings' then 'Retained Earnings'
-      when lower(accounts.special_account_type_id) IN ('cta-e', 'cumultransadj') then 'Cumulative Translation Adjustment'
+      when lower(accounts.special_account_type_id) in ('cta-e', 'cumultransadj') then 'Cumulative Translation Adjustment'
       else accounts.type_name
         end as account_type_name,
     case
@@ -74,7 +74,7 @@ balance_sheet as (
             and reporting_accounting_periods.fiscal_calendar_id = transaction_accounting_periods.fiscal_calendar_id) then 'net_income'
       when not accounts.is_balancesheet then 'retained_earnings'
       when lower(accounts.special_account_type_id) = 'retearnings' then 'retained_earnings'
-      when lower(accounts.special_account_type_id) IN ('cta-e', 'cumultransadj') then 'cumulative_translation_adjustment'
+      when lower(accounts.special_account_type_id) in ('cta-e', 'cumultransadj') then 'cumulative_translation_adjustment'
       else accounts.account_type_id
         end as account_type_id,
     case
@@ -113,7 +113,7 @@ balance_sheet as (
       when lower(accounts.account_type_id) = 'longtermliab' then 11
       when lower(accounts.account_type_id) = 'deferrevenue' then 12
       when lower(accounts.special_account_type_id) = 'retearnings' then 14
-      when lower(accounts.special_account_type_id) IN ('cta-e', 'cumultransadj') then 16
+      when lower(accounts.special_account_type_id) in ('cta-e', 'cumultransadj') then 16
       when lower(accounts.account_type_id) = 'equity' then 13
       when (not accounts.is_balancesheet 
             and {{ dbt.date_trunc('year', 'reporting_accounting_periods.starting_at') }} = {{ dbt.date_trunc('year', 'transaction_accounting_periods.starting_at') }} 
