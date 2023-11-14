@@ -79,6 +79,18 @@ entities as (
 
 transaction_details as (
   select
+
+    {% if var('netsuite2__multibook_accounting_enabled', false) %}
+    transaction_lines.accounting_book_id,
+    transaction_lines.accounting_book_name,
+    {% endif %}
+
+    {% if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
+    transactions_with_converted_amounts.to_subsidiary_id,
+    transactions_with_converted_amounts.to_subsidiary_name,
+    transactions_with_converted_amounts.to_subsidiary_currency_symbol,
+    {% endif %}
+    
     transaction_lines.transaction_line_id,
     transaction_lines.memo as transaction_memo,
     not transaction_lines.is_posting as is_transaction_non_posting,
@@ -97,6 +109,7 @@ transaction_details as (
 
     accounting_periods.ending_at as accounting_period_ending,
     accounting_periods.name as accounting_period_name,
+    accounting_periods.accounting_period_id as accounting_period_id,
     accounting_periods.is_adjustment as is_accounting_period_adjustment,
     accounting_periods.is_closed as is_accounting_period_closed,
     accounts.name as account_name,
@@ -141,6 +154,7 @@ transaction_details as (
     --The below script allows for departments table pass through columns.
     {{ fivetran_utils.persist_pass_through_columns('departments_pass_through_columns', identifier='departments') }},
 
+    subsidiaries.subsidiary_id,
     subsidiaries.name as subsidiary_name,
     case
       when lower(accounts.account_type_id) in ('income', 'othincome') then -converted_amount_using_transaction_accounting_period
@@ -159,6 +173,10 @@ transaction_details as (
     on transactions_with_converted_amounts.transaction_line_id = transaction_lines.transaction_line_id
       and transactions_with_converted_amounts.transaction_id = transaction_lines.transaction_id
       and transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+      
+      {% if var('netsuite2__multibook_accounting_enabled', false) %}
+      and transactions_with_converted_amounts.accounting_book_id = transaction_lines.accounting_book_id
+      {% endif %}
 
   left join accounts 
     on accounts.account_id = transaction_lines.account_id
@@ -200,7 +218,19 @@ transaction_details as (
     
   where (accounting_periods.fiscal_calendar_id is null
     or accounting_periods.fiscal_calendar_id  = (select fiscal_calendar_id from subsidiaries where parent_id is null))
+),
+
+surrogate_key as ( 
+    {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id'] %}
+    {% do surrogate_key_fields.append('to_subsidiary_id') if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
+    {% do surrogate_key_fields.append('accounting_book_id') if var('netsuite2__multibook_accounting_enabled', false) %}
+
+    select 
+        *,
+        {{ dbt_utils.generate_surrogate_key(surrogate_key_fields) }} as transaction_details_id
+
+    from transaction_details
 )
 
 select *
-from transaction_details
+from surrogate_key
