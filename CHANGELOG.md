@@ -8,8 +8,7 @@
 ## 🚨 Breaking Changes 🚨
 - Multi-book functionality is now disabled by default. To enable it, set the variable `netsuite2__multibook_accounting_enabled` to `true` in your `dbt_project.yml`. 
   - ❗Note:  The default behavior was updated due to addition of `accounting_book` fields. Depending on your Netsuite setup, **adding this field can significantly increase the row count of the end models**.
-  
-  - See additional details in the the [multi-book section](CHANGELOG.md#-multi-book).
+  - See additional details in the multi-book section below.
 
 ## 🎉 Features 🎉
 ### Model updates
