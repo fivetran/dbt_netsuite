@@ -125,7 +125,6 @@ It's possible that your Netsuite connector does not sync every table that this p
 ```yml
 vars:
     netsuite2__multibook_accounting_enabled: true # False by default. Disable `accountingbooksubsidiary` and `accountingbook` if you are not using the Multi-Book Accounting feature
-    netsuite2__using_to_subsidiary: true # False by default. This will add to_subsidiary information in the final models if enabled. 
     netsuite2__using_exchange_rate: false #True by default. Disable `exchange_rate` if you don't utilize exchange rates. If you set this variable to false, ensure it is scoped globally so that the `netsuite_source` package can access it as well.
     netsuite2__using_vendor_categories: false # True by default. Disable `vendorcategory` if you don't categorize your vendors
     netsuite2__using_jobs: false # True by default. Disable `job` if you don't use jobs
@@ -135,7 +134,32 @@ vars:
 > To determine if a table or field is activated by a feature, access the [Records Catalog](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/article_159367781370.html).
 
 ## (Optional) Step 6: Additional configurations
-<details><summary>Expand for configurations</summary>
+
+### Enable additional features 
+
+### Multi-Book (Netsuite2 only)
+To include `accounting_book_id` and `accounting_book_name` columns in the end models, set the below variable to `true` in your `dbt_project.yml`. This feature is disabled by default.
+>❗Notes:  
+> - If you choose to enable this feature, this will add rows for transactions for any non-primary `accounting_book_id`, and your downstream use cases may need to be adjusted. 
+> - The surrogate keys for the end models are dynamically generated depending on the enabled/disabled features, so adding these rows will not cause test failures.
+> - If you are leveraging a `*_pass_through_columns` variable to include the added columns, you may need to remove them to avoid a duplicate column error.
+```yml
+vars:
+    netsuite2__multibook_accounting_enabled: true # False by default.
+```
+
+### To Subsidiary (Netsuite2 only)
+To include `to_subsidiary_id` and `to_subsidiary_name` columns in the end models, set the below variable to `true` in your `dbt_project.yml`. This feature is disabled by default.
+
+>❗Notes:  
+> - If you choose to enable this feature, this will add rows for transactions where `to_subsidiary` is not a top-level subsidiary. Your downstream use cases may need to be adjusted. 
+> - The surrogate keys for the end models are dynamically generated depending on the enabled/disabled features, so adding these rows will not cause test failures.
+> - If you are leveraging a `*_pass_through_columns` variable to include the added columns, you may need to remove them to avoid a duplicate column error.
+
+```yml
+vars:
+    netsuite2__using_to_subsidiary: true # False by default.
+```
 
 ### Passing Through Additional Fields
 This package includes all source columns defined in the macros folder. To add additional columns to this package, do so by adding our pass-through column variables to your `dbt_project.yml` file:
@@ -208,8 +232,6 @@ vars:
 
 ### Override the data models variable
 This package is designed to run **either** the Netsuite.com or Netsuite2 data models. However, for documentation purposes, an additional variable `netsuite_data_model_override` was created to allow for both data model types to be run at the same time by setting the variable value to `netsuite`. This is only to ensure the [dbt docs](https://fivetran.github.io/dbt_netsuite/) (which is hosted on this repository) is generated for both model types. While this variable is provided, we recommend you do not adjust the variable and instead change the `netsuite_data_model` variable to fit your configuration needs.
-
-</details>
 
 ## (Optional) Step 7: Produce Analytics-Ready Reports with Streamlit App (Bigquery and Snowflake users only)
 For those who want to take their reports a step further, our team has created the [Fivetran Netsuite Streamlit App](https://fivetran-netsuite.streamlit.app/) to generate end model visualizations based off of the reports we created in this package.  This way you can replicate much of the reporting you see internally in Netsuite and automate a lot of the work needed to report on your core metrics.
