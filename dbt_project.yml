@@ -60,6 +60,8 @@ vars:
     accounts_pass_through_columns:
       - name: "special_account_type_id"
         alias: "special_account_type_id"
+      - name: "lyra_cash_flow_category"
+        alias: "lyra_cash_flow_category"
     classes_pass_through_columns: []
     departments_pass_through_columns: []
     transactions_pass_through_columns:
