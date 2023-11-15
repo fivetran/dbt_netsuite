@@ -71,4 +71,4 @@ vars:
         alias: "type_based_document_number"
     transaction_lines_pass_through_columns: []
     balance_sheet_transaction_detail_columns: [subsidiary_id, subsidiary_name, is_account_intercompany, is_eliminate, currency_symbol, type_based_document_number, account_display_name, parent_account_number, parent_account_display_name]
-    income_statement_transaction_detail_columns: [lyra_subledger, lyra_subledger_id, is_account_intercompany, is_eliminate, currency_symbol, type_based_document_number, account_display_name, parent_account_number, parent_account_display_name]
+    income_statement_transaction_detail_columns: [lyra_subledger, lyra_subledger_id, is_account_intercompany, is_eliminate, currency_symbol, type_based_document_number, account_display_name, parent_account_number, parent_account_display_name, department_name]
