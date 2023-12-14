@@ -32,7 +32,7 @@ model | new cols
 ----- | -----
 netsuite2__transaction_details | accounting_period_id <br> subsidiary_id <br> transaction_details_id
 netsuite2__income_statement | income_statement_id
-netsuite2__balance_sheet | balance_sheet_id
+netsuite2__balance_sheet | balance_sheet_id <br> subsidiary_name <br> subsidiary_id
 
 - `balance_sheet_id`, `income_statement_id`, and `transaction_details_id` are surrogate keys created for each end model. These keys are now tested for uniqueness and replaces the previous combination-of-columns tests for these models. 
 
@@ -72,7 +72,7 @@ model | new cols
 ----- | -----
 netsuite2__transaction_details | to_subsidiary_id <br> to_subsidiary_name <br> to_subsidiary_currency_symbol
 netsuite2__income_statement | to_subsidiary_id <br> to_subsidiary_name <br> to_subsidiary_currency_symbol
-netsuite2__balance_sheet | to_subsidiary_id <br> to_subsidiary_name <br> to_subsidiary_currency_symbol <br> subsidiary_name
+netsuite2__balance_sheet | to_subsidiary_id <br> to_subsidiary_name <br> to_subsidiary_currency_symbol
 
 ## 🚘 Under the hood 🚘
 - Removed previously deprecated, empty model `int_netsuite2__consolidated_exchange_rates`.
