@@ -1,7 +1,82 @@
 # dbt_netsuite v0.12.0
 ## 🎁 Official release for Netsuite2! 🎁
-[PR #98](https://github.com/fivetran/dbt_netsuite/pull/98) includes the following updates.
-- This is the official supported release of [dbt_netsuite v0.12.0-b1](https://github.com/fivetran/dbt_netsuite/releases/tag/v0.12.0-b1). 
+[PR #98](https://github.com/fivetran/dbt_netsuite/pull/98) is the official supported release of [dbt_netsuite v0.12.0-b1](https://github.com/fivetran/dbt_netsuite/releases/tag/v0.12.0-b1). 
+
+## 📈 New Visualization Support (BigQuery & Snowflake users) 📊
+- Our team has created the [Netsuite Streamlit app](https://fivetran-netsuite.streamlit.app/) to help you visualize the end reports created in this package! [See instructions here](https://github.com/fivetran/streamlit_netsuite) on how to fork our Streamlit repo and configure your own reports.
+
+[PR #95](https://github.com/fivetran/dbt_netsuite/pull/95) (built upon [#90](https://github.com/fivetran/dbt_netsuite/issues/90)) introduces the following updates.
+
+## 🚨 Breaking Changes 🚨
+- Multi-book functionality is now disabled by default. To enable it, set the variable `netsuite2__multibook_accounting_enabled` to `true` in your `dbt_project.yml`. 
+  - ❗Note:  The default behavior was updated due to addition of `accounting_book` fields. Depending on your Netsuite setup, **adding this field can significantly increase the row count of the end models**.
+  - See additional details in the multi-book section below.
+
+## 🎉 Features 🎉
+### Model updates
+- For more accurate categorization of accounts, accounts having the following `special_account_type_id` are now categorized as:
+
+special_account_type_id | account_type_name | account_type_id
+--- | --- | ---
+retearnings | Retained Earnings | retained_earnings
+cta-e | Cumulative Translation Adjustment | cumulative_translation_adjustment
+cumultransadj | Cumulative Translation Adjustment | cumulative_translation_adjustment
+
+- The below fields have been added for all configurations. 
+  - If you are leveraging a `*_pass_through_columns` variable to include `accounting_period_id` or `subsidiary_id`, you may need to remove them to avoid a duplicate column error.
+
+model | new cols
+----- | -----
+netsuite2__transaction_details | accounting_period_id <br> subsidiary_id <br> transaction_details_id
+netsuite2__income_statement | income_statement_id
+netsuite2__balance_sheet | balance_sheet_id <br> subsidiary_name <br> subsidiary_id
+
+- `balance_sheet_id`, `income_statement_id`, and `transaction_details_id` are surrogate keys created for each end model. These keys are now tested for uniqueness and replaces the previous combination-of-columns tests for these models. 
+
+- For detailed descriptions on the added columns, refer to our [dbt docs for this package](https://fivetran.github.io/dbt_netsuite/#!/overview/netsuite). 
+
+### Multi-book
+- Expanded `accounting_book` information that is included. As mentioned above, this feature is now disabled by default. To enable it, set the below variable to `true` in your `dbt_project.yml`. 
+  - ❗Notes:  
+    - If you choose to enable this feature, this will add rows for transactions for your non-primary accounting_book_ids, and any of your downstream use cases may need to be adjusted. 
+    - The surrogate keys mentioned above are dynamically generated depending on your enabled/disabled features, so adding these rows should not cause test failures.
+    - If you are leveraging a `*_pass_through_columns` variable to include the below columns, you may need to remove them to avoid a duplicate column error.
+```yml
+vars:
+    netsuite2__multibook_accounting_enabled: true # False by default.
+```
+- The resulting fields added by enabling this feature are:
+
+model | new cols
+----- | -----
+netsuite2__transaction_details | accounting_book_id <br> accounting_book_name
+netsuite2__income_statement | accounting_book_id <br> accounting_book_name
+netsuite2__balance_sheet | accounting_book_id <br> accounting_book_name 
+
+### To_subsidiary
+- Added the option to include `to_subsidiary` information in all end models. This feature is disabled by default, so to enable it, set the below variable to `true` in your `dbt_project.yml`. You will also need to be using exchange rates, which is enabled by default.
+  - ❗Notes:  
+    - If you choose to enable this feature, this will add rows for transactions where `to_subsidiary` is not a top-level subsidiary. Your downstream use cases may need to be adjusted. 
+    - The surrogate keys mentioned above are dynamically generated depending on your enabled/disabled features, so adding these rows should not cause test failures.
+    - If you are leveraging a `*_pass_through_columns` variable to include the below columns, you may need to remove them to avoid a duplicate column error.
+```yml
+vars:
+    netsuite2__using_to_subsidiary: true # False by default.
+```
+- The resulting fields added by enabling this feature are:
+
+model | new cols
+----- | -----
+netsuite2__transaction_details | to_subsidiary_id <br> to_subsidiary_name <br> to_subsidiary_currency_symbol
+netsuite2__income_statement | to_subsidiary_id <br> to_subsidiary_name <br> to_subsidiary_currency_symbol
+netsuite2__balance_sheet | to_subsidiary_id <br> to_subsidiary_name <br> to_subsidiary_currency_symbol
+
+## 🚘 Under the hood 🚘
+- Removed previously deprecated, empty model `int_netsuite2__consolidated_exchange_rates`.
+
+## Contributors:
+- [@jmongerlyra](https://github.com/jmongerlyra) ([#90](https://github.com/fivetran/dbt_netsuite/issues/90))
+- [@rwang-lyra](https://github.com/rwang-lyra ) ([#90](https://github.com/fivetran/dbt_netsuite/issues/90))
 
 # dbt_netsuite v0.12.0-b1
 ## 📈 New Visualization Support (BigQuery & Snowflake users) 📊
