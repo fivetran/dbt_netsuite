@@ -71,6 +71,10 @@ vars:
         alias: "lyra_subledger_id"
       - name: "type_based_document_number"
         alias: "type_based_document_number"
+      - name: "created_date"
+        alias: "created_date"
+      - name: "last_modified_date"
+        alias: "last_modified_date"
     transaction_lines_pass_through_columns: []
-    balance_sheet_transaction_detail_columns: [subsidiary_id, subsidiary_name, is_account_intercompany, is_eliminate, currency_symbol, type_based_document_number, account_display_name, parent_account_number, parent_account_display_name]
-    income_statement_transaction_detail_columns: [lyra_subledger, lyra_subledger_id, is_account_intercompany, is_eliminate, currency_symbol, type_based_document_number, account_display_name, parent_account_number, parent_account_display_name, department_name]
+    balance_sheet_transaction_detail_columns: [subsidiary_id, subsidiary_name, is_account_intercompany, is_eliminate, currency_symbol, type_based_document_number, account_display_name, parent_account_number, parent_account_display_name, created_date, last_modified_date]
+    income_statement_transaction_detail_columns: [lyra_subledger, lyra_subledger_id, is_account_intercompany, is_eliminate, currency_symbol, type_based_document_number, account_display_name, parent_account_number, parent_account_display_name, department_name, created_date, last_modified_date]
