@@ -32,11 +32,20 @@ balance_sheet as (
   select
     transactions_with_converted_amounts.transaction_id,
     transactions_with_converted_amounts.transaction_line_id,
+    transactions_with_converted_amounts.subsidiary_id,
+    subsidiaries.name as subsidiary_name,
+
+    {% if var('netsuite2__multibook_accounting_enabled', false) %}
     transactions_with_converted_amounts.accounting_book_id,
     transactions_with_converted_amounts.accounting_book_name,
+    {% endif %}
+    
+    {% if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
     transactions_with_converted_amounts.to_subsidiary_id,
     transactions_with_converted_amounts.to_subsidiary_name,
     transactions_with_converted_amounts.to_subsidiary_currency_symbol,
+    {% endif %}
+
     reporting_accounting_periods.accounting_period_id as accounting_period_id,
     reporting_accounting_periods.ending_at as accounting_period_ending,
     reporting_accounting_periods.name as accounting_period_name,
@@ -56,7 +65,7 @@ balance_sheet as (
             and reporting_accounting_periods.fiscal_calendar_id = transaction_accounting_periods.fiscal_calendar_id) then 'Net Income'
       when not accounts.is_balancesheet then 'Retained Earnings'
       when lower(accounts.special_account_type_id) = 'retearnings' then 'Retained Earnings'
-      when lower(accounts.special_account_type_id) IN ('cta-e', 'cumultransadj') then 'Cumulative Translation Adjustment'
+      when lower(accounts.special_account_type_id) in ('cta-e', 'cumultransadj') then 'Cumulative Translation Adjustment'
       else accounts.type_name
         end as account_type_name,
     case
@@ -65,7 +74,7 @@ balance_sheet as (
             and reporting_accounting_periods.fiscal_calendar_id = transaction_accounting_periods.fiscal_calendar_id) then 'net_income'
       when not accounts.is_balancesheet then 'retained_earnings'
       when lower(accounts.special_account_type_id) = 'retearnings' then 'retained_earnings'
-      when lower(accounts.special_account_type_id) IN ('cta-e', 'cumultransadj') then 'cumulative_translation_adjustment'
+      when lower(accounts.special_account_type_id) in ('cta-e', 'cumultransadj') then 'cumulative_translation_adjustment'
       else accounts.account_type_id
         end as account_type_id,
     case
@@ -104,7 +113,7 @@ balance_sheet as (
       when lower(accounts.account_type_id) = 'longtermliab' then 11
       when lower(accounts.account_type_id) = 'deferrevenue' then 12
       when lower(accounts.special_account_type_id) = 'retearnings' then 14
-      when lower(accounts.special_account_type_id) IN ('cta-e', 'cumultransadj') then 16
+      when lower(accounts.special_account_type_id) in ('cta-e', 'cumultransadj') then 16
       when lower(accounts.account_type_id) = 'equity' then 13
       when (not accounts.is_balancesheet 
             and {{ dbt.date_trunc('year', 'reporting_accounting_periods.starting_at') }} = {{ dbt.date_trunc('year', 'transaction_accounting_periods.starting_at') }} 
@@ -127,8 +136,14 @@ balance_sheet as (
   left join transaction_details
     on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
       and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
+
+      {% if var('netsuite2__multibook_accounting_enabled', false) %}
       and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
+      {% endif %}
+
+      {% if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
       and transaction_details.to_subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
+      {% endif %}
   {% endif %}
 
 
@@ -141,6 +156,9 @@ balance_sheet as (
   left join accounting_periods as transaction_accounting_periods 
     on transaction_accounting_periods.accounting_period_id = transactions_with_converted_amounts.transaction_accounting_period_id
 
+  left join subsidiaries
+    on subsidiaries.subsidiary_id = transactions_with_converted_amounts.subsidiary_id
+
   where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
     and transaction_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
     and (accounts.is_balancesheet
@@ -151,11 +169,20 @@ balance_sheet as (
   select
     transactions_with_converted_amounts.transaction_id,
     transactions_with_converted_amounts.transaction_line_id,
+    transactions_with_converted_amounts.subsidiary_id,
+    subsidiaries.name as subsidiary_name,
+
+    {% if var('netsuite2__multibook_accounting_enabled', false) %}
     transactions_with_converted_amounts.accounting_book_id,
     transactions_with_converted_amounts.accounting_book_name,
+    {% endif %}
+
+    {% if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
     transactions_with_converted_amounts.to_subsidiary_id,
     transactions_with_converted_amounts.to_subsidiary_name,
     transactions_with_converted_amounts.to_subsidiary_currency_symbol,
+    {% endif %}
+    
     reporting_accounting_periods.accounting_period_id as accounting_period_id,
     reporting_accounting_periods.ending_at as accounting_period_ending,
     reporting_accounting_periods.name as accounting_period_name,
@@ -194,8 +221,14 @@ balance_sheet as (
   left join transaction_details
     on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
       and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
+
+      {% if var('netsuite2__multibook_accounting_enabled', false) %}
       and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
+      {% endif %}
+
+      {% if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
       and transaction_details.to_subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
+      {% endif %}
   {% endif %}
 
   left join accounts
@@ -203,11 +236,26 @@ balance_sheet as (
 
   left join accounting_periods as reporting_accounting_periods 
     on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
-    
+
+  left join subsidiaries
+    on subsidiaries.subsidiary_id = transactions_with_converted_amounts.subsidiary_id
+
   where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
     and (accounts.is_balancesheet
       or transactions_with_converted_amounts.is_income_statement)
+),
+
+surrogate_key as ( 
+  {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id', 'accounting_period_id', 'account_name', 'account_id'] %}
+  {% do surrogate_key_fields.append('to_subsidiary_id') if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
+  {% do surrogate_key_fields.append('accounting_book_id') if var('netsuite2__multibook_accounting_enabled', false) %}
+
+  select 
+    *,
+    {{ dbt_utils.generate_surrogate_key(surrogate_key_fields) }} as balance_sheet_id
+
+  from balance_sheet
 )
 
 select *
-from balance_sheet
+from surrogate_key

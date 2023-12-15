@@ -30,6 +30,8 @@ The following table provides a detailed list of all models materialized within t
 | [netsuite__transaction_details](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite__transaction_details) or [netsuite2__transaction_details](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__transaction_details)             | All transactions with the associated accounting period, account and subsidiary information. Where applicable, you can also see data about the customer, location, item, vendor, and department. |
 | [netsuite__income_statement](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite__income_statement) or [netsuite2__income_statement](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__income_statement)             | All transaction lines necessary to generate an income statement (converted for the appropriate exchange rate of the parent subsidiary). Department, class, and location information are included for additional reporting functionality. |
 | [netsuite__balance_sheet](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite__balance_sheet) or [netsuite2__balance_sheet](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__balance_sheet)            | All transaction lines necessary to generate a balance sheet (converted for the appropriate exchange rate of the parent subsidiary). Non balance sheet transactions are categorized as either Retained Earnings or Net Income. |
+
+Many of the above reports are now configurable for [visualization via Streamlit](https://github.com/fivetran/streamlit_netsuite)! Check out some [sample reports here](https://fivetran-netsuite.streamlit.app/).
 <!--section-end-->
 
 
@@ -100,7 +102,7 @@ Include the following netsuite package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/netsuite
-    version: [">=0.11.0", "<0.12.0"]
+    version: [">=0.12.0", "<0.13.0"]
 ```
 ## Step 3: Define Netsuite.com or Netsuite2 Source
 As of April 2022 Fivetran made available a new Netsuite connector which leverages the Netsuite2 endpoint opposed to the original Netsuite.com endpoint. This package is designed to run for either or, not both. By default the `netsuite_data_model` variable for this package is set to the original `netsuite` value which runs the netsuite.com version of the package. If you would like to run the package on Netsuite2 data, you may adjust the `netsuite_data_model` variable to run the `netsuite2` version of the package.
@@ -122,7 +124,7 @@ vars:
 It's possible that your Netsuite connector does not sync every table that this package expects. If your syncs exclude certain tables, it is because you either don't use that feature in Netsuite or actively excluded some tables from your syncs. To disable the corresponding functionality in the package, you must add the relevant variables. By default, all variables are assumed to be true. Add variables for only the tables you would like to disable:
 ```yml
 vars:
-    netsuite2__multibook_accounting_enabled: false # True by default. Disable `accountingbooksubsidiary` and `accountingbook` if you are not using the Multi-Book Accounting feature
+    netsuite2__multibook_accounting_enabled: true # False by default. Disable `accountingbooksubsidiary` and `accountingbook` if you are not using the Multi-Book Accounting feature
     netsuite2__using_exchange_rate: false #True by default. Disable `exchange_rate` if you don't utilize exchange rates. If you set this variable to false, ensure it is scoped globally so that the `netsuite_source` package can access it as well.
     netsuite2__using_vendor_categories: false # True by default. Disable `vendorcategory` if you don't categorize your vendors
     netsuite2__using_jobs: false # True by default. Disable `job` if you don't use jobs
@@ -132,7 +134,32 @@ vars:
 > To determine if a table or field is activated by a feature, access the [Records Catalog](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/article_159367781370.html).
 
 ## (Optional) Step 6: Additional configurations
-<details><summary>Expand for configurations</summary>
+
+### Enable additional features 
+
+### Multi-Book (Netsuite2 only)
+To include `accounting_book_id` and `accounting_book_name` columns in the end models, set the below variable to `true` in your `dbt_project.yml`. This feature is disabled by default.
+>❗Notes:  
+> - If you choose to enable this feature, this will add rows for transactions for any non-primary `accounting_book_id`, and your downstream use cases may need to be adjusted. 
+> - The surrogate keys for the end models are dynamically generated depending on the enabled/disabled features, so adding these rows will not cause test failures.
+> - If you are leveraging a `*_pass_through_columns` variable to include the added columns, you may need to remove them to avoid a duplicate column error.
+```yml
+vars:
+    netsuite2__multibook_accounting_enabled: true # False by default.
+```
+
+### To Subsidiary (Netsuite2 only)
+To include `to_subsidiary_id` and `to_subsidiary_name` columns in the end models, set the below variable to `true` in your `dbt_project.yml`. This feature is disabled by default. You will also need to be using exchange rates, which is enabled by default.
+
+>❗Notes:  
+> - If you choose to enable this feature, this will add rows for transactions where `to_subsidiary` is not a top-level subsidiary. Your downstream use cases may need to be adjusted. 
+> - The surrogate keys for the end models are dynamically generated depending on the enabled/disabled features, so adding these rows will not cause test failures.
+> - If you are leveraging a `*_pass_through_columns` variable to include the added columns, you may need to remove them to avoid a duplicate column error.
+
+```yml
+vars:
+    netsuite2__using_to_subsidiary: true # False by default.
+```
 
 ### Passing Through Additional Fields
 This package includes all source columns defined in the macros folder. To add additional columns to this package, do so by adding our pass-through column variables to your `dbt_project.yml` file:
@@ -206,9 +233,12 @@ vars:
 ### Override the data models variable
 This package is designed to run **either** the Netsuite.com or Netsuite2 data models. However, for documentation purposes, an additional variable `netsuite_data_model_override` was created to allow for both data model types to be run at the same time by setting the variable value to `netsuite`. This is only to ensure the [dbt docs](https://fivetran.github.io/dbt_netsuite/) (which is hosted on this repository) is generated for both model types. While this variable is provided, we recommend you do not adjust the variable and instead change the `netsuite_data_model` variable to fit your configuration needs.
 
-</details>
+## (Optional) Step 7: Produce Analytics-Ready Reports with Streamlit App (Bigquery and Snowflake users only)
+For those who want to take their reports a step further, our team has created the [Fivetran Netsuite Streamlit App](https://fivetran-netsuite.streamlit.app/) to generate end model visualizations based off of the reports we created in this package.  This way you can replicate much of the reporting you see internally in Netsuite and automate a lot of the work needed to report on your core metrics.
 
-## (Optional) Step 7: Orchestrate your models with Fivetran Transformations for dbt Core™    
+[We recommend following the instructions here](https://github.com/fivetran/streamlit_netsuite) to fork the app for your own data and create end reports leveraging our Netsuite models. You can see a sample version of [these reports here]((https://fivetran-netsuite.streamlit.app/)).
+
+## (Optional) Step 8: Orchestrate your models with Fivetran Transformations for dbt Core™    
 <details><summary>Expand for details</summary>
 <br>
 
@@ -223,7 +253,7 @@ This dbt package is dependent on the following dbt packages. Please be aware tha
 ```yml
 packages:
     - package: fivetran/netsuite_source
-      version: [">=0.7.0", "<0.8.0"]
+      version: [">=0.9.0", "<0.10.0"]
 
     - package: fivetran/fivetran_utils
       version: [">=0.4.0", "<0.5.0"]

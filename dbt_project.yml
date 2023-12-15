@@ -1,6 +1,6 @@
 config-version: 2
 name: 'netsuite'
-version: '0.11.0'
+version: '0.12.0'
 require-dbt-version: [">=1.3.0", "<2.0.0"]
 
 models:
@@ -58,8 +58,6 @@ vars:
     netsuite2_vendor_categories: "{{ ref('stg_netsuite2__vendor_categories') }}"
     netsuite2_vendors: "{{ ref('stg_netsuite2__vendors') }}"
     accounts_pass_through_columns:
-      - name: "special_account_type_id"
-        alias: "special_account_type_id"
       - name: "lyra_cash_flow_category"
         alias: "lyra_cash_flow_category"
     classes_pass_through_columns: []
@@ -76,5 +74,7 @@ vars:
       - name: "last_modified_date"
         alias: "last_modified_date"
     transaction_lines_pass_through_columns: []
-    balance_sheet_transaction_detail_columns: [subsidiary_id, subsidiary_name, is_account_intercompany, is_eliminate, currency_symbol, type_based_document_number, account_display_name, parent_account_number, parent_account_display_name, created_date, last_modified_date]
+    balance_sheet_transaction_detail_columns: [is_account_intercompany, is_eliminate, currency_symbol, type_based_document_number, account_display_name, parent_account_number, parent_account_display_name, created_date, last_modified_date]
     income_statement_transaction_detail_columns: [lyra_subledger, lyra_subledger_id, is_account_intercompany, is_eliminate, currency_symbol, type_based_document_number, account_display_name, parent_account_number, parent_account_display_name, department_name, created_date, last_modified_date]
+    netsuite2__multibook_accounting_enabled: true
+    netsuite2__using_to_subsidiary: true
