@@ -113,6 +113,7 @@ transaction_details as (
     accounting_periods.is_adjustment as is_accounting_period_adjustment,
     accounting_periods.is_closed as is_accounting_period_closed,
     accounts.name as account_name,
+    accounts.display_name as account_display_name,
     accounts.type_name as account_type_name,
     accounts.account_type_id,
     accounts.account_id as account_id,
@@ -125,7 +126,10 @@ transaction_details as (
     lower(accounts.account_type_id) = 'acctpay' as is_accounts_payable,
     lower(accounts.account_type_id) = 'acctrec' as is_accounts_receivable,
     accounts.is_eliminate as is_account_intercompany,
+    transaction_lines.is_eliminate,
+    coalesce(parent_account.account_number, accounts.account_number) as parent_account_number,
     coalesce(parent_account.name, accounts.name) as parent_account_name,
+    coalesce(parent_account.display_name, accounts.display_name) as parent_account_display_name,
     lower(accounts.account_type_id) in ('expense', 'othexpense', 'deferexpense') as is_expense_account,
     lower(accounts.account_type_id) in ('income', 'othincome') as is_income_account,
     customers.company_name,
@@ -149,6 +153,7 @@ transaction_details as (
     vendors.create_date_at as vendor_create_date,
     currencies.name as currency_name,
     currencies.symbol as currency_symbol,
+    transaction_lines.exchange_rate,
     departments.name as department_name
 
     --The below script allows for departments table pass through columns.
@@ -156,6 +161,7 @@ transaction_details as (
 
     subsidiaries.subsidiary_id,
     subsidiaries.name as subsidiary_name,
+    subsidiaries_currencies.symbol as subsidiary_currency_symbol,
     case
       when lower(accounts.account_type_id) in ('income', 'othincome') then -converted_amount_using_transaction_accounting_period
       else converted_amount_using_transaction_accounting_period
@@ -163,7 +169,11 @@ transaction_details as (
     case
       when lower(accounts.account_type_id) in ('income', 'othincome') then -transaction_lines.amount
       else transaction_lines.amount
-        end as transaction_amount
+        end as transaction_amount,
+    case
+      when lower(accounts.account_type_id) in ('income', 'othincome') then -transaction_lines.netamount
+      else transaction_lines.netamount
+        end as transaction_line_amount  
   from transaction_lines
 
   join transactions
@@ -215,6 +225,9 @@ transaction_details as (
 
   join subsidiaries 
     on subsidiaries.subsidiary_id = transaction_lines.subsidiary_id
+
+  left join currencies subsidiaries_currencies
+    on subsidiaries_currencies.currency_id = subsidiaries.currency_id
     
   where (accounting_periods.fiscal_calendar_id is null
     or accounting_periods.fiscal_calendar_id  = (select fiscal_calendar_id from subsidiaries where parent_id is null))
