@@ -58,6 +58,7 @@ joined as (
         transaction_accounting_lines.account_id,
         accounting_books.accounting_book_id,
         accounting_books.accounting_book_name,
+        accounting_books.source_relation
         transaction_accounting_lines.amount,
         transaction_accounting_lines.credit_amount,
         transaction_accounting_lines.debit_amount,
