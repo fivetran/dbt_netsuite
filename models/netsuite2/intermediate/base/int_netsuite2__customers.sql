@@ -19,11 +19,13 @@ joined as (
         entity_address.city,
         entity_address.state,
         entity_address.zipcode,
-        entity_address.country
+        entity_address.country,
+        entity_address.source_relation
 
     from customers
     left join entity_address
         on coalesce(customers.default_billing_address_id, customers.default_shipping_address_id) = entity_address.nkey
+        and customers.source_relation = entity_address.source_relation
 )
 
 select *

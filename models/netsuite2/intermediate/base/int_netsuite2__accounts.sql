@@ -18,11 +18,13 @@ joined as (
         accounts.*,
         account_types.type_name,
         account_types.is_balancesheet,
-        account_types.is_leftside
+        account_types.is_leftside,
+        account_types.source_relation
 
     from accounts
     left join account_types
         on accounts.account_type_id = account_types.account_type_id
+        and accounts.source_relation = account_types.source_relation
 )
 
 select *
