@@ -20,13 +20,17 @@ transaction_lines_w_accounting_period as ( -- transaction line totals, by accoun
     {% if var('netsuite2__multibook_accounting_enabled', false) %}
     transaction_lines.accounting_book_id,
     transaction_lines.accounting_book_name,
+    transaction_lines.source_relation,
     {% endif %}
     
     transactions.accounting_period_id as transaction_accounting_period_id,
+    transactions.source_relation,
     coalesce(transaction_lines.amount, 0) as unconverted_amount
   from transaction_lines
 
-  join transactions on transactions.transaction_id = transaction_lines.transaction_id
+  join transactions 
+    on transactions.transaction_id = transaction_lines.transaction_id
+    and transactions.source_relation = transaction_lines.source_relation
 
   where lower(transactions.transaction_type) != 'revenue arrangement'
     and transaction_lines.is_posting

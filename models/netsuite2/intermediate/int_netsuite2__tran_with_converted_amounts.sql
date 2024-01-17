@@ -25,32 +25,37 @@ accounts as (
 transactions_in_every_calculation_period_w_exchange_rates as (
   select
     transaction_lines_w_accounting_period.*,
-    reporting_accounting_period_id
+    transaction_and_reporting_periods.reporting_accounting_period_id
     
     {% if var('netsuite2__using_exchange_rate', true) %}
     , exchange_reporting_period.exchange_rate as exchange_rate_reporting_period
     , exchange_transaction_period.exchange_rate as exchange_rate_transaction_period
+    , exchange_transaction_period.source_relation
     {% endif %}
 
     {% if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
     , exchange_reporting_period.to_subsidiary_id
     , exchange_reporting_period.to_subsidiary_name
     , exchange_reporting_period.to_subsidiary_currency_symbol
+    , exchange_reporting_period.source_relation
     {% endif %}
 
   from transaction_lines_w_accounting_period
 
   left join transaction_and_reporting_periods 
-    on transaction_and_reporting_periods.accounting_period_id = transaction_lines_w_accounting_period.transaction_accounting_period_id 
+    on transaction_and_reporting_periods.accounting_period_id = transaction_lines_w_accounting_period.transaction_accounting_period_ida
+    and transaction_and_reporting_periods.source_relation = transaction_lines_w_accounting_period.source_relation
 
   {% if var('netsuite2__using_exchange_rate', true) %}
   left join accountxperiod_exchange_rate_map as exchange_reporting_period
     on exchange_reporting_period.accounting_period_id = transaction_and_reporting_periods.reporting_accounting_period_id
       and exchange_reporting_period.account_id = transaction_lines_w_accounting_period.account_id
       and exchange_reporting_period.from_subsidiary_id = transaction_lines_w_accounting_period.subsidiary_id
+      and exchange_reporting_period.source_relation = transaction_lines_w_accounting_period.source_relation
 
       {% if var('netsuite2__multibook_accounting_enabled', false) %}
       and exchange_reporting_period.accounting_book_id = transaction_lines_w_accounting_period.accounting_book_id
+      and exchange_reporting_period.source_relation = transaction_lines_w_accounting_period.source_relation
       {% endif %}
       
   left join accountxperiod_exchange_rate_map as exchange_transaction_period
@@ -64,6 +69,7 @@ transactions_in_every_calculation_period_w_exchange_rates as (
 
       {% if var('netsuite2__using_to_subsidiary', false) %}
       and exchange_transaction_period.to_subsidiary_id = exchange_reporting_period.to_subsidiary_id
+      and exchange_transaction_period.source_relation = transaction_lines_w_accounting_period.source_relation
       {% endif %}
   {% endif %}
 ), 
@@ -78,6 +84,7 @@ transactions_with_converted_amounts as (
     unconverted_amount as converted_amount_using_transaction_accounting_period,
     unconverted_amount as converted_amount_using_reporting_month,
     {% endif %}
+    accounts.source_relation,
     case
       when lower(accounts.account_type_id) in ('income','othincome','expense','othexpense','cogs') then true
       else false 
@@ -94,7 +101,8 @@ transactions_with_converted_amounts as (
   from transactions_in_every_calculation_period_w_exchange_rates
 
   left join accounts
-    on accounts.account_id = transactions_in_every_calculation_period_w_exchange_rates.account_id 
+    on accounts.account_id = transactions_in_every_calculation_period_w_exchange_rates.account_id
+    and accounts.source_relation = transactions_in_every_calculation_period_w_exchange_rates.source_relation
 )
 
 select * 

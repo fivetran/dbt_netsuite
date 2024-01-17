@@ -35,20 +35,25 @@ period_exchange_rate_map as ( -- exchange rates used, by accounting period, to c
     consolidated_exchange_rates.accounting_book_id,
     {% endif %}
 
+    consolidated_exchange_rates.source_relation,
     consolidated_exchange_rates.average_rate,
     consolidated_exchange_rates.current_rate,
     consolidated_exchange_rates.historical_rate,
     consolidated_exchange_rates.from_subsidiary_id,
     consolidated_exchange_rates.to_subsidiary_id,
     to_subsidiaries.name as to_subsidiary_name,
-    currencies.symbol as to_subsidiary_currency_symbol
+    to_subsidiaries.source_relation
+    currencies.symbol as to_subsidiary_currency_symbol,
+    currencies.source_relation
   from consolidated_exchange_rates
   
   left join subsidiaries as to_subsidiaries
     on consolidated_exchange_rates.to_subsidiary_id = to_subsidiaries.subsidiary_id
+    and consolidated_exchange_rates.source_relation = to_subsidiaries.source_relation
 
   left join currencies
     on currencies.currency_id = to_subsidiaries.currency_id
+    and currencies.source_relation = to_subsidiaries.source_relation
 
   {% if not var('netsuite2__using_to_subsidiary', false) %}
   where consolidated_exchange_rates.to_subsidiary_id in (select subsidiary_id from subsidiaries where parent_id is null)  -- constraint - only the primary subsidiary has no parent
@@ -63,11 +68,13 @@ accountxperiod_exchange_rate_map as ( -- account table with exchange rate detail
     period_exchange_rate_map.accounting_book_id,
     {% endif %}
     
+    period_exchange_rate_map.source_relation,
     period_exchange_rate_map.from_subsidiary_id,
     period_exchange_rate_map.to_subsidiary_id,
     period_exchange_rate_map.to_subsidiary_name,
     period_exchange_rate_map.to_subsidiary_currency_symbol,
     accounts.account_id,
+    accounts.source_relation
     case 
       when lower(accounts.general_rate_type) = 'historical' then period_exchange_rate_map.historical_rate
       when lower(accounts.general_rate_type) = 'current' then period_exchange_rate_map.current_rate

@@ -13,7 +13,9 @@ subsidiaries as (
 transaction_and_reporting_periods as ( 
   select
     base.accounting_period_id as accounting_period_id,
-    multiplier.accounting_period_id as reporting_accounting_period_id
+    base.source_relation,
+    multiplier.accounting_period_id as reporting_accounting_period_id,
+    multiplier.source_relation
   from accounting_periods as base
 
   join accounting_periods as multiplier
@@ -21,6 +23,7 @@ transaction_and_reporting_periods as (
       and multiplier.is_quarter = base.is_quarter
       and multiplier.is_year = base.is_year -- this was year_0 in netsuite1
       and multiplier.fiscal_calendar_id = base.fiscal_calendar_id
+      and multiplier.source_relation = base.source_relation
       and cast(multiplier.starting_at as {{ dbt.type_timestamp() }}) <= {{ current_timestamp() }} 
 
   where not base.is_quarter
