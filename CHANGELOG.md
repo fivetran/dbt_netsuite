@@ -1,4 +1,8 @@
-# dbt_netsuite v0.12.0
+# dbt_netsuite v0.13.0
+
+## 🎉 Feature Update 🎉 
+This release supports running the package on multiple Netsuite sources at once! See the [README](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#step-3-define-netsuitecom-or-netsuite2-source) for details on how to leverage this feature ([PR #xxx](Placeholder)).
+
 ## 🎁 Official release for Netsuite2! 🎁
 [PR #98](https://github.com/fivetran/dbt_netsuite/pull/98) is the official supported release of [dbt_netsuite v0.12.0-b1](https://github.com/fivetran/dbt_netsuite/releases/tag/v0.12.0-b1). 
 

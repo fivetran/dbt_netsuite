@@ -102,7 +102,7 @@ Include the following netsuite package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/netsuite
-    version: [">=0.12.0", "<0.13.0"]
+    version: [">=0.13.0", "<0.14.0"]
 ```
 ## Step 3: Define Netsuite.com or Netsuite2 Source
 As of April 2022 Fivetran made available a new Netsuite connector which leverages the Netsuite2 endpoint opposed to the original Netsuite.com endpoint. This package is designed to run for either or, not both. By default the `netsuite_data_model` variable for this package is set to the original `netsuite` value which runs the netsuite.com version of the package. If you would like to run the package on Netsuite2 data, you may adjust the `netsuite_data_model` variable to run the `netsuite2` version of the package.
@@ -112,12 +112,629 @@ vars:
 ```
 
 ## Step 4: Define database and schema variables
+### Option 1: Single connector
 By default, this package runs using your destination and the `netsuite` schema. If this is not where your Netsuite data is (for example, if your netsuite schema is named `netsuite_fivetran`), add the following configuration to your root `dbt_project.yml` file:
 
 ```yml
 vars:
     netsuite_database: your_destination_name
     netsuite_schema: your_schema_name 
+```
+
+> **Note**: If you are running the package on one source connector, each model will have a `source_relation` column that is just an empty string.
+
+### Option 2: Union multiple connectors
+If you have multiple Netsuite connectors in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. The package will union all of the data together and pass the unioned table into the transformations. You will be able to see which source it came from in the `source_relation` column of each model. To use this functionality, you will need to set either the `netsuite_union_schemas` OR `netsuite_union_databases` variables (cannot do both, though a more flexible approach is in the works...) in your root `dbt_project.yml` file:
+
+```yml
+# dbt_project.yml
+
+vars:
+    netsuite_union_schemas: ['netsuite_usa','netsuite_canada'] # use this if the data is in different schemas/datasets of the same database/project
+    netsuite_union_databases: ['netsuite_usa','netsuite_canada'] # use this if the data is in different databases/projects but uses the same schema name
+```
+
+#### Recommended: Incorporate unioned sources into DAG
+By default, this package defines one single-connector source, called `netsuite`, which will be disabled if you are unioning multiple connectors. This means that your DAG will not include your Netsuite sources, though the package will run successfully.
+
+To properly incorporate all of your Netsuite connectors into your project's DAG:
+1. Define each of your sources in a `.yml` file in your project. Utilize the following template to leverage our table and column documentation. 
+
+  <details><summary><i>Expand for source configuration template</i></summary><p>
+
+> **Note**: If there are source tables you do not have (see [Step 4](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#step-5-disable-models-for-non-existent-sources-netsuite2-only)), you may still include them, as long as you have set the right variables to `False`. Otherwise, you may remove them from your source definitions.
+
+```yml
+sources:
+  - name: <name>
+    schema: <schema_name>
+    database: <database_name>
+    loader: fivetran
+    loaded_at_field: _fivetran_synced
+
+    freshness:
+        warn_after: {count: 72, period: hour}
+        error_after: {count: 168, period: hour}
+
+    tables: &netsuite2_table_defs # <- see https://support.atlassian.com/bitbucket-cloud/docs/yaml-anchors/
+      - name: account_type
+        description: A table containing the various account types within Netsuite.
+        columns:
+          - name: _fivetran_deleted
+            description: Unique ID used by Fivetran to sync and dedupe data.
+          - name: _fivetran_synced
+            description: Timestamp of when a record was last synced.
+          - name: id
+            description: Unique identifier of thea account type.
+          - name: balancesheet
+            description: Boolean indicating if the account type is a balance sheet account. Represented as "T" or "F" for true and false respectively.
+          - name: left
+            description: Boolean indicating if the account type is leftside. Represented as "T" or "F" for true and false respectively.
+          - name: longname
+            description: The name of the account type.
+
+      - name: accounting_book_subsidiaries
+        description: A table containing the various account books and the respective subsidiaries.
+        config:
+          enabled: "{{ var('netsuite2__multibook_accounting_enabled', true) }}"
+        columns:
+          - name: _fivetran_id
+            description: Unique ID used by Fivetran to sync and dedupe data.
+          - name: _fivetran_synced
+            description: Timestamp of when a record was last synced.
+          - name: accountingbook
+            description: Unique identifier of the accounting book.
+          - name: status
+            description: The status of the accounting book subsidiary.
+          - name: subsidiary
+            description: The unique identifier of the subsidiary used for the record.
+
+      - name: accounting_book
+        description: Table detailing all accounting books set up in Netsuite.
+        config:
+          enabled: "{{ var('netsuite2__multibook_accounting_enabled', true) }}"
+        columns:
+          - name: _fivetran_synced
+            description: Timestamp of when a record was last synced.
+          - name: id
+            description: Unique identifier of the accounting book.
+          - name: name
+            description: Name of the accounting book.
+          - name: basebook
+            description: Reference to the base book.
+          - name: effectiveperiod
+            description: Reference to the effective period of the accounting book.
+          - name: isadjustmentonly
+            description: Boolean indicating if the accounting book is an adjustment only. Represented as "T" or "F" for true and false respectively.
+          - name: isconsolidated
+            description: Boolean indicating if the accounting book is a consolidated entry. Represented as "T" or "F" for true and false respectively.
+          - name: contingentrevenuehandling
+            description: Boolean indicating if the accounting book is contingent revenue handling. Represented as "T" or "F" for true and false respectively.
+          - name: isprimary
+            description: Boolean indicating if the accounting book is a primary entry. Represented as "T" or "F" for true and false respectively.
+          - name: twosteprevenueallocation
+            description: Boolean indicating if the accounting book is a two step revenue allocation entry. Represented as "T" or "F" for true and false respectively.
+          - name: unbilledreceivablegrouping
+            description: Boolean indicating if the accounting book is an unbilled receivable grouping. Represented as "T" or "F" for true and false respectively.
+
+      - name: accounting_period_fiscal_calendars
+        description: A table containing the accounting fiscal calendar periods.
+        columns:
+          - name: _fivetran_id
+            description: Unique ID used by Fivetran to sync and dedupe data.
+          - name: _fivetran_synced
+            description: Timestamp of when a record was last synced.
+          - name: accountingperiod
+            description: The accounting period id of the accounting period which the transaction took place in.
+          - name: fiscalcalendar
+            description: Reference to the fiscal calendar used for the record.
+          - name: parent
+            description: Reference to the parent fiscal calendar accounting period.
+
+      - name: accounting_period
+        description: Table detailing all accounting periods, including monthly, quarterly and yearly.
+        columns:
+          - name: _fivetran_synced
+            description: Timestamp of when a record was last synced.
+          - name: id
+            description: The accounting period id of the accounting period which the transaction took place in.
+          - name: parent
+            description: Reference to the parent accounting period.
+          - name: periodname
+            description: Name of the accounting period.
+          - name: startdate
+            description: Timestamp of when the accounting period starts.
+          - name: enddate
+            description: Timestamp if when the accounting period ends.
+          - name: closedondate
+            description: Timestamp of when the accounting period is closed.
+          - name: isquarter
+            description: Boolean indicating if the accounting period is the initial quarter. Represented as "T" or "F" for true and false respectively.
+          - name: isyear
+            description: Boolean indicating if the accounting period is the initial period. Represented as "T" or "F" for true and false respectively.
+          - name: isadjust
+            description: Boolean indicating if the accounting period is an adjustment. Represented as "T" or "F" for true and false respectively.
+          - name: isposting
+            description: Boolean indicating if the accounting period is posting. Represented as "T" or "F" for true and false respectively.
+          - name: closed
+            description: Boolean indicating if the accounting period is closed. Represented as "T" or "F" for true and false respectively.
+          - name: alllocked
+            description: Boolean indicating if all the accounting periods are locked. Represented as "T" or "F" for true and false respectively.
+          - name: arlocked
+            description: Boolean indicating if the ar accounting period is locked. Represented as "T" or "F" for true and false respectively.
+          - name: aplocked
+            description: Boolean indicating if the ap accounting period is locked. Represented as "T" or "F" for true and false respectively.
+
+      - name: account
+        description: Table detailing all accounts set up in Netsuite.
+        columns:
+          - name: _fivetran_synced
+            description: Timestamp of when a record was last synced.
+          - name: id
+            description: The unique identifier associated with the account.
+          - name: externalid
+            description: Reference to the external account,
+          - name: parent
+            description: Reference to the parent account.
+          - name: acctnumber
+            description: Netsuite generated account number.
+          - name: accttype
+            description: Reference to the account type.
+          - name: sspecacct
+            description: Special account type.
+          - name: fullname
+            description: Name of the account.
+          - name: description
+            description: Description of the account.
+          - name: deferralacct
+            description: Reference to the deferral account.
+          - name: cashflowrate
+            description: The cash flow rate type of the account.
+          - name: generalrate
+            description: The general rate type of the account (Current, Historical, Average).
+          - name: currency
+            description: The currency id of the currency used within the record.
+          - name: class
+            description: The unique identifier of the class used for the record.
+          - name: department
+            description: The unique identifier of the department used for the record.
+          - name: location
+            description: The unique identifier of the location used for the record.
+          - name: includechildren
+            description: Boolean indicating if the account includes sub accounts. Represented as "T" or "F" for true and false respectively.
+          - name: isinactive
+            description: Boolean indicating if the account is inactive. Represented as "T" or "F" for true and false respectively.
+          - name: issummary
+            description: Boolean indicating if the account is a summary account. Represented as "T" or "F" for true and false respectively.
+          - name: eliminate
+            description: Indicates this is an intercompany account used only to record transactions between subsidiaries. Amounts posted to intercompany accounts are eliminated when you run the intercompany elimination process at the end of an accounting period. Represented as "T" or "F" for true and false respectively.
+          - name: _fivetran_deleted
+            description: Timestamp of when a record was deleted.
+
+      - name: classification
+        description: Table detailing all classes set up in Netsuite.
+        columns:
+          - name: _fivetran_synced
+            description: Timestamp of when a record was last synced.
+          - name: id
+            description: The unique identifier of the class used for the record.
+          - name: externalid
+            description: Reference to the external class.
+          - name: name
+            description: Name of the class.
+          - name: fullname
+            description: Full name of the class.
+          - name: isinactive
+            description: Boolean indicating if the class is active. Represented as "T" or "F" for true and false respectively.
+          - name: _fivetran_deleted
+            description: Timestamp of when a record was deleted.
+
+      - name: consolidated_exchange_rate
+        description: Table detailing average, historical and current exchange rates for all accounting periods.
+        columns:
+          - name: id
+            description: Unique identifier for the consolidated exchange rate.
+          - name: postingperiod
+            description: The accounting period id of the accounting period which the transaction took place in.
+          - name: fromcurrency
+            description: The currency id which the consolidated exchange rate is from.
+          - name: fromsubsidiary
+            description: The subsidiary id which the consolidated exchange rate is from.
+          - name: tocurrency
+            description: The subsidiary id which the consolidated exchange rate is for.
+          - name: tosubsidiary
+            description: The subsidiary id which the consolidated exchange rate is for.
+          - name: currentrate
+            description: The current rate associated with the exchange rate.
+          - name: averagerate
+            description: The consolidated exchange rates average rate.
+          - name: accountingbook
+            description: Unique identifier of the accounting book.
+          - name: historicalrate
+            description: The historical rate of the exchange rate.
+
+      - name: currency
+        description: Table detailing all currency information.
+        columns:
+          - name: _fivetran_synced
+            description: Timestamp of when a record was last synced.
+          - name: id
+            description: The currency id of the currency used within the record.
+          - name: name
+            description: Name of the currency.
+          - name: symbol
+            description: Currency symbol.
+
+      - name: customer
+        description: Table detailing all customer information.
+        columns:
+          - name: id
+            description: Unique identifier of the customer.
+          - name: entityid
+            description: The entity id of the entity used for the record.
+          - name: externalid
+            description: Reference to the associated external customer.
+          - name: parent
+            description: Reference to the parent customer.
+          - name: isperson
+            description: Boolean indicating if the customer is an individual person. Represented as "T" or "F" for true and false respectively.
+          - name: companyname
+            description: Name of the company.
+          - name: firstname
+            description: First name of the customer.
+          - name: lastname
+            description: Last name of the customer.
+          - name: email
+            description: Customers email address.
+          - name: phone
+            description: Phone number of the customer.
+          - name: defaultbillingaddress
+            description: Reference to the associated billing address.
+          - name: defaultshippingaddress
+            description: Reference to the associated default shipping address.
+          - name: receivablesaccount
+            description: Reference to the associated receivables account.
+          - name: currency
+            description: The currency id of the currency used within the record.
+          - name: firstorderdate
+            description: Timestamp of when the first order was created.
+
+      - name: department
+        description: Table detailing all departments set up in Netsuite.
+        columns:
+          - name: _fivetran_synced
+            description: Timestamp of when a record was last synced.
+          - name: id
+            description: The unique identifier of the department used for the record.
+          - name: parent
+            description: Reference to the parent department.
+          - name: name
+            description: Name of the department.
+          - name: fullname
+            description: Full name of the department.
+          - name: subsidiary
+            description: The unique identifier of the subsidiary used for the record.
+          - name: isinactive
+            description: Boolean indicating if the department is active. Represented as "T" or "F" for true and false respectively.
+          - name: _fivetran_deleted
+            description: Timestamp of when a record was deleted.
+
+      - name: entity
+        description: Table detailing all entities in Netsuite.
+        columns:
+          - name: id
+            description: The entity id of the entity used for the record.
+          - name: contact
+            description: The unique identifier of the contact associated with the entity.
+          - name: customer
+            description: The unique identifier of the customer associated with the entity.
+          - name: employee
+            description: The unique identifier of the employee associated with the entity.
+          - name: entitytitle
+            description: The entity name.
+          - name: isperson
+            description: Value indicating whether the entity is a person (either yes or no).
+          - name: parent
+            description: The unique identifier of the parent entity.
+          - name: project
+            description: The unique identifier of the project (job) associated with the entity.
+          - name: type
+            description: The entity type (Contact, CustJob, Job, etc).
+          - name: vendor
+            description: The unique identifier of the vendor associated with the entity.
+
+      - name: entity_address
+        description: A table containing addresses and the various entities which they map.
+        columns:
+          - name: _fivetran_synced
+            description: Timestamp of when a record was last synced.
+          - name: addr1
+            description: The associated address 1.
+          - name: addr2
+            description: The associated address 2.
+          - name: addr3
+            description: The associated address 3.
+          - name: addressee
+            description: The individual associated with the address.
+          - name: addrtext
+            description: The full address associated.
+          - name: city
+            description: The associated city.
+          - name: country
+            description: The associated country.
+          - name: state
+            description: The associated state.
+          - name: nkey
+            description: The associated Netsuite key.
+          - name: zip
+            description: The associated zipcode.
+
+      - name: item
+        description: Table detailing information about the items created in Netsuite.
+        columns:
+          - name: _fivetran_synced
+            description: Timestamp of when a record was last synced.
+          - name: id
+            description: The unique identifier of the item used within the record.
+          - name: fullname
+            description: Name of the item.
+          - name: itemtype
+            description: Item type name.
+          - name: description
+            description: Sales description associated with the item.
+          - name: department
+            description: The unique identifier of the department used for the record.
+          - name: class
+            description: The unique identifier of the class used for the record.
+          - name: location
+            description: The unique identifier of the location used for the record.
+          - name: subsidiary
+            description: The unique identifier of the subsidiary used for the record.
+          - name: assetaccount
+            description: Reference to the asset account.
+          - name: expenseaccount
+            description: Reference to the expense account.
+          - name: gainlossaccount
+            description: Reference to the gain or loss account.
+          - name: incomeaccount
+            description: Reference to the income account.
+          - name: intercoexpenseaccount
+            description: Reference to the intercompany expense account.
+          - name: intercoincomeaccount
+            description: Reference to the intercompany income account.
+          - name: deferralaccount
+            description: Reference to the deferred expense account.
+          - name: deferredrevenueaccount
+            description: Reference to the deferred revenue account.
+          - name: parent
+            description: Reference to the parent item.
+
+      - name: job
+        description: Table detailing all jobs.
+        config:
+          enabled: "{{ var('netsuite2__using_jobs', true) }}"
+        columns:
+          - name: id
+            description: The unique identifier of the job.
+          - name: externalid
+            description: The unique identifier of the external job reference.
+          - name: customer
+            description: The unique identifier of the customer associated with the job.
+          - name: entityid
+            description: Reference the the entity.
+          - name: defaultbillingaddress
+            description: Default billing address.
+          - name: defaultshippingaddress
+            description: Default shipping address.
+          - name: parent
+            description: Reference to the parent job.
+
+      - name: location_main_address
+        description: A table containing the location main addresses.
+        columns:
+          - name: _fivetran_synced
+            description: Timestamp of when a record was last synced.
+          - name: addr1
+            description: The associated address 1.
+          - name: addr2
+            description: The associated address 2.
+          - name: addr3
+            description: The associated address 3.
+          - name: addressee
+            description: The individual associated with the address.
+          - name: addrtext
+            description: The full address associated.
+          - name: city
+            description: The associated city.
+          - name: country
+            description: The associated country.
+          - name: state
+            description: The associated state.
+          - name: nkey
+            description: The associated Netsuite key.
+          - name: zip
+            description: The associated zipcode.
+
+      - name: location
+        description: Table detailing all locations, including store, warehouse and office locations.
+        columns:
+          - name: _fivetran_synced
+            description: Timestamp of when a record was last synced.
+          - name: id
+            description: The unique identifier of the location used for the record.
+          - name: name
+            description: Name of the location.
+          - name: fullname
+            description: Full name of the location.
+          - name: mainaddress
+            description: Reference to the main address used for the record.
+          - name: parent
+            description: Reference to the parent location.
+          - name: subsidiary
+            description: The unique identifier of the subsidiary used for the record.
+
+      - name: subsidiary
+        description: Table detailing all subsidiaries.
+        columns:
+          - name: _fivetran_synced
+            description: Timestamp of when a record was last synced.
+          - name: id
+            description: The unique identifier of the subsidiary used for the record.
+          - name: name
+            description: Name of the subsidiary.
+          - name: fullname
+            description: Full name of the subsidiary.
+          - name: email
+            description: Email address associated with the subsidiary.
+          - name: mainaddress
+            description: Reference to the main address used for the record.
+          - name: country
+            description: The country which the subsidiary is located.
+          - name: state
+            description: The state which the subsidiary is located.
+          - name: fiscalcalendar
+            description: Reference to the fiscal calendar used for the record.
+          - name: parent
+            description: Reference to the parent subsidiary.
+          - name: currency
+            description:  The currency id of the currency used within the record.
+
+      - name: transaction_accounting_line
+        description: A table detailing all transaction lines for all transactions.
+        columns:
+          - name: transaction
+            description: The transaction id which the transaction line is associated with.
+          - name: transactionline
+            description: The unique identifier of the transaction line.
+          - name: amount
+            description: The amount of the transaction line.
+          - name: netamount
+            description: The net amount of the transaction line.
+          - name: accountingbook
+            description: Unique identifier of the accounting book.
+          - name: account
+            description: Reference to the account associated with the entry.
+          - name: posting
+            description: Boolean indicating if the entry is posting. Represented as "T" or "F" for true and false respectively.
+          - name: credit
+            description: Amount associated as a credit.
+          - name: debit
+            description: Amount associated as a debit.
+          - name: amountpaid
+            description: Total amount paid.
+          - name: amountunpaid
+            description: Total amount unpaid.
+
+      - name: transaction_line
+        description: A table detailing all transaction lines for all transactions.
+        columns:
+          - name: _fivetran_synced
+            description: Timestamp of when a record was last synced.
+          - name: id
+            description: Unique identifier of the transaction line.
+          - name: transaction
+            description: The transaction id of referenced for the record.
+          - name: linesequencenumber
+            description: Netsuite generated number associated with the transaction line.
+          - name: memo
+            description: The memo attached to the transaction line.
+          - name: entity
+            description: The entity id of the entity used for the record.
+          - name: item
+            description: The unique identifier of the item used within the record.
+          - name: class
+            description: The unique identifier of the class used for the record.
+          - name: location
+            description: The unique identifier of the location used for the record.
+          - name: subsidiary
+            description: The unique identifier of the subsidiary used for the record.
+          - name: department
+            description: The unique identifier of the department used for the record.
+          - name: isclosed
+            description: Boolean indicating if the transaction line is closed. Represented as "T" or "F" for true and false respectively.
+          - name: isbillable
+            description: Boolean indicating if the transaction line is billable. Represented as "T" or "F" for true and false respectively.
+          - name: iscogs
+            description: Boolean indicating if the transaction line is a cost of goods sold entry. Represented as "T" or "F" for true and false respectively.
+          - name: cleared
+            description: Boolean indicating if the transaction line is cleared. Represented as "T" or "F" for true and false respectively.
+          - name: commitmentfirm
+            description: Boolean indicating if the transaction line is a commitment firm. Represented as "T" or "F" for true and false respectively.
+          - name: mainline
+            description: Boolean indicating if the transaction line is a main line entry. Represented as "T" or "F" for true and false respectively.
+          - name: taxline
+            description: Boolean indicating if the transaction line is a tax line. Represented as "T" or "F" for true and false respectively.
+
+      - name: transaction
+        description: A table detailing all transactions.
+        columns:
+          - name: _fivetran_synced
+            description: Timestamp of when a record was last synced.
+          - name: id
+            description: The transaction id of referenced for the record.
+          - name: transactionnumber
+            description: The Netsuite generated number of the transaction.
+          - name: type
+            description: The type of the transaction.
+          - name: memo
+            description: Memo attached to the transaction.
+          - name: trandate
+            description: The timestamp of the transaction date.
+          - name: status
+            description: Status of the transaction.
+          - name: createddate
+            description: Timestamp of when the record was created.
+          - name: duedate
+            description: Timestamp of the transactions due date.
+          - name: closedate
+            description: Timestamp of when the transaction was closed.
+          - name: currency
+            description: The currency id of the currency used within the record.
+          - name: entity
+            description: The entity id of the entity used for the record.
+          - name: postingperiod
+            description: The accounting period id of the accounting period which the transaction took place in.
+          - name: posting
+            description: Boolean indicating if the transaction is a posting event. Represented as "T" or "F" for true and false respectively.
+          - name: intercoadj
+            description: Boolean indicating if the transaction is an intercompany adjustment. Represented as "T" or "F" for true and false respectively.
+          - name: isreversal
+            description: Boolean indicating if the transaction is a reversal entry. Represented as "T" or "F" for true and false respectively.
+
+      - name: vendor_category
+        description: A table containing categories and how they map to vendors.
+        config:
+          enabled: "{{ var('netsuite2__using_vendor_categories', true) }}"
+        columns:
+          - name: id
+            description: Unique identifier of the vendor category.
+          - name: name
+            description: Name of the vendor category.
+          - name: _fivetran_synced
+            description: Timestamp of when a record was last synced.
+
+      - name: vendor
+        description: A table detailing all vendor information.
+        columns:
+          - name: _fivetran_synced
+            description: Timestamp of when a record was last synced.
+          - name: id
+            description: The unique identifier of the vendor.
+          - name: companyname
+            description: Name of the company.
+          - name: datecreated
+            description: Timestamp of the record creation.
+          - name: category
+            description: Unique identifier of the vendor category
+```
+  </p></details>
+
+2. Set the `has_defined_sources` variable (scoped to the `netsuite_source` package) to true, like such:
+```yml
+# dbt_project.yml
+vars:
+  netsuite_source:
+    has_defined_sources: true
 ```
 
 ## Step 5: Disable models for non-existent sources (Netsuite2 only)
@@ -253,7 +870,7 @@ This dbt package is dependent on the following dbt packages. Please be aware tha
 ```yml
 packages:
     - package: fivetran/netsuite_source
-      version: [">=0.9.0", "<0.10.0"]
+      version: [">=0.10.0", "<0.11.0"]
 
     - package: fivetran/fivetran_utils
       version: [">=0.4.0", "<0.5.0"]
