@@ -83,18 +83,21 @@ transaction_details as (
     {% if var('netsuite2__multibook_accounting_enabled', false) %}
     transaction_lines.accounting_book_id,
     transaction_lines.accounting_book_name,
+    transaction_lines.source_relation,
     {% endif %}
 
     {% if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
     transactions_with_converted_amounts.to_subsidiary_id,
     transactions_with_converted_amounts.to_subsidiary_name,
     transactions_with_converted_amounts.to_subsidiary_currency_symbol,
+    transactions_with_converted_amounts.source_relation,
     {% endif %}
     
     transaction_lines.transaction_line_id,
     transaction_lines.memo as transaction_memo,
     not transaction_lines.is_posting as is_transaction_non_posting,
     transactions.transaction_id,
+    transactions.source_relation,
     transactions.status as transaction_status,
     transactions.transaction_date,
     transactions.due_date_at as transaction_due_date,
@@ -112,11 +115,13 @@ transaction_details as (
     accounting_periods.accounting_period_id as accounting_period_id,
     accounting_periods.is_adjustment as is_accounting_period_adjustment,
     accounting_periods.is_closed as is_accounting_period_closed,
+    accounting_periods.source_relation,
     accounts.name as account_name,
     accounts.type_name as account_type_name,
     accounts.account_type_id,
     accounts.account_id as account_id,
-    accounts.account_number
+    accounts.account_number,
+    accounts.source_relation
 
     --The below script allows for accounts table pass through columns.
     {{ fivetran_utils.persist_pass_through_columns('accounts_pass_through_columns', identifier='accounts') }},
@@ -135,27 +140,35 @@ transaction_details as (
     customers.country as customer_country,
     customers.date_first_order_at as customer_date_first_order,
     customers.customer_external_id,
+    customers.source_relation,
     classes.full_name as class_full_name,
+    classes.source_relation,
     items.name as item_name,
     items.type_name as item_type_name,
     items.sales_description,
+    items.source_relation,
     locations.name as location_name,
     locations.city as location_city,
     locations.country as location_country,
+    locations.source_relation,
     {% if var('netsuite2__using_vendor_categories', true) %}
     vendor_categories.name as vendor_category_name,
     {% endif %}
     vendors.company_name as vendor_name,
     vendors.create_date_at as vendor_create_date,
+    vendors.source_relation,
     currencies.name as currency_name,
     currencies.symbol as currency_symbol,
-    departments.name as department_name
+    currencies.source_relation,
+    departments.name as department_name,
+    departments.source_relation
 
     --The below script allows for departments table pass through columns.
     {{ fivetran_utils.persist_pass_through_columns('departments_pass_through_columns', identifier='departments') }},
 
     subsidiaries.subsidiary_id,
     subsidiaries.name as subsidiary_name,
+    subsidiaries.source_relation,
     case
       when lower(accounts.account_type_id) in ('income', 'othincome') then -converted_amount_using_transaction_accounting_period
       else converted_amount_using_transaction_accounting_period
@@ -168,11 +181,13 @@ transaction_details as (
 
   join transactions
     on transactions.transaction_id = transaction_lines.transaction_id
+    and transactions.source_relation = transaction_lines.source_relation
 
   left join transactions_with_converted_amounts as transactions_with_converted_amounts
     on transactions_with_converted_amounts.transaction_line_id = transaction_lines.transaction_line_id
       and transactions_with_converted_amounts.transaction_id = transaction_lines.transaction_id
       and transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+      and transactions_with_converted_amounts.source_relation = transactions_with_converted_amounts.source_relation
       
       {% if var('netsuite2__multibook_accounting_enabled', false) %}
       and transactions_with_converted_amounts.accounting_book_id = transaction_lines.accounting_book_id
@@ -180,27 +195,35 @@ transaction_details as (
 
   left join accounts 
     on accounts.account_id = transaction_lines.account_id
+    and accounts.source_relation = transaction_lines.source_relation
 
   left join accounts as parent_account 
     on parent_account.account_id = accounts.parent_id
+    on parent_account.source_relation = accounts.source_relation
 
   left join accounting_periods 
     on accounting_periods.accounting_period_id = transactions.accounting_period_id
+    and accounting_periods.source_relation = transactions.source_relation
 
   left join customers 
     on customers.customer_id = coalesce(transaction_lines.entity_id, transactions.entity_id)
+    on customers.source_relation = coalesce(transaction_lines.source_relation, transactions.source_relation)
   
   left join classes
     on classes.class_id = transaction_lines.class_id
+    and classes.source_relation = transaction_lines.source_relation
 
   left join items 
     on items.item_id = transaction_lines.item_id
+    and items.source_relation = transaction_lines.source_relation
 
   left join locations 
     on locations.location_id = transaction_lines.location_id
+    on locations.source_relation = transaction_lines.source_relation
 
   left join vendors 
     on vendors.vendor_id = coalesce(transaction_lines.entity_id, transactions.entity_id)
+    on vendors.source_relation = coalesce(transaction_lines.source_relation, transactions.source_relation)
 
   {% if var('netsuite2__using_vendor_categories', true) %}
   left join vendor_categories 
@@ -209,19 +232,22 @@ transaction_details as (
 
   left join currencies 
     on currencies.currency_id = transactions.currency_id
+    and currencies.source_relation = transactions.source_relation
 
   left join departments 
     on departments.department_id = transaction_lines.department_id
+    on departments.source_relation = transaction_lines.source_relation
 
   join subsidiaries 
     on subsidiaries.subsidiary_id = transaction_lines.subsidiary_id
+    and subsidiaries.source_relation = transaction_lines.source_relation
     
   where (accounting_periods.fiscal_calendar_id is null
     or accounting_periods.fiscal_calendar_id  = (select fiscal_calendar_id from subsidiaries where parent_id is null))
 ),
 
 surrogate_key as ( 
-    {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id'] %}
+    {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id', 'source_relation'] %}
     {% do surrogate_key_fields.append('to_subsidiary_id') if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
     {% do surrogate_key_fields.append('accounting_book_id') if var('netsuite2__multibook_accounting_enabled', false) %}
 

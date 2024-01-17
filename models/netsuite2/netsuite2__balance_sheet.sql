@@ -32,8 +32,10 @@ balance_sheet as (
   select
     transactions_with_converted_amounts.transaction_id,
     transactions_with_converted_amounts.transaction_line_id,
+    transactions_with_converted_amounts.source_relation,
     transactions_with_converted_amounts.subsidiary_id,
     subsidiaries.name as subsidiary_name,
+    subsidiaries.name as source_relation,
 
     {% if var('netsuite2__multibook_accounting_enabled', false) %}
     transactions_with_converted_amounts.accounting_book_id,
@@ -47,6 +49,7 @@ balance_sheet as (
     {% endif %}
 
     reporting_accounting_periods.accounting_period_id as accounting_period_id,
+    reporting_accounting_periods.source_relation,
     reporting_accounting_periods.ending_at as accounting_period_ending,
     reporting_accounting_periods.name as accounting_period_name,
     reporting_accounting_periods.is_adjustment as is_accounting_period_adjustment,
@@ -120,12 +123,14 @@ balance_sheet as (
             and reporting_accounting_periods.fiscal_calendar_id = transaction_accounting_periods.fiscal_calendar_id) then 15
       when not accounts.is_balancesheet then 14
       else null
-        end as balance_sheet_sort_helper
+        end as balance_sheet_sort_helper,
+      accounts.source_relation
 
     --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
     {% if var('balance_sheet_transaction_detail_columns') %}
     
     , transaction_details.{{ var('balance_sheet_transaction_detail_columns') | join (", transaction_details.")}}
+    , transaction_details.source_relation
 
     {% endif %}
 
@@ -136,6 +141,7 @@ balance_sheet as (
   left join transaction_details
     on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
       and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
+      and transaction_details.source_relation = transactions_with_converted_amounts.source_relation
 
       {% if var('netsuite2__multibook_accounting_enabled', false) %}
       and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
@@ -149,15 +155,18 @@ balance_sheet as (
 
   left join accounts 
     on accounts.account_id = transactions_with_converted_amounts.account_id
+    on accounts.source_relation = transactions_with_converted_amounts.source_relation
 
   left join accounting_periods as reporting_accounting_periods 
     on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+    and reporting_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
 
   left join accounting_periods as transaction_accounting_periods 
     on transaction_accounting_periods.accounting_period_id = transactions_with_converted_amounts.transaction_accounting_period_id
 
   left join subsidiaries
     on subsidiaries.subsidiary_id = transactions_with_converted_amounts.subsidiary_id
+    and subsidiaries.source_relation = transactions_with_converted_amounts.source_relation
 
   where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
     and transaction_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
@@ -169,8 +178,10 @@ balance_sheet as (
   select
     transactions_with_converted_amounts.transaction_id,
     transactions_with_converted_amounts.transaction_line_id,
+    transactions_with_converted_amounts.source_relation,
     transactions_with_converted_amounts.subsidiary_id,
     subsidiaries.name as subsidiary_name,
+    subsidiaries.name as source_relation,
 
     {% if var('netsuite2__multibook_accounting_enabled', false) %}
     transactions_with_converted_amounts.accounting_book_id,
@@ -184,6 +195,7 @@ balance_sheet as (
     {% endif %}
     
     reporting_accounting_periods.accounting_period_id as accounting_period_id,
+    reporting_accounting_periods.source_relation,
     reporting_accounting_periods.ending_at as accounting_period_ending,
     reporting_accounting_periods.name as accounting_period_name,
     reporting_accounting_periods.is_adjustment as is_accounting_period_adjustment,
@@ -205,12 +217,14 @@ balance_sheet as (
       when lower(accounts.general_rate_type) in ('historical', 'average') then converted_amount_using_transaction_accounting_period
       else converted_amount_using_reporting_month
         end as converted_amount,
-    16 as balance_sheet_sort_helper
+    16 as balance_sheet_sort_helper,
+    accounts.source_relation
 
     --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
     {% if var('balance_sheet_transaction_detail_columns') %}
 
     , transaction_details.{{ var('balance_sheet_transaction_detail_columns') | join (", transaction_details.")}}
+    , transaction_details.source_relation
 
     {% endif %}
 
@@ -221,6 +235,7 @@ balance_sheet as (
   left join transaction_details
     on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
       and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
+      and transaction_details.source_relation = transactions_with_converted_amounts.source_relation
 
       {% if var('netsuite2__multibook_accounting_enabled', false) %}
       and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
@@ -233,12 +248,15 @@ balance_sheet as (
 
   left join accounts
     on accounts.account_id = transactions_with_converted_amounts.account_id
+    on accounts.source_relation = transactions_with_converted_amounts.source_relation
 
   left join accounting_periods as reporting_accounting_periods 
     on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+    on reporting_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
 
   left join subsidiaries
     on subsidiaries.subsidiary_id = transactions_with_converted_amounts.subsidiary_id
+    and subsidiaries.source_relation = transactions_with_converted_amounts.source_relation
 
   where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
     and (accounts.is_balancesheet
@@ -246,7 +264,7 @@ balance_sheet as (
 ),
 
 surrogate_key as ( 
-  {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id', 'accounting_period_id', 'account_name', 'account_id'] %}
+  {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id', 'accounting_period_id', 'account_name', 'account_id', 'source_relation'] %}
   {% do surrogate_key_fields.append('to_subsidiary_id') if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
   {% do surrogate_key_fields.append('accounting_book_id') if var('netsuite2__multibook_accounting_enabled', false) %}
 

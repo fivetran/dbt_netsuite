@@ -52,6 +52,7 @@ income_statement as (
     select
         transactions_with_converted_amounts.transaction_id,
         transactions_with_converted_amounts.transaction_line_id,
+        transactions_with_converted_amounts.source_relation,
 
         {% if var('netsuite2__multibook_accounting_enabled', false) %}
         transactions_with_converted_amounts.accounting_book_id,
@@ -69,26 +70,32 @@ income_statement as (
         reporting_accounting_periods.name as accounting_period_name,
         reporting_accounting_periods.is_adjustment as is_accounting_period_adjustment,
         reporting_accounting_periods.is_closed as is_accounting_period_closed,
+        reporting_accounting_periods.source_relation,
         accounts.name as account_name,
         accounts.type_name as account_type_name,
         accounts.account_type_id,
         accounts.account_id as account_id,
         accounts.account_number,
+        accounts.source_relation,
         subsidiaries.subsidiary_id,
         subsidiaries.full_name as subsidiary_full_name,
-        subsidiaries.name as subsidiary_name
+        subsidiaries.name as subsidiary_name,
+        subsidiaries.source_relation,
 
         --The below script allows for accounts table pass through columns.
         {{ fivetran_utils.persist_pass_through_columns('accounts_pass_through_columns', identifier='accounts') }},
 
         {{ dbt.concat(['accounts.account_number',"'-'", 'accounts.name']) }} as account_number_and_name,
-        classes.full_name as class_full_name
+        classes.full_name as class_full_name,
+        classes.source_relation,
 
         --The below script allows for accounts table pass through columns.
         {{ fivetran_utils.persist_pass_through_columns('classes_pass_through_columns', identifier='classes') }},
 
         locations.full_name as location_full_name,
-        departments.full_name as department_full_name
+        locations.source_relation,
+        departments.full_name as department_full_name,
+        departments.source_relation,
 
         --The below script allows for departments table pass through columns.
         {{ fivetran_utils.persist_pass_through_columns('departments_pass_through_columns', identifier='departments') }},
@@ -106,6 +113,7 @@ income_statement as (
         {% if var('income_statement_transaction_detail_columns') %}
 
         , transaction_details.{{ var('income_statement_transaction_detail_columns') | join (", transaction_details.")}}
+        , transaction_details.source_relation
 
         {% endif %}
 
@@ -116,6 +124,7 @@ income_statement as (
     join transaction_lines as transaction_lines
         on transaction_lines.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
             and transaction_lines.transaction_id = transactions_with_converted_amounts.transaction_id
+            and transaction_lines.source_relation = transactions_with_converted_amounts.source_relation
 
             {% if var('netsuite2__multibook_accounting_enabled', false) %}
             and transaction_lines.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
@@ -123,21 +132,27 @@ income_statement as (
 
     left join departments 
         on departments.department_id = transaction_lines.department_id
+        and departments.source_relation = transaction_lines.source_relation
     
     left join accounts 
         on accounts.account_id = transactions_with_converted_amounts.account_id
+        and accounts.source_relation = transactions_with_converted_amounts.source_relation
 
     left join locations
         on locations.location_id = transaction_lines.location_id
+        on locations.source_relation = transaction_lines.source_relation
 
     left join classes 
         on classes.class_id = transaction_lines.class_id
+        and classes.source_relation = transaction_lines.source_relation
 
     left join accounting_periods as reporting_accounting_periods 
         on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+        and reporting_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
     
     left join subsidiaries
         on transactions_with_converted_amounts.subsidiary_id = subsidiaries.subsidiary_id
+        on transactions_with_converted_amounts.source_relation = subsidiaries.source_relation
 
     --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
     {% if var('income_statement_transaction_detail_columns') != []%}
@@ -150,6 +165,7 @@ income_statement as (
 
         {% if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
         and transaction_details.to_subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
+        and transaction_details.source_relation = transactions_with_converted_amounts.source_relation
         {% endif %}
     {% endif %}
 
@@ -159,7 +175,7 @@ income_statement as (
 ),
 
 surrogate_key as ( 
-    {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id', 'accounting_period_id', 'account_name'] %}
+    {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id', 'accounting_period_id', 'account_name', 'source_relation'] %}
     {% do surrogate_key_fields.append('to_subsidiary_id') if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
     {% do surrogate_key_fields.append('accounting_book_id') if var('netsuite2__multibook_accounting_enabled', false) %}
 
