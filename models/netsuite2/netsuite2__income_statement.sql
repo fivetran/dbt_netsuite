@@ -70,32 +70,26 @@ income_statement as (
         reporting_accounting_periods.name as accounting_period_name,
         reporting_accounting_periods.is_adjustment as is_accounting_period_adjustment,
         reporting_accounting_periods.is_closed as is_accounting_period_closed,
-        reporting_accounting_periods.source_relation,
         accounts.name as account_name,
         accounts.type_name as account_type_name,
         accounts.account_type_id,
         accounts.account_id as account_id,
         accounts.account_number,
-        accounts.source_relation,
         subsidiaries.subsidiary_id,
         subsidiaries.full_name as subsidiary_full_name,
         subsidiaries.name as subsidiary_name,
-        subsidiaries.source_relation,
 
         --The below script allows for accounts table pass through columns.
         {{ fivetran_utils.persist_pass_through_columns('accounts_pass_through_columns', identifier='accounts') }},
 
         {{ dbt.concat(['accounts.account_number',"'-'", 'accounts.name']) }} as account_number_and_name,
         classes.full_name as class_full_name,
-        classes.source_relation,
 
         --The below script allows for accounts table pass through columns.
         {{ fivetran_utils.persist_pass_through_columns('classes_pass_through_columns', identifier='classes') }},
 
         locations.full_name as location_full_name,
-        locations.source_relation,
         departments.full_name as department_full_name,
-        departments.source_relation,
 
         --The below script allows for departments table pass through columns.
         {{ fivetran_utils.persist_pass_through_columns('departments_pass_through_columns', identifier='departments') }},
@@ -113,7 +107,6 @@ income_statement as (
         {% if var('income_statement_transaction_detail_columns') %}
 
         , transaction_details.{{ var('income_statement_transaction_detail_columns') | join (", transaction_details.")}}
-        , transaction_details.source_relation
 
         {% endif %}
 

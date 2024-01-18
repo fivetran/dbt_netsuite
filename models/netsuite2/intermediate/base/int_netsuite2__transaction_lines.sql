@@ -29,7 +29,6 @@ joined as (
         {% if var('netsuite2__multibook_accounting_enabled', false) %}
         transaction_accounting_lines.accounting_book_id,
         accounting_books.accounting_book_name,
-        accounting_books.source_relation
         {% endif %}
         
         transaction_accounting_lines.amount,
@@ -38,7 +37,6 @@ joined as (
         transaction_accounting_lines.paid_amount,
         transaction_accounting_lines.unpaid_amount,
         transaction_accounting_lines.is_posting,
-        transaction_accounting_lines.source_relation
 
     from transaction_lines
     left join transaction_accounting_lines
@@ -58,14 +56,12 @@ joined as (
         transaction_accounting_lines.account_id,
         accounting_books.accounting_book_id,
         accounting_books.accounting_book_name,
-        accounting_books.source_relation
         transaction_accounting_lines.amount,
         transaction_accounting_lines.credit_amount,
         transaction_accounting_lines.debit_amount,
         transaction_accounting_lines.paid_amount,
         transaction_accounting_lines.unpaid_amount,
         transaction_accounting_lines.is_posting
-        transaction_accounting_lines.source_relation
 
     from transaction_lines
     left join transaction_accounting_lines

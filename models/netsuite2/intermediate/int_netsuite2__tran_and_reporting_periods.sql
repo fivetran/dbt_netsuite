@@ -15,7 +15,6 @@ transaction_and_reporting_periods as (
     base.accounting_period_id as accounting_period_id,
     base.source_relation,
     multiplier.accounting_period_id as reporting_accounting_period_id,
-    multiplier.source_relation
   from accounting_periods as base
 
   join accounting_periods as multiplier

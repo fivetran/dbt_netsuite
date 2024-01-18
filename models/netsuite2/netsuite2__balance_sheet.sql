@@ -35,7 +35,6 @@ balance_sheet as (
     transactions_with_converted_amounts.source_relation,
     transactions_with_converted_amounts.subsidiary_id,
     subsidiaries.name as subsidiary_name,
-    subsidiaries.name as source_relation,
 
     {% if var('netsuite2__multibook_accounting_enabled', false) %}
     transactions_with_converted_amounts.accounting_book_id,
@@ -49,7 +48,6 @@ balance_sheet as (
     {% endif %}
 
     reporting_accounting_periods.accounting_period_id as accounting_period_id,
-    reporting_accounting_periods.source_relation,
     reporting_accounting_periods.ending_at as accounting_period_ending,
     reporting_accounting_periods.name as accounting_period_name,
     reporting_accounting_periods.is_adjustment as is_accounting_period_adjustment,
@@ -123,14 +121,12 @@ balance_sheet as (
             and reporting_accounting_periods.fiscal_calendar_id = transaction_accounting_periods.fiscal_calendar_id) then 15
       when not accounts.is_balancesheet then 14
       else null
-        end as balance_sheet_sort_helper,
-      accounts.source_relation
+        end as balance_sheet_sort_helper
 
     --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
     {% if var('balance_sheet_transaction_detail_columns') %}
     
     , transaction_details.{{ var('balance_sheet_transaction_detail_columns') | join (", transaction_details.")}}
-    , transaction_details.source_relation
 
     {% endif %}
 
@@ -181,7 +177,6 @@ balance_sheet as (
     transactions_with_converted_amounts.source_relation,
     transactions_with_converted_amounts.subsidiary_id,
     subsidiaries.name as subsidiary_name,
-    subsidiaries.name as source_relation,
 
     {% if var('netsuite2__multibook_accounting_enabled', false) %}
     transactions_with_converted_amounts.accounting_book_id,
@@ -195,7 +190,6 @@ balance_sheet as (
     {% endif %}
     
     reporting_accounting_periods.accounting_period_id as accounting_period_id,
-    reporting_accounting_periods.source_relation,
     reporting_accounting_periods.ending_at as accounting_period_ending,
     reporting_accounting_periods.name as accounting_period_name,
     reporting_accounting_periods.is_adjustment as is_accounting_period_adjustment,
@@ -217,14 +211,12 @@ balance_sheet as (
       when lower(accounts.general_rate_type) in ('historical', 'average') then converted_amount_using_transaction_accounting_period
       else converted_amount_using_reporting_month
         end as converted_amount,
-    16 as balance_sheet_sort_helper,
-    accounts.source_relation
+    16 as balance_sheet_sort_helper
 
     --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
     {% if var('balance_sheet_transaction_detail_columns') %}
 
     , transaction_details.{{ var('balance_sheet_transaction_detail_columns') | join (", transaction_details.")}}
-    , transaction_details.source_relation
 
     {% endif %}
 

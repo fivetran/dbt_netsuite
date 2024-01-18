@@ -42,9 +42,7 @@ period_exchange_rate_map as ( -- exchange rates used, by accounting period, to c
     consolidated_exchange_rates.from_subsidiary_id,
     consolidated_exchange_rates.to_subsidiary_id,
     to_subsidiaries.name as to_subsidiary_name,
-    to_subsidiaries.source_relation
-    currencies.symbol as to_subsidiary_currency_symbol,
-    currencies.source_relation
+    currencies.symbol as to_subsidiary_currency_symbol
   from consolidated_exchange_rates
   
   left join subsidiaries as to_subsidiaries
@@ -68,7 +66,6 @@ accountxperiod_exchange_rate_map as ( -- account table with exchange rate detail
     period_exchange_rate_map.accounting_book_id,
     {% endif %}
     
-    period_exchange_rate_map.source_relation,
     period_exchange_rate_map.from_subsidiary_id,
     period_exchange_rate_map.to_subsidiary_id,
     period_exchange_rate_map.to_subsidiary_name,

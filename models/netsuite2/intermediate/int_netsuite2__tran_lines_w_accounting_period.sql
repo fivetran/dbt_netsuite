@@ -24,7 +24,6 @@ transaction_lines_w_accounting_period as ( -- transaction line totals, by accoun
     {% endif %}
     
     transactions.accounting_period_id as transaction_accounting_period_id,
-    transactions.source_relation,
     coalesce(transaction_lines.amount, 0) as unconverted_amount
   from transaction_lines
 

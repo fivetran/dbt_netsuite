@@ -90,14 +90,12 @@ transaction_details as (
     transactions_with_converted_amounts.to_subsidiary_id,
     transactions_with_converted_amounts.to_subsidiary_name,
     transactions_with_converted_amounts.to_subsidiary_currency_symbol,
-    transactions_with_converted_amounts.source_relation,
     {% endif %}
     
     transaction_lines.transaction_line_id,
     transaction_lines.memo as transaction_memo,
     not transaction_lines.is_posting as is_transaction_non_posting,
     transactions.transaction_id,
-    transactions.source_relation,
     transactions.status as transaction_status,
     transactions.transaction_date,
     transactions.due_date_at as transaction_due_date,
@@ -115,13 +113,11 @@ transaction_details as (
     accounting_periods.accounting_period_id as accounting_period_id,
     accounting_periods.is_adjustment as is_accounting_period_adjustment,
     accounting_periods.is_closed as is_accounting_period_closed,
-    accounting_periods.source_relation,
     accounts.name as account_name,
     accounts.type_name as account_type_name,
     accounts.account_type_id,
     accounts.account_id as account_id,
-    accounts.account_number,
-    accounts.source_relation
+    accounts.account_number
 
     --The below script allows for accounts table pass through columns.
     {{ fivetran_utils.persist_pass_through_columns('accounts_pass_through_columns', identifier='accounts') }},
@@ -140,35 +136,27 @@ transaction_details as (
     customers.country as customer_country,
     customers.date_first_order_at as customer_date_first_order,
     customers.customer_external_id,
-    customers.source_relation,
     classes.full_name as class_full_name,
-    classes.source_relation,
     items.name as item_name,
     items.type_name as item_type_name,
     items.sales_description,
-    items.source_relation,
     locations.name as location_name,
     locations.city as location_city,
     locations.country as location_country,
-    locations.source_relation,
     {% if var('netsuite2__using_vendor_categories', true) %}
     vendor_categories.name as vendor_category_name,
     {% endif %}
     vendors.company_name as vendor_name,
     vendors.create_date_at as vendor_create_date,
-    vendors.source_relation,
     currencies.name as currency_name,
     currencies.symbol as currency_symbol,
-    currencies.source_relation,
     departments.name as department_name,
-    departments.source_relation
 
     --The below script allows for departments table pass through columns.
     {{ fivetran_utils.persist_pass_through_columns('departments_pass_through_columns', identifier='departments') }},
 
     subsidiaries.subsidiary_id,
     subsidiaries.name as subsidiary_name,
-    subsidiaries.source_relation,
     case
       when lower(accounts.account_type_id) in ('income', 'othincome') then -converted_amount_using_transaction_accounting_period
       else converted_amount_using_transaction_accounting_period
