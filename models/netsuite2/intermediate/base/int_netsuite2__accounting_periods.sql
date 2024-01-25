@@ -16,8 +16,7 @@ joined as (
 
     select 
         accounting_periods.*,
-        accounting_period_fiscal_calendars.fiscal_calendar_id,
-        accounting_period_fiscal_calendars.source_relation
+        accounting_period_fiscal_calendars.fiscal_calendar_id
 
     from accounting_periods
     left join accounting_period_fiscal_calendars

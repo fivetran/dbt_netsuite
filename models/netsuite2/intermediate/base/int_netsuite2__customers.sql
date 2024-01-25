@@ -19,8 +19,7 @@ joined as (
         entity_address.city,
         entity_address.state,
         entity_address.zipcode,
-        entity_address.country,
-        entity_address.source_relation
+        entity_address.country
 
     from customers
     left join entity_address

@@ -36,7 +36,7 @@ joined as (
         transaction_accounting_lines.debit_amount,
         transaction_accounting_lines.paid_amount,
         transaction_accounting_lines.unpaid_amount,
-        transaction_accounting_lines.is_posting,
+        transaction_accounting_lines.is_posting
 
     from transaction_lines
     left join transaction_accounting_lines

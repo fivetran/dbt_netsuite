@@ -18,8 +18,7 @@ joined as (
         accounts.*,
         account_types.type_name,
         account_types.is_balancesheet,
-        account_types.is_leftside,
-        account_types.source_relation
+        account_types.is_leftside
 
     from accounts
     left join account_types
