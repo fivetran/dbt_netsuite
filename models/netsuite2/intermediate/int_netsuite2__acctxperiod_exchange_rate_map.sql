@@ -71,13 +71,13 @@ accountxperiod_exchange_rate_map as ( -- account table with exchange rate detail
     period_exchange_rate_map.to_subsidiary_name,
     period_exchange_rate_map.to_subsidiary_currency_symbol,
     accounts.account_id,
-    accounts.source_relation
     case 
       when lower(accounts.general_rate_type) = 'historical' then period_exchange_rate_map.historical_rate
       when lower(accounts.general_rate_type) = 'current' then period_exchange_rate_map.current_rate
       when lower(accounts.general_rate_type) = 'average' then period_exchange_rate_map.average_rate
       else null
-        end as exchange_rate
+        end as exchange_rate,
+    accounts.source_relation
   from accounts
   
   cross join period_exchange_rate_map

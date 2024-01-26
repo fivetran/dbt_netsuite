@@ -79,11 +79,10 @@ entities as (
 
 transaction_details as (
   select
-
+    transaction_lines.source_relation,
     {% if var('netsuite2__multibook_accounting_enabled', false) %}
     transaction_lines.accounting_book_id,
     transaction_lines.accounting_book_name,
-    transaction_lines.source_relation,
     {% endif %}
 
     {% if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
@@ -150,7 +149,7 @@ transaction_details as (
     vendors.create_date_at as vendor_create_date,
     currencies.name as currency_name,
     currencies.symbol as currency_symbol,
-    departments.name as department_name,
+    departments.name as department_name
 
     --The below script allows for departments table pass through columns.
     {{ fivetran_utils.persist_pass_through_columns('departments_pass_through_columns', identifier='departments') }},
@@ -187,7 +186,7 @@ transaction_details as (
 
   left join accounts as parent_account 
     on parent_account.account_id = accounts.parent_id
-    on parent_account.source_relation = accounts.source_relation
+    and parent_account.source_relation = accounts.source_relation
 
   left join accounting_periods 
     on accounting_periods.accounting_period_id = transactions.accounting_period_id
@@ -195,7 +194,7 @@ transaction_details as (
 
   left join customers 
     on customers.customer_id = coalesce(transaction_lines.entity_id, transactions.entity_id)
-    on customers.source_relation = coalesce(transaction_lines.source_relation, transactions.source_relation)
+    and customers.source_relation = coalesce(transaction_lines.source_relation, transactions.source_relation)
   
   left join classes
     on classes.class_id = transaction_lines.class_id
@@ -207,15 +206,16 @@ transaction_details as (
 
   left join locations 
     on locations.location_id = transaction_lines.location_id
-    on locations.source_relation = transaction_lines.source_relation
+    and locations.source_relation = transaction_lines.source_relation
 
   left join vendors 
     on vendors.vendor_id = coalesce(transaction_lines.entity_id, transactions.entity_id)
-    on vendors.source_relation = coalesce(transaction_lines.source_relation, transactions.source_relation)
+    and vendors.source_relation = coalesce(transaction_lines.source_relation, transactions.source_relation)
 
   {% if var('netsuite2__using_vendor_categories', true) %}
   left join vendor_categories 
     on vendor_categories.vendor_category_id = vendors.vendor_category_id
+    and vendor_categories.source_relation = vendors.source_relation
   {% endif %}
 
   left join currencies 
@@ -224,7 +224,7 @@ transaction_details as (
 
   left join departments 
     on departments.department_id = transaction_lines.department_id
-    on departments.source_relation = transaction_lines.source_relation
+    and departments.source_relation = transaction_lines.source_relation
 
   join subsidiaries 
     on subsidiaries.subsidiary_id = transaction_lines.subsidiary_id

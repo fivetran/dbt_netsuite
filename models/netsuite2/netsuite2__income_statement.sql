@@ -77,19 +77,19 @@ income_statement as (
         accounts.account_number,
         subsidiaries.subsidiary_id,
         subsidiaries.full_name as subsidiary_full_name,
-        subsidiaries.name as subsidiary_name,
+        subsidiaries.name as subsidiary_name
 
         --The below script allows for accounts table pass through columns.
         {{ fivetran_utils.persist_pass_through_columns('accounts_pass_through_columns', identifier='accounts') }},
 
         {{ dbt.concat(['accounts.account_number',"'-'", 'accounts.name']) }} as account_number_and_name,
-        classes.full_name as class_full_name,
+        classes.full_name as class_full_name
 
         --The below script allows for accounts table pass through columns.
         {{ fivetran_utils.persist_pass_through_columns('classes_pass_through_columns', identifier='classes') }},
 
         locations.full_name as location_full_name,
-        departments.full_name as department_full_name,
+        departments.full_name as department_full_name
 
         --The below script allows for departments table pass through columns.
         {{ fivetran_utils.persist_pass_through_columns('departments_pass_through_columns', identifier='departments') }},
@@ -133,7 +133,7 @@ income_statement as (
 
     left join locations
         on locations.location_id = transaction_lines.location_id
-        on locations.source_relation = transaction_lines.source_relation
+        and locations.source_relation = transaction_lines.source_relation
 
     left join classes 
         on classes.class_id = transaction_lines.class_id
@@ -145,20 +145,20 @@ income_statement as (
     
     left join subsidiaries
         on transactions_with_converted_amounts.subsidiary_id = subsidiaries.subsidiary_id
-        on transactions_with_converted_amounts.source_relation = subsidiaries.source_relation
+        and transactions_with_converted_amounts.source_relation = subsidiaries.source_relation
 
     --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
     {% if var('income_statement_transaction_detail_columns') != []%}
     join transaction_details
         on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
         and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
+        and transaction_details.source_relation = transactions_with_converted_amounts.source_relation
         {% if var('netsuite2__multibook_accounting_enabled', false) %}
         and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
         {% endif %}
 
         {% if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
         and transaction_details.to_subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
-        and transaction_details.source_relation = transactions_with_converted_amounts.source_relation
         {% endif %}
     {% endif %}
 

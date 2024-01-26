@@ -151,7 +151,7 @@ balance_sheet as (
 
   left join accounts 
     on accounts.account_id = transactions_with_converted_amounts.account_id
-    on accounts.source_relation = transactions_with_converted_amounts.source_relation
+    and accounts.source_relation = transactions_with_converted_amounts.source_relation
 
   left join accounting_periods as reporting_accounting_periods 
     on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
@@ -159,6 +159,7 @@ balance_sheet as (
 
   left join accounting_periods as transaction_accounting_periods 
     on transaction_accounting_periods.accounting_period_id = transactions_with_converted_amounts.transaction_accounting_period_id
+    and transaction_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
 
   left join subsidiaries
     on subsidiaries.subsidiary_id = transactions_with_converted_amounts.subsidiary_id
@@ -240,11 +241,11 @@ balance_sheet as (
 
   left join accounts
     on accounts.account_id = transactions_with_converted_amounts.account_id
-    on accounts.source_relation = transactions_with_converted_amounts.source_relation
+    and accounts.source_relation = transactions_with_converted_amounts.source_relation
 
   left join accounting_periods as reporting_accounting_periods 
     on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
-    on reporting_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
+    and reporting_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
 
   left join subsidiaries
     on subsidiaries.subsidiary_id = transactions_with_converted_amounts.subsidiary_id

@@ -41,7 +41,7 @@ transactions_in_every_calculation_period_w_exchange_rates as (
   from transaction_lines_w_accounting_period
 
   left join transaction_and_reporting_periods 
-    on transaction_and_reporting_periods.accounting_period_id = transaction_lines_w_accounting_period.transaction_accounting_period_ida
+    on transaction_and_reporting_periods.accounting_period_id = transaction_lines_w_accounting_period.transaction_accounting_period_id
     and transaction_and_reporting_periods.source_relation = transaction_lines_w_accounting_period.source_relation
 
   {% if var('netsuite2__using_exchange_rate', true) %}
