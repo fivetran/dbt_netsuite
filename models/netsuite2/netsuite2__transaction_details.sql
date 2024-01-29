@@ -77,6 +77,14 @@ entities as (
     from {{ var('netsuite2_entities') }}
 ),
 
+primary_subsidiary_calendar as (
+    select 
+      fiscal_calendar_id, 
+      source_relation 
+    from subsidiaries 
+    where parent_id is null
+),
+
 transaction_details as (
   select
     transaction_lines.source_relation,
@@ -229,9 +237,12 @@ transaction_details as (
   join subsidiaries 
     on subsidiaries.subsidiary_id = transaction_lines.subsidiary_id
     and subsidiaries.source_relation = transaction_lines.source_relation
+
+  left join primary_subsidiary_calendar
+    on accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
+    and accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
     
-  where (accounting_periods.fiscal_calendar_id is null
-    or accounting_periods.fiscal_calendar_id  = (select fiscal_calendar_id from subsidiaries where parent_id is null))
+  where accounting_periods.fiscal_calendar_id is null or primary_subsidiary_calendar.fiscal_calendar_id is not null
 ),
 
 surrogate_key as ( 
