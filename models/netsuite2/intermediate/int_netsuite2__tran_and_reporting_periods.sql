@@ -23,6 +23,7 @@ transaction_and_reporting_periods as (
     base.accounting_period_id as accounting_period_id,
     base.source_relation,
     multiplier.accounting_period_id as reporting_accounting_period_id,
+    base.source_relation
   from accounting_periods as base
 
   join accounting_periods as multiplier
@@ -39,7 +40,6 @@ transaction_and_reporting_periods as (
 
   where not base.is_quarter
     and not base.is_year
-    {# and base.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null) -- fiscal calendar will align with parent subsidiary's default calendar #}
 )
 
 select * 
