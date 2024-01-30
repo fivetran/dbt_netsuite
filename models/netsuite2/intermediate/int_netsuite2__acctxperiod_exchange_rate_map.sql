@@ -67,7 +67,6 @@ period_exchange_rate_map as ( -- exchange rates used, by accounting period, to c
     on consolidated_exchange_rates.to_subsidiary_id = primary_subsidiaries.subsidiary_id
     and consolidated_exchange_rates.source_relation = primary_subsidiaries.source_relation
 
-  {# where consolidated_exchange_rates.to_subsidiary_id in (select subsidiary_id from subsidiaries where parent_id is null)  -- constraint - only the primary subsidiary has no parent #}
   {% endif %}
 ), 
 
@@ -93,7 +92,8 @@ accountxperiod_exchange_rate_map as ( -- account table with exchange rate detail
     accounts.source_relation
   from accounts
   
-  cross join period_exchange_rate_map
+  join period_exchange_rate_map
+    on accounts.source_relation = period_exchange_rate_map.source_relation
 )
 
 select *

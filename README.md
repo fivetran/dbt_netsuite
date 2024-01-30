@@ -153,11 +153,12 @@ sources:
     loaded_at_field: _fivetran_synced
 
     freshness:
-        warn_after: {count: 72, period: hour}
-        error_after: {count: 168, period: hour}
+      warn_after: {count: 72, period: hour}
+      error_after: {count: 168, period: hour}
 
     tables: &netsuite2_table_defs # <- see https://support.atlassian.com/bitbucket-cloud/docs/yaml-anchors/
       - name: account_type
+        identifier: accounttype
         description: A table containing the various account types within Netsuite.
         columns:
           - name: _fivetran_deleted
@@ -174,6 +175,7 @@ sources:
             description: The name of the account type.
 
       - name: accounting_book_subsidiaries
+        identifier: accountingbooksubsidiaries
         description: A table containing the various account books and the respective subsidiaries.
         config:
           enabled: "{{ var('netsuite2__multibook_accounting_enabled', true) }}"
@@ -188,8 +190,9 @@ sources:
             description: The status of the accounting book subsidiary.
           - name: subsidiary
             description: The unique identifier of the subsidiary used for the record.
-
+      
       - name: accounting_book
+        identifier: accountingbook
         description: Table detailing all accounting books set up in Netsuite.
         config:
           enabled: "{{ var('netsuite2__multibook_accounting_enabled', true) }}"
@@ -216,8 +219,9 @@ sources:
             description: Boolean indicating if the accounting book is a two step revenue allocation entry. Represented as "T" or "F" for true and false respectively.
           - name: unbilledreceivablegrouping
             description: Boolean indicating if the accounting book is an unbilled receivable grouping. Represented as "T" or "F" for true and false respectively.
-
+      
       - name: accounting_period_fiscal_calendars
+        identifier: accountingperiodfiscalcalendars
         description: A table containing the accounting fiscal calendar periods.
         columns:
           - name: _fivetran_id
@@ -232,6 +236,7 @@ sources:
             description: Reference to the parent fiscal calendar accounting period.
 
       - name: accounting_period
+        identifier: accountingperiod
         description: Table detailing all accounting periods, including monthly, quarterly and yearly.
         columns:
           - name: _fivetran_synced
@@ -264,8 +269,9 @@ sources:
             description: Boolean indicating if the ar accounting period is locked. Represented as "T" or "F" for true and false respectively.
           - name: aplocked
             description: Boolean indicating if the ap accounting period is locked. Represented as "T" or "F" for true and false respectively.
-
+          
       - name: account
+        identifier: account
         description: Table detailing all accounts set up in Netsuite.
         columns:
           - name: _fivetran_synced
@@ -312,6 +318,7 @@ sources:
             description: Timestamp of when a record was deleted.
 
       - name: classification
+        identifier: classification
         description: Table detailing all classes set up in Netsuite.
         columns:
           - name: _fivetran_synced
@@ -330,6 +337,7 @@ sources:
             description: Timestamp of when a record was deleted.
 
       - name: consolidated_exchange_rate
+        identifier: consolidatedexchangerate
         description: Table detailing average, historical and current exchange rates for all accounting periods.
         columns:
           - name: id
@@ -354,6 +362,7 @@ sources:
             description: The historical rate of the exchange rate.
 
       - name: currency
+        identifier: currency
         description: Table detailing all currency information.
         columns:
           - name: _fivetran_synced
@@ -366,6 +375,7 @@ sources:
             description: Currency symbol.
 
       - name: customer
+        identifier: customer
         description: Table detailing all customer information.
         columns:
           - name: id
@@ -400,6 +410,7 @@ sources:
             description: Timestamp of when the first order was created.
 
       - name: department
+        identifier: department
         description: Table detailing all departments set up in Netsuite.
         columns:
           - name: _fivetran_synced
@@ -420,6 +431,7 @@ sources:
             description: Timestamp of when a record was deleted.
 
       - name: entity
+        identifier: entity
         description: Table detailing all entities in Netsuite.
         columns:
           - name: id
@@ -444,6 +456,7 @@ sources:
             description: The unique identifier of the vendor associated with the entity.
 
       - name: entity_address
+        identifier: entityaddress
         description: A table containing addresses and the various entities which they map.
         columns:
           - name: _fivetran_synced
@@ -470,6 +483,7 @@ sources:
             description: The associated zipcode.
 
       - name: item
+        identifier: item
         description: Table detailing information about the items created in Netsuite.
         columns:
           - name: _fivetran_synced
@@ -510,6 +524,7 @@ sources:
             description: Reference to the parent item.
 
       - name: job
+        identifier: job
         description: Table detailing all jobs.
         config:
           enabled: "{{ var('netsuite2__using_jobs', true) }}"
@@ -530,6 +545,7 @@ sources:
             description: Reference to the parent job.
 
       - name: location_main_address
+        identifier: locationmainaddress
         description: A table containing the location main addresses.
         columns:
           - name: _fivetran_synced
@@ -556,6 +572,7 @@ sources:
             description: The associated zipcode.
 
       - name: location
+        identifier: location
         description: Table detailing all locations, including store, warehouse and office locations.
         columns:
           - name: _fivetran_synced
@@ -574,6 +591,7 @@ sources:
             description: The unique identifier of the subsidiary used for the record.
 
       - name: subsidiary
+        identifier: subsidiary
         description: Table detailing all subsidiaries.
         columns:
           - name: _fivetran_synced
@@ -600,6 +618,7 @@ sources:
             description:  The currency id of the currency used within the record.
 
       - name: transaction_accounting_line
+        identifier: transactionaccountingline
         description: A table detailing all transaction lines for all transactions.
         columns:
           - name: transaction
@@ -626,6 +645,7 @@ sources:
             description: Total amount unpaid.
 
       - name: transaction_line
+        identifier: transactionline
         description: A table detailing all transaction lines for all transactions.
         columns:
           - name: _fivetran_synced
@@ -666,6 +686,7 @@ sources:
             description: Boolean indicating if the transaction line is a tax line. Represented as "T" or "F" for true and false respectively.
 
       - name: transaction
+        identifier: transaction
         description: A table detailing all transactions.
         columns:
           - name: _fivetran_synced
@@ -702,6 +723,7 @@ sources:
             description: Boolean indicating if the transaction is a reversal entry. Represented as "T" or "F" for true and false respectively.
 
       - name: vendor_category
+        identifier: vendorcategory
         description: A table containing categories and how they map to vendors.
         config:
           enabled: "{{ var('netsuite2__using_vendor_categories', true) }}"
@@ -714,6 +736,7 @@ sources:
             description: Timestamp of when a record was last synced.
 
       - name: vendor
+        identifier: vendor
         description: A table detailing all vendor information.
         columns:
           - name: _fivetran_synced
