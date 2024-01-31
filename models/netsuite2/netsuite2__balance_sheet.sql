@@ -64,6 +64,20 @@ balance_sheet as (
             and {{ dbt.date_trunc('year', 'reporting_accounting_periods.starting_at') }} = {{ dbt.date_trunc('year', 'transaction_accounting_periods.starting_at') }} 
             and reporting_accounting_periods.fiscal_calendar_id = transaction_accounting_periods.fiscal_calendar_id) then 'Net Income'
       when not accounts.is_balancesheet then 'Retained Earnings'
+      else accounts.display_name
+        end as account_display_name,
+    case
+      when (not accounts.is_balancesheet 
+            and {{ dbt.date_trunc('year', 'reporting_accounting_periods.starting_at') }} = {{ dbt.date_trunc('year', 'transaction_accounting_periods.starting_at') }} 
+            and reporting_accounting_periods.fiscal_calendar_id = transaction_accounting_periods.fiscal_calendar_id) then 'Net Income'
+      when not accounts.is_balancesheet then 'Retained Earnings'
+      else accounts.display_name_hierarchy
+        end as account_display_name_hierarchy,
+    case
+      when (not accounts.is_balancesheet 
+            and {{ dbt.date_trunc('year', 'reporting_accounting_periods.starting_at') }} = {{ dbt.date_trunc('year', 'transaction_accounting_periods.starting_at') }} 
+            and reporting_accounting_periods.fiscal_calendar_id = transaction_accounting_periods.fiscal_calendar_id) then 'Net Income'
+      when not accounts.is_balancesheet then 'Retained Earnings'
       when lower(accounts.special_account_type_id) = 'retearnings' then 'Retained Earnings'
       when lower(accounts.special_account_type_id) in ('cta-e', 'cumultransadj') then 'Cumulative Translation Adjustment'
       else accounts.type_name
@@ -190,6 +204,8 @@ balance_sheet as (
     reporting_accounting_periods.is_closed as is_accounting_period_closed,
     'Equity' as account_category,
     'Cumulative Translation Adjustment' as account_name,
+    'Cumulative Translation Adjustment' as account_display_name,
+    'Cumulative Translation Adjustment' as account_display_name_hierarchy,
     'Cumulative Translation Adjustment' as account_type_name,
     'cumulative_translation_adjustment' as account_type_id,
     null as account_id,

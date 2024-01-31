@@ -70,6 +70,8 @@ income_statement as (
         reporting_accounting_periods.is_adjustment as is_accounting_period_adjustment,
         reporting_accounting_periods.is_closed as is_accounting_period_closed,
         accounts.name as account_name,
+        accounts.display_name as account_display_name,
+        accounts.display_name_hierarchy as account_display_name_hierarchy,
         accounts.type_name as account_type_name,
         accounts.account_type_id,
         accounts.account_id as account_id,
