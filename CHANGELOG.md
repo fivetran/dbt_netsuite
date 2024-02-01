@@ -3,6 +3,11 @@
 ## 🎉 Feature Update 🎉 
 This release supports running the package on multiple Netsuite sources at once! See the [README](https://github.com/fivetran/dbt_netsuite/tree/main?tab=readme-ov-file#step-4-define-database-and-schema-variables) for details on how to leverage this feature ([PR #104](https://github.com/fivetran/dbt_netsuite/pull/104)).
 
+## 🛠️ Under the Hood 🛠️
+- Included auto-releaser GitHub Actions workflow to automate future releases.
+- Included Github Actions workflow to check for docs updates.
+- Updated the maintainer PR template to resemble the most up to date format.
+
 ## Contributors:
 - [@fivetran-poonamagate](https://github.com/fivetran-poonamagate) ([PR #104](https://github.com/fivetran/dbt_netsuite/pull/104))
 
