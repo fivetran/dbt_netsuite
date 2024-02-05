@@ -5,7 +5,6 @@ This release supports running the package on multiple Netsuite sources at once! 
 
 ## 🛠️ Under the Hood 🛠️
 - Included auto-releaser GitHub Actions workflow to automate future releases.
-- Included Github Actions workflow to check for docs updates.
 - Updated the maintainer PR template to resemble the most up to date format.
 
 ## Contributors:
