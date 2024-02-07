@@ -18,7 +18,7 @@ account_hierarchy as (
         account_id,
         parent_id,
         1 as level,
-        account_number || ' - ' || display_name as display_name_hierarchy
+        account_number || ' - ' || display_name as display_full_name
     
     from accounts
     where 
@@ -30,7 +30,7 @@ account_hierarchy as (
         accounts.account_id,
         accounts.parent_id,
         account_hierarchy.level + 1,
-        account_hierarchy.display_name_hierarchy || ' : ' || accounts.account_number || ' - ' || accounts.display_name as display_name_hierarchy
+        account_hierarchy.display_full_name || ' : ' || accounts.account_number || ' - ' || accounts.display_name as display_full_name
     
     from accounts
     join account_hierarchy
@@ -41,7 +41,7 @@ joined as (
 
     select 
         accounts.*,
-        account_hierarchy.display_name_hierarchy,
+        account_hierarchy.display_full_name,
         account_types.type_name,
         account_types.is_balancesheet,
         account_types.is_leftside

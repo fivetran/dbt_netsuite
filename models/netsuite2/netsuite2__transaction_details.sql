@@ -108,13 +108,14 @@ transaction_details as (
     {{ fivetran_utils.persist_pass_through_columns('transaction_lines_pass_through_columns', identifier='transaction_lines') }},
 
     accounting_periods.ending_at as accounting_period_ending,
+    accounting_periods.full_name as accounting_period_full_name,
     accounting_periods.name as accounting_period_name,
     accounting_periods.accounting_period_id as accounting_period_id,
     accounting_periods.is_adjustment as is_accounting_period_adjustment,
     accounting_periods.is_closed as is_accounting_period_closed,
     accounts.name as account_name,
+    accounts.display_full_name as account_display_full_name,
     accounts.display_name as account_display_name,
-    accounts.display_name_hierarchy as account_display_name_hierarchy,
     accounts.type_name as account_type_name,
     accounts.account_type_id,
     accounts.account_id as account_id,
@@ -153,12 +154,14 @@ transaction_details as (
     currencies.name as currency_name,
     currencies.symbol as currency_symbol,
     transaction_lines.exchange_rate,
+    departments.full_name as department_full_name,
     departments.name as department_name
 
     --The below script allows for departments table pass through columns.
     {{ fivetran_utils.persist_pass_through_columns('departments_pass_through_columns', identifier='departments') }},
 
     subsidiaries.subsidiary_id,
+    subsidiaries.full_name as subsidiary_full_name,
     subsidiaries.name as subsidiary_name,
     subsidiaries_currencies.symbol as subsidiary_currency_symbol,
     case

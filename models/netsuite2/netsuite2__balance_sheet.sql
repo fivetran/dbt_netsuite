@@ -33,6 +33,7 @@ balance_sheet as (
     transactions_with_converted_amounts.transaction_id,
     transactions_with_converted_amounts.transaction_line_id,
     transactions_with_converted_amounts.subsidiary_id,
+    subsidiaries.full_name as subsidiary_full_name,
     subsidiaries.name as subsidiary_name,
 
     {% if var('netsuite2__multibook_accounting_enabled', false) %}
@@ -48,6 +49,7 @@ balance_sheet as (
 
     reporting_accounting_periods.accounting_period_id as accounting_period_id,
     reporting_accounting_periods.ending_at as accounting_period_ending,
+    reporting_accounting_periods.full_name as accounting_period_full_name,
     reporting_accounting_periods.name as accounting_period_name,
     reporting_accounting_periods.is_adjustment as is_accounting_period_adjustment,
     reporting_accounting_periods.is_closed as is_accounting_period_closed,
@@ -64,15 +66,15 @@ balance_sheet as (
             and {{ dbt.date_trunc('year', 'reporting_accounting_periods.starting_at') }} = {{ dbt.date_trunc('year', 'transaction_accounting_periods.starting_at') }} 
             and reporting_accounting_periods.fiscal_calendar_id = transaction_accounting_periods.fiscal_calendar_id) then 'Net Income'
       when not accounts.is_balancesheet then 'Retained Earnings'
-      else accounts.display_name
-        end as account_display_name,
+      else accounts.display_full_name
+        end as account_display_full_name,
     case
       when (not accounts.is_balancesheet 
             and {{ dbt.date_trunc('year', 'reporting_accounting_periods.starting_at') }} = {{ dbt.date_trunc('year', 'transaction_accounting_periods.starting_at') }} 
             and reporting_accounting_periods.fiscal_calendar_id = transaction_accounting_periods.fiscal_calendar_id) then 'Net Income'
       when not accounts.is_balancesheet then 'Retained Earnings'
-      else accounts.display_name_hierarchy
-        end as account_display_name_hierarchy,
+      else accounts.display_name
+        end as account_display_name,
     case
       when (not accounts.is_balancesheet 
             and {{ dbt.date_trunc('year', 'reporting_accounting_periods.starting_at') }} = {{ dbt.date_trunc('year', 'transaction_accounting_periods.starting_at') }} 
@@ -184,6 +186,7 @@ balance_sheet as (
     transactions_with_converted_amounts.transaction_id,
     transactions_with_converted_amounts.transaction_line_id,
     transactions_with_converted_amounts.subsidiary_id,
+    subsidiaries.full_name as subsidiary_full_name,
     subsidiaries.name as subsidiary_name,
 
     {% if var('netsuite2__multibook_accounting_enabled', false) %}
@@ -199,13 +202,14 @@ balance_sheet as (
     
     reporting_accounting_periods.accounting_period_id as accounting_period_id,
     reporting_accounting_periods.ending_at as accounting_period_ending,
+    reporting_accounting_periods.full_name as accounting_period_full_name,
     reporting_accounting_periods.name as accounting_period_name,
     reporting_accounting_periods.is_adjustment as is_accounting_period_adjustment,
     reporting_accounting_periods.is_closed as is_accounting_period_closed,
     'Equity' as account_category,
     'Cumulative Translation Adjustment' as account_name,
+    'Cumulative Translation Adjustment' as account_display_full_name,
     'Cumulative Translation Adjustment' as account_display_name,
-    'Cumulative Translation Adjustment' as account_display_name_hierarchy,
     'Cumulative Translation Adjustment' as account_type_name,
     'cumulative_translation_adjustment' as account_type_id,
     null as account_id,
