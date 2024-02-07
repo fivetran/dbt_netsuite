@@ -57,24 +57,10 @@ vars:
     netsuite2_transactions: "{{ ref('stg_netsuite2__transactions') }}"
     netsuite2_vendor_categories: "{{ ref('stg_netsuite2__vendor_categories') }}"
     netsuite2_vendors: "{{ ref('stg_netsuite2__vendors') }}"
-    accounts_pass_through_columns:
-      - name: "lyra_cash_flow_category"
-        alias: "lyra_cash_flow_category"
+    accounts_pass_through_columns: []
     classes_pass_through_columns: []
     departments_pass_through_columns: []
-    transactions_pass_through_columns:
-      - name: "lyra_subledger"
-        alias: "lyra_subledger"
-      - name: "lyra_subledger_id"
-        alias: "lyra_subledger_id"
-      - name: "type_based_document_number"
-        alias: "type_based_document_number"
-      - name: "created_date"
-        alias: "created_date"
-      - name: "last_modified_date"
-        alias: "last_modified_date"
+    transactions_pass_through_columns: []
     transaction_lines_pass_through_columns: []
-    balance_sheet_transaction_detail_columns: [is_account_intercompany, is_eliminate, currency_symbol, type_based_document_number, created_date, last_modified_date]
-    income_statement_transaction_detail_columns: [lyra_subledger, lyra_subledger_id, is_account_intercompany, is_eliminate, currency_symbol, type_based_document_number, department_name, created_date, last_modified_date]
-    netsuite2__multibook_accounting_enabled: true
-    netsuite2__using_to_subsidiary: true
+    balance_sheet_transaction_detail_columns: []
+    income_statement_transaction_detail_columns: []
