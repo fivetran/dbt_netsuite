@@ -5,12 +5,12 @@ dbt_versions: ">=1.3.0 <2.0.0"
 
 table_variables:
   netsuite2__multibook_accounting_enabled:
-    - accountingBook
-    - AccountingBookSubsidiaries
+    - accountingbook
+    - accountingbooksubsidiaries
   netsuite2__using_exchange_rate:
-    - consolidatedExchangeRate
+    - consolidatedexchangerate
   netsuite2__using_vendor_categories:
-    - VendorCategory
+    - vendorcategory
   netsuite2__using_jobs:
     - job
 
