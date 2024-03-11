@@ -73,7 +73,6 @@ To use this dbt package, you must have At least either one Fivetran **Netsuite**
 - entity
 - entityaddress
 - item
-- item
 - job
 - location
 - locationmainaddress
