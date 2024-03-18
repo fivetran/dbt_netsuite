@@ -1,4 +1,3 @@
 packages:
-  - git: https://github.com/fivetran/dbt_netsuite_source.git
-    revision: feature/add-fields-to-support-account-hierarchies
-    warn-unpinned: false
+- package: fivetran/netsuite_source
+  version: [">=0.9.0", "<0.10.0"]
