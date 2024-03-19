@@ -10,6 +10,10 @@ This is part of a batch release.
   - All three models: Added `subsidiary_full_name` (full hierarchical subsidiary name) and `account_display_name` (account display name).
   - `netsuite2__transaction_details`: Added `department_full_name` (full hierarchical department name), `exchange_rate` (exchange rate on accounting line), `is_eliminate` (boolean to indicate automatic elimination), `subsidiary_currency_symbol` (base currency of subsidiary), `transaction_line_amount` (net amount of transaction line).
 
+## Contributors
+- [@jmongerlyra](https://github.com/jmongerlyra) ([PR #107](https://github.com/fivetran/dbt_netsuite/pull/107))
+
+
 # dbt_netsuite v0.12.0
 ## 🎁 Official release for Netsuite2! 🎁
 [PR #98](https://github.com/fivetran/dbt_netsuite/pull/98) is the official supported release of [dbt_netsuite v0.12.0-b1](https://github.com/fivetran/dbt_netsuite/releases/tag/v0.12.0-b1). 
