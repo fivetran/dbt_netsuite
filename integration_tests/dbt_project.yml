@@ -1,11 +1,11 @@
 name: 'netsuite_integration_tests'
-version: '0.12.0'
+version: '0.13.0'
 profile: 'integration_tests'
 config-version: 2
 models:
   +materialized: table
 vars:
-  netsuite_schema: netsuite_integration_tests_5
+  netsuite_schema: netsuite_integration_tests_6
   netsuite_data_model_override: netsuite
 
   # Enable below when generating docs
