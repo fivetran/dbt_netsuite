@@ -1,3 +1,15 @@
+# dbt_netsuite v0.13.0
+
+This is part of a batch release.
+
+## 🚨 Breaking Changes 🚨
+- Creates hierarchical strings for GL accounts (`account_display_full_name`) and accounting periods (`accounting_period_full_name`) that are then presented into the end models.
+
+## Feature Updates 
+- Added the following fields to support hierarchy data:
+  - All three models: Added `subsidiary_full_name` (full hierarchical subsidiary name) and `account_display_name` (account display name).
+  - `netsuite2__transaction_details`: Added `department_full_name` (full hierarchical department name), `exchange_rate` (exchange rate on accounting line), `is_eliminate` (boolean to indicate automatic elimination), `subsidiary_currency_symbol` (base currency of subsidiary), `transaction_line_amount` (net amount of transaction line).
+
 # dbt_netsuite v0.12.0
 ## 🎁 Official release for Netsuite2! 🎁
 [PR #98](https://github.com/fivetran/dbt_netsuite/pull/98) is the official supported release of [dbt_netsuite v0.12.0-b1](https://github.com/fivetran/dbt_netsuite/releases/tag/v0.12.0-b1). 

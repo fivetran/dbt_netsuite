@@ -64,7 +64,9 @@ models:
     - name: accounting_period_id
       description: The unique identifier of the accounting period.
     - name: accounting_period_ending
-      description: End date of the accounting period
+      description: End date of the accounting period.
+    - name: accounting_period_full_name
+      description: Full name of the accounting period.
     - name: accounting_period_name
       description: Name of the accounting period.
     - name: is_accounting_period_adjustment
@@ -75,6 +77,10 @@ models:
       description: Category of the account.  Options include Asset, Liability, Equity, Expense or Income.
     - name: account_name
       description: Name of the account.
+    - name: account_display_full_name
+      description: Full display name of the account.
+    - name: account_display_name
+      description: Display name of the account.
     - name: account_type_name
       description: The accounts type name.
     - name: account_type_id
@@ -89,6 +95,8 @@ models:
       description: Helper column for sorting balance sheet records.
     - name: subsidiary_id
       description: "{{ doc('subsidiary_id') }}"
+    - name: subsidiary_full_name
+      description: Full name of the subsidiary.
     - name: subsidiary_name
       description: Name of the subsidiary.
     - name: accounting_book_id
@@ -125,6 +133,8 @@ models:
       description: The unique identifier of the accounting period.
     - name: accounting_period_ending
       description: End date of the accounting period.
+    - name: accounting_period_full_name
+      description: Full name of the accounting period.
     - name: accounting_period_name
       description: Name of the accounting period.
     - name: is_accounting_period_adjustment
@@ -133,6 +143,10 @@ models:
       description: Boolean field, indicating whether or not the selected accounting period is closed.
     - name: account_name
       description: Name of the account.
+    - name: account_display_full_name
+      description: Full display name of the account.
+    - name: account_display_name
+      description: Display name of the account.
     - name: account_type_name
       description: The accounts type name.
     - name: account_type_id
@@ -209,6 +223,8 @@ models:
       description: Boolean field, indicating whether or not the transaction is an intercompany transaction or an advanced intercompany transaction.
     - name: accounting_period_ending
       description: End date of the accounting period.
+    - name: accounting_period_full_name
+      description: Full name of the accounting period. 
     - name: accounting_period_id
       description: The unique identifier of the accounting period.
     - name: accounting_period_name
@@ -219,6 +235,10 @@ models:
       description: Boolean field, indicating whether or not the selecting accounting period is closed.
     - name: account_name
       description: Name of the account.
+    - name: account_display_full_name
+      description: Full display name of the account.
+    - name: account_display_name
+      description: Display name of the account.
     - name: account_type_name
       description: The accounts type name.
     - name: account_type_id
@@ -235,6 +255,8 @@ models:
       description: Boolean field indicating whether or not the account type name includes 'accounts receivable'.
     - name: is_account_intercompany
       description: Boolean field indicating whether or not the account type name includes 'intercompany'.
+    - name: is_eliminate
+      description: Boolean indicating if the transaction line is eliminated.
     - name: parent_account_name
       description: Name of the parent account, if parent account relationship exists.  Otherwise, the name of the account.
     - name: is_income_account
@@ -279,16 +301,26 @@ models:
       description: Name of the currency used.
     - name: currency_symbol
       description: Symbol used to identify the currency type.
+    - name: exchange_rate
+      description: The exchange rate of the transaction line.
+    - name: department_full_name
+      description: Full name of the department.
     - name: department_name
       description: Name of the department.
     - name: subsidiary_name
       description: Name of the subsidiary.
     - name: subsidiary_id
       description: The unique identifier of the subsidiary.
+    - name: subsidiary_full_name
+      description: The full name of the subsidiary.
+    - name: subsidiary_currency_symbol
+      description: Currency symbol.
     - name: converted_amount
       description: Transaction amount, converted into the primary subsidiary's default currency.
     - name: transaction_amount
       description: Total amount of the transaction line.
+    - name: transaction_line_amount
+      description: Amount of the transaction line.
     - name: accounting_book_id
       description: The unique identifier of the accounting book.
     - name: accounting_book_name
