@@ -23,6 +23,7 @@ joined as (
     from accounts
     left join account_types
         on accounts.account_type_id = account_types.account_type_id
+        and accounts.source_relation = account_types.source_relation
 )
 
 select *

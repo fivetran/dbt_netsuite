@@ -77,9 +77,17 @@ entities as (
     from {{ var('netsuite2_entities') }}
 ),
 
+primary_subsidiary_calendar as (
+    select 
+      fiscal_calendar_id, 
+      source_relation 
+    from subsidiaries 
+    where parent_id is null
+),
+
 transaction_details as (
   select
-
+    transaction_lines.source_relation,
     {% if var('netsuite2__multibook_accounting_enabled', false) %}
     transaction_lines.accounting_book_id,
     transaction_lines.accounting_book_name,
@@ -168,11 +176,13 @@ transaction_details as (
 
   join transactions
     on transactions.transaction_id = transaction_lines.transaction_id
+    and transactions.source_relation = transaction_lines.source_relation
 
   left join transactions_with_converted_amounts as transactions_with_converted_amounts
     on transactions_with_converted_amounts.transaction_line_id = transaction_lines.transaction_line_id
       and transactions_with_converted_amounts.transaction_id = transaction_lines.transaction_id
       and transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+      and transactions_with_converted_amounts.source_relation = transaction_lines.source_relation
       
       {% if var('netsuite2__multibook_accounting_enabled', false) %}
       and transactions_with_converted_amounts.accounting_book_id = transaction_lines.accounting_book_id
@@ -180,48 +190,63 @@ transaction_details as (
 
   left join accounts 
     on accounts.account_id = transaction_lines.account_id
+    and accounts.source_relation = transaction_lines.source_relation
 
   left join accounts as parent_account 
     on parent_account.account_id = accounts.parent_id
+    and parent_account.source_relation = accounts.source_relation
 
   left join accounting_periods 
     on accounting_periods.accounting_period_id = transactions.accounting_period_id
+    and accounting_periods.source_relation = transactions.source_relation
 
   left join customers 
     on customers.customer_id = coalesce(transaction_lines.entity_id, transactions.entity_id)
+    and customers.source_relation = coalesce(transaction_lines.source_relation, transactions.source_relation)
   
   left join classes
     on classes.class_id = transaction_lines.class_id
+    and classes.source_relation = transaction_lines.source_relation
 
   left join items 
     on items.item_id = transaction_lines.item_id
+    and items.source_relation = transaction_lines.source_relation
 
   left join locations 
     on locations.location_id = transaction_lines.location_id
+    and locations.source_relation = transaction_lines.source_relation
 
   left join vendors 
     on vendors.vendor_id = coalesce(transaction_lines.entity_id, transactions.entity_id)
+    and vendors.source_relation = coalesce(transaction_lines.source_relation, transactions.source_relation)
 
   {% if var('netsuite2__using_vendor_categories', true) %}
   left join vendor_categories 
     on vendor_categories.vendor_category_id = vendors.vendor_category_id
+    and vendor_categories.source_relation = vendors.source_relation
   {% endif %}
 
   left join currencies 
     on currencies.currency_id = transactions.currency_id
+    and currencies.source_relation = transactions.source_relation
 
   left join departments 
     on departments.department_id = transaction_lines.department_id
+    and departments.source_relation = transaction_lines.source_relation
 
   join subsidiaries 
     on subsidiaries.subsidiary_id = transaction_lines.subsidiary_id
+    and subsidiaries.source_relation = transaction_lines.source_relation
+
+  left join primary_subsidiary_calendar
+    on accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
+    and accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
     
-  where (accounting_periods.fiscal_calendar_id is null
-    or accounting_periods.fiscal_calendar_id  = (select fiscal_calendar_id from subsidiaries where parent_id is null))
+  where accounting_periods.fiscal_calendar_id is null or primary_subsidiary_calendar.fiscal_calendar_id is not null
 ),
 
 surrogate_key as ( 
-    {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id'] %}
+    {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id', 'source_relation'] %}
     {% do surrogate_key_fields.append('to_subsidiary_id') if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
     {% do surrogate_key_fields.append('accounting_book_id') if var('netsuite2__multibook_accounting_enabled', false) %}
 

@@ -48,10 +48,19 @@ departments as (
     from {{ var('netsuite2_departments') }}
 ),
 
+primary_subsidiary_calendar as (
+    select 
+        fiscal_calendar_id, 
+        source_relation 
+    from subsidiaries 
+    where parent_id is null
+),
+
 income_statement as (
     select
         transactions_with_converted_amounts.transaction_id,
         transactions_with_converted_amounts.transaction_line_id,
+        transactions_with_converted_amounts.source_relation,
 
         {% if var('netsuite2__multibook_accounting_enabled', false) %}
         transactions_with_converted_amounts.accounting_book_id,
@@ -116,6 +125,7 @@ income_statement as (
     join transaction_lines as transaction_lines
         on transaction_lines.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
             and transaction_lines.transaction_id = transactions_with_converted_amounts.transaction_id
+            and transaction_lines.source_relation = transactions_with_converted_amounts.source_relation
 
             {% if var('netsuite2__multibook_accounting_enabled', false) %}
             and transaction_lines.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
@@ -123,27 +133,34 @@ income_statement as (
 
     left join departments 
         on departments.department_id = transaction_lines.department_id
+        and departments.source_relation = transaction_lines.source_relation
     
     left join accounts 
         on accounts.account_id = transactions_with_converted_amounts.account_id
+        and accounts.source_relation = transactions_with_converted_amounts.source_relation
 
     left join locations
         on locations.location_id = transaction_lines.location_id
+        and locations.source_relation = transaction_lines.source_relation
 
     left join classes 
         on classes.class_id = transaction_lines.class_id
+        and classes.source_relation = transaction_lines.source_relation
 
     left join accounting_periods as reporting_accounting_periods 
         on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+        and reporting_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
     
     left join subsidiaries
         on transactions_with_converted_amounts.subsidiary_id = subsidiaries.subsidiary_id
+        and transactions_with_converted_amounts.source_relation = subsidiaries.source_relation
 
     --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
     {% if var('income_statement_transaction_detail_columns') != []%}
     join transaction_details
         on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
         and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
+        and transaction_details.source_relation = transactions_with_converted_amounts.source_relation
         {% if var('netsuite2__multibook_accounting_enabled', false) %}
         and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
         {% endif %}
@@ -153,13 +170,16 @@ income_statement as (
         {% endif %}
     {% endif %}
 
-    where reporting_accounting_periods.fiscal_calendar_id  = (select fiscal_calendar_id from subsidiaries where parent_id is null)
-        and transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+    join primary_subsidiary_calendar 
+        on reporting_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
+        and reporting_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
+
+    where transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
         and transactions_with_converted_amounts.is_income_statement
 ),
 
 surrogate_key as ( 
-    {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id', 'accounting_period_id', 'account_name'] %}
+    {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id', 'accounting_period_id', 'account_name', 'source_relation'] %}
     {% do surrogate_key_fields.append('to_subsidiary_id') if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
     {% do surrogate_key_fields.append('accounting_book_id') if var('netsuite2__multibook_accounting_enabled', false) %}
 

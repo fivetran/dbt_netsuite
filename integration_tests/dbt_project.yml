@@ -1,5 +1,5 @@
 name: 'netsuite_integration_tests'
-version: '0.12.0'
+version: '0.13.0'
 profile: 'integration_tests'
 config-version: 2
 models:
@@ -7,6 +7,7 @@ models:
 vars:
   netsuite_schema: netsuite_integration_tests_5
   netsuite_data_model_override: netsuite
+  use_table_name_identifer_override: true # to use seed identifiers in integration tests
 
   # Enable below when generating docs
   # netsuite2__multibook_accounting_enabled: true
