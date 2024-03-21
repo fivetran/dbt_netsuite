@@ -12,34 +12,22 @@ account_types as (
     from {{ var('netsuite2_account_types') }}
 ),
 
-with account_hierarchy_cte as (
+with account_hierarchy as (
 
     {% call parent_details('accounts', 'account_id', 'parent_id', 20) %}
-)
-
-select 
-    a.*,
-    ah.display_full_name,
-    at.type_name,
-    at.is_balancesheet,
-    at.is_leftside
-from accounts a
-left join account_types at
-    on a.account_type_id = at.account_type_id
-left join account_hierarchy_cte ah
-    on a.account_id = ah.account_id;
-
-account_hierarchy as (
-
-    select
-        account_id,
-        parent_id,
-        1 as level,
-        account_number || ' - ' || display_name as display_full_name
-    
-    from accounts
-    where parent_id is null
 ),
+
+-- account_hierarchy as (
+
+--     select
+--         account_id,
+--         parent_id,
+--         1 as level,
+--         account_number || ' - ' || display_name as display_full_name
+    
+--     from accounts
+--     where parent_id is null
+-- ),
 
 unioned as (
 
