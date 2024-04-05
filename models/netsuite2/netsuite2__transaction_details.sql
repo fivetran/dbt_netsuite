@@ -102,6 +102,7 @@ transaction_details as (
     transactions.transaction_date,
     transactions.due_date_at as transaction_due_date,
     transactions.transaction_type as transaction_type,
+    transactions.transaction_number,
     transactions.is_intercompany_adjustment as is_transaction_intercompany_adjustment
 
     --The below script allows for transactions table pass through columns.
