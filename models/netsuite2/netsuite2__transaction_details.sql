@@ -139,6 +139,7 @@ transaction_details as (
     customers.date_first_order_at as customer_date_first_order,
     customers.customer_external_id,
     classes.full_name as class_full_name,
+    transaction_lines.item_id,
     items.name as item_name,
     items.type_name as item_type_name,
     items.sales_description,
