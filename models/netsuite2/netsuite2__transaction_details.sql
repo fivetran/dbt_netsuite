@@ -155,6 +155,7 @@ transaction_details as (
     vendors.create_date_at as vendor_create_date,
     currencies.name as currency_name,
     currencies.symbol as currency_symbol,
+    transaction_lines.department_id,
     departments.name as department_name
 
     --The below script allows for departments table pass through columns.
