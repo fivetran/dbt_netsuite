@@ -14,7 +14,7 @@
 
 {% endmacro %}
 
-{% macro bigquery__mixpanel_lookback(from_date, datepart, interval, safety_date='2010-01-01')  %}
+{% macro bigquery__netsuite_lookback(from_date, datepart, interval, safety_date='2010-01-01')  %}
     {% set sql_statement %}
         select coalesce({{ from_date }}, {{ "'" ~ safety_date ~ "'" }})
         from {{ this }}
