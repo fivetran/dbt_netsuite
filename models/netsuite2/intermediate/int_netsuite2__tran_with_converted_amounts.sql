@@ -1,4 +1,15 @@
-{{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
+{{
+    config(
+        enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
+        materialized='table' if is_databricks_sql_warehouse(target) else 'incremental',
+        partition_by = {'field': 'transaction_created_date', 'data_type': 'date'}
+            if target.type not in ['spark', 'databricks'] else ['transaction_created_date'],
+        cluster_by = ['transaction_created_date', 'transaction_id'],
+        unique_key='tran_with_converted_amounts_id',
+        incremental_strategy = 'insert_overwrite' if target.type in ('bigquery', 'databricks', 'spark') else 'delete+insert',
+        file_format='delta' if is_databricks_sql_warehouse(target) else 'parquet'
+    )
+}}
 
 with transaction_lines_w_accounting_period as (
     select * 
@@ -95,7 +106,19 @@ transactions_with_converted_amounts as (
 
   left join accounts
     on accounts.account_id = transactions_in_every_calculation_period_w_exchange_rates.account_id 
+),
+
+surrogate_key as ( 
+    {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id'] %}
+    {% do surrogate_key_fields.append('to_subsidiary_id') if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
+    {% do surrogate_key_fields.append('accounting_book_id') if var('netsuite2__multibook_accounting_enabled', false) %}
+
+    select 
+        *,
+        {{ dbt_utils.generate_surrogate_key(surrogate_key_fields) }} as tran_with_converted_amounts_id
+
+    from transactions_with_converted_amounts
 )
 
 select * 
-from transactions_with_converted_amounts
+from surrogate_key

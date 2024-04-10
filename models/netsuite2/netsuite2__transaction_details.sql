@@ -1,8 +1,27 @@
-{{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
+{{
+    config(
+        enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
+        materialized='table' if is_databricks_sql_warehouse(target) else 'incremental',
+        partition_by = {'field': 'transaction_created_date', 'data_type': 'date'}
+            if target.type not in ['spark', 'databricks'] else ['transaction_created_date'],
+        cluster_by = ['transaction_created_date', 'transaction_id'],
+        unique_key='transaction_details_id',
+        incremental_strategy = 'insert_overwrite' if target.type in ('bigquery', 'databricks', 'spark') else 'delete+insert',
+        file_format='delta' if is_databricks_sql_warehouse(target) else 'parquet'
+    )
+}}
+
+{% if is_incremental() %}
+{% set max_transaction_created_date = netsuite.netsuite_lookback(from_date='max(transaction_created_date)', datepart='month', interval=var('lookback_window', 1)) %}
+{% endif %}
 
 with transactions_with_converted_amounts as (
     select * 
-    from {{ref('int_netsuite2__tran_with_converted_amounts')}}
+    from {{ ref('int_netsuite2__tran_with_converted_amounts') }}
+
+    {% if is_incremental() %}
+    where transaction_created_date >= {{ max_transaction_created_date }}
+    {% endif %}
 ),
 
 accounts as (
@@ -28,6 +47,10 @@ transaction_lines as (
 transactions as (
     select * 
     from {{ var('netsuite2_transactions') }}
+
+    {% if is_incremental() %}
+    where transaction_created_date >= {{ max_transaction_created_date }}
+    {% endif %}
 ),
 
 customers as (
@@ -72,11 +95,6 @@ classes as (
     from {{ var('netsuite2_classes') }}
 ),
 
-entities as (
-    select *
-    from {{ var('netsuite2_entities') }}
-),
-
 transaction_details as (
   select
 
@@ -96,7 +114,8 @@ transaction_details as (
     not transaction_lines.is_posting as is_transaction_non_posting,
     transactions.transaction_id,
     transactions.status as transaction_status,
-    transactions.transaction_date,
+    cast(transactions.transaction_date as date) as transaction_date,
+    transactions.transaction_created_date,
     transactions.due_date_at as transaction_due_date,
     transactions.transaction_type as transaction_type,
     transactions.is_intercompany_adjustment as is_transaction_intercompany_adjustment
@@ -157,8 +176,8 @@ transaction_details as (
     subsidiaries.subsidiary_id,
     subsidiaries.name as subsidiary_name,
     case
-      when lower(accounts.account_type_id) in ('income', 'othincome') then -converted_amount_using_transaction_accounting_period
-      else converted_amount_using_transaction_accounting_period
+      when lower(accounts.account_type_id) in ('income', 'othincome') then -transactions_with_converted_amounts.converted_amount_using_transaction_accounting_period
+      else transactions_with_converted_amounts.converted_amount_using_transaction_accounting_period
         end as converted_amount,
     case
       when lower(accounts.account_type_id) in ('income', 'othincome') then -transaction_lines.amount
@@ -169,7 +188,7 @@ transaction_details as (
   join transactions
     on transactions.transaction_id = transaction_lines.transaction_id
 
-  left join transactions_with_converted_amounts as transactions_with_converted_amounts
+  left join transactions_with_converted_amounts
     on transactions_with_converted_amounts.transaction_line_id = transaction_lines.transaction_line_id
       and transactions_with_converted_amounts.transaction_id = transaction_lines.transaction_id
       and transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id

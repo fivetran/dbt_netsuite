@@ -1,4 +1,9 @@
-{{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
+{{ 
+    config(
+    enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
+    materialized='table'
+    )
+}}
 
 with transaction_lines as (
 

@@ -1,8 +1,27 @@
-{{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
+{{
+    config(
+        enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
+        materialized='table' if is_databricks_sql_warehouse(target) else 'incremental',
+        partition_by = {'field': 'transaction_created_date', 'data_type': 'date'}
+            if target.type not in ['spark', 'databricks'] else ['transaction_created_date'],
+        cluster_by = ['transaction_created_date', 'transaction_id'],
+        unique_key='income_statement_id',
+        incremental_strategy = 'insert_overwrite' if target.type in ('bigquery', 'databricks', 'spark') else 'delete+insert',
+        file_format='delta' if is_databricks_sql_warehouse(target) else 'parquet'
+    )
+}}
+
+{% if is_incremental() %}
+{% set max_transaction_created_date = netsuite.netsuite_lookback(from_date='max(transaction_created_date)', datepart='month', interval=var('lookback_window', 1)) %}
+{% endif %}
 
 with transactions_with_converted_amounts as (
     select * 
     from {{ ref('int_netsuite2__tran_with_converted_amounts') }}
+
+    {% if is_incremental() %}
+    where transaction_created_date >= {{ max_transaction_created_date }}
+    {% endif %}
 ), 
 
 --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
@@ -10,6 +29,10 @@ with transactions_with_converted_amounts as (
 transaction_details as (
     select * 
     from {{ ref('netsuite2__transaction_details') }}
+
+    {% if is_incremental() %}
+    where transaction_created_date >= {{ max_transaction_created_date }}
+    {% endif %}
 ), 
 {% endif %}
 
@@ -52,6 +75,7 @@ income_statement as (
     select
         transactions_with_converted_amounts.transaction_id,
         transactions_with_converted_amounts.transaction_line_id,
+        transactions_with_converted_amounts.transaction_created_date,
 
         {% if var('netsuite2__multibook_accounting_enabled', false) %}
         transactions_with_converted_amounts.accounting_book_id,
