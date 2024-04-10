@@ -11,9 +11,17 @@
     )
 }}
 
+{% if is_incremental() %}
+{% set max_transaction_created_date = netsuite.netsuite_lookback(from_date='max(transaction_created_date)', datepart='month', interval=var('lookback_window', 1)) %}
+{% endif %}
+
 with transaction_lines_w_accounting_period as (
     select * 
     from {{ ref('int_netsuite2__tran_lines_w_accounting_period') }}
+
+    {% if is_incremental() %}
+    where transaction_created_date >= {{ max_transaction_created_date }}
+    {% endif %}
 ), 
 
 {% if var('netsuite2__using_exchange_rate', true) %}
