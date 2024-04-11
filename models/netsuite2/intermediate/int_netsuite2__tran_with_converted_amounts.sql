@@ -14,7 +14,7 @@ with transaction_lines_w_accounting_period as (
     from {{ ref('int_netsuite2__tran_lines_w_accounting_period') }}
 
     {% if is_incremental() %}
-    where _fivetran_synced_date >= {{ netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=var('lookback_window', 28)) }}
+    where _fivetran_synced_date >= {{ netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=var('lookback_window', 7)) }}
     {% endif %}
 ), 
 
@@ -111,7 +111,7 @@ transactions_with_converted_amounts as (
 ),
 
 surrogate_key as ( 
-    {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id', 'account_id', 'reporting_accounting_period_id'] %}
+    {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id', 'account_id', 'reporting_accounting_period_id'] %} -- add 'source_relation' when combining with union schema
     {% do surrogate_key_fields.append('to_subsidiary_id') if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
     {% do surrogate_key_fields.append('accounting_book_id') if var('netsuite2__multibook_accounting_enabled', false) %}
 
