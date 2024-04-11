@@ -7,7 +7,7 @@ models:
   +schema: "{{ 'netsuite_integrations_tests_sqlw' if target.name == 'databricks-sql' else 'netsuite' }}"
 
 vars:
-  netsuite_schema: netsuite_integration_tests_5
+  netsuite_schema: netsuite_integration_tests_25
   netsuite_data_model_override: netsuite
 
   # Enable below when generating docs

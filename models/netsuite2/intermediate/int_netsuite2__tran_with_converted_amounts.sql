@@ -1,26 +1,19 @@
 {{
     config(
         enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
-        materialized='table' if is_databricks_sql_warehouse(target) else 'incremental',
-        partition_by = {'field': 'transaction_record_created_date', 'data_type': 'date'}
-            if target.type not in ['spark', 'databricks'] else ['transaction_record_created_date'],
-        cluster_by = ['transaction_record_created_date', 'transaction_id'],
+        cluster_by = ['transaction_id'],
         unique_key='tran_with_converted_amounts_id',
-        incremental_strategy = 'insert_overwrite' if target.type in ('bigquery', 'databricks', 'spark') else 'delete+insert',
-        file_format='delta' if is_databricks_sql_warehouse(target) else 'parquet'
+        incremental_strategy = 'merge' if target.type in ('bigquery', 'databricks', 'spark') else 'delete+insert',
+        file_format='delta'
     )
 }}
-
-{% if is_incremental() %}
-{% set max_transaction_record_created_date = netsuite.netsuite_lookback(from_date='max(transaction_record_created_date)', datepart='month', interval=var('lookback_window', 1)) %}
-{% endif %}
 
 with transaction_lines_w_accounting_period as (
     select * 
     from {{ ref('int_netsuite2__tran_lines_w_accounting_period') }}
 
     {% if is_incremental() %}
-    where transaction_record_created_date >= {{ max_transaction_record_created_date }}
+    where _fivetran_synced_date >= {{ netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=var('lookback_window', 28)) }}
     {% endif %}
 ), 
 

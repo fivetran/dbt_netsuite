@@ -22,6 +22,6 @@
 
     {%- set result = dbt_utils.get_single_value(sql_statement) %}
 
-    {{ dbt.dateadd(datepart=datepart, interval=-interval, from_date_or_timestamp="cast('" ~ result ~ "' as date)") }}
+    {{ dbt.dateadd(datepart=datepart, interval=-interval, from_date_or_timestamp="'" ~ result ~ "'") }}
 
 {% endmacro %}

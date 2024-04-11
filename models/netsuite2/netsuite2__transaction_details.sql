@@ -1,18 +1,15 @@
 {{
     config(
         enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
-        materialized='table' if is_databricks_sql_warehouse(target) else 'incremental',
-        partition_by = {'field': 'transaction_record_created_date', 'data_type': 'date'}
-            if target.type not in ['spark', 'databricks'] else ['transaction_record_created_date'],
-        cluster_by = ['transaction_record_created_date', 'transaction_id'],
+        cluster_by = ['transaction_id'],
         unique_key='transaction_details_id',
-        incremental_strategy = 'insert_overwrite' if target.type in ('bigquery', 'databricks', 'spark') else 'delete+insert',
-        file_format='delta' if is_databricks_sql_warehouse(target) else 'parquet'
+        incremental_strategy = 'merge' if target.type in ('bigquery', 'databricks', 'spark') else 'delete+insert',
+        file_format='delta'
     )
 }}
 
 {% if is_incremental() %}
-{% set max_transaction_record_created_date = netsuite.netsuite_lookback(from_date='max(transaction_record_created_date)', datepart='month', interval=var('lookback_window', 1)) %}
+{% set max_fivetran_synced_date = netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=var('lookback_window', 28)) %}
 {% endif %}
 
 with transactions_with_converted_amounts as (
@@ -20,7 +17,7 @@ with transactions_with_converted_amounts as (
     from {{ ref('int_netsuite2__tran_with_converted_amounts') }}
 
     {% if is_incremental() %}
-    where transaction_record_created_date >= {{ max_transaction_record_created_date }}
+    where _fivetran_synced_date >= {{ max_fivetran_synced_date }}
     {% endif %}
 ),
 
@@ -49,7 +46,7 @@ transactions as (
     from {{ var('netsuite2_transactions') }}
 
     {% if is_incremental() %}
-    where transaction_record_created_date >= {{ max_transaction_record_created_date }}
+    where _fivetran_synced_date >= {{ max_fivetran_synced_date }}
     {% endif %}
 ),
 
@@ -114,11 +111,11 @@ transaction_details as (
     not transaction_lines.is_posting as is_transaction_non_posting,
     transactions.transaction_id,
     transactions.status as transaction_status,
-    cast(transactions.transaction_date as date) as transaction_date,
-    transactions.transaction_record_created_date,
+    transactions.transaction_date,
     transactions.due_date_at as transaction_due_date,
     transactions.transaction_type as transaction_type,
-    transactions.is_intercompany_adjustment as is_transaction_intercompany_adjustment
+    transactions.is_intercompany_adjustment as is_transaction_intercompany_adjustment,
+    transactions._fivetran_synced_date
 
     --The below script allows for transactions table pass through columns.
     {{ fivetran_utils.persist_pass_through_columns('transactions_pass_through_columns', identifier='transactions') }}
