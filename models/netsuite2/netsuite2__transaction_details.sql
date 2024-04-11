@@ -1,6 +1,7 @@
 {{
     config(
         enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
+        materialized='incremental',
         cluster_by = ['transaction_id'],
         unique_key='transaction_details_id',
         incremental_strategy = 'merge' if target.type in ('bigquery', 'databricks', 'spark') else 'delete+insert',

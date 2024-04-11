@@ -1,6 +1,7 @@
 {{
     config(
         enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
+        materialized='incremental',
         cluster_by = ['transaction_id'],
         unique_key='tran_with_converted_amounts_id',
         incremental_strategy = 'merge' if target.type in ('bigquery', 'databricks', 'spark') else 'delete+insert',
@@ -110,7 +111,7 @@ transactions_with_converted_amounts as (
 ),
 
 surrogate_key as ( 
-    {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id'] %}
+    {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id', 'account_id', 'account_name', 'reporting_accounting_period_id'] %}
     {% do surrogate_key_fields.append('to_subsidiary_id') if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
     {% do surrogate_key_fields.append('accounting_book_id') if var('netsuite2__multibook_accounting_enabled', false) %}
 
