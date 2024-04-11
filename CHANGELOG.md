@@ -1,3 +1,19 @@
+# dbt_netsuite VERSION
+[PR #114](https://github.com/fivetran/dbt_netsuite/pull/114) includes the following updates:
+
+## 🎉 Features
+- Added the following columns to model `netsuite2__transaction_details`:
+  - department_id
+  - entity_id
+  - is_closed
+  - is_main_line
+  - is_tax_line
+  - item_id
+  - transaction_number
+
+## Contributors:
+- [@FrankTub](https://github.com/FrankTub) ([#114](https://github.com/fivetran/dbt_netsuite/issues/114))
+
 # dbt_netsuite v0.12.0
 ## 🎁 Official release for Netsuite2! 🎁
 [PR #98](https://github.com/fivetran/dbt_netsuite/pull/98) is the official supported release of [dbt_netsuite v0.12.0-b1](https://github.com/fivetran/dbt_netsuite/releases/tag/v0.12.0-b1). 
