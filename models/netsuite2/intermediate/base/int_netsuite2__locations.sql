@@ -24,6 +24,7 @@ joined as (
     from locations
     left join location_main_address
         on locations.main_address_id = location_main_address.nkey
+        and locations.source_relation = location_main_address.source_relation
 )
 
 select *

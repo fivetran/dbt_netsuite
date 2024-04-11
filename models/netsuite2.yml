@@ -102,7 +102,7 @@ models:
     - name: to_subsidiary_currency_symbol
       description: Currency symbol for the consolidated exchange rate.
     - name: balance_sheet_id
-      description: Surrogate key hashed on `transaction_line_id`, `transaction_id`, `accounting_period_id`, `account_name`, and `account_id`. Adds `to_subsidiary_id` if using subsidiaries and `accounting_book_id` if using multibook accounting. 
+      description: Surrogate key hashed on `transaction_line_id`, `transaction_id`, `accounting_period_id`, `account_name`, `account_id` and `source_relation`. Adds `to_subsidiary_id` if using subsidiaries and `accounting_book_id` if using multibook accounting. 
       tests:
           - unique
           - not_null
@@ -172,7 +172,7 @@ models:
     - name: to_subsidiary_currency_symbol
       description: Currency symbol for the consolidated exchange rate.
     - name: income_statement_id
-      description: Surrogate key hashed on `transaction_line_id`, `transaction_id`, `accounting_period_id`, and `account_name`. Adds `to_subsidiary_id` if using subsidiaries and `accounting_book_id` if using multibook accounting. 
+      description: Surrogate key hashed on `transaction_line_id`, `transaction_id`, `accounting_period_id`, `account_name` and `source_relation`. Adds `to_subsidiary_id` if using subsidiaries and `accounting_book_id` if using multibook accounting. 
       tests:
           - unique
           - not_null
@@ -300,7 +300,7 @@ models:
     - name: to_subsidiary_currency_symbol
       description: Currency symbol for the consolidated exchange rate.
     - name: transaction_details_id
-      description: Surrogate key hashed on `transaction_line_id` and `transaction_id`. Adds `to_subsidiary_id` if using subsidiaries and `accounting_book_id` if using multibook accounting. 
+      description: Surrogate key hashed on `transaction_line_id` and `transaction_id`, `source_relation`. Adds `to_subsidiary_id` if using subsidiaries and `accounting_book_id` if using multibook accounting. 
       tests:
           - unique
           - not_null

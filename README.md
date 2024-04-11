@@ -101,7 +101,7 @@ Include the following netsuite package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/netsuite
-    version: [">=0.12.0", "<0.13.0"]
+    version: [">=0.13.0", "<0.14.0"]
 ```
 ## Step 3: Define Netsuite.com or Netsuite2 Source
 As of April 2022 Fivetran made available a new Netsuite connector which leverages the Netsuite2 endpoint opposed to the original Netsuite.com endpoint. This package is designed to run for either or, not both. By default the `netsuite_data_model` variable for this package is set to the original `netsuite` value which runs the netsuite.com version of the package. If you would like to run the package on Netsuite2 data, you may adjust the `netsuite_data_model` variable to run the `netsuite2` version of the package.
@@ -111,6 +111,7 @@ vars:
 ```
 
 ## Step 4: Define database and schema variables
+### Option 1: Single connector 💃
 By default, this package runs using your destination and the `netsuite` schema. If this is not where your Netsuite data is (for example, if your netsuite schema is named `netsuite_fivetran`), add the following configuration to your root `dbt_project.yml` file:
 
 ```yml
@@ -119,7 +120,54 @@ vars:
     netsuite_schema: your_schema_name 
 ```
 
+> **Note**: If you are running the package on one source connector, each model will have a `source_relation` column that is just an empty string.
+
+### Option 2: Union multiple connectors (Netsuite2 only) 👯
+If you have multiple Netsuite connectors in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. The package will union all of the data together and pass the unioned table into the transformations. You will be able to see which source it came from in the `source_relation` column of each model. To use this functionality, you will need to set either the `netsuite_union_schemas` OR `netsuite_union_databases` variables (cannot do both, though a more flexible approach is in the works...) in your root `dbt_project.yml` file:
+
+```yml
+# dbt_project.yml
+
+vars:
+    netsuite2_union_schemas: ['netsuite2_usa','netsuite2_canada'] # use this if the data is in different schemas/datasets of the same database/project
+    netsuite2_union_databases: ['netsuite2_usa','netsuite2_canada'] # use this if the data is in different databases/projects but uses the same schema name
+```
+
+#### Recommended: Incorporate unioned sources into DAG
+By default, this package defines one single-connector source, called `netsuite2`, which will be disabled if you are unioning multiple connectors. This means that your DAG will not include your Netsuite sources, though the package will run successfully.
+
+To properly incorporate all of your Netsuite2 connectors into your project's DAG:
+1. Define each of your sources in a `.yml` file in your project. Utilize the following template for the `source`-level configurations, and, **most importantly**, copy and paste the table and column-level definitions from the package's `src_netsuite2.yml` [file](https://github.com/fivetran/dbt_netsuite_source/blob/main/models/netsuite2/src_netsuite2.yml#L15-L607).
+
+```yml
+# a .yml file in your root project
+sources:
+  - name: <name> # ex: netsuite2_usa
+    schema: <schema_name> # one of var('netsuite2_union_schemas') if unioning schemas, otherwise just 'netsuite2'
+    database: <database_name> # one of var('netsuite2_union_databases') if unioning databases, otherwise whatever DB your netsuite2 schemas all live in
+    loader: fivetran
+    loaded_at_field: _fivetran_synced
+
+    freshness: # feel free to adjust to your liking
+      warn_after: {count: 72, period: hour}
+      error_after: {count: 168, period: hour}
+
+    tables: # copy and paste from netsuite_source/models/netsuite2/src_netsuite2.yml 
+```
+
+> **Note**: If there are source tables you do not have (see [Step 4](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#step-5-disable-models-for-non-existent-sources-netsuite2-only)), you may still include them, as long as you have set the right [variables](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#step-5-disable-models-for-non-existent-sources-netsuite2-only) to `False`. Otherwise, you may remove them from your source definitions.
+
+2. Set the `has_defined_sources` variable (scoped to the `netsuite_source` package) to `True`, like such:
+```yml
+# dbt_project.yml
+vars:
+  netsuite_source:
+    has_defined_sources: true
+```
+
 ## Step 5: Disable models for non-existent sources (Netsuite2 only)
+> _This step is unnecessary (but still available for use) if you are unioning multiple connectors together in the previous step. That is, the `union_data` macro we use will create completely empty staging models for sources that are not found in any of your Netsuite2 schemas/databases. However, you can still leverage the below variables if you would like to avoid this behavior._
+
 It's possible that your Netsuite connector does not sync every table that this package expects. If your syncs exclude certain tables, it is because you either don't use that feature in Netsuite or actively excluded some tables from your syncs. To disable the corresponding functionality in the package, you must add the relevant variables. By default, all variables are assumed to be true. Add variables for only the tables you would like to disable:
 ```yml
 vars:
@@ -133,10 +181,11 @@ vars:
 > To determine if a table or field is activated by a feature, access the [Records Catalog](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/article_159367781370.html).
 
 ## (Optional) Step 6: Additional configurations
+<details open><summary>Expand/collapse configurations</summary>
 
 ### Enable additional features 
 
-### Multi-Book (Netsuite2 only)
+#### Multi-Book (Netsuite2 only)
 To include `accounting_book_id` and `accounting_book_name` columns in the end models, set the below variable to `true` in your `dbt_project.yml`. This feature is disabled by default.
 >❗Notes:  
 > - If you choose to enable this feature, this will add rows for transactions for any non-primary `accounting_book_id`, and your downstream use cases may need to be adjusted. 
@@ -147,7 +196,7 @@ vars:
     netsuite2__multibook_accounting_enabled: true # False by default.
 ```
 
-### To Subsidiary (Netsuite2 only)
+#### To Subsidiary (Netsuite2 only)
 To include `to_subsidiary_id` and `to_subsidiary_name` columns in the end models, set the below variable to `true` in your `dbt_project.yml`. This feature is disabled by default. You will also need to be using exchange rates, which is enabled by default.
 
 >❗Notes:  
@@ -215,13 +264,15 @@ models:
       +schema: my_new_schema_name # leave blank for just the target_schema
 ```
     
-### Change the source table references
-If an individual source table has a different name than the package expects, add the table name as it appears in your destination to the respective variable:
+### Change the source table references (only if using a single connector)
+If an individual source table has a different name than the package expects, add the table name as it appears in your destination to the respective variable (and set `use_table_name_identifer_override` to `true` if using Netsuite2):
 
 > IMPORTANT: See this project's [`dbt_project.yml`](https://github.com/fivetran/dbt_netsuite_source/blob/main/dbt_project.yml) variable declarations to see the expected names.
 
 ```yml
 vars:
+    use_table_name_identifer_override: true # Netsuite2 users must set this to TRUE. default = false
+    
     # For all Netsuite source tables
     netsuite_<default_source_table_name>_identifier: your_table_name 
 
@@ -231,6 +282,8 @@ vars:
 
 ### Override the data models variable
 This package is designed to run **either** the Netsuite.com or Netsuite2 data models. However, for documentation purposes, an additional variable `netsuite_data_model_override` was created to allow for both data model types to be run at the same time by setting the variable value to `netsuite`. This is only to ensure the [dbt docs](https://fivetran.github.io/dbt_netsuite/) (which is hosted on this repository) is generated for both model types. While this variable is provided, we recommend you do not adjust the variable and instead change the `netsuite_data_model` variable to fit your configuration needs.
+
+</details>
 
 ## (Optional) Step 7: Produce Analytics-Ready Reports with Streamlit App (Bigquery and Snowflake users only)
 For those who want to take their reports a step further, our team has created the [Fivetran Netsuite Streamlit App](https://fivetran-netsuite.streamlit.app/) to generate end model visualizations based off of the reports we created in this package.  This way you can replicate much of the reporting you see internally in Netsuite and automate a lot of the work needed to report on your core metrics.
@@ -252,7 +305,7 @@ This dbt package is dependent on the following dbt packages. Please be aware tha
 ```yml
 packages:
     - package: fivetran/netsuite_source
-      version: [">=0.9.0", "<0.10.0"]
+      version: [">=0.10.0", "<0.11.0"]
 
     - package: fivetran/fivetran_utils
       version: [">=0.4.0", "<0.5.0"]

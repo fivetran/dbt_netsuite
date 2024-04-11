@@ -1,4 +1,18 @@
+# dbt_netsuite v0.13.0
+
+## 🎉 Feature Update 🎉 
+This release supports running the package on multiple Netsuite sources at once! See the [README](https://github.com/fivetran/dbt_netsuite/tree/main?tab=readme-ov-file#step-4-define-database-and-schema-variables) for details on how to leverage this feature ([PR #104](https://github.com/fivetran/dbt_netsuite/pull/104)).
+> Please note: For each end model, we have a added a new field, `source_relation`, that points to the source connector from which the record originated.
+
+## 🛠️ Under the Hood 🛠️
+- Included auto-releaser GitHub Actions workflow to automate future releases.
+- Updated the maintainer PR template to resemble the most up to date format.
+
+## Contributors:
+- [@fivetran-poonamagate](https://github.com/fivetran-poonamagate) ([PR #104](https://github.com/fivetran/dbt_netsuite/pull/104))
+
 # dbt_netsuite v0.12.0
+
 ## 🎁 Official release for Netsuite2! 🎁
 [PR #98](https://github.com/fivetran/dbt_netsuite/pull/98) is the official supported release of [dbt_netsuite v0.12.0-b1](https://github.com/fivetran/dbt_netsuite/releases/tag/v0.12.0-b1). 
 

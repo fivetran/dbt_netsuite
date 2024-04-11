@@ -27,6 +27,15 @@ currencies as (
     from {{ var('netsuite2_currencies') }}
 ),
 
+{% if not var('netsuite2__using_to_subsidiary', false) %}
+primary_subsidiaries as (
+  select 
+    subsidiary_id,
+    source_relation
+  from subsidiaries where parent_id is null
+),
+{% endif %}
+
 period_exchange_rate_map as ( -- exchange rates used, by accounting period, to convert to parent subsidiary
   select
     consolidated_exchange_rates.accounting_period_id,
@@ -35,6 +44,7 @@ period_exchange_rate_map as ( -- exchange rates used, by accounting period, to c
     consolidated_exchange_rates.accounting_book_id,
     {% endif %}
 
+    consolidated_exchange_rates.source_relation,
     consolidated_exchange_rates.average_rate,
     consolidated_exchange_rates.current_rate,
     consolidated_exchange_rates.historical_rate,
@@ -46,12 +56,17 @@ period_exchange_rate_map as ( -- exchange rates used, by accounting period, to c
   
   left join subsidiaries as to_subsidiaries
     on consolidated_exchange_rates.to_subsidiary_id = to_subsidiaries.subsidiary_id
+    and consolidated_exchange_rates.source_relation = to_subsidiaries.source_relation
 
   left join currencies
     on currencies.currency_id = to_subsidiaries.currency_id
+    and currencies.source_relation = to_subsidiaries.source_relation
 
   {% if not var('netsuite2__using_to_subsidiary', false) %}
-  where consolidated_exchange_rates.to_subsidiary_id in (select subsidiary_id from subsidiaries where parent_id is null)  -- constraint - only the primary subsidiary has no parent
+  join primary_subsidiaries
+    on consolidated_exchange_rates.to_subsidiary_id = primary_subsidiaries.subsidiary_id
+    and consolidated_exchange_rates.source_relation = primary_subsidiaries.source_relation
+
   {% endif %}
 ), 
 
@@ -73,10 +88,12 @@ accountxperiod_exchange_rate_map as ( -- account table with exchange rate detail
       when lower(accounts.general_rate_type) = 'current' then period_exchange_rate_map.current_rate
       when lower(accounts.general_rate_type) = 'average' then period_exchange_rate_map.average_rate
       else null
-        end as exchange_rate
+        end as exchange_rate,
+    accounts.source_relation
   from accounts
   
-  cross join period_exchange_rate_map
+  join period_exchange_rate_map
+    on accounts.source_relation = period_exchange_rate_map.source_relation
 )
 
 select *
