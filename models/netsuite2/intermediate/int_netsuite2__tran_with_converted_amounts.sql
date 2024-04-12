@@ -2,6 +2,8 @@
     config(
         enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
         materialized='incremental',
+        partition_by = {'field': '_fivetran_synced_date', 'data_type': 'date'}
+          if target.type not in ['spark', 'databricks'] else ['_fivetran_synced_date'],
         cluster_by = ['transaction_id'],
         unique_key='tran_with_converted_amounts_id',
         incremental_strategy = 'merge' if target.type in ('bigquery', 'databricks', 'spark') else 'delete+insert',
@@ -14,7 +16,7 @@ with transaction_lines_w_accounting_period as (
     from {{ ref('int_netsuite2__tran_lines_w_accounting_period') }}
 
     {% if is_incremental() %}
-    where _fivetran_synced_date >= {{ netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=var('lookback_window', 7)) }}
+    where _fivetran_synced_date >= {{ netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=var('lookback_window', 3)) }}
     {% endif %}
 ), 
 

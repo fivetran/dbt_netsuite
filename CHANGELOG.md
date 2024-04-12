@@ -1,3 +1,19 @@
+# dbt_netsuite v0.13.0
+[PR #116](https://github.com/fivetran/dbt_netsuite/pull/116) includes the following updates: 
+
+## 🚨 Breaking Changes 🚨
+> ⚠️ Since the following changes are breaking, a `--full-refresh` after upgrading will be required.
+
+- Performance improvements:
+  - Added an incremental strategy for the following models:
+    - `int_netsuite2__tran_with_converted_amounts`
+    - `netsuite2__balance_sheet`
+    - `netsuite2__income_statement`
+    - `netsuite2_transaction_details`
+
+## Features
+- Added a default 3-day look-back to incremental models to accommodate late arriving records. The number of days can be changed by setting the var `lookback_window` in your dbt_project.yml. See the [Lookback Window section of the README](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#lookback-window) for more details. 
+
 # dbt_netsuite v0.12.0
 ## 🎁 Official release for Netsuite2! 🎁
 [PR #98](https://github.com/fivetran/dbt_netsuite/pull/98) is the official supported release of [dbt_netsuite v0.12.0-b1](https://github.com/fivetran/dbt_netsuite/releases/tag/v0.12.0-b1). 

@@ -101,7 +101,7 @@ Include the following netsuite package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/netsuite
-    version: [">=0.12.0", "<0.13.0"]
+    version: [">=0.13.0", "<0.14.0"]
 ```
 ## Step 3: Define Netsuite.com or Netsuite2 Source
 As of April 2022 Fivetran made available a new Netsuite connector which leverages the Netsuite2 endpoint opposed to the original Netsuite.com endpoint. This package is designed to run for either or, not both. By default the `netsuite_data_model` variable for this package is set to the original `netsuite` value which runs the netsuite.com version of the package. If you would like to run the package on Netsuite2 data, you may adjust the `netsuite_data_model` variable to run the `netsuite2` version of the package.
@@ -231,6 +231,17 @@ vars:
 
 ### Override the data models variable
 This package is designed to run **either** the Netsuite.com or Netsuite2 data models. However, for documentation purposes, an additional variable `netsuite_data_model_override` was created to allow for both data model types to be run at the same time by setting the variable value to `netsuite`. This is only to ensure the [dbt docs](https://fivetran.github.io/dbt_netsuite/) (which is hosted on this repository) is generated for both model types. While this variable is provided, we recommend you do not adjust the variable and instead change the `netsuite_data_model` variable to fit your configuration needs.
+
+#### Lookback Window
+Records from the source can sometimes arrive late. Since several of the models in this package are incremental, by default we look back 3 days to ensure late arrivals are captured while avoiding the need for frequent full refreshes. While the frequency can be reduced, we still recommend running `dbt --full-refresh` periodically to maintain data quality of the models. For more information on our incremental decisions, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy) of the DECISIONLOG.
+
+To change the default lookback window, add the following variable to your `dbt_project.yml` file:
+
+```yml
+vars:
+  netsuite:
+    lookback_window: number_of_days # default is 3
+```
 
 ## (Optional) Step 7: Produce Analytics-Ready Reports with Streamlit App (Bigquery and Snowflake users only)
 For those who want to take their reports a step further, our team has created the [Fivetran Netsuite Streamlit App](https://fivetran-netsuite.streamlit.app/) to generate end model visualizations based off of the reports we created in this package.  This way you can replicate much of the reporting you see internally in Netsuite and automate a lot of the work needed to report on your core metrics.
