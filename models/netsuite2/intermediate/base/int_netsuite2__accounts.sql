@@ -1,9 +1,4 @@
-{{ 
-    config(
-    enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
-    materialized='table'
-    )
-}}
+{{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
 
 with accounts as (
 
