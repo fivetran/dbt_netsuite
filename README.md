@@ -232,8 +232,8 @@ vars:
 ### Override the data models variable
 This package is designed to run **either** the Netsuite.com or Netsuite2 data models. However, for documentation purposes, an additional variable `netsuite_data_model_override` was created to allow for both data model types to be run at the same time by setting the variable value to `netsuite`. This is only to ensure the [dbt docs](https://fivetran.github.io/dbt_netsuite/) (which is hosted on this repository) is generated for both model types. While this variable is provided, we recommend you do not adjust the variable and instead change the `netsuite_data_model` variable to fit your configuration needs.
 
-#### Lookback Window
-Records from the source can sometimes arrive late. Since several of the models in this package are incremental, by default we look back 3 days to ensure late arrivals are captured while avoiding the need for frequent full refreshes. While the frequency can be reduced, we still recommend running `dbt --full-refresh` periodically to maintain data quality of the models. For more information on our incremental decisions, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy) of the DECISIONLOG.
+### Lookback Window
+Records from the source can sometimes arrive late. Since several of the models in this package are incremental, by default we look back 3 days to ensure late arrivals are captured while avoiding the need for frequent full refreshes. While the frequency can be reduced, we still recommend running `dbt --full-refresh` periodically to maintain data quality of the models. 
 
 To change the default lookback window, add the following variable to your `dbt_project.yml` file:
 
@@ -241,6 +241,25 @@ To change the default lookback window, add the following variable to your `dbt_p
 vars:
   netsuite:
     lookback_window: number_of_days # default is 3
+```
+
+### Adding incremental materialization for Bigquery and Databricks
+Due to the variation in pricing and runtime priorities for customer, by default we chose table instead of incremental materialization for Bigquery and Databricks. For more information on this decision, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy) of the DECISIONLOG.
+
+If you wish to enable it, you can add the below materialization settings to your `dbt_project.yml` file. You only need to add lines for the specific model materializations you wish to change.
+```yml
+models:
+  netsuite:
+    netsuite2:
+      netsuite2__income_statement:
+        +materialized: incremental # default is table for Bigquery and Databricks
+      netsuite2__transaction_details:
+        +materialized: incremental # default is table for Bigquery and Databricks
+      netsuite2__balance_sheet:
+        +materialized: incremental # default is table for Bigquery and Databricks
+      intermediate:
+        int_netsuite2__tran_with_converted_amounts:
+          +materialized: incremental # default is ephemeral for Bigquery and Databricks
 ```
 
 ## (Optional) Step 7: Produce Analytics-Ready Reports with Streamlit App (Bigquery and Snowflake users only)

@@ -106,6 +106,8 @@ models:
       tests:
           - unique
           - not_null
+    - name: _fivetran_synced_date
+      description: `_fivetran_synced` formatted as a date for incremental logic use.
 
   - name: netsuite2__income_statement
     description: >
@@ -176,7 +178,8 @@ models:
       tests:
           - unique
           - not_null
-
+    - name: _fivetran_synced_date
+      description: `_fivetran_synced` formatted as a date for incremental logic use.
 
   - name: netsuite2__transaction_details
     description: >
@@ -304,3 +307,5 @@ models:
       tests:
           - unique
           - not_null
+    - name: _fivetran_synced_date
+      description: `_fivetran_synced` formatted as a date for incremental logic use.
