@@ -94,11 +94,16 @@ transaction_details as (
     transaction_lines.transaction_line_id,
     transaction_lines.memo as transaction_memo,
     not transaction_lines.is_posting as is_transaction_non_posting,
+    transaction_lines.is_main_line,
+    transaction_lines.is_tax_line,
+    transaction_lines.is_closed,
     transactions.transaction_id,
     transactions.status as transaction_status,
     transactions.transaction_date,
     transactions.due_date_at as transaction_due_date,
     transactions.transaction_type as transaction_type,
+    transactions.transaction_number,
+    coalesce(transaction_lines.entity_id, transactions.entity_id) as entity_id,
     transactions.is_intercompany_adjustment as is_transaction_intercompany_adjustment
 
     --The below script allows for transactions table pass through columns.
@@ -136,6 +141,7 @@ transaction_details as (
     customers.date_first_order_at as customer_date_first_order,
     customers.customer_external_id,
     classes.full_name as class_full_name,
+    transaction_lines.item_id,
     items.name as item_name,
     items.type_name as item_type_name,
     items.sales_description,
@@ -149,6 +155,7 @@ transaction_details as (
     vendors.create_date_at as vendor_create_date,
     currencies.name as currency_name,
     currencies.symbol as currency_symbol,
+    transaction_lines.department_id,
     departments.name as department_name
 
     --The below script allows for departments table pass through columns.
