@@ -1,4 +1,4 @@
-# dbt_netsuite VERSION
+# dbt_netsuite v0.13.0
 [PR #114](https://github.com/fivetran/dbt_netsuite/pull/114) includes the following updates:
 
 ## 🎉 Features
