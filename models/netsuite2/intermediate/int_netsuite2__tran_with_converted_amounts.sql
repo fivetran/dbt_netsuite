@@ -61,25 +61,25 @@ transactions_in_every_calculation_period_w_exchange_rates as (
   {% if var('netsuite2__using_exchange_rate', true) %}
   left join accountxperiod_exchange_rate_map as exchange_reporting_period
     on exchange_reporting_period.accounting_period_id = transaction_and_reporting_periods.reporting_accounting_period_id
-    and exchange_reporting_period.account_id = transaction_lines_w_accounting_period.account_id
-    and exchange_reporting_period.from_subsidiary_id = transaction_lines_w_accounting_period.subsidiary_id
+      and exchange_reporting_period.account_id = transaction_lines_w_accounting_period.account_id
+      and exchange_reporting_period.from_subsidiary_id = transaction_lines_w_accounting_period.subsidiary_id
 
-    {% if var('netsuite2__multibook_accounting_enabled', false) %}
-    and exchange_reporting_period.accounting_book_id = transaction_lines_w_accounting_period.accounting_book_id
-    {% endif %}
-    
+      {% if var('netsuite2__multibook_accounting_enabled', false) %}
+      and exchange_reporting_period.accounting_book_id = transaction_lines_w_accounting_period.accounting_book_id
+      {% endif %}
+      
   left join accountxperiod_exchange_rate_map as exchange_transaction_period
     on exchange_transaction_period.accounting_period_id = transaction_and_reporting_periods.accounting_period_id
-    and exchange_transaction_period.account_id = transaction_lines_w_accounting_period.account_id
-    and exchange_transaction_period.from_subsidiary_id = transaction_lines_w_accounting_period.subsidiary_id
-    
-    {% if var('netsuite2__multibook_accounting_enabled', false) %}
-    and exchange_transaction_period.accounting_book_id = transaction_lines_w_accounting_period.accounting_book_id
-    {% endif %}
+      and exchange_transaction_period.account_id = transaction_lines_w_accounting_period.account_id
+      and exchange_transaction_period.from_subsidiary_id = transaction_lines_w_accounting_period.subsidiary_id
+      
+      {% if var('netsuite2__multibook_accounting_enabled', false) %}
+      and exchange_transaction_period.accounting_book_id = transaction_lines_w_accounting_period.accounting_book_id
+      {% endif %}
 
-    {% if var('netsuite2__using_to_subsidiary', false) %}
-    and exchange_transaction_period.to_subsidiary_id = exchange_reporting_period.to_subsidiary_id
-    {% endif %}
+      {% if var('netsuite2__using_to_subsidiary', false) %}
+      and exchange_transaction_period.to_subsidiary_id = exchange_reporting_period.to_subsidiary_id
+      {% endif %}
   {% endif %}
 ), 
 
@@ -94,18 +94,18 @@ transactions_with_converted_amounts as (
     unconverted_amount as converted_amount_using_reporting_month,
     {% endif %}
     case
-    when lower(accounts.account_type_id) in ('income','othincome','expense','othexpense','cogs') then true
-    else false 
-      end as is_income_statement,
+      when lower(accounts.account_type_id) in ('income','othincome','expense','othexpense','cogs') then true
+      else false 
+        end as is_income_statement,
     case
-    when lower(accounts.account_type_id) in ('acctrec', 'bank', 'deferexpense', 'fixedasset', 'othasset', 'othcurrasset', 'unbilledrec') then 'Asset'
-    when lower(accounts.account_type_id) in ('cogs', 'expense', 'othexpense') then 'Expense'
-    when lower(accounts.account_type_id) in ('income', 'othincome') then 'Income'
-    when lower(accounts.account_type_id) in ('acctpay', 'credcard', 'deferrevenue', 'longtermliab', 'othcurrliab') then 'Liability'
-    when lower(accounts.account_type_id) in ('equity', 'retained_earnings', 'net_income') then 'Equity'
-    when lower(accounts.account_type_id) in ('nonposting', 'stat') then 'Other'
-    else null 
-      end as account_category
+      when lower(accounts.account_type_id) in ('acctrec', 'bank', 'deferexpense', 'fixedasset', 'othasset', 'othcurrasset', 'unbilledrec') then 'Asset'
+      when lower(accounts.account_type_id) in ('cogs', 'expense', 'othexpense') then 'Expense'
+      when lower(accounts.account_type_id) in ('income', 'othincome') then 'Income'
+      when lower(accounts.account_type_id) in ('acctpay', 'credcard', 'deferrevenue', 'longtermliab', 'othcurrliab') then 'Liability'
+      when lower(accounts.account_type_id) in ('equity', 'retained_earnings', 'net_income') then 'Equity'
+      when lower(accounts.account_type_id) in ('nonposting', 'stat') then 'Other'
+      else null 
+        end as account_category
   from transactions_in_every_calculation_period_w_exchange_rates
 
   left join accounts
