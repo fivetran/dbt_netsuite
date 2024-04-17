@@ -5,14 +5,14 @@
 > ⚠️ Since the following changes are breaking, a `--full-refresh` after upgrading will be required.
 
 - Performance improvements:
-  - Snowflake, Postgres, and Redshift:
+  - Snowflake, Postgres, and Redshift destinations:
     - Added an incremental strategy for the following models:
       - `int_netsuite2__tran_with_converted_amounts`
       - `netsuite2__balance_sheet`
       - `netsuite2__income_statement`
-      - `netsuite2_transaction_details`
-  - Bigquery and Databricks
-    - Due to the variation in pricing and runtime priorities for customer, by default we chose table instead of incremental materialization for Bigquery and Databricks. For more information on this decision, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy) of the DECISIONLOG.
+      - `netsuite2__transaction_details`
+  - Bigquery and Databricks destinations:
+    - Due to the variation in pricing and runtime priorities for customers, by default we chose to materialize these models as tables instead of incremental materialization for Bigquery and Databricks. For more information on this decision, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy) of the DECISIONLOG.
     - To enable incremental materialization for these destinations, see the [Incremental Materialization section](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#-adding-incremental-materialization-for-bigquery-and-databricks) of the README for instructions.
 
 ## Features

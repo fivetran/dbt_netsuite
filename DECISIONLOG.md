@@ -12,8 +12,8 @@ As mentioned above, in the `int_netsuite__transactions_with_converted_amounts`/`
 
 ## Incremental Strategy Selection
 
-For incremental models, we have chosen the `delete+insert` strategy PostgreSQL, Redshift, and Snowflake destinations.
+For incremental models, we have chosen the `delete+insert` strategy for PostgreSQL, Redshift, and Snowflake destinations.
 
-For Bigquery and Databricks, we have turned off incremental strategy by default since we did not want to cause unexpected warehouse costs for users. If you choose to enable the incremental materialization for these destinations, we have set it up to use `merge`. 
+For Bigquery and Databricks, we have turned off incremental strategy by default since we did not want to cause unexpected warehouse costs for users. If you choose to enable the incremental materialization for these destinations, we have set it up to use the `merge` strategy. 
 
 These strategies were selected since transaction records can be updated retroactively, and `merge` and `delete+insert` work well since they rely on a unique id to identify records to update or replace. 
