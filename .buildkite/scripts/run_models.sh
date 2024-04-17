@@ -26,10 +26,10 @@ dbt run --vars '{netsuite_schema: netsuite_integrations_tests_sqlw}' --target "$
 dbt test --vars '{netsuite_schema: netsuite_integrations_tests_sqlw}' --target "$db"
 dbt run --vars '{netsuite_schema: netsuite_integrations_tests_sqlw, netsuite2__using_to_subsidiary: true, netsuite2__multibook_accounting_enabled: true, netsuite2__using_exchange_rate: false, netsuite2__using_vendor_categories: false, netsuite2__using_jobs: false}' --target "$db" --full-refresh
 dbt run --vars '{netsuite_schema: netsuite_integrations_tests_sqlw, netsuite2__using_to_subsidiary: true, netsuite2__multibook_accounting_enabled: true, netsuite2__using_exchange_rate: false, netsuite2__using_vendor_categories: false, netsuite2__using_jobs: false}' --target "$db"
-dbt test --target "$db"
+ddbt test --vars '{netsuite_schema: netsuite_integrations_tests_sqlw}' --target "$db"
 dbt run --vars '{netsuite_schema: netsuite_integrations_tests_sqlw, netsuite2__using_to_subsidiary: true, netsuite2__using_exchange_rate: true}' --target "$db" --full-refresh
 dbt run --vars '{netsuite_schema: netsuite_integrations_tests_sqlw, netsuite2__using_to_subsidiary: true, netsuite2__using_exchange_rate: true}' --target "$db"
-dbt test --target "$db"
+dbt test --vars '{netsuite_schema: netsuite_integrations_tests_sqlw}' --target "$db"
 
 else
 
