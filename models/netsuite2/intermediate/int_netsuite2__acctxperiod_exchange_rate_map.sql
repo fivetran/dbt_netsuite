@@ -50,7 +50,7 @@ period_exchange_rate_map as ( -- exchange rates used, by accounting period, to c
   left join currencies
     on currencies.currency_id = to_subsidiaries.currency_id
 
-  {% if not var('netsuite2__using_to_subsidiary', false) %}
+  {% if not var('netsuite2__using_to_subsidiary', true) %}
   where consolidated_exchange_rates.to_subsidiary_id in (select subsidiary_id from subsidiaries where parent_id is null)  -- constraint - only the primary subsidiary has no parent
   {% endif %}
 ), 

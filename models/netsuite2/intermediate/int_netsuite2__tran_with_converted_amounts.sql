@@ -47,7 +47,7 @@ transactions_in_every_calculation_period_w_exchange_rates as (
     , exchange_transaction_period.exchange_rate as exchange_rate_transaction_period
     {% endif %}
 
-    {% if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
+    {% if var('netsuite2__using_to_subsidiary', true) and var('netsuite2__using_exchange_rate', true) %}
     , exchange_reporting_period.to_subsidiary_id
     , exchange_reporting_period.to_subsidiary_name
     , exchange_reporting_period.to_subsidiary_currency_symbol
@@ -77,7 +77,7 @@ transactions_in_every_calculation_period_w_exchange_rates as (
       and exchange_transaction_period.accounting_book_id = transaction_lines_w_accounting_period.accounting_book_id
       {% endif %}
 
-      {% if var('netsuite2__using_to_subsidiary', false) %}
+      {% if var('netsuite2__using_to_subsidiary', true) %}
       and exchange_transaction_period.to_subsidiary_id = exchange_reporting_period.to_subsidiary_id
       {% endif %}
   {% endif %}
@@ -114,7 +114,7 @@ transactions_with_converted_amounts as (
 
 surrogate_key as ( 
   {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id', 'account_id', 'reporting_accounting_period_id'] %} -- add 'source_relation' when combining with union schema
-  {% do surrogate_key_fields.append('to_subsidiary_id') if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
+  {% do surrogate_key_fields.append('to_subsidiary_id') if var('netsuite2__using_to_subsidiary', true) and var('netsuite2__using_exchange_rate', true) %}
   {% do surrogate_key_fields.append('accounting_book_id') if var('netsuite2__multibook_accounting_enabled', false) %}
 
   select 

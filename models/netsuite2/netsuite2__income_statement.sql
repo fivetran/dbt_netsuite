@@ -82,7 +82,7 @@ income_statement as (
         transactions_with_converted_amounts.accounting_book_name,
         {% endif %}
 
-        {% if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
+        {% if var('netsuite2__using_to_subsidiary', true) and var('netsuite2__using_exchange_rate', true) %}
         transactions_with_converted_amounts.to_subsidiary_id,
         transactions_with_converted_amounts.to_subsidiary_name,
         transactions_with_converted_amounts.to_subsidiary_currency_symbol,
@@ -172,7 +172,7 @@ income_statement as (
         and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
         {% endif %}
 
-        {% if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
+        {% if var('netsuite2__using_to_subsidiary', true) and var('netsuite2__using_exchange_rate', true) %}
         and transaction_details.to_subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
         {% endif %}
     {% endif %}
@@ -184,7 +184,7 @@ income_statement as (
 
 surrogate_key as ( 
     {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id', 'accounting_period_id', 'account_name'] %}
-    {% do surrogate_key_fields.append('to_subsidiary_id') if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
+    {% do surrogate_key_fields.append('to_subsidiary_id') if var('netsuite2__using_to_subsidiary', true) and var('netsuite2__using_exchange_rate', true) %}
     {% do surrogate_key_fields.append('accounting_book_id') if var('netsuite2__multibook_accounting_enabled', false) %}
 
     select 
