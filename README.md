@@ -148,16 +148,15 @@ vars:
 ```
 
 ### To Subsidiary (Netsuite2 only)
-To include `to_subsidiary_id` and `to_subsidiary_name` columns in the end models, set the below variable to `true` in your `dbt_project.yml`. This feature is disabled by default. You will also need to be using exchange rates, which is enabled by default.
+To remove `to_subsidiary_id` and `to_subsidiary_name` columns in the end models, set the below variable to `false` in your `dbt_project.yml`. This feature is enabled by default. 
 
 >❗Notes:  
-> - If you choose to enable this feature, this will add rows for transactions where `to_subsidiary` is not a top-level subsidiary. Your downstream use cases may need to be adjusted. 
-> - The surrogate keys for the end models are dynamically generated depending on the enabled/disabled features, so adding these rows will not cause test failures.
+> - If you do have `to_subsidiary_*` data and choose to disable this feature, this may result in duplicate surrogate keys, which could result in test or model failures. Disable with caution!
 > - If you are leveraging a `*_pass_through_columns` variable to include the added columns, you may need to remove them to avoid a duplicate column error.
 
 ```yml
 vars:
-    netsuite2__using_to_subsidiary: true # False by default.
+    netsuite2__using_to_subsidiary: false # True by default.
 ```
 
 ### Passing Through Additional Fields
@@ -233,7 +232,7 @@ vars:
 This package is designed to run **either** the Netsuite.com or Netsuite2 data models. However, for documentation purposes, an additional variable `netsuite_data_model_override` was created to allow for both data model types to be run at the same time by setting the variable value to `netsuite`. This is only to ensure the [dbt docs](https://fivetran.github.io/dbt_netsuite/) (which is hosted on this repository) is generated for both model types. While this variable is provided, we recommend you do not adjust the variable and instead change the `netsuite_data_model` variable to fit your configuration needs.
 
 ### Lookback Window
-Records from the source can sometimes arrive late. Since several of the models in this package are incremental, by default we look back 3 days to ensure late arrivals are captured while avoiding the need for frequent full refreshes. While the frequency can be reduced, we still recommend running `dbt --full-refresh` periodically to maintain data quality of the models. 
+Records from the source can sometimes arrive late. Since several of the models in this package are incremental, by default we look back 3 days from the `_fivetran_synced_date` of transaction records to ensure late arrivals are captured and avoiding the need for frequent full refreshes. While the frequency can be reduced, we still recommend running `dbt --full-refresh` periodically to maintain data quality of the models. 
 
 To change the default lookback window, add the following variable to your `dbt_project.yml` file:
 
@@ -244,7 +243,7 @@ vars:
 ```
 
 ### Adding incremental materialization for Bigquery and Databricks
-Due to the variation in pricing and runtime priorities for customers, by default we chose to materialize the below models as tables instead of an incremental materialization for Bigquery and Databricks. For more information on this decision, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy) of the DECISIONLOG.
+Due to the variation in pricing and runtime priorities by customer, by default we chose to materialize the below models as tables instead of an incremental materialization for Bigquery and Databricks. For more information on this decision, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy) of the DECISIONLOG.
 
 If you wish to enable incremental materializations leveraging the `merge` strategy, you can add the below materialization settings to your `dbt_project.yml` file. You only need to add lines for the specific model materializations you wish to change.
 ```yml
