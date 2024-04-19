@@ -148,15 +148,16 @@ vars:
 ```
 
 ### To Subsidiary (Netsuite2 only)
-To remove `to_subsidiary_id` and `to_subsidiary_name` columns in the end models, set the below variable to `false` in your `dbt_project.yml`. This feature is enabled by default. 
+To include `to_subsidiary_id` and `to_subsidiary_name` columns in the end models, set the below variable to `true` in your `dbt_project.yml`. This feature is disabled by default. You will also need to be using exchange rates, which is enabled by default.
 
 >❗Notes:  
-> - If you do have `to_subsidiary_*` data and choose to disable this feature, this may result in duplicate surrogate keys, which could result in test or model failures. Disable with caution!
+> - If you choose to enable this feature, this will add rows for transactions where `to_subsidiary` is not a top-level subsidiary. Your downstream use cases may need to be adjusted. 
+> - The surrogate keys for the end models are dynamically generated depending on the enabled/disabled features, so adding these rows will not cause test failures.
 > - If you are leveraging a `*_pass_through_columns` variable to include the added columns, you may need to remove them to avoid a duplicate column error.
 
 ```yml
 vars:
-    netsuite2__using_to_subsidiary: false # True by default.
+    netsuite2__using_to_subsidiary: true # False by default.
 ```
 
 ### Passing Through Additional Fields
@@ -243,7 +244,7 @@ vars:
 ```
 
 ### Adding incremental materialization for Bigquery and Databricks
-Due to the variation in pricing and runtime priorities by customer, by default we chose to materialize the below models as tables instead of an incremental materialization for Bigquery and Databricks. For more information on this decision, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy) of the DECISIONLOG.
+Since pricing and runtime priorities vary by customer, by default we chose to materialize the below models as tables instead of an incremental materialization for Bigquery and Databricks. For more information on this decision, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy) of the DECISIONLOG.
 
 If you wish to enable incremental materializations leveraging the `merge` strategy, you can add the below materialization settings to your `dbt_project.yml` file. You only need to add lines for the specific model materializations you wish to change.
 ```yml

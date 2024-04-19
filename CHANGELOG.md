@@ -3,17 +3,6 @@
 
 ## 🚨 Breaking Changes 🚨
 > ⚠️ Since the following changes are breaking, a `--full-refresh` after upgrading will be required.
-
-- Updated default of var `netsuite2__using_to_subsidiary` to true. This was necessary for use with the new incremental features.
-  - This will only affect users also using exchange rates (e.g. var `netsuite2__using_exchange_rate=true`).
-  - ⚠️ If you are currently using exchange rates but were not using the `to_subsidiary` feature, the grain of the following models will now include the following columns. You may need to update your downstream uses accordingly. 
-
-  model | new cols
-  ----- | -----
-  netsuite2__transaction_details | to_subsidiary_id <br> to_subsidiary_name <br> to_subsidiary_currency_symbol
-  netsuite2__income_statement | to_subsidiary_id <br> to_subsidiary_name <br> to_subsidiary_currency_symbol
-  netsuite2__balance_sheet | to_subsidiary_id <br> to_subsidiary_name <br> to_subsidiary_currency_symbol
-
 - Performance improvements:
   - Snowflake, Postgres, and Redshift destinations:
     - Added an incremental strategy for the following models:
@@ -22,7 +11,7 @@
       - `netsuite2__income_statement`
       - `netsuite2__transaction_details`
   - Bigquery and Databricks destinations:
-    - Due to the variation in pricing and runtime priorities for customers, by default we chose to materialize these models as tables instead of incremental materialization for Bigquery and Databricks. For more information on this decision, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy) of the DECISIONLOG.  
+    - Due to the variation in pricing and runtime priorities for customers, by default we chose to materialize these models as tables instead of incremental materialization for Bigquery and Databricks. For more information on this decision, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy) of the DECISIONLOG.
     - To enable incremental materialization for these destinations, see the [Incremental Materialization section](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#-adding-incremental-materialization-for-bigquery-and-databricks) of the README for instructions.
 
 ## Features
