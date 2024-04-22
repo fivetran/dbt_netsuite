@@ -1,9 +1,11 @@
 name: 'netsuite_integration_tests'
-version: '0.12.0'
+version: '0.13.0'
 profile: 'integration_tests'
 config-version: 2
+
 models:
-  +materialized: table
+  +schema: "{{ 'netsuite_integrations_tests_sqlw' if target.name == 'databricks-sql' else 'netsuite' }}"
+
 vars:
   netsuite_schema: netsuite_integration_tests_5
   netsuite_data_model_override: netsuite

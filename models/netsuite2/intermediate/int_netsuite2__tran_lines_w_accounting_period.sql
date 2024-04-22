@@ -23,7 +23,8 @@ transaction_lines_w_accounting_period as ( -- transaction line totals, by accoun
     {% endif %}
     
     transactions.accounting_period_id as transaction_accounting_period_id,
-    coalesce(transaction_lines.amount, 0) as unconverted_amount
+    coalesce(transaction_lines.amount, 0) as unconverted_amount,
+    transactions._fivetran_synced_date
   from transaction_lines
 
   join transactions on transactions.transaction_id = transaction_lines.transaction_id

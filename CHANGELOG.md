@@ -1,4 +1,26 @@
 # dbt_netsuite v0.13.0
+[PR #116](https://github.com/fivetran/dbt_netsuite/pull/116) includes the following updates: 
+
+## 🚨 Breaking Changes 🚨
+> ⚠️ Since the following changes are breaking, a `--full-refresh` after upgrading will be required.
+- Performance improvements:
+  - Snowflake, Postgres, and Redshift destinations:
+    - Added an incremental strategy for the following models:
+      - `int_netsuite2__tran_with_converted_amounts`
+      - `netsuite2__balance_sheet`
+      - `netsuite2__income_statement`
+      - `netsuite2__transaction_details`
+  - Bigquery and Databricks destinations:
+    - Due to the variation in pricing and runtime priorities for customers, by default we chose to materialize these models as tables instead of incremental materialization for Bigquery and Databricks. For more information on this decision, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy) of the DECISIONLOG.
+    - To enable incremental materialization for these destinations, see the [Incremental Materialization section](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#-adding-incremental-materialization-for-bigquery-and-databricks) of the README for instructions.
+
+## Features
+- Added a default 3-day look-back to incremental models to accommodate late arriving records, based on the `_fivetran_synced_date` of transaction records. The number of days can be changed by setting the var `lookback_window` in your dbt_project.yml. See the [Lookback Window section of the README](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#lookback-window) for more details. 
+
+## Under the Hood:
+- Added integration testing pipeline for Databricks SQL Warehouse.
+- Included auto-releaser GitHub Actions workflow to automate future releases.
+
 [PR #114](https://github.com/fivetran/dbt_netsuite/pull/114) includes the following updates:
 
 ## 🎉 Features

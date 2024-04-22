@@ -17,3 +17,11 @@ In our `intermediate` Netsuite models, we translate amounts from posted transact
 For the sake of financial fidelity, we decided not to convert amounts that are non-posting because the exchange rates are subject to change. While that can provide additional value for customers looking to do financial forecasting, we do not want to create confusion by bringing in converted transactions that have amounts that are variable to change, and disrupt existing financial reporting processes.
 
 For customers interested in creating future-facing `converted_amount` values, our recommendation would be to materialize the `intermediate` tables to grab the exchange rate data in your internal warehouse, then leverage the `transaction_amount` in these particular cases to produce the future `converted_amounts`.
+
+## Incremental Strategy Selection
+
+For incremental models, we have chosen the `delete+insert` strategy for PostgreSQL, Redshift, and Snowflake destinations.
+
+For Bigquery and Databricks, we have turned off incremental strategy by default since we did not want to cause unexpected warehouse costs for users. If you choose to enable the incremental materialization for these destinations, we have set it up to use the `merge` strategy. 
+
+These strategies were selected since transaction records can be updated retroactively, and `merge` and `delete+insert` work well since they rely on a unique id to identify records to update or replace. 
