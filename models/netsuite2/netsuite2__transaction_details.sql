@@ -120,7 +120,6 @@ transaction_details as (
     transactions.transaction_date,
     transactions.due_date_at as transaction_due_date,
     transactions.transaction_type as transaction_type,
-    transactions.is_intercompany_adjustment as is_transaction_intercompany_adjustment,
     transactions._fivetran_synced_date,
     transactions.transaction_number,
     coalesce(transaction_lines.entity_id, transactions.entity_id) as entity_id,
