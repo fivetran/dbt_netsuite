@@ -12,7 +12,7 @@
 }}
 
 {% if is_incremental() %}
-{% set max_fivetran_synced_date = fivetran_utils.fivetran_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=var('lookback_window', 3)) %}
+{% set max_fivetran_synced_date = netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=var('lookback_window', 3)) %}
 {% endif %}
 
 with transactions_with_converted_amounts as (
