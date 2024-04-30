@@ -19,6 +19,7 @@ For Netsuite2, [PR #116](https://github.com/fivetran/dbt_netsuite/pull/116) incl
 
 ## 🎉 Features
 - Added a default 3-day look-back to incremental models to accommodate late arriving records, based on the `_fivetran_synced_date` of transaction records. The number of days can be changed by setting the var `lookback_window` in your dbt_project.yml. See the [Lookback Window section of the README](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#lookback-window) for more details. 
+- Added macro `netsuite_lookback` to streamline the lookback calculation.
 
 ## Under the Hood:
 - Added integration testing pipeline for Databricks SQL Warehouse.
