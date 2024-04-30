@@ -19,10 +19,11 @@ For the sake of financial fidelity, we decided not to convert amounts that are n
 For customers interested in creating future-facing converted_amount values, our recommendation would be to materialize the intermediate models as view or tables to grab the exchange rate data in your internal warehouse, then leverage the transaction_amount in these particular cases to produce the future converted_amounts. You can update the models section of your dbt_project.yml to update the materialization.
 
 ```yml
+models:
+  netsuite:
     netsuite2:
       intermediate:
         +materialized: [table or view]
-```
 
 ## Incremental Strategy Selection
 
