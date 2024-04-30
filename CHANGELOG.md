@@ -1,5 +1,6 @@
 # dbt_netsuite v0.13.0
-[PR #116](https://github.com/fivetran/dbt_netsuite/pull/116) includes the following updates: 
+
+For Netsuite2, [PR #116](https://github.com/fivetran/dbt_netsuite/pull/116) includes the following updates: 
 
 ## 🚨 Breaking Changes 🚨
 > ⚠️ Since the following changes are breaking, a `--full-refresh` after upgrading will be required.
@@ -14,16 +15,18 @@
     - Due to the variation in pricing and runtime priorities for customers, by default we chose to materialize these models as tables instead of incremental materialization for Bigquery and Databricks. For more information on this decision, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy) of the DECISIONLOG.
     - To enable incremental materialization for these destinations, see the [Incremental Materialization section](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#-adding-incremental-materialization-for-bigquery-and-databricks) of the README for instructions.
 
-## Features
+- To reduce storage, updated the default materialization of the upstream staging models to views. (See the [dbt_netsuite_source CHANGELOG](https://github.com/fivetran/dbt_netsuite/blob/main/CHANGELOG.md) for more details.)
+
+## 🎉 Features
 - Added a default 3-day look-back to incremental models to accommodate late arriving records, based on the `_fivetran_synced_date` of transaction records. The number of days can be changed by setting the var `lookback_window` in your dbt_project.yml. See the [Lookback Window section of the README](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#lookback-window) for more details. 
 
 ## Under the Hood:
 - Added integration testing pipeline for Databricks SQL Warehouse.
 - Included auto-releaser GitHub Actions workflow to automate future releases.
 
-[PR #114](https://github.com/fivetran/dbt_netsuite/pull/114) includes the following updates:
+For Netsuite2, [PR #114](https://github.com/fivetran/dbt_netsuite/pull/114) includes the following updates:
 
-## 🎉 Features
+##  Features
 - Added the following columns to model `netsuite2__transaction_details`:
   - department_id
   - entity_id
@@ -32,9 +35,13 @@
   - is_tax_line
   - item_id
   - transaction_number
+- ❗Note: If you have already added any of these fields as passthrough columns to the `transactions_pass_through_columns`, `transaction_lines_pass_through_columns`, `accounts_pass_through_columns`, or `departments_pass_through_columns` vars, you will need to remove or alias these fields from the var to avoid duplicate column errors.
+
+- Removed the unnecessary reference to `entities` in the `netsuit2__transaction_details` model.
 
 ## 📝 Documentation Update 📝
 - [Updated DECISIONLOG](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#why-converted-transaction-amounts-are-null-if-they-are-non-posting) with our reasoning for why we don't bring in future-facing transactions and leave the `converted_amount` in transaction details empty. ([#115](https://github.com/fivetran/dbt_netsuite/issues/115))
+
 ## Contributors:
 - [@FrankTub](https://github.com/FrankTub) ([#114](https://github.com/fivetran/dbt_netsuite/issues/114))
 
