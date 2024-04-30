@@ -22,6 +22,6 @@ For customers interested in creating future-facing `converted_amount` values, ou
 
 For incremental models, we have chosen the `delete+insert` strategy for PostgreSQL, Redshift, and Snowflake destinations.
 
-For Bigquery and Databricks, we have turned off incremental strategy by default since we did not want to cause unexpected warehouse costs for users. If you choose to enable the incremental materialization for these destinations, we have set it up to use the `merge` strategy. 
+For Bigquery and Databricks, we have turned off incremental strategy by default since we did not want to cause unexpected warehouse costs for users. If you choose to enable the incremental materialization for these destinations, we have set it up to use the `merge` strategy. For instructions on how to enable the incremental strategy, see the [README](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#adding-incremental-materialization-for-bigquery-and-databricks).
 
 These strategies were selected since transaction records can be updated retroactively, and `merge` and `delete+insert` work well since they rely on a unique id to identify records to update or replace. 
