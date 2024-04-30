@@ -16,7 +16,13 @@ In our `intermediate` Netsuite models, we translate amounts from posted transact
 
 For the sake of financial fidelity, we decided not to convert amounts that are non-posting because the exchange rates are subject to change. While that can provide additional value for customers looking to do financial forecasting, we do not want to create confusion by bringing in converted transactions that have amounts that are variable to change, and disrupt existing financial reporting processes.
 
-For customers interested in creating future-facing `converted_amount` values, our recommendation would be to materialize the `intermediate` tables to grab the exchange rate data in your internal warehouse, then leverage the `transaction_amount` in these particular cases to produce the future `converted_amounts`.
+For customers interested in creating future-facing converted_amount values, our recommendation would be to materialize the intermediate models as view or tables to grab the exchange rate data in your internal warehouse, then leverage the transaction_amount in these particular cases to produce the future converted_amounts. You can update the models section of your dbt_project.yml to update the materialization.
+
+```yml
+    netsuite2:
+      intermediate:
+        +materialized: [table or view]
+```
 
 ## Incremental Strategy Selection
 
