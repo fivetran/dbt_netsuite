@@ -1,8 +1,27 @@
-{{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
+{{
+    config(
+        enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
+        materialized='table' if target.type in ('bigquery', 'databricks', 'spark') else 'incremental',
+        partition_by = {'field': '_fivetran_synced_date', 'data_type': 'date'}
+            if target.type not in ['spark', 'databricks'] else ['_fivetran_synced_date'],
+        cluster_by = ['transaction_id'],
+        unique_key='income_statement_id',
+        incremental_strategy = 'merge' if target.type in ('bigquery', 'databricks', 'spark') else 'delete+insert',
+        file_format='delta'
+    )
+}}
+
+{% if is_incremental() %}
+{% set max_fivetran_synced_date = netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=var('lookback_window', 3)) %}
+{% endif %}
 
 with transactions_with_converted_amounts as (
     select * 
     from {{ ref('int_netsuite2__tran_with_converted_amounts') }}
+
+    {% if is_incremental() %}
+    where _fivetran_synced_date >= {{ max_fivetran_synced_date }}
+    {% endif %}
 ), 
 
 --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
@@ -10,6 +29,10 @@ with transactions_with_converted_amounts as (
 transaction_details as (
     select * 
     from {{ ref('netsuite2__transaction_details') }}
+
+    {% if is_incremental() %}
+    where _fivetran_synced_date >= {{ max_fivetran_synced_date }}
+    {% endif %}
 ), 
 {% endif %}
 
@@ -52,6 +75,7 @@ income_statement as (
     select
         transactions_with_converted_amounts.transaction_id,
         transactions_with_converted_amounts.transaction_line_id,
+        transactions_with_converted_amounts._fivetran_synced_date,
 
         {% if var('netsuite2__multibook_accounting_enabled', false) %}
         transactions_with_converted_amounts.accounting_book_id,

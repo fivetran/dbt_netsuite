@@ -1,25 +1,40 @@
-{{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
+{{
+  config(
+    enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
+    materialized='ephemeral' if target.type in ('bigquery', 'databricks', 'spark') else 'incremental',
+    partition_by = {'field': '_fivetran_synced_date', 'data_type': 'date'}
+      if target.type not in ['spark', 'databricks'] else ['_fivetran_synced_date'],
+    cluster_by = ['transaction_id'],
+    unique_key='tran_with_converted_amounts_id',
+    incremental_strategy = 'merge' if target.type in ('bigquery', 'databricks', 'spark') else 'delete+insert',
+    file_format='delta'
+  )
+}}
 
 with transaction_lines_w_accounting_period as (
-    select * 
-    from {{ ref('int_netsuite2__tran_lines_w_accounting_period') }}
+  select * 
+  from {{ ref('int_netsuite2__tran_lines_w_accounting_period') }}
+
+  {% if is_incremental() %}
+  where _fivetran_synced_date >= {{ netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=var('lookback_window', 3)) }}
+  {% endif %}
 ), 
 
 {% if var('netsuite2__using_exchange_rate', true) %}
-  accountxperiod_exchange_rate_map as (
-      select * 
-      from {{ ref('int_netsuite2__acctxperiod_exchange_rate_map') }}
-  ), 
+accountxperiod_exchange_rate_map as (
+  select * 
+  from {{ ref('int_netsuite2__acctxperiod_exchange_rate_map') }}
+), 
 {% endif %}
 
 transaction_and_reporting_periods as (
-    select * 
-    from {{ ref('int_netsuite2__tran_and_reporting_periods') }}
+  select * 
+  from {{ ref('int_netsuite2__tran_and_reporting_periods') }}
 ), 
 
 accounts as (
-    select * 
-    from {{ ref('int_netsuite2__accounts') }}
+  select * 
+  from {{ ref('int_netsuite2__accounts') }}
 ),
 
 transactions_in_every_calculation_period_w_exchange_rates as (
@@ -95,7 +110,19 @@ transactions_with_converted_amounts as (
 
   left join accounts
     on accounts.account_id = transactions_in_every_calculation_period_w_exchange_rates.account_id 
+),
+
+surrogate_key as ( 
+  {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id', 'account_id', 'reporting_accounting_period_id'] %} -- add 'source_relation' when combining with union schema
+  {% do surrogate_key_fields.append('to_subsidiary_id') if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
+  {% do surrogate_key_fields.append('accounting_book_id') if var('netsuite2__multibook_accounting_enabled', false) %}
+
+  select 
+    *,
+    {{ dbt_utils.generate_surrogate_key(surrogate_key_fields) }} as tran_with_converted_amounts_id
+
+  from transactions_with_converted_amounts
 )
 
 select * 
-from transactions_with_converted_amounts
+from surrogate_key

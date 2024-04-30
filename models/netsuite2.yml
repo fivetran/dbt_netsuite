@@ -106,6 +106,8 @@ models:
       tests:
           - unique
           - not_null
+    - name: _fivetran_synced_date
+      description: _fivetran_synced formatted as a date for incremental logic use.
 
   - name: netsuite2__income_statement
     description: >
@@ -176,7 +178,8 @@ models:
       tests:
           - unique
           - not_null
-
+    - name: _fivetran_synced_date
+      description: _fivetran_synced formatted as a date for incremental logic use.
 
   - name: netsuite2__transaction_details
     description: >
@@ -304,3 +307,19 @@ models:
       tests:
           - unique
           - not_null
+    - name: _fivetran_synced_date
+      description: _fivetran_synced formatted as a date for incremental logic use.
+    - name: department_id
+      description: "{{ doc('department_id') }}"
+    - name: entity_id
+      description: "{{ doc('entity_id') }}"
+    - name: is_closed
+      description: Boolean indicating if the accounting period is closed.
+    - name: is_main_line
+      description: Boolean indicating if the transaction line is a main line entry.
+    - name: is_tax_line
+      description: Boolean indicating if the transaction line is a tax line..
+    - name: item_id
+      description: "{{ doc('item_id') }}"
+    - name: transaction_number
+      description: The Netsuite generated number of the transaction.

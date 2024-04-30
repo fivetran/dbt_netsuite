@@ -1,8 +1,27 @@
-{{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
+{{
+    config(
+        enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
+        materialized='table' if target.type in ('bigquery', 'databricks', 'spark') else 'incremental',
+        partition_by = {'field': '_fivetran_synced_date', 'data_type': 'date'}
+            if target.type not in ['spark', 'databricks'] else ['_fivetran_synced_date'],
+        cluster_by = ['transaction_id'],
+        unique_key='transaction_details_id',
+        incremental_strategy = 'merge' if target.type in ('bigquery', 'databricks', 'spark') else 'delete+insert',
+        file_format='delta'
+    )
+}}
+
+{% if is_incremental() %}
+{% set max_fivetran_synced_date = netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=var('lookback_window', 3)) %}
+{% endif %}
 
 with transactions_with_converted_amounts as (
     select * 
-    from {{ref('int_netsuite2__tran_with_converted_amounts')}}
+    from {{ ref('int_netsuite2__tran_with_converted_amounts') }}
+
+    {% if is_incremental() %}
+    where _fivetran_synced_date >= {{ max_fivetran_synced_date }}
+    {% endif %}
 ),
 
 accounts as (
@@ -28,6 +47,10 @@ transaction_lines as (
 transactions as (
     select * 
     from {{ var('netsuite2_transactions') }}
+
+    {% if is_incremental() %}
+    where _fivetran_synced_date >= {{ max_fivetran_synced_date }}
+    {% endif %}
 ),
 
 customers as (
@@ -72,11 +95,6 @@ classes as (
     from {{ var('netsuite2_classes') }}
 ),
 
-entities as (
-    select *
-    from {{ var('netsuite2_entities') }}
-),
-
 transaction_details as (
   select
 
@@ -94,11 +112,17 @@ transaction_details as (
     transaction_lines.transaction_line_id,
     transaction_lines.memo as transaction_memo,
     not transaction_lines.is_posting as is_transaction_non_posting,
+    transaction_lines.is_main_line,
+    transaction_lines.is_tax_line,
+    transaction_lines.is_closed,
     transactions.transaction_id,
     transactions.status as transaction_status,
     transactions.transaction_date,
     transactions.due_date_at as transaction_due_date,
     transactions.transaction_type as transaction_type,
+    transactions._fivetran_synced_date,
+    transactions.transaction_number,
+    coalesce(transaction_lines.entity_id, transactions.entity_id) as entity_id,
     transactions.is_intercompany_adjustment as is_transaction_intercompany_adjustment
 
     --The below script allows for transactions table pass through columns.
@@ -136,6 +160,7 @@ transaction_details as (
     customers.date_first_order_at as customer_date_first_order,
     customers.customer_external_id,
     classes.full_name as class_full_name,
+    transaction_lines.item_id,
     items.name as item_name,
     items.type_name as item_type_name,
     items.sales_description,
@@ -149,6 +174,7 @@ transaction_details as (
     vendors.create_date_at as vendor_create_date,
     currencies.name as currency_name,
     currencies.symbol as currency_symbol,
+    transaction_lines.department_id,
     departments.name as department_name
 
     --The below script allows for departments table pass through columns.
@@ -157,8 +183,8 @@ transaction_details as (
     subsidiaries.subsidiary_id,
     subsidiaries.name as subsidiary_name,
     case
-      when lower(accounts.account_type_id) in ('income', 'othincome') then -converted_amount_using_transaction_accounting_period
-      else converted_amount_using_transaction_accounting_period
+      when lower(accounts.account_type_id) in ('income', 'othincome') then -transactions_with_converted_amounts.converted_amount_using_transaction_accounting_period
+      else transactions_with_converted_amounts.converted_amount_using_transaction_accounting_period
         end as converted_amount,
     case
       when lower(accounts.account_type_id) in ('income', 'othincome') then -transaction_lines.amount
@@ -169,7 +195,7 @@ transaction_details as (
   join transactions
     on transactions.transaction_id = transaction_lines.transaction_id
 
-  left join transactions_with_converted_amounts as transactions_with_converted_amounts
+  left join transactions_with_converted_amounts
     on transactions_with_converted_amounts.transaction_line_id = transaction_lines.transaction_line_id
       and transactions_with_converted_amounts.transaction_id = transaction_lines.transaction_id
       and transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
