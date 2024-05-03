@@ -102,7 +102,7 @@ balance_sheet as (
         else accounts.account_type_id
             end as account_type_id,
         case
-        when not accounts.is_balancesheet then null
+        when not accounts.is_balancesheet then (select accounts.account_number from accounts where lower(accounts.special_account_type_id) = 'retearnings' limit 1)
         else accounts.account_id
             end as account_id,
         case
@@ -218,7 +218,7 @@ balance_sheet as (
         'Cumulative Translation Adjustment' as account_type_name,
         'cumulative_translation_adjustment' as account_type_id,
         null as account_id,
-        null as account_number,
+        (select accounts.account_number from accounts where lower(accounts.special_account_type_id) = 'cumultransadj' limit 1) as account_number,
 
         {% if var('accounts_pass_through_columns') %}
         {% for field in var('accounts_pass_through_columns') %}
