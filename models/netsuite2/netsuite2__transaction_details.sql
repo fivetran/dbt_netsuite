@@ -108,7 +108,7 @@ transaction_details as (
     transactions_with_converted_amounts.to_subsidiary_name,
     transactions_with_converted_amounts.to_subsidiary_currency_symbol,
     {% endif %}
-    
+
     transaction_lines.transaction_line_id,
     transaction_lines.memo as transaction_memo,
     not transaction_lines.is_posting as is_transaction_non_posting,
@@ -189,9 +189,14 @@ transaction_details as (
     items.name as item_name,
     items.type_name as item_type_name,
     items.sales_description,
+    locations.location_id,
     locations.name as location_name,
     locations.city as location_city,
-    locations.country as location_country,
+    locations.country as location_country
+
+    -- The below script allows for locations table pass through columns.
+    {{ fivetran_utils.persist_pass_through_columns('locations_pass_through_columns', identifier='locations') }},
+
     {% if var('netsuite2__using_vendor_categories', true) %}
     case 
       when lower(transactions.transaction_type) in ('vendbill', 'vendcred') then vendor_categories__transactions.name
@@ -238,7 +243,7 @@ transaction_details as (
     on transactions_with_converted_amounts.transaction_line_id = transaction_lines.transaction_line_id
       and transactions_with_converted_amounts.transaction_id = transaction_lines.transaction_id
       and transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
-      
+
       {% if var('netsuite2__multibook_accounting_enabled', false) %}
       and transactions_with_converted_amounts.accounting_book_id = transaction_lines.accounting_book_id
       {% endif %}
@@ -257,7 +262,7 @@ transaction_details as (
 
   left join customers customers__transaction_lines
     on customers__transaction_lines.customer_id = transaction_lines.entity_id
-  
+
   left join classes
     on classes.class_id = transaction_lines.class_id
 
@@ -289,7 +294,7 @@ transaction_details as (
 
   join subsidiaries 
     on subsidiaries.subsidiary_id = transaction_lines.subsidiary_id
-    
+
   where (accounting_periods.fiscal_calendar_id is null
     or accounting_periods.fiscal_calendar_id  = (select fiscal_calendar_id from subsidiaries where parent_id is null))
 ),
