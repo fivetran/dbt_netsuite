@@ -1,18 +1,20 @@
 name: 'netsuite_integration_tests'
-version: '0.13.0'
+version: '0.14.0'
 profile: 'integration_tests'
 config-version: 2
 
 models:
   +schema: "{{ 'netsuite_integrations_tests_sqlw' if target.name == 'databricks-sql' else 'netsuite' }}"
+  # Used for testing
+  # +schema: "netsuite_{{ var('directed_schema','dev') }}"
 
 vars:
-  netsuite_schema: netsuite_integration_tests_5
+  netsuite_schema: netsuite_integration_tests_6
   netsuite_data_model_override: netsuite
 
   # Enable below when generating docs
-  # netsuite2__multibook_accounting_enabled: true
-  # netsuite2__using_to_subsidiary: true
+  netsuite2__multibook_accounting_enabled: true
+  netsuite2__using_to_subsidiary: true
 
   netsuite_source:
     # Netsuite Seed Data

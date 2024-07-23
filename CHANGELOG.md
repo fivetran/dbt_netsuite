@@ -1,3 +1,20 @@
+# dbt_netsuite v0.14.0
+
+This pull request includes the following updates:
+## 🚨 Breaking Changes 🚨
+- Added the column `location_id` to the `netsuite2__transaction_details` model. To bring this column in, a `--full-refresh` after upgrading is required. ([PR #125](https://github.com/fivetran/dbt_netsuite/pull/125))
+
+## Features 
+- Addition of the `location_pass_through_columns` feature in the `netsuite2__transaction_details` model--consult the README [for more details on how to passthrough additional fields](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#passing-through-additional-fields). ([PR #125](https://github.com/fivetran/dbt_netsuite/pull/125))
+
+## Under the Hood
+- Added a consistency test for the `netsuite2__transaction_details` model. ([PR #125](https://github.com/fivetran/dbt_netsuite/pull/125))
+
+## Contributors
+- [@tom-rb](https://github.com/tom-rb) ([PR #124](https://github.com/fivetran/dbt_netsuite/pull/124))
+
+
+
 # dbt_netsuite v0.13.0
 
 For Netsuite2, [PR #116](https://github.com/fivetran/dbt_netsuite/pull/116) includes the following updates: 
