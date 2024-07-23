@@ -1,4 +1,4 @@
-# dbt_netsuite v0.13.0
+# dbt_netsuite v0.13.0 
 
 For Netsuite2, [PR #116](https://github.com/fivetran/dbt_netsuite/pull/116) includes the following updates: 
 
