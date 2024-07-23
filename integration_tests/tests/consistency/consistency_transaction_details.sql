@@ -16,9 +16,7 @@ with prod as (
 ),
 
 dev as (
-    select * 
-    --remove before merging
-    except(location_id)
+    select *
     from {{ target.schema }}_netsuite_dev.netsuite2__transaction_details
     where date(transaction_date) < date({{ dbt.current_timestamp() }})
 ),
