@@ -246,7 +246,8 @@ balance_sheet as (
     left join transaction_details
         on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
         and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
-
+        and transaction_details.account_id = transactions_with_converted_amounts.account_id
+        
         {% if var('netsuite2__multibook_accounting_enabled', false) %}
         and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
         {% endif %}

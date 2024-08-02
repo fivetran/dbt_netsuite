@@ -3,3 +3,4 @@ dbt_modules/
 dbt_packages/
 env/
 logs/
+package-lock.yml
