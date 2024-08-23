@@ -1,3 +1,14 @@
+# dbt_netsuite v0.14.0
+
+## Breaking Changes (Full refresh required after upgrading)
+- Partitioned models have had the `partition_by` logic adjusted to include a granularity of a month. This change should only impact BigQuery warehouses and was applied to avoid the common `too many partitions` error some users have experienced do to over partitioning by day. Therefore, adjusting the partition to a month granularity will increase the partition windows and allow for more performant querying. This change was applied to the following models:
+  - `netsuite2__balance_sheet`
+  - `netsuite2__income_statement`
+  - `netsuite2__transaction_details`
+
+## Under the Hood
+- Consistency tests add for each Netsuite2 end model to be used during integration test validations.
+
 # dbt_netsuite v0.13.0
 
 For Netsuite2, [PR #116](https://github.com/fivetran/dbt_netsuite/pull/116) includes the following updates: 
