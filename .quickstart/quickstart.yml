@@ -21,5 +21,7 @@ destination_configurations:
         search_order: [ 'spark_utils', 'dbt_utils' ]
 
 public_models: [
-
+  "netsuite2__balance_sheet",
+  "netsuite2__income_statement",
+  "netsuite2__transaction_details"
 ]
