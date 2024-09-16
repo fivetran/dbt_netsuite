@@ -1,3 +1,18 @@
+# dbt_netsuite v0.14.0
+For Netsuite2, [PR #138](https://github.com/fivetran/dbt_netsuite/pull/138) includes the following updates: 
+
+## Bug Fixes
+- Updates logic in `netsuite2__transaction_details` to select the appropriate customer and vendor values based on the whether the transaction type is a customer invoice or credit, or a vendor bill or credit.
+
+## Feature Updates
+- New fields `customer_alt_name` and `vendor_alt_name` were introduced into `netsuite2__transaction_details`, after being added into the `stg_netsuite2__customers` and `stg_netsuite2__vendors` models in the most recent release of `dbt_netsuite`. [You can view the release notes](https://github.com/fivetran/dbt_netsuite/releases/tag/v0.14.0) for more details.
+
+## Under the Hood
+- Generated consistency test for `netsuite2__transaction_details` to make sure amounts match for integration test validations. 
+
+## Contributors
+- [@jmongerlyra](https://github.com/jmongerlyra) ([PR #131](https://github.com/fivetran/dbt_netsuite/pull/131))
+
 # dbt_netsuite v0.13.0
 
 For Netsuite2, [PR #116](https://github.com/fivetran/dbt_netsuite/pull/116) includes the following updates: 
