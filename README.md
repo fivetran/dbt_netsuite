@@ -138,6 +138,7 @@ vars:
 
 #### Multi-Book (Netsuite2 only)
 To include `accounting_book_id` and `accounting_book_name` columns in the end models, set the below variable to `true` in your `dbt_project.yml`. This feature is disabled by default.
+
 >Notes:
 > - If you choose to enable this feature, this will add rows for transactions for any non-primary `accounting_book_id`, and your downstream use cases may need to be adjusted.
 > - The surrogate keys for the end models are dynamically generated depending on the enabled/disabled features, so adding these rows will not cause test failures.
@@ -146,6 +147,8 @@ To include `accounting_book_id` and `accounting_book_name` columns in the end mo
 vars:
     netsuite2__multibook_accounting_enabled: true # False by default.
 ```
+
+**IMPORTANT**: If you are using multi-book accounting, this variable must be set to true, or you will see test failures in your data. 
 
 #### To Subsidiary (Netsuite2 only)
 To include `to_subsidiary_id` and `to_subsidiary_name` columns in the end models, set the below variable to `true` in your `dbt_project.yml`. This feature is disabled by default. You will also need to be using exchange rates, which is enabled by default.
