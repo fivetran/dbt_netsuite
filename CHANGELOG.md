@@ -3,7 +3,8 @@
 [PR #132](https://github.com/fivetran/dbt_netsuite/pull/132) includes the following updates:
 
 ## Breaking Changes (Full refresh required after upgrading)
-- Partitioned models have had the `partition_by` logic adjusted to include a granularity of a month. This change should only impact BigQuery warehouses and was applied to avoid the common `too many partitions` error some users have experienced do to over partitioning by day. Therefore, adjusting the partition to a month granularity will increase the partition windows and allow for more performant querying. This change was applied to the following models:
+- Partitioned models have had the `partition_by` logic adjusted to include a granularity of a month. This change should only impact BigQuery warehouses and was applied to avoid the common `too many partitions` error users have experienced due to over-partitioning by day. Therefore, adjusting the partition to a monthly granularity will increase the partition windows and allow for more performant querying. 
+- This change was applied to the following models:
   - `int_netsuite2__tran_with_converted_amounts`
   - `netsuite2__balance_sheet`
   - `netsuite2__income_statement`
@@ -12,7 +13,7 @@
 ## Under the Hood
 - Added conditional logic to the model configuration within `int_netsuite2__tran_with_converted_amounts` to only use the relevant configs (`partition_by`, `cluster_by`, etc.) if the model is being materialized as `incremental`. 
   - For BigQuery and Databricks destinations there were some known issues where configs would not be ignored and throw errors if the model were materialized as `ephemeral` (the default for those destinations). 
-- Consistency tests add for each Netsuite2 end model to be used during integration test validations.
+- Consistency tests added for each Netsuite2 end model in order to be used during integration test validations.
 
 # dbt_netsuite v0.13.0
 
