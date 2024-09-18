@@ -1,5 +1,14 @@
 # dbt_netsuite v0.14.0
-For Netsuite2, [PR #138](https://github.com/fivetran/dbt_netsuite/pull/138) includes the following updates: 
+
+For Netsuite2, [PR #138](https://github.com/fivetran/dbt_netsuite/pull/138) and [PR #132](https://github.com/fivetran/dbt_netsuite/pull/132) include the following updates: 
+
+## Breaking Changes (Full refresh required after upgrading)
+- Partitioned models have had the `partition_by` logic adjusted to include a granularity of a month. This change should only impact BigQuery warehouses and was applied to avoid the common `too many partitions` error users have experienced due to over-partitioning by day. Therefore, adjusting the partition to a monthly granularity will increase the partition windows and allow for more performant querying. 
+- This change was applied to the following models:
+  - `int_netsuite2__tran_with_converted_amounts`
+  - `netsuite2__balance_sheet`
+  - `netsuite2__income_statement`
+  - `netsuite2__transaction_details`
 
 ## Upstream Netsuite Source Breaking Changes (Full refresh required after upgrading)
 - Casted specific timestamp fields across all staging models as dates where the Netsuite UI does not perform timezone conversion. Keeping these fields as type timestamp causes issues in reporting tools that perform automatic timezone conversion.   
@@ -17,7 +26,7 @@ For Netsuite2, [PR #138](https://github.com/fivetran/dbt_netsuite/pull/138) incl
   - Since this model is only used by a subset of customers, we've introduced the variable `netsuite2__using_employees` to allow users who don't utilize the `employee` table in Netsuite2 the ability to disable that functionality within your `dbt_project.yml`. [Instructions are available in the README](https://github.com/fivetran/dbt_netsuite/?tab=readme-ov-file#step-5-disable-models-for-non-existent-sources-netsuite2-only).
 
 ## Under the Hood
-- Generated consistency test for `netsuite2__transaction_details` to make sure amounts match for integration test validations. 
+- Consistency tests added for each Netsuite2 end model in order to be used during integration test validations.
 
 ## Contributors
 - [@jmongerlyra](https://github.com/jmongerlyra) ([PR #131](https://github.com/fivetran/dbt_netsuite/pull/131))
