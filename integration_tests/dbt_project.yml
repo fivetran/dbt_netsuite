@@ -8,7 +8,7 @@ models:
   # +schema: "netsuite_{{ var('directed_schema','dev') }}"  ## To be used for validation tests
 
 vars:
-  netsuite_schema: netsuite_integration_tests_6
+  netsuite_schema: netsuite_integration_tests_7
   netsuite_data_model_override: netsuite
 
   # Enable below when generating docs
@@ -58,6 +58,7 @@ vars:
     netsuite2_account_type_identifier: "netsuite2_account_type_data"
     netsuite2_entity_address_identifier: "netsuite2_entity_address_data"
     netsuite2_location_main_address_identifier: "netsuite2_location_main_address_data"
+
 seeds:
   +quote_columns: "{{ true if target.type in ('redshift','postgres') else false }}"
   netsuite_integration_tests:
