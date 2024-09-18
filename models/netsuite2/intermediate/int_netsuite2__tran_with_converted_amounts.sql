@@ -2,11 +2,15 @@
   config(
     enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
     materialized='ephemeral' if target.type in ('bigquery', 'databricks', 'spark') else 'incremental',
-    partition_by = {'field': '_fivetran_synced_date', 'data_type': 'date', 'granularity': 'month'}
-      if target.type not in ['spark', 'databricks'] else ['_fivetran_synced_date'],
-    cluster_by = ['transaction_id'],
-    unique_key='tran_with_converted_amounts_id',
-    incremental_strategy = 'merge' if target.type in ('bigquery', 'databricks', 'spark') else 'delete+insert',
+    partition_by = (
+        {'field': '_fivetran_synced_date', 'data_type': 'date', 'granularity': 'month'}
+        if target.type not in ['spark', 'databricks'] else ['_fivetran_synced_date']
+      ) if config.get('materialized') == 'incremental' else None,
+    cluster_by = ['transaction_id'] if config.get('materialized') == 'incremental' else None,
+    unique_key = 'tran_with_converted_amounts_id' if config.get('materialized') == 'incremental' else None,
+    incremental_strategy = (
+        'merge' if target.type in ('bigquery', 'databricks', 'spark') else 'delete+insert'
+      ) if config.get('materialized') == 'incremental' else None,
     file_format='delta'
   )
 }}
