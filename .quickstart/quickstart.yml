@@ -13,6 +13,8 @@ table_variables:
     - VendorCategory
   netsuite2__using_jobs:
     - job
+  netsuite2__using_employees:
+    - employee
 
 destination_configurations:
   databricks:

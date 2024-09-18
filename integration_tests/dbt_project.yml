@@ -6,8 +6,9 @@ config-version: 2
 models:
   +schema: "{{ 'netsuite_integrations_tests_sqlw' if target.name == 'databricks-sql' else 'netsuite' }}"
   # +schema: "netsuite_{{ var('directed_schema','dev') }}"  ## To be used for validation tests
+
 vars:
-  netsuite_schema: netsuite_integration_tests_5
+  netsuite_schema: netsuite_integration_tests_7
   netsuite_data_model_override: netsuite
 
   # Enable below when generating docs
@@ -41,6 +42,7 @@ vars:
     netsuite2_currency_identifier: "netsuite2_currency_data"
     netsuite2_customer_identifier: "netsuite2_customer_data"
     netsuite2_department_identifier: "netsuite2_department_data"
+    netsuite2_employee_identifier: "netsuite2_employee_data"
     netsuite2_entity_identifier: "netsuite2_entities_data"
     netsuite2_item_identifier: "netsuite2_item_data"
     netsuite2_job_identifier: "netsuite2_job_data"
