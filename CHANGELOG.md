@@ -11,8 +11,6 @@
   - `netsuite2__transaction_details`
 
 ## Under the Hood
-- Added conditional logic to the model configuration within `int_netsuite2__tran_with_converted_amounts` to only use the relevant configs (`partition_by`, `cluster_by`, etc.) if the model is being materialized as `incremental`. 
-  - For BigQuery and Databricks destinations there were some known issues where configs would not be ignored and throw errors if the model were materialized as `ephemeral` (the default for those destinations). 
 - Consistency tests added for each Netsuite2 end model in order to be used during integration test validations.
 
 # dbt_netsuite v0.13.0
