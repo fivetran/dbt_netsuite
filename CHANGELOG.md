@@ -12,8 +12,9 @@ For Netsuite2, [PR #138](https://github.com/fivetran/dbt_netsuite/pull/138) and 
 
 ## Upstream Netsuite Source Breaking Changes (Full refresh required after upgrading)
 - Casted specific timestamp fields across all staging models as dates where the Netsuite UI does not perform timezone conversion. Keeping these fields as type timestamp causes issues in reporting tools that perform automatic timezone conversion.   
-- Adds additional commonly used fields within the `stg_netsuite2__*` models. **IMPORTANT**: Nearly all of these models where fields are being added have pass-through functionality. So you will need to remove these fields from your passthrough variable setup if they are currently present to avoid errors.
-- Please refer to the [v0.11.0 `dbt_netsuite_source` release](https://github.com/fivetran/dbt_netsuite_source/releases/tag/v0.11.0) for more details regarding the upstream changes.
+- Adds additional commonly used fields within the `stg_netsuite2__*` models. 
+> **IMPORTANT**: Nearly all of the affected models have pass-through functionality. If you have already been using passthrough column variables to include the newly added fields (without aliases), you **MUST** remove the fields from your passthrough variable configuration in order to avoid duplicate column errors.
+- Please refer to the [v0.11.0 `dbt_netsuite_source` release](https://github.com/fivetran/dbt_netsuite_source/releases/tag/v0.11.0) for more details regarding the upstream changes to view the fields that were added and impacted.
 
 ## Bug Fixes
 - Updates logic in `netsuite2__transaction_details` to select the appropriate customer and vendor values based on the whether the transaction type is a customer invoice or credit, or a vendor bill or credit.
@@ -21,9 +22,9 @@ For Netsuite2, [PR #138](https://github.com/fivetran/dbt_netsuite/pull/138) and 
   - Vendor fields impacted: `vendor_category_name`, `vendor_name`, `vendor_create_date`.
 
 ## Feature Updates
-- New fields `customer_alt_name` and `vendor_alt_name` were introduced into `netsuite2__transaction_details`, after being added into the `stg_netsuite2__customers` and `stg_netsuite2__vendors` models in the most recent release of `dbt_netsuite`. [You can view the release notes](https://github.com/fivetran/dbt_netsuite/releases/tag/v0.14.0) for more details.
+- New fields `customer_alt_name` and `vendor_alt_name` were introduced into `netsuite2__transaction_details`, after being added into the `stg_netsuite2__customers` and `stg_netsuite2__vendors` models in the most [recent release of `dbt_netsuite_source`](https://github.com/fivetran/dbt_netsuite_source/releases/tag/v0.11.0).  
 - We added the `employee` model in the [`v0.11.0` release of `dbt_netsuite_source`](https://github.com/fivetran/dbt_netsuite_source/releases/tag/v0.11.0), which will materialize `stg_netsuite2__employees` from the source package by default.
-  - Since this model is only used by a subset of customers, we've introduced the variable `netsuite2__using_employees` to allow users who don't utilize the `employee` table in Netsuite2 the ability to disable that functionality within your `dbt_project.yml`. [Instructions are available in the README](https://github.com/fivetran/dbt_netsuite/?tab=readme-ov-file#step-5-disable-models-for-non-existent-sources-netsuite2-only).
+  - Since this model is only used by a subset of customers, we've introduced the variable `netsuite2__using_employees` to allow users who don't utilize the `employee` table in Netsuite2 the ability to disable that functionality within your `dbt_project.yml`. This value is set to true by default. [Instructions are available in the README for how to disable this variable](https://github.com/fivetran/dbt_netsuite/?tab=readme-ov-file#step-5-disable-models-for-non-existent-sources-netsuite2-only).
 
 ## Under the Hood
 - Consistency tests added for each Netsuite2 end model in order to be used during integration test validations.
