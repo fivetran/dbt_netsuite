@@ -2,7 +2,7 @@
     config(
         enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
         materialized='table' if target.type in ('bigquery', 'databricks', 'spark') else 'incremental',
-        partition_by = {'field': '_fivetran_synced_date', 'data_type': 'date'}
+        partition_by = {'field': '_fivetran_synced_date', 'data_type': 'date', 'granularity': 'month'}
             if target.type not in ['spark', 'databricks'] else ['_fivetran_synced_date'],
         cluster_by = ['transaction_id'],
         unique_key='income_statement_id',
