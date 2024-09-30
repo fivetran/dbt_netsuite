@@ -31,6 +31,7 @@ joined as (
         accounting_books.accounting_book_name,
         {% endif %}
         
+        transaction_accounting_lines.exchange_rate,
         transaction_accounting_lines.amount,
         transaction_accounting_lines.credit_amount,
         transaction_accounting_lines.debit_amount,
@@ -54,6 +55,7 @@ joined as (
         transaction_accounting_lines.account_id,
         accounting_books.accounting_book_id,
         accounting_books.accounting_book_name,
+        transaction_accounting_lines.exchange_rate,
         transaction_accounting_lines.amount,
         transaction_accounting_lines.credit_amount,
         transaction_accounting_lines.debit_amount,
