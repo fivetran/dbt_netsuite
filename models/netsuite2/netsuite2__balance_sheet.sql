@@ -51,6 +51,11 @@ subsidiaries as (
     from {{ var('netsuite2_subsidiaries') }}
 ),
 
+currencies as (
+    select *
+    from {{ var('netsuite2_currencies') }}
+),
+
 balance_sheet as ( 
     select
         transactions_with_converted_amounts.transaction_id,
@@ -59,6 +64,7 @@ balance_sheet as (
         transactions_with_converted_amounts._fivetran_synced_date,
         subsidiaries.full_name as subsidiary_full_name,
         subsidiaries.name as subsidiary_name,
+        subsidiaries_currencies.symbol as subsidiary_currency_symbol,
 
         {% if var('netsuite2__multibook_accounting_enabled', false) %}
         transactions_with_converted_amounts.accounting_book_id,
@@ -139,6 +145,13 @@ balance_sheet as (
             end as converted_amount,
 
         case
+        when not accounts.is_balancesheet then -unconverted_amount
+        when accounts.is_balancesheet and not accounts.is_leftside then -unconverted_amount
+        when accounts.is_balancesheet and accounts.is_leftside then unconverted_amount
+        else 0
+            end as transaction_amount,
+
+        case
         when lower(accounts.account_type_id) = 'bank' then 1
         when lower(accounts.account_type_id) = 'acctrec' then 2
         when lower(accounts.account_type_id) = 'unbilledrec' then 3
@@ -198,6 +211,9 @@ balance_sheet as (
     left join subsidiaries
         on subsidiaries.subsidiary_id = transactions_with_converted_amounts.subsidiary_id
 
+    left join currencies subsidiaries_currencies
+        on subsidiaries_currencies.currency_id = subsidiaries.currency_id
+
     where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
         and transaction_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
         and (accounts.is_balancesheet
@@ -212,6 +228,7 @@ balance_sheet as (
         transactions_with_converted_amounts._fivetran_synced_date,
         subsidiaries.full_name as subsidiary_full_name,
         subsidiaries.name as subsidiary_name,
+        subsidiaries_currencies.symbol as subsidiary_currency_symbol,
 
         {% if var('netsuite2__multibook_accounting_enabled', false) %}
         transactions_with_converted_amounts.accounting_book_id,
@@ -249,6 +266,9 @@ balance_sheet as (
         when lower(accounts.general_rate_type) in ('historical', 'average') then converted_amount_using_transaction_accounting_period
         else converted_amount_using_reporting_month
             end as converted_amount,
+
+        unconverted_amount as transaction_amount,
+
         16 as balance_sheet_sort_helper
 
         --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
@@ -283,6 +303,9 @@ balance_sheet as (
 
     left join subsidiaries
         on subsidiaries.subsidiary_id = transactions_with_converted_amounts.subsidiary_id
+
+    left join currencies subsidiaries_currencies
+        on subsidiaries_currencies.currency_id = subsidiaries.currency_id
 
     where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
         and (accounts.is_balancesheet

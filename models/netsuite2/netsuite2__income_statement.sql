@@ -51,6 +51,11 @@ subsidiaries as (
     from {{ var('netsuite2_subsidiaries') }}
 ),
 
+currencies as (
+    select *
+    from {{ var('netsuite2_currencies') }}
+),
+
 transaction_lines as (
     select * 
     from {{ ref('int_netsuite2__transaction_lines') }}
@@ -101,7 +106,8 @@ income_statement as (
         accounts.account_number,
         subsidiaries.subsidiary_id,
         subsidiaries.full_name as subsidiary_full_name,
-        subsidiaries.name as subsidiary_name
+        subsidiaries.name as subsidiary_name,
+        subsidiaries_currencies.symbol as subsidiary_currency_symbol
 
         --The below script allows for accounts table pass through columns.
         {{ fivetran_utils.persist_pass_through_columns('accounts_pass_through_columns', identifier='accounts') }},
@@ -137,7 +143,9 @@ income_statement as (
 
         {% endif %}
 
-        , -converted_amount_using_transaction_accounting_period as converted_amount
+        , -converted_amount_using_transaction_accounting_period as converted_amount,
+
+        -unconverted_amount as transaction_amount
         
     from transactions_with_converted_amounts
 
@@ -166,6 +174,9 @@ income_statement as (
     
     left join subsidiaries
         on transactions_with_converted_amounts.subsidiary_id = subsidiaries.subsidiary_id
+
+    left join currencies subsidiaries_currencies
+        on subsidiaries_currencies.currency_id = subsidiaries.currency_id
 
     --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
     {% if var('income_statement_transaction_detail_columns') != []%}
