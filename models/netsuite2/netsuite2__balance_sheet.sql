@@ -110,11 +110,11 @@ balance_sheet as (
         else accounts.account_type_id
             end as account_type_id,
         case
-        when not accounts.is_balancesheet then (select accounts.account_number from accounts where lower(accounts.special_account_type_id) = 'retearnings' limit 1)
+        when not accounts.is_balancesheet then null
         else accounts.account_id
             end as account_id,
         case
-        when not accounts.is_balancesheet then null
+        when not accounts.is_balancesheet then (select accounts.account_number from accounts where lower(accounts.special_account_type_id) = 'retearnings' limit 1)
         else accounts.account_number
             end as account_number,
         case
