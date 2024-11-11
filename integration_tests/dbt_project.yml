@@ -12,8 +12,8 @@ vars:
   netsuite_data_model_override: netsuite
 
   # Enable below when generating docs
-  # netsuite2__multibook_accounting_enabled: true
-  # netsuite2__using_to_subsidiary: true
+  netsuite2__multibook_accounting_enabled: true
+  netsuite2__using_to_subsidiary: true
 
   netsuite_source:
     # Netsuite Seed Data
