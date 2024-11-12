@@ -155,10 +155,16 @@ models:
       description: Account number associated with the account.
     - name: account_number_and_name
       description: Concatenation of account number and account name.
+    - name: class_id
+      description: "{{ doc('class_id') }}"
     - name: class_full_name
       description: Full name of the class.
+    - name: location_id
+      description: "{{ doc('location_id') }}"
     - name: location_full_name
       description: Full name of the location.
+    - name: department_id
+      description: "{{ doc('department_id') }}"
     - name: department_full_name
       description: Full name of the department.
     - name: converted_amount
@@ -260,12 +266,18 @@ models:
       description: Boolean field indicating whether or not the account type name includes 'intercompany'.
     - name: is_eliminate
       description: Boolean indicating line will auto-eliminate.
+    - name: parent_account_id
+      description: Unique identifier of the parent account, if parent account relationship exists.  Otherwise, the identifier of the account.
     - name: parent_account_name
       description: Name of the parent account, if parent account relationship exists.  Otherwise, the name of the account.
     - name: is_income_account
       description: Boolean field indicating whether or not the account is an income account.
     - name: is_expense_account
       description: Boolean field indicating whether or not the account is an expense account.
+    - name: customer_id
+      description: "{{ doc('customer_id') }}"
+    - name: customer_alt_name
+      description: "{{ doc('alt_name') }}"
     - name: company_name
       description: Name of the company.
     - name: customer_city
@@ -280,6 +292,8 @@ models:
       description: Date customer placed first order.
     - name: customer_external_id
       description: The unique identifier of the external customer reference.
+    - name: class_id
+      description: "{{ doc('class_id') }}"
     - name: class_full_name
       description: Full name of the class.
     - name: item_name
@@ -288,18 +302,26 @@ models:
       description: Type name of the item.
     - name: sales_description
       description: Description of the item for sales purposes.
+    - name: location_id
+      description: "{{ doc('location_id') }}"
     - name: location_name
       description: Name of the location.
     - name: location_city
       description: City used as a location reference.
     - name: location_country
       description: Country used as a location reference.
+    - name: vendor_category_id
+      description: "{{ doc('vendor_category_id') }}"
     - name: vendor_category_name
       description: Category name of the vendor.
+    - name: vendor_id
+      description: "{{ doc('vendor_id') }}"
     - name: vendor_name
       description: Name of the vendor.
     - name: vendor_create_date
       description: Date vendor was created.
+    - name: currency_id
+      description: "{{ doc('currency_id') }}"
     - name: currency_name
       description: Name of the currency used.
     - name: currency_symbol
