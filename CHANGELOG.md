@@ -29,6 +29,7 @@ For Netsuite2, [PR #144](https://github.com/fivetran/dbt_netsuite/pull/144) incl
 
 ## Contributors
 - [@jmongerlyra](https://github.com/jmongerlyra) ([PR #136](https://github.com/fivetran/dbt_netsuite/pull/136))
+- [@tom-rb](https://github.com/tom-rb) ([PR #124](https://github.com/fivetran/dbt_netsuite/pull/124))
 
 # dbt_netsuite v0.14.0
 
