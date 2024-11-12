@@ -5,12 +5,15 @@
 
 with prod as (
     select *
-    from {{ target.schema }}_netsuite_prod.netsuite2__balance_sheet
+    from {{ target.schema }}_netsuite_prod.netsuite2__transaction_details
 ),
 
 dev as (
     select *
-    from {{ target.schema }}_netsuite_dev.netsuite2__balance_sheet
+    except(is_reversal, reversal_transaction_id, reversal_date, is_reversal_defer, account_display_name,
+    is_eliminate, parent_account_id, customer_id, class_id, location_id, vendor_id, vendor_category_id, 
+    currency_id, exchange_rate, department_full_name, subsidiary_full_name, subsidiary_currency_symbol, transaction_line_amount)
+    from {{ target.schema }}_netsuite_dev.netsuite2__transaction_details
 ),
 
 prod_not_in_dev as (

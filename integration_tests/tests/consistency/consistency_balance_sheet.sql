@@ -5,12 +5,14 @@
 
 with prod as (
     select *
-    from {{ target.schema }}_netsuite_prod.netsuite2__transaction_details
+    except(account_type_name, account_number) --this test has been modified for the purposes of validating this PR. Remove this line before merging.
+    from {{ target.schema }}_netsuite_prod.netsuite2__balance_sheet
 ),
 
 dev as (
     select *
-    from {{ target.schema }}_netsuite_dev.netsuite2__transaction_details
+    except(subsidiary_full_name, account_display_name, is_account_intercompany, is_account_leftside, account_type_name, account_number) --this test has been modified for the purposes of validating this PR.Remove this line before merging.
+    from {{ target.schema }}_netsuite_dev.netsuite2__balance_sheet
 ),
 
 prod_not_in_dev as (

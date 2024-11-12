@@ -10,6 +10,7 @@ with prod as (
 
 dev as (
     select *
+    except(account_display_name, class_id, location_id, department_id)
     from {{ target.schema }}_netsuite_dev.netsuite2__income_statement
 ),
 

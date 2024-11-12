@@ -1,3 +1,45 @@
+# dbt_netsuite v0.15.0
+For Netsuite2, [PR #144](https://github.com/fivetran/dbt_netsuite/pull/144) includes the following updates: 
+
+## Breaking Changes (Full refresh required after upgrading)
+- Corrected `account_number` field logic for the `netsuite2__balance_sheet` model to match the native Balance Sheet report within Netsuite:
+  - Income statement accounts should use the account number of the system-generated retained earnings account.
+  - CTA accounts should use the account number of the system-generated CTA account. 
+  - Since this will change the `account_number`, a `--full-refresh` after upgrading will be required. 
+
+## More Breaking Changes: New Fields
+- Added commonly used fields to specific end models.
+- `netsuite2__balance_sheet`
+  - `subsidiary_full_name`: Full hierarchical name of the subsidiary. 
+  - `is_account_intercompany`: Boolean indicating if a general ledger account recording transactions between subsidiaries of the same organization.
+  - `is_account_leftside`: Boolean indicating if account has a native debit balance.
+- `netsuite2__balance_sheet`, `netsuite2__income_statement`, `netsuite2__transaction_details`
+  - `account_display_name`: Account name without number or hierarchy.
+- `netsuite2__transaction_details`
+  - `is_reversal`: Boolean indicating line is reversal.
+  - `reversal_transaction_id`: Transaction id of the counterparty in a reversing pair.
+  - `reversal_date`: Transaction date of the counterparty in a reversing pair.
+  - `is_reversal_defer`: Boolean indicating reversal deferral.
+  - `is_eliminate`: Boolean indicating line will auto-eliminate.
+  - `exchange_rate`: Exchange rate used on the transaction.
+  - `department_full_name`: Full hierarchical name of the department.
+  - `subsidiary_full_name`: Full hierarchical name of the subsidiary.
+  - `subsidiary_currency_symbol`: Currency of the subsidiary.
+  - `transaction_line_amount`: Net amount of the transaction line. This is the actual amount entered when it's in a currency other than the functional currency of the subsidiary. 
+- Added foreign keys to the following end models to make it easier for customers to join back to source tables for better insights.
+  - `netsuite2__income_statement`: `class_id`, `location_id`, `department_id`
+  - `netsuite2__transaction_details`: `customer_id`, `vendor_id`, `class_id`, `location_id`, `department_id`, `currency_id`, `parent_account_id`, `vendor_category_id` (if `netsuite2__using_vendor_categories` is enabled)
+> **IMPORTANT**: All of the affected models have pass-through functionality. If you have already been using passthrough column variables to include the newly added fields (without aliases), you **MUST** remove the fields from your passthrough variable configuration in order to avoid duplicate column errors.
+
+## Feature Updates
+- You can now leverage passthrough columns in `netsuite2__transaction_details` to bring in additional fields from the `locations` and `subsidiaries` source tables. Make sure you aren't bringing in 
+
+## Under the Hood
+- Additional consistency tests added for each Netsuite2 end model in order to be used during integration test validations.
+
+## Contributors
+- [@jmongerlyra](https://github.com/jmongerlyra) ([PR #136](https://github.com/fivetran/dbt_netsuite/pull/136))
+
 # dbt_netsuite v0.14.0
 
 For Netsuite2, [PR #138](https://github.com/fivetran/dbt_netsuite/pull/138) and [PR #132](https://github.com/fivetran/dbt_netsuite/pull/132) include the following updates: 

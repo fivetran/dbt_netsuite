@@ -8,56 +8,67 @@ models:
   # +schema: "netsuite_{{ var('directed_schema','dev') }}"  ## To be used for validation tests
 
 vars:
-  netsuite_schema: netsuite_integration_tests_7
-  netsuite_data_model_override: netsuite
+  netsuite_database: private-internal
+  netsuite_schema: netsuite2
+  netsuite_data_model: netsuite2
 
-  # Enable below when generating docs
+  netsuite2__using_jobs: false
+  netsuite2__multibook_accounting_enabled: true
+  netsuite2__using_to_subsidiary: false
+  netsuite2__using_exchange_rate: false
+  netsuite2__using_employees: false 
+
+
+  # netsuite_schema: netsuite_integration_tests_7
+  # netsuite_data_model_override: netsuite
+
+  # # Enable below when generating docs
   # netsuite2__multibook_accounting_enabled: true
   # netsuite2__using_to_subsidiary: true
 
-  netsuite_source:
-    # Netsuite Seed Data
-    netsuite_accounting_books_identifier: "netsuite_accounting_books_data"
-    netsuite_accounting_periods_identifier: "netsuite_accounting_periods_data"
-    netsuite_accounts_identifier: "netsuite_accounts_data"
-    netsuite_classes_identifier: "netsuite_classes_data"
-    netsuite_consolidated_exchange_rates_identifier: "netsuite_consolidated_exchange_rates_data"
-    netsuite_currencies_identifier: "netsuite_currencies_data"
-    netsuite_customers_identifier: "netsuite_customers_data"
-    netsuite_departments_identifier: "netsuite_departments_data"
-    netsuite_expense_accounts_identifier: "netsuite_expense_accounts_data"
-    netsuite_income_accounts_identifier: "netsuite_income_accounts_data"
-    netsuite_items_identifier: "netsuite_items_data"
-    netsuite_locations_identifier: "netsuite_locations_data"
-    netsuite_subsidiaries_identifier: "netsuite_subsidiaries_data"
-    netsuite_transaction_lines_identifier: "netsuite_transaction_lines_data"
-    netsuite_transactions_identifier: "netsuite_transactions_data"
-    netsuite_vendor_types_identifier: "netsuite_vendor_types_data"
-    netsuite_vendors_identifier: "netsuite_vendors_data"
-    netsuite2_accounting_book_identifier: "netsuite2_accounting_book_data"
-    netsuite2_accounting_period_identifier: "netsuite2_accounting_period_data"
-    netsuite2_account_identifier: "netsuite2_account_data"
-    netsuite2_classification_identifier: "netsuite2_classification_data"
-    netsuite2_consolidated_exchange_rate_identifier: "netsuite2_consolidated_exchange_rate_data"
-    netsuite2_currency_identifier: "netsuite2_currency_data"
-    netsuite2_customer_identifier: "netsuite2_customer_data"
-    netsuite2_department_identifier: "netsuite2_department_data"
-    netsuite2_employee_identifier: "netsuite2_employee_data"
-    netsuite2_entity_identifier: "netsuite2_entities_data"
-    netsuite2_item_identifier: "netsuite2_item_data"
-    netsuite2_job_identifier: "netsuite2_job_data"
-    netsuite2_location_identifier: "netsuite2_location_data"
-    netsuite2_subsidiary_identifier: "netsuite2_subsidiary_data"
-    netsuite2_transaction_accounting_line_identifier: "netsuite2_tran_acct_line_data"
-    netsuite2_transaction_line_identifier: "netsuite2_transaction_line_data"
-    netsuite2_transaction_identifier: "netsuite2_transaction_data"
-    netsuite2_vendor_identifier: "netsuite2_vendor_data"
-    netsuite2_vendor_category_identifier: "netsuite2_vendor_category_data"
-    netsuite2_accounting_book_subsidiaries_identifier: "netsuite2_accounting_book_sub_data"
-    netsuite2_accounting_period_fiscal_calendars_identifier: "netsuite2_accounting_period_fiscal_cal_data"
-    netsuite2_account_type_identifier: "netsuite2_account_type_data"
-    netsuite2_entity_address_identifier: "netsuite2_entity_address_data"
-    netsuite2_location_main_address_identifier: "netsuite2_location_main_address_data"
+  # netsuite_source:
+  #   # Netsuite Seed Data
+  #   netsuite_accounting_books_identifier: "netsuite_accounting_books_data"
+  #   netsuite_accounting_periods_identifier: "netsuite_accounting_periods_data"
+  #   netsuite_accounts_identifier: "netsuite_accounts_data"
+  #   netsuite_classes_identifier: "netsuite_classes_data"
+  #   netsuite_consolidated_exchange_rates_identifier: "netsuite_consolidated_exchange_rates_data"
+  #   netsuite_currencies_identifier: "netsuite_currencies_data"
+  #   netsuite_customers_identifier: "netsuite_customers_data"
+  #   netsuite_departments_identifier: "netsuite_departments_data"
+  #   netsuite_expense_accounts_identifier: "netsuite_expense_accounts_data"
+  #   netsuite_income_accounts_identifier: "netsuite_income_accounts_data"
+  #   netsuite_items_identifier: "netsuite_items_data"
+  #   netsuite_locations_identifier: "netsuite_locations_data"
+  #   netsuite_subsidiaries_identifier: "netsuite_subsidiaries_data"
+  #   netsuite_transaction_lines_identifier: "netsuite_transaction_lines_data"
+  #   netsuite_transactions_identifier: "netsuite_transactions_data"
+  #   netsuite_vendor_types_identifier: "netsuite_vendor_types_data"
+  #   netsuite_vendors_identifier: "netsuite_vendors_data"
+  #   netsuite2_accounting_book_identifier: "netsuite2_accounting_book_data"
+  #   netsuite2_accounting_period_identifier: "netsuite2_accounting_period_data"
+  #   netsuite2_account_identifier: "netsuite2_account_data"
+  #   netsuite2_classification_identifier: "netsuite2_classification_data"
+  #   netsuite2_consolidated_exchange_rate_identifier: "netsuite2_consolidated_exchange_rate_data"
+  #   netsuite2_currency_identifier: "netsuite2_currency_data"
+  #   netsuite2_customer_identifier: "netsuite2_customer_data"
+  #   netsuite2_department_identifier: "netsuite2_department_data"
+  #   netsuite2_employee_identifier: "netsuite2_employee_data"
+  #   netsuite2_entity_identifier: "netsuite2_entities_data"
+  #   netsuite2_item_identifier: "netsuite2_item_data"
+  #   netsuite2_job_identifier: "netsuite2_job_data"
+  #   netsuite2_location_identifier: "netsuite2_location_data"
+  #   netsuite2_subsidiary_identifier: "netsuite2_subsidiary_data"
+  #   netsuite2_transaction_accounting_line_identifier: "netsuite2_tran_acct_line_data"
+  #   netsuite2_transaction_line_identifier: "netsuite2_transaction_line_data"
+  #   netsuite2_transaction_identifier: "netsuite2_transaction_data"
+  #   netsuite2_vendor_identifier: "netsuite2_vendor_data"
+  #   netsuite2_vendor_category_identifier: "netsuite2_vendor_category_data"
+  #   netsuite2_accounting_book_subsidiaries_identifier: "netsuite2_accounting_book_sub_data"
+  #   netsuite2_accounting_period_fiscal_calendars_identifier: "netsuite2_accounting_period_fiscal_cal_data"
+  #   netsuite2_account_type_identifier: "netsuite2_account_type_data"
+  #   netsuite2_entity_address_identifier: "netsuite2_entity_address_data"
+  #   netsuite2_location_main_address_identifier: "netsuite2_location_main_address_data"
 
 seeds:
   +quote_columns: "{{ true if target.type in ('redshift','postgres') else false }}"
