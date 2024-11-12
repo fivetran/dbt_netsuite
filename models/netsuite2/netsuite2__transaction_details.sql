@@ -248,7 +248,7 @@ transaction_details as (
 
     subsidiaries.subsidiary_id,
     subsidiaries.full_name as subsidiary_full_name,
-    subsidiaries.name as subsidiary_name,    
+    subsidiaries.name as subsidiary_name,
     subsidiaries_currencies.symbol as subsidiary_currency_symbol
 
     --The below script allows for subsidiaries table pass through columns.
@@ -329,7 +329,7 @@ transaction_details as (
 
   left join currencies subsidiaries_currencies
     on subsidiaries_currencies.currency_id = subsidiaries.currency_id
-
+  
   where (accounting_periods.fiscal_calendar_id is null
     or accounting_periods.fiscal_calendar_id  = (select fiscal_calendar_id from subsidiaries where parent_id is null))
 ),

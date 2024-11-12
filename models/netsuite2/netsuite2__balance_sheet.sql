@@ -124,8 +124,7 @@ balance_sheet as (
         case
         when not accounts.is_balancesheet then false
         else accounts.is_leftside
-            end as is_account_leftside
-
+            end as is_account_leftside 
         --The below script allows for accounts table pass through columns.
         {{ fivetran_utils.persist_pass_through_columns('accounts_pass_through_columns', identifier='accounts') }},
 
