@@ -8,10 +8,10 @@ models:
   # +schema: "netsuite_{{ var('directed_schema','dev') }}"  ## To be used for validation tests
 
 vars:
-  netsuite_schema: netsuite_integration_tests_7
+  netsuite_schema: netsuite_integration_tests_8
   netsuite_data_model_override: netsuite
 
-  # Enable below when generating docs
+  # # Enable below when generating docs
   # netsuite2__multibook_accounting_enabled: true
   # netsuite2__using_to_subsidiary: true
 
