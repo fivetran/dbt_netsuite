@@ -7,12 +7,13 @@ For Netsuite2, [PR #144](https://github.com/fivetran/dbt_netsuite/pull/144) incl
   - Cumulative Translation Adjustment (CTA) accounts should use the account number of the system-generated CTA account. 
   - Since this will change the `account_number`, a `--full-refresh` after upgrading will be required. 
 
-## More Breaking Changes: New Field Additions
+## New Fields
+- Added commonly used fields to each end model. They are listed in the below table.
+- Also added foreign keys to each end model to make it easier for customers to join back to source tables for better insights.
 
-
-| **Model**                | **Description**                                                                                                                                |
+| **Models**                | **New Fields**                                                                                                                                |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| [netsuite2__transaction_details](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__transaction_details)             | New fields:  `is_reversal`, `reversal_transaction_id`, `reversal_date`, `is_reversal_defer`, `is_eliminate`, `exchange_rate`, `department_full_name`,  `subsidiary_full_name`, `subsidiary_currency_symbol`, `transaction_line_amount`.  <br> New keys: `customer_id`, `vendor_id`, `class_id`, `location_id`, `department_id`, `currency_id`, `parent_account_id`, `vendor_category_id` (if `netsuite2__using_vendor_categories` is enabled)  |
+| [netsuite2__transaction_details](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__transaction_details)             | New fields:  `is_reversal`, `reversal_transaction_id`, `reversal_date`, `is_reversal_defer`, `is_eliminate`, `exchange_rate`, `department_full_name`,  `subsidiary_full_name`, `subsidiary_currency_symbol`, `transaction_line_amount`  <br> New keys: `customer_id`, `vendor_id`, `class_id`, `location_id`, `department_id`, `currency_id`, `parent_account_id`, `vendor_category_id` (if `netsuite2__using_vendor_categories` is enabled)  |
 | [netsuite2__balance_sheet](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__balance_sheet)            | New fields: `account_display_name`, `subsidiary_full_name`, `is_account_intercompany`,  `is_account_leftside` |
 | [netsuite2__income_statement](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__income_statement)             |  New fields: `account_display_name` <br>    New keys: `class_id`, `location_id`, `department_id` |
 
