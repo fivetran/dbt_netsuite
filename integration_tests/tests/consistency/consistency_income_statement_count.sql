@@ -6,7 +6,7 @@
 with prod as (
     select 
         1 as join_key,
-        count(*) as total_prod_pr_count
+        count(*) as total_income_statement_prod_rows
     from {{ target.schema }}_netsuite_prod.netsuite2__income_statement
     group by 1
 ),
@@ -14,15 +14,15 @@ with prod as (
 dev as (
     select 
         1 as join_key,
-        count(*) as total_dev_pr_count
+        count(*) as total_income_statement_dev_rows
     from {{ target.schema }}_netsuite_dev.netsuite2__income_statement
     group by 1
 ),
 
 final as (
     select
-        total_prod_pr_count,
-        total_dev_pr_count
+        total_income_statement_prod_rows,
+        total_income_statement_dev_rows
     from prod
     full outer join dev
         on dev.join_key = prod.join_key
@@ -30,4 +30,4 @@ final as (
 
 select *
 from final
-where total_dev_pr_count != total_prod_pr_count
+where total_income_statement_prod_rows != total_income_statement_dev_rows

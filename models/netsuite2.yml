@@ -86,7 +86,7 @@ models:
     - name: account_number
       description: Account number associated with the account.
     - name: is_account_intercompany
-      description: Boolean indicating if a general ledger account recording transactions between subsidiaries of the same organization.
+      description: Boolean indicating if a general ledger account is recording transactions between subsidiaries of the same organization.
     - name: is_account_leftside
       description: Boolean indicating if account has a native debit balance.
     - name: converted_amount
@@ -227,7 +227,7 @@ models:
     - name: is_transaction_intercompany_adjustment
       description: Boolean field, indicating whether or not the transaction is an intercompany transaction or an advanced intercompany transaction.
     - name: is_reversal
-      description: Boolean indicating line is reversal.
+      description: Boolean indicating if line is reversal.
     - name: reversal_transaction_id
       description: Transaction id of the counterparty in a reversing pair.
     - name: reversal_date
@@ -265,7 +265,7 @@ models:
     - name: is_account_intercompany
       description: Boolean field indicating whether or not the account type name includes 'intercompany'.
     - name: is_eliminate
-      description: Boolean indicating line will auto-eliminate.
+      description: Boolean indicating if line will auto-eliminate.
     - name: parent_account_id
       description: Unique identifier of the parent account, if parent account relationship exists.  Otherwise, the identifier of the account.
     - name: parent_account_name
