@@ -1,3 +1,49 @@
+# dbt_netsuite v0.15.0
+For Netsuite2, [PR #144](https://github.com/fivetran/dbt_netsuite/pull/144) includes the following updates: 
+
+## Breaking Changes (Full refresh required after upgrading)
+- Corrected `account_number` field logic for the `netsuite2__balance_sheet` model to match the native Balance Sheet report within Netsuite:
+  - Income statement accounts should use the account number of the system-generated retained earnings account. 
+  - Cumulative Translation Adjustment (CTA) accounts should use the account number of the system-generated CTA account.
+  - We modified the logic to ensure the account number is the retained earnings number for income statement accounts in the balance sheet, and CTA rather than null. 
+  - Since this will change the `account_number`, a `--full-refresh` after upgrading will be required. 
+
+## New Fields
+- Added commonly used fields to each end model. They are listed in the below table.
+- Also added foreign keys to each end model to make it easier for customers to join back to source tables for better insights.
+
+| **Models**                | **New Fields**                                                                                                                                |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| [netsuite2__transaction_details](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__transaction_details)             | New fields:  `is_reversal`, `reversal_transaction_id`, `reversal_date`, `is_reversal_defer`, `is_eliminate`, `exchange_rate`, `department_full_name`,  `subsidiary_full_name`, `subsidiary_currency_symbol`, `transaction_line_amount`, `account_display_name`  <br> <br> New keys: `customer_id`, `vendor_id`, `class_id`, `location_id`, `department_id`, `currency_id`, `parent_account_id`, `vendor_category_id` (if `netsuite2__using_vendor_categories` is enabled)  |
+| [netsuite2__balance_sheet](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__balance_sheet)            | New fields: `account_display_name`, `subsidiary_full_name`, `is_account_intercompany`,  `is_account_leftside` |
+| [netsuite2__income_statement](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__income_statement)             |  New fields: `account_display_name` <br> <br>   New keys: `class_id`, `location_id`, `department_id` |
+
+
+> **IMPORTANT**: All of the affected models have pass-through functionality. If you have already been using passthrough column variables to include the newly added fields (without aliases), you **MUST** remove the fields from your passthrough variable configuration in order to avoid duplicate column errors.
+
+## Feature Updates
+- You can now leverage passthrough columns in `netsuite2__transaction_details` to bring in additional fields from the `locations` and `subsidiaries` source tables. 
+- To add additional columns to this model, do so by adding our pass-through column variables `locations_pass_through_columns` and `subsidiaries_pass_through_columns` to your `dbt_project.yml` file:
+
+```yml
+vars:
+    locations_pass_through_columns: 
+        - name: "location_custom_field"
+    subsidiaries_pass_through_columns: 
+        - name: "sub_field"
+          alias: "subsidiary_field"
+```
+
+- For more details on how to passthrough columns, [please consult our README section](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#passing-through-additional-fields). 
+
+## Under the Hood
+- Additional consistency tests added for each Netsuite2 end model in order to be used during integration test validations.
+- Updated yml documentation with new fields.
+
+## Contributors
+- [@jmongerlyra](https://github.com/jmongerlyra) ([PR #136](https://github.com/fivetran/dbt_netsuite/pull/136))
+- [@fastbarreto](https://github.com/fastbarreto) ([PR #124](https://github.com/fivetran/dbt_netsuite/pull/124))
+
 # dbt_netsuite v0.14.0
 
 For Netsuite2, [PR #138](https://github.com/fivetran/dbt_netsuite/pull/138) and [PR #132](https://github.com/fivetran/dbt_netsuite/pull/132) include the following updates: 
@@ -72,7 +118,7 @@ For Netsuite2, [PR #114](https://github.com/fivetran/dbt_netsuite/pull/114) incl
   - transaction_number
 - ❗Note: If you have already added any of these fields as passthrough columns to the `transactions_pass_through_columns`, `transaction_lines_pass_through_columns`, `accounts_pass_through_columns`, or `departments_pass_through_columns` vars, you will need to remove or alias these fields from the var to avoid duplicate column errors.
 
-- Removed the unnecessary reference to `entities` in the `netsuit2__transaction_details` model.
+- Removed the unnecessary reference to `entities` in the `netsuite2__transaction_details` model.
 
 ## 📝 Documentation Update 📝
 - [Updated DECISIONLOG](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#why-converted-transaction-amounts-are-null-if-they-are-non-posting) with our reasoning for why we don't bring in future-facing transactions and leave the `converted_amount` in transaction details empty. ([#115](https://github.com/fivetran/dbt_netsuite/issues/115))
