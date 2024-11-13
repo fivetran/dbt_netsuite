@@ -10,7 +10,6 @@ with prod as (
 
 dev as (
     select *
-    except(account_display_name, class_id, location_id, department_id)--this test has been modified for the purposes of validating this PR. Remove this line before merging.
     from {{ target.schema }}_netsuite_dev.netsuite2__income_statement
 ),
 
