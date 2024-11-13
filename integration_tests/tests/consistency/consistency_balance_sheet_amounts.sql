@@ -5,7 +5,7 @@
 
 with prod as (
     select 
-        account_id,
+        case when account_id is null then -999999 else account_id end as account_id,
         date_trunc(accounting_period_ending, month) as prod_account_period_month,
         count(*) as prod_row_count,
         sum(converted_amount) as prod_converted_amount 
@@ -16,7 +16,7 @@ with prod as (
 
 dev as (
     select 
-        account_id,
+        case when account_id is null then -999999 else account_id end as account_id,
         date_trunc(accounting_period_ending, month) as dev_account_period_month,
         count(*) as dev_row_count,
         sum(converted_amount) as dev_converted_amount 
