@@ -80,6 +80,21 @@ For Netsuite2, [PR #138](https://github.com/fivetran/dbt_netsuite/pull/138) and 
 
 # dbt_netsuite v0.13.0
 
+[PR #TBD](https://github.com/fivetran/dbt_netsuite/pull/TBD) includes the following updates: 
+
+## 🚨 Breaking Changes 🚨
+- Adjusts the `transactions_with_converted_amounts` join within the `netsuite2__transaction_details` model to account for the `account_id` which ensures the proper transactions within the designated reporting period are accurately included. Previously, if a transaction had an adjustment to the account_id at the source, duplicates would be brought into the final model for users leveraging incremental strategies.
+  - A similar join update was applied to the `netsuite2__balance_sheet` and `netsuite2__income_statement` models for when users are leveraging the `balance_sheet_transaction_detail_columns` and `income_statement_transaction_detail_columns` variables respectively. 
+
+## Under the Hood
+- Updates to the Netsuite2 seed data to ensure the end models are populated with data during integration tests.
+- Addition of Consistency (comparison and row count) tests for the following models:
+  - `netsuite2__transaction_details`
+  - `netsuite2__balance_sheet`
+  - `netsuite2__income_statement`
+
+# dbt_netsuite v0.13.0
+
 For Netsuite2, [PR #116](https://github.com/fivetran/dbt_netsuite/pull/116) includes the following updates: 
 
 ## 🚨 Breaking Changes 🚨
