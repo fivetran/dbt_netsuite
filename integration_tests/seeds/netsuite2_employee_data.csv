@@ -1,0 +1,4 @@
+_fivetran_synced,id,entityid,firstname,lastname,department,subsidiary,email,supervisor,approvallimit,expenselimit,purchaseorderapprovallimit,purchaseorderlimit,currency,isinactive
+2022-05-27 10:45:22,523532,sponge@bob.com,Sponge,Bob,113,1,sponge@bob.com,431513,,,,0,1,F
+2022-05-27 10:45:22,513513,scooby@doo.com,Scooby,Doo,341,1,scooby@doo.com,,,,,0,1,F
+2022-05-27 10:45:22,409409,darth@vader.com,Darth,Vader,351,1,darth@vader.com,,,,,0,1,T

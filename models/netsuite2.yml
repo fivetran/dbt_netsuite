@@ -75,6 +75,8 @@ models:
       description: Category of the account.  Options include Asset, Liability, Equity, Expense or Income.
     - name: account_name
       description: Name of the account.
+    - name: account_display_name
+      description: Account name without number or hierarchy.
     - name: account_type_name
       description: The accounts type name.
     - name: account_type_id
@@ -83,12 +85,18 @@ models:
       description: The unique identifier of the account.
     - name: account_number
       description: Account number associated with the account.
+    - name: is_account_intercompany
+      description: Boolean indicating if a general ledger account is recording transactions between subsidiaries of the same organization.
+    - name: is_account_leftside
+      description: Boolean indicating if account has a native debit balance.
     - name: converted_amount
       description: Transaction amount, converted into the primary subsidiary's default currency.
     - name: balance_sheet_sort_helper
       description: Helper column for sorting balance sheet records.
     - name: subsidiary_id
       description: "{{ doc('subsidiary_id') }}"
+    - name: subsidiary_full_name
+      description: Full hierarchical name of the subsidiary. 
     - name: subsidiary_name
       description: Name of the subsidiary.
     - name: accounting_book_id
@@ -135,6 +143,8 @@ models:
       description: Boolean field, indicating whether or not the selected accounting period is closed.
     - name: account_name
       description: Name of the account.
+    - name: account_display_name
+      description: Account name without number or hierarchy.
     - name: account_type_name
       description: The accounts type name.
     - name: account_type_id
@@ -145,10 +155,16 @@ models:
       description: Account number associated with the account.
     - name: account_number_and_name
       description: Concatenation of account number and account name.
+    - name: class_id
+      description: "{{ doc('class_id') }}"
     - name: class_full_name
       description: Full name of the class.
+    - name: location_id
+      description: "{{ doc('location_id') }}"
     - name: location_full_name
       description: Full name of the location.
+    - name: department_id
+      description: "{{ doc('department_id') }}"
     - name: department_full_name
       description: Full name of the department.
     - name: converted_amount
@@ -210,6 +226,14 @@ models:
       description: Type identifier of the transaction.
     - name: is_transaction_intercompany_adjustment
       description: Boolean field, indicating whether or not the transaction is an intercompany transaction or an advanced intercompany transaction.
+    - name: is_reversal
+      description: Boolean indicating if line is reversal.
+    - name: reversal_transaction_id
+      description: Transaction id of the counterparty in a reversing pair.
+    - name: reversal_date
+      description: Transaction date of the counterparty in a reversing pair.
+    - name: is_reversal_defer
+      description: Boolean indicating reversal deferral.
     - name: accounting_period_ending
       description: End date of the accounting period.
     - name: accounting_period_id
@@ -224,6 +248,8 @@ models:
       description: Name of the account.
     - name: account_type_name
       description: The accounts type name.
+    - name: account_display_name
+      description: Account name without number or hierarchy.
     - name: account_type_id
       description: The unique identifier of the account type.
     - name: account_id
@@ -238,12 +264,20 @@ models:
       description: Boolean field indicating whether or not the account type name includes 'accounts receivable'.
     - name: is_account_intercompany
       description: Boolean field indicating whether or not the account type name includes 'intercompany'.
+    - name: is_eliminate
+      description: Boolean indicating if line will auto-eliminate.
+    - name: parent_account_id
+      description: Unique identifier of the parent account, if parent account relationship exists.  Otherwise, the identifier of the account.
     - name: parent_account_name
       description: Name of the parent account, if parent account relationship exists.  Otherwise, the name of the account.
     - name: is_income_account
       description: Boolean field indicating whether or not the account is an income account.
     - name: is_expense_account
       description: Boolean field indicating whether or not the account is an expense account.
+    - name: customer_id
+      description: "{{ doc('customer_id') }}"
+    - name: customer_alt_name
+      description: "{{ doc('alt_name') }}"
     - name: company_name
       description: Name of the company.
     - name: customer_city
@@ -258,6 +292,8 @@ models:
       description: Date customer placed first order.
     - name: customer_external_id
       description: The unique identifier of the external customer reference.
+    - name: class_id
+      description: "{{ doc('class_id') }}"
     - name: class_full_name
       description: Full name of the class.
     - name: item_name
@@ -266,32 +302,50 @@ models:
       description: Type name of the item.
     - name: sales_description
       description: Description of the item for sales purposes.
+    - name: location_id
+      description: "{{ doc('location_id') }}"
     - name: location_name
       description: Name of the location.
     - name: location_city
       description: City used as a location reference.
     - name: location_country
       description: Country used as a location reference.
+    - name: vendor_category_id
+      description: "{{ doc('vendor_category_id') }}"
     - name: vendor_category_name
       description: Category name of the vendor.
+    - name: vendor_id
+      description: "{{ doc('vendor_id') }}"
     - name: vendor_name
       description: Name of the vendor.
     - name: vendor_create_date
       description: Date vendor was created.
+    - name: currency_id
+      description: "{{ doc('currency_id') }}"
     - name: currency_name
       description: Name of the currency used.
     - name: currency_symbol
       description: Symbol used to identify the currency type.
+    - name: exchange_rate
+      description: Exchange rate used on the transaction.
+    - name: department_full_name
+      description: Full hierarchical name of the department.
     - name: department_name
       description: Name of the department.
-    - name: subsidiary_name
-      description: Name of the subsidiary.
     - name: subsidiary_id
       description: The unique identifier of the subsidiary.
+    - name: subsidiary_full_name
+      description: Full hierarchical name of the subsidiary. 
+    - name: subsidiary_name
+      description: Name of the subsidiary.
+    - name: subsidiary_currency_symbol
+      description: Currency of the subsidiary.
     - name: converted_amount
       description: Transaction amount, converted into the primary subsidiary's default currency.
     - name: transaction_amount
       description: Total amount of the transaction line.
+    - name: transaction_line_amount
+      description: Net amount of the transaction line. This is the actual amount entered when it's in a currency other than the functional currency of the subsidiary. 
     - name: accounting_book_id
       description: The unique identifier of the accounting book.
     - name: accounting_book_name

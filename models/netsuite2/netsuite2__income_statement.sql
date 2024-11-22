@@ -2,7 +2,7 @@
     config(
         enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
         materialized='table' if target.type in ('bigquery', 'databricks', 'spark') else 'incremental',
-        partition_by = {'field': '_fivetran_synced_date', 'data_type': 'date'}
+        partition_by = {'field': '_fivetran_synced_date', 'data_type': 'date', 'granularity': 'month'}
             if target.type not in ['spark', 'databricks'] else ['_fivetran_synced_date'],
         cluster_by = ['transaction_id'],
         unique_key='income_statement_id',
@@ -94,6 +94,7 @@ income_statement as (
         reporting_accounting_periods.is_adjustment as is_accounting_period_adjustment,
         reporting_accounting_periods.is_closed as is_accounting_period_closed,
         accounts.name as account_name,
+        accounts.display_name as account_display_name,
         accounts.type_name as account_type_name,
         accounts.account_type_id,
         accounts.account_id as account_id,
@@ -106,12 +107,15 @@ income_statement as (
         {{ fivetran_utils.persist_pass_through_columns('accounts_pass_through_columns', identifier='accounts') }},
 
         {{ dbt.concat(['accounts.account_number',"'-'", 'accounts.name']) }} as account_number_and_name,
+        classes.class_id,
         classes.full_name as class_full_name
 
         --The below script allows for accounts table pass through columns.
         {{ fivetran_utils.persist_pass_through_columns('classes_pass_through_columns', identifier='classes') }},
 
+        locations.location_id,
         locations.full_name as location_full_name,
+        departments.department_id,
         departments.full_name as department_full_name
 
         --The below script allows for departments table pass through columns.

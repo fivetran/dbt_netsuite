@@ -2,7 +2,7 @@
     config(
         enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
         materialized='table' if target.type in ('bigquery', 'databricks', 'spark') else 'incremental',
-        partition_by = {'field': '_fivetran_synced_date', 'data_type': 'date'}
+        partition_by = {'field': '_fivetran_synced_date', 'data_type': 'date', 'granularity': 'month'}
             if target.type not in ['spark', 'databricks'] else ['_fivetran_synced_date'],       
         cluster_by = ['transaction_id'],
         unique_key='balance_sheet_id',
@@ -57,6 +57,7 @@ balance_sheet as (
         transactions_with_converted_amounts.transaction_line_id,
         transactions_with_converted_amounts.subsidiary_id,
         transactions_with_converted_amounts._fivetran_synced_date,
+        subsidiaries.full_name as subsidiary_full_name,
         subsidiaries.name as subsidiary_name,
 
         {% if var('netsuite2__multibook_accounting_enabled', false) %}
@@ -88,6 +89,13 @@ balance_sheet as (
                 and {{ dbt.date_trunc('year', 'reporting_accounting_periods.starting_at') }} = {{ dbt.date_trunc('year', 'transaction_accounting_periods.starting_at') }} 
                 and reporting_accounting_periods.fiscal_calendar_id = transaction_accounting_periods.fiscal_calendar_id) then 'Net Income'
         when not accounts.is_balancesheet then 'Retained Earnings'
+        else accounts.display_name
+            end as account_display_name,
+        case
+        when (not accounts.is_balancesheet 
+                and {{ dbt.date_trunc('year', 'reporting_accounting_periods.starting_at') }} = {{ dbt.date_trunc('year', 'transaction_accounting_periods.starting_at') }} 
+                and reporting_accounting_periods.fiscal_calendar_id = transaction_accounting_periods.fiscal_calendar_id) then 'Net Income'
+        when not accounts.is_balancesheet then 'Retained Earnings'
         when lower(accounts.special_account_type_id) = 'retearnings' then 'Retained Earnings'
         when lower(accounts.special_account_type_id) in ('cta-e', 'cumultransadj') then 'Cumulative Translation Adjustment'
         else accounts.type_name
@@ -106,10 +114,17 @@ balance_sheet as (
         else accounts.account_id
             end as account_id,
         case
-        when not accounts.is_balancesheet then null
+        when not accounts.is_balancesheet then (select accounts.account_number from accounts where lower(accounts.special_account_type_id) = 'retearnings' limit 1)
         else accounts.account_number
-            end as account_number
-        
+            end as account_number,
+        case
+        when not accounts.is_balancesheet then false
+        else accounts.is_eliminate
+            end as is_account_intercompany,
+        case
+        when not accounts.is_balancesheet then false
+        else accounts.is_leftside
+            end as is_account_leftside 
         --The below script allows for accounts table pass through columns.
         {{ fivetran_utils.persist_pass_through_columns('accounts_pass_through_columns', identifier='accounts') }},
 
@@ -195,6 +210,7 @@ balance_sheet as (
         transactions_with_converted_amounts.transaction_line_id,
         transactions_with_converted_amounts.subsidiary_id,
         transactions_with_converted_amounts._fivetran_synced_date,
+        subsidiaries.full_name as subsidiary_full_name,
         subsidiaries.name as subsidiary_name,
 
         {% if var('netsuite2__multibook_accounting_enabled', false) %}
@@ -215,10 +231,13 @@ balance_sheet as (
         reporting_accounting_periods.is_closed as is_accounting_period_closed,
         'Equity' as account_category,
         'Cumulative Translation Adjustment' as account_name,
+        'Cumulative Translation Adjustment' as account_display_name,
         'Cumulative Translation Adjustment' as account_type_name,
         'cumulative_translation_adjustment' as account_type_id,
         null as account_id,
-        null as account_number,
+        (select accounts.account_number from accounts where lower(accounts.special_account_type_id) = 'cumultransadj' limit 1) as account_number,
+        false as is_account_intercompany,
+        false as is_account_leftside,
 
         {% if var('accounts_pass_through_columns') %}
         {% for field in var('accounts_pass_through_columns') %}

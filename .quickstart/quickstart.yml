@@ -13,9 +13,17 @@ table_variables:
     - VendorCategory
   netsuite2__using_jobs:
     - job
+  netsuite2__using_employees:
+    - employee
 
 destination_configurations:
   databricks:
     dispatch:
       - macro_namespace: dbt_utils
         search_order: [ 'spark_utils', 'dbt_utils' ]
+
+public_models: [
+  "netsuite2__balance_sheet",
+  "netsuite2__income_statement",
+  "netsuite2__transaction_details"
+]
