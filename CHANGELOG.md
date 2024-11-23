@@ -5,9 +5,6 @@ For Netsuite2, [PR #149](https://github.com/fivetran/dbt_netsuite/pull/149) incl
 - Incremental updates
 - account_id updates
 
-## Under the Hood
-- Removed redundant consistency tests.
-
 # dbt_netsuite v0.15.0
 For Netsuite2, [PR #144](https://github.com/fivetran/dbt_netsuite/pull/144) includes the following updates: 
 
