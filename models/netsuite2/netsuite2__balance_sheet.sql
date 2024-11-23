@@ -29,10 +29,6 @@ with transactions_with_converted_amounts as (
 transaction_details as (
     select * 
     from {{ ref('netsuite2__transaction_details') }}
-
-    {% if is_incremental() %}
-    where _fivetran_synced_date >= {{ max_fivetran_synced_date }}
-    {% endif %}
 ), 
 {% endif %}
 

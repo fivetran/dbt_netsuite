@@ -1,4 +1,6 @@
-<p align="center">
+# Netsuite Transformation dbt Package ([Docs](https://fivetran.github.io/dbt_netsuite/))
+
+<p align="left">
     <a alt="License"
         href="https://github.com/fivetran/dbt_netsuite/blob/main/LICENSE">
         <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" /></a>
@@ -13,7 +15,6 @@
         <img src="https://img.shields.io/badge/Fivetran_Quickstart_Compatible%3F-yes-green.svg" /></a>
 </p>
 
-# Netsuite Transformation dbt Package ([Docs](https://fivetran.github.io/dbt_netsuite/))
 ## What does this dbt package do?
 - Produces modeled tables that leverage Netsuite data from [Fivetran's connector](https://fivetran.com/docs/applications/netsuite) in the format described by [this ERD](https://fivetran.com/docs/applications/netsuite#schemainformation) and builds off the output of our [Netsuite source package](https://github.com/fivetran/dbt_netsuite_source).
 - Enables users to insights into their netsuite data that can be used for financial statement reporting and deeper transactional analysis. This is achieved by the following:
@@ -101,7 +102,7 @@ Include the following netsuite package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/netsuite
-    version: [">=0.15.0", "<0.16.0"]
+    version: [">=0.16.0", "<0.17.0"]
     
 ```
 ### Step 3: Define Netsuite.com or Netsuite2 Source

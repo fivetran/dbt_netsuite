@@ -1,3 +1,13 @@
+# dbt_netsuite v0.16.0
+For Netsuite2, [PR #149](https://github.com/fivetran/dbt_netsuite/pull/149) includes the following updates: 
+
+## Breaking Changes (Full refresh required after upgrading)
+- Incremental updates
+- account_id updates
+
+## Under the Hood
+- Removed redundant consistency tests.
+
 # dbt_netsuite v0.15.0
 For Netsuite2, [PR #144](https://github.com/fivetran/dbt_netsuite/pull/144) includes the following updates: 
 
