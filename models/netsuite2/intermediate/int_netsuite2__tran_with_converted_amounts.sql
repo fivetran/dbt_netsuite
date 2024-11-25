@@ -15,6 +15,10 @@ with transaction_lines_w_accounting_period as (
   select * 
   from {{ ref('int_netsuite2__tran_lines_w_accounting_period') }}
 
+    {% if not is_incremental() %}
+    where _fivetran_synced_date < '2024-11-23'
+    {% endif %}
+
   {% if is_incremental() %}
   where _fivetran_synced_date >= {{ netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=var('lookback_window', 3)) }}
   {% endif %}

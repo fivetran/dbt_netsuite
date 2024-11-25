@@ -12,8 +12,15 @@
 }}
 
 with transaction_lines as (
-    select * 
+    select 
+      *,
+      cast(_fivetran_synced as date) as transaction_line_fivetran_synced_date
+
     from {{ ref('int_netsuite2__transaction_lines') }}
+
+    {% if not is_incremental() %}
+    where cast(_fivetran_synced as date) < '2024-11-23'
+    {% endif %}
 
     {% if is_incremental() %}
     where cast(_fivetran_synced as date) >= {{ netsuite.netsuite_lookback(from_date='max(transaction_line_fivetran_synced_date)', datepart='day', interval=var('lookback_window', 3)) }}
@@ -112,7 +119,7 @@ transaction_details as (
     transactions.transaction_date,
     transactions.due_date_at as transaction_due_date,
     transactions.transaction_type as transaction_type,
-    cast(transaction_lines._fivetran_synced as date) as transaction_line_fivetran_synced_date,
+    transaction_lines.transaction_line_fivetran_synced_date,
     transactions.transaction_number,
     coalesce(transaction_lines.entity_id, transactions.entity_id) as entity_id,
     transactions.is_intercompany_adjustment as is_transaction_intercompany_adjustment,
