@@ -15,10 +15,6 @@ with transactions_with_converted_amounts as (
     select * 
     from {{ ref('int_netsuite2__tran_with_converted_amounts') }}
 
-    {% if not is_incremental() %}
-    where _fivetran_synced_date < '2024-11-23'
-    {% endif %}
-
     {% if is_incremental() %}
     where _fivetran_synced_date >= {{ netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=var('lookback_window', 3))  }}
     {% endif %}

@@ -1,3 +1,8 @@
+{{ config(
+    tags="fivetran_validations",
+    enabled=var('fivetran_validation_tests_enabled', false)
+) }}
+
 {# This test is to check if the transaction_details has the same number of transactions 
 as the source transaction lines table after joining with the transactions source.
 This is important when making incremental logic changes. #}
@@ -17,8 +22,8 @@ transaction_details_count as (
 final as (
     select *
     from stg_transaction_count
-    full outer join transaction_details_count
-    where stg_count != final_count
+    join transaction_details_count
+        on stg_count != final_count
 )
 
 select *
