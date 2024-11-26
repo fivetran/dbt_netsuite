@@ -4,12 +4,12 @@
 ) }}
 
 with prod as (
-    select *
+    select {{ dbt_utils.star(from=ref('netsuite2__transaction_details'), except=var('netsuite_consistency_exclude_columns', '[]')) }}
     from {{ target.schema }}_netsuite_prod.netsuite2__transaction_details
 ),
 
 dev as (
-    select *
+    select {{ dbt_utils.star(from=ref('netsuite2__transaction_details'), except=var('netsuite_consistency_exclude_columns', '[]')) }}
     from {{ target.schema }}_netsuite_dev.netsuite2__transaction_details
 ),
 
