@@ -8,9 +8,6 @@ For Netsuite2, [PR #149](https://github.com/fivetran/dbt_netsuite/pull/149) incl
   - When the `balance_sheet_transaction_detail_columns` and `income_statement_transaction_detail_columns` variables are used in the `netsuite2__balance_sheet` and `netsuite2__income_statement` models, all transactions are now included during incremental runs. This ensures no transactions are missed, aligning with the changes made in the `netsuite2__transaction_details` model.
   - We still recommend running `dbt --full-refresh` periodically to maintain data quality of the models.
 
-- Updated the `transactions_with_converted_amounts` join in the `netsuite2__transaction_details` model to include the `account_id`, ensuring accurate inclusion of transactions within the designated reporting period. This change resolves an issue where adjustments to the `account_id` at the source could introduce duplicates in the final model when using incremental strategies.
-  - A similar update was made to the joins in the `netsuite2__balance_sheet` and `netsuite2__income_statement` models to account for the `balance_sheet_transaction_detail_columns` and `income_statement_transaction_detail_columns` variables, ensuring consistency for users leveraging these options.
-
 ## Documentation
 - Updated dbt documentation definitions.
 
