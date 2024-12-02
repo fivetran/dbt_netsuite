@@ -1,3 +1,16 @@
+# dbt_netsuite v0.16.0
+For Netsuite2, [PR #149](https://github.com/fivetran/dbt_netsuite/pull/149) includes the following updates: 
+
+## Breaking Changes (Full Refresh Required)
+- Revised the incremental logic of the `netsuite2__transaction_details` model to use `transaction_lines` CTE as the primary driver instead of `transactions`. 
+  - This ensures all transaction lines are captured, including those synced after the parent transaction.
+  - This also aligns with `transaction_lines` serving as the base CTE in the model, onto which all other CTEs are left-joined.
+  - When the `balance_sheet_transaction_detail_columns` and `income_statement_transaction_detail_columns` variables are used in the `netsuite2__balance_sheet` and `netsuite2__income_statement` models, all transactions are now included during incremental runs. This ensures no transactions are missed, aligning with the changes made in the `netsuite2__transaction_details` model.
+  - We still recommend running `dbt --full-refresh` periodically to maintain data quality of the models.
+
+## Documentation
+- Updated dbt documentation definitions.
+
 # dbt_netsuite v0.15.0
 For Netsuite2, [PR #144](https://github.com/fivetran/dbt_netsuite/pull/144) includes the following updates: 
 

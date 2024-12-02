@@ -361,8 +361,8 @@ models:
       tests:
           - unique
           - not_null
-    - name: _fivetran_synced_date
-      description: _fivetran_synced formatted as a date for incremental logic use.
+    - name: transaction_line_fivetran_synced_date
+      description: _fivetran_synced of the transaction_line formatted as a date for incremental logic use.
     - name: department_id
       description: "{{ doc('department_id') }}"
     - name: entity_id

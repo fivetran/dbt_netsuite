@@ -11,16 +11,12 @@
     )
 }}
 
-{% if is_incremental() %}
-{% set max_fivetran_synced_date = netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=var('lookback_window', 3)) %}
-{% endif %}
-
 with transactions_with_converted_amounts as (
     select * 
     from {{ref('int_netsuite2__tran_with_converted_amounts')}}
 
     {% if is_incremental() %}
-    where _fivetran_synced_date >= {{ max_fivetran_synced_date }}
+    where _fivetran_synced_date >= {{ netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=var('lookback_window', 3)) }}
     {% endif %}
 ), 
 
@@ -29,10 +25,6 @@ with transactions_with_converted_amounts as (
 transaction_details as (
     select * 
     from {{ ref('netsuite2__transaction_details') }}
-
-    {% if is_incremental() %}
-    where _fivetran_synced_date >= {{ max_fivetran_synced_date }}
-    {% endif %}
 ), 
 {% endif %}
 
@@ -265,7 +257,7 @@ balance_sheet as (
     left join transaction_details
         on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
         and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
-
+        
         {% if var('netsuite2__multibook_accounting_enabled', false) %}
         and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
         {% endif %}

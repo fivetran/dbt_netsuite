@@ -2,8 +2,8 @@
     config(
         enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
         materialized='table' if target.type in ('bigquery', 'databricks', 'spark') else 'incremental',
-        partition_by = {'field': '_fivetran_synced_date', 'data_type': 'date', 'granularity': 'month'}
-            if target.type not in ['spark', 'databricks'] else ['_fivetran_synced_date'],
+        partition_by = {'field': 'transaction_line_fivetran_synced_date', 'data_type': 'date', 'granularity': 'month'}
+            if target.type not in ['spark', 'databricks'] else ['transaction_line_fivetran_synced_date'],
         cluster_by = ['transaction_id'],
         unique_key='transaction_details_id',
         incremental_strategy = 'merge' if target.type in ('bigquery', 'databricks', 'spark') else 'delete+insert',
@@ -11,17 +11,21 @@
     )
 }}
 
-{% if is_incremental() %}
-{% set max_fivetran_synced_date = netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=var('lookback_window', 3)) %}
-{% endif %}
+with transaction_lines as (
+    select 
+      *,
+      cast(_fivetran_synced as date) as transaction_line_fivetran_synced_date
 
-with transactions_with_converted_amounts as (
-    select * 
-    from {{ ref('int_netsuite2__tran_with_converted_amounts') }}
+    from {{ ref('int_netsuite2__transaction_lines') }}
 
     {% if is_incremental() %}
-    where _fivetran_synced_date >= {{ max_fivetran_synced_date }}
+    where cast(_fivetran_synced as date) >= {{ netsuite.netsuite_lookback(from_date='max(transaction_line_fivetran_synced_date)', datepart='day', interval=var('lookback_window', 3)) }}
     {% endif %}
+),
+
+transactions_with_converted_amounts as (
+    select * 
+    from {{ ref('int_netsuite2__tran_with_converted_amounts') }}
 ),
 
 accounts as (
@@ -39,18 +43,9 @@ subsidiaries as (
     from {{ var('netsuite2_subsidiaries') }}
 ),
 
-transaction_lines as (
-    select * 
-    from {{ ref('int_netsuite2__transaction_lines') }}
-),
-
 transactions as (
     select * 
     from {{ var('netsuite2_transactions') }}
-
-    {% if is_incremental() %}
-    where _fivetran_synced_date >= {{ max_fivetran_synced_date }}
-    {% endif %}
 ),
 
 customers as (
@@ -120,7 +115,7 @@ transaction_details as (
     transactions.transaction_date,
     transactions.due_date_at as transaction_due_date,
     transactions.transaction_type as transaction_type,
-    transactions._fivetran_synced_date,
+    transaction_lines.transaction_line_fivetran_synced_date,
     transactions.transaction_number,
     coalesce(transaction_lines.entity_id, transactions.entity_id) as entity_id,
     transactions.is_intercompany_adjustment as is_transaction_intercompany_adjustment,
