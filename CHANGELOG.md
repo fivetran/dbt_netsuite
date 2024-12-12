@@ -1,5 +1,5 @@
 # dbt_netsuite v0.17.0
-PR #something includes the following updates:
+[PR #153](https://github.com/fivetran/dbt_netsuite/pull/153) includes the following updates:
 
 ## Bug Fixes
 - Adjusted the materialization of the `int_netsuite2__tran_with_converted_amounts` model **from incremental to [ephemeral](https://docs.getdbt.com/docs/build/materializations#ephemeral)**. There was a previous issue with the incremental strategy that could potentially produce duplicate records. Our team has determined that the most sensible path forward is to remove the incremental logic for this model entirely, as its performance benefits have proved marginal and an ephemeral materialization will avoid any duplication issues.
