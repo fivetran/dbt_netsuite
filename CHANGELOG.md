@@ -3,12 +3,12 @@
 This release involves **breaking changes** and will require running a **full refresh**.
 
 ## Bug Fixes
-- Adjusted the materialization of the `int_netsuite2__tran_with_converted_amounts` model **from incremental to [ephemeral](https://docs.getdbt.com/docs/build/materializations#ephemeral)**. There was a previous issue with the incremental strategy that could potentially produce duplicate records in certain situations ([PR #153](https://github.com/fivetran/dbt_netsuite/pull/153)).
-   - Our team has determined that the most sensible path forward is to remove the incremental logic for this model entirely, as its performance benefits have proved marginal and an ephemeral materialization will avoid any duplication issues.
+- Adjusted the materialization of the `int_netsuite2__tran_with_converted_amounts` model **from incremental to [ephemeral](https://docs.getdbt.com/docs/build/materializations#ephemeral)** to resolve potential duplicate records in certain situations ([PR #153](https://github.com/fivetran/dbt_netsuite/pull/153)).
+   - This simplification minimizes duplication risk with marginal performance impact.
 > This is a **Breaking Change**, as `int_netsuite2__tran_with_converted_amounts` will no longer materialize in the warehouse.
 
 ## Feature Updates
-- Added two fields to the `netsuite2__balance_sheet` and `netsuite2__income_statement` models ([PR #151](https://github.com/fivetran/dbt_netsuite/pull/151)):
+- Added two fields to the `netsuite2__balance_sheet` and `netsuite2__income_statement` models to support reporting on amounts in the functional currency alongside consolidated (`converted_amount`) results ([PR #151](https://github.com/fivetran/dbt_netsuite/pull/151)):
   - `transaction_amount`
   - `subsidiary_currency_symbol`
 > This change **will require running a full refresh**, as we are adding new fields to incrementally materialized models.
