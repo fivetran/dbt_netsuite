@@ -263,9 +263,6 @@ models:
         +materialized: incremental # default is table for Bigquery and Databricks
       netsuite2__balance_sheet:
         +materialized: incremental # default is table for Bigquery and Databricks
-      intermediate:
-        int_netsuite2__tran_with_converted_amounts:
-          +materialized: incremental # default is ephemeral for Bigquery and Databricks
 ```
 
 ### (Optional) Step 7: Produce Analytics-Ready Reports with Streamlit App (Bigquery and Snowflake users only)
