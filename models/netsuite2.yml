@@ -116,6 +116,10 @@ models:
           - not_null
     - name: _fivetran_synced_date
       description: _fivetran_synced formatted as a date for incremental logic use.
+    - name: transaction_amount
+      description: Total amount of the transaction line.
+    - name: subsidiary_currency_symbol
+      description: Currency of the subsidiary.
 
   - name: netsuite2__income_statement
     description: >
@@ -196,6 +200,10 @@ models:
           - not_null
     - name: _fivetran_synced_date
       description: _fivetran_synced formatted as a date for incremental logic use.
+    - name: transaction_amount
+      description: Total amount of the transaction line.
+    - name: subsidiary_currency_symbol
+      description: Currency of the subsidiary.
 
   - name: netsuite2__transaction_details
     description: >
