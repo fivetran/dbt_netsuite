@@ -124,7 +124,7 @@ balance_sheet as (
         else accounts.is_leftside
             end as is_account_leftside 
         --The below script allows for accounts table pass through columns.
-        {{ fivetran_utils.persist_pass_through_columns('accounts_pass_through_columns', identifier='accounts') }},
+        {{ netsuite.persist_pass_through_columns(var('accounts_pass_through_columns', none), identifier='accounts') }},
 
         case
         when not accounts.is_balancesheet and lower(accounts.general_rate_type) in ('historical', 'average') then -converted_amount_using_transaction_accounting_period

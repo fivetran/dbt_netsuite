@@ -102,14 +102,14 @@ income_statement as (
         subsidiaries_currencies.symbol as subsidiary_currency_symbol
 
         --The below script allows for accounts table pass through columns.
-        {{ fivetran_utils.persist_pass_through_columns('accounts_pass_through_columns', identifier='accounts') }},
+        {{ netsuite.persist_pass_through_columns(var('accounts_pass_through_columns', none), identifier='accounts') }},
 
         {{ dbt.concat(['accounts.account_number',"'-'", 'accounts.name']) }} as account_number_and_name,
         classes.class_id,
         classes.full_name as class_full_name
 
         --The below script allows for accounts table pass through columns.
-        {{ fivetran_utils.persist_pass_through_columns('classes_pass_through_columns', identifier='classes') }},
+        {{ netsuite.persist_pass_through_columns(var('classes_pass_through_columns', none), identifier='classes') }},
 
         locations.location_id,
         locations.full_name as location_full_name,
@@ -117,7 +117,7 @@ income_statement as (
         departments.full_name as department_full_name
 
         --The below script allows for departments table pass through columns.
-        {{ fivetran_utils.persist_pass_through_columns('departments_pass_through_columns', identifier='departments') }},
+        {{ netsuite.persist_pass_through_columns(var('departments_pass_through_columns', none), identifier='departments') }},
 
         transactions_with_converted_amounts.account_category as account_category,
         case when lower(accounts.account_type_id) = 'income' then 1
