@@ -1,6 +1,6 @@
-{% macro persist_pass_through_columns(pass_through_variable, identifier=none, transform='')) %}
+{% macro persist_pass_through_columns(pass_through_variable, identifier=none, transform='') %}
 
-{{ adapter.dispatch('persist_pass_through_columns', 'netsuite') (pass_through_variable, identifier=none, transform='')) }}
+{{ adapter.dispatch('persist_pass_through_columns', 'netsuite') (pass_through_variable, identifier=none, transform='') }}
 
 {%- endmacro %}
 
