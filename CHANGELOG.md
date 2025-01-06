@@ -64,7 +64,6 @@ vars:
         - name: "sub_field"
           alias: "subsidiary_field"
 ```
-
 - For more details on how to passthrough columns, [please consult our README section](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#passing-through-additional-fields). 
 
 ## Under the Hood
