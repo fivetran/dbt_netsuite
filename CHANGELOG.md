@@ -1,3 +1,12 @@
+# dbt_netsuite v0.17.1
+[PR #155](https://github.com/fivetran/dbt_netsuite/pull/155) includes the following updates: 
+
+## Macro Updates
+- Introduced a local version of the `persist_pass_through_columns` macro that directly calls the variables within our models. This removes the existing string-to-variable conversion and leads to cleaner parsing. 
+- This new macro is applied to all end models with passthrough column functionality, and replaces the existing `persist_pass_through_columns` macro.
+- Models impacted for both `netsuite__*` and `netsuite2__*` include `balance_sheet`, `income_statement`, `transaction_details`.
+- The process for adding passthrough columns remains unchanged. [Consult the README](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#optional-step-6-additional-configurations) for more details.
+
 # dbt_netsuite v0.17.0
 
 This release involves **breaking changes** and will require running a **full refresh**.

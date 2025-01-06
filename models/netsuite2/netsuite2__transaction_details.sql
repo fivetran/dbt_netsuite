@@ -145,8 +145,6 @@ transaction_details as (
     accounts.account_number
 
     --The below script allows for accounts table pass through columns.
-    -- DEBUG: field.name = restricttoaccountingbook, field.alias = restricted_accounting_book, identifier = accounts
-    -- DEBUG: Accounts Pass-Through Columns = {{ var('accounts_pass_through_columns') }} 
     {{ netsuite.persist_pass_through_columns(var('accounts_pass_through_columns'), identifier='accounts') }},
 
     accounts.is_leftside as is_account_leftside,
