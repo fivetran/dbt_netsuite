@@ -1,3 +1,9 @@
+# dbt_netsuite version.version
+
+## Documentation
+- Added Quickstart model counts to README. ([#156](https://github.com/fivetran/dbt_netsuite/pull/156))
+- Corrected references to connectors and connections in the README. ([#156](https://github.com/fivetran/dbt_netsuite/pull/156))
+
 # dbt_netsuite v0.17.0
 
 This release involves **breaking changes** and will require running a **full refresh**.
