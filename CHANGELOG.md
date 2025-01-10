@@ -42,6 +42,123 @@ For Netsuite2, [PR #149](https://github.com/fivetran/dbt_netsuite/pull/149) incl
 # dbt_netsuite v0.15.0
 For Netsuite2, [PR #144](https://github.com/fivetran/dbt_netsuite/pull/144) includes the following updates: 
 
+## Breaking Changes (Full refresh required after upgrading)
+- Corrected `account_number` field logic for the `netsuite2__balance_sheet` model to match the native Balance Sheet report within Netsuite:
+  - Income statement accounts should use the account number of the system-generated retained earnings account. 
+  - Cumulative Translation Adjustment (CTA) accounts should use the account number of the system-generated CTA account.
+  - We modified the logic to ensure the account number is the retained earnings number for income statement accounts in the balance sheet, and CTA rather than null. 
+  - Since this will change the `account_number`, a `--full-refresh` after upgrading will be required. 
+
+## New Fields
+- Added commonly used fields to each end model. They are listed in the below table.
+- Also added foreign keys to each end model to make it easier for customers to join back to source tables for better insights.
+
+| **Models**                | **New Fields**                                                                                                                                |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| [netsuite2__transaction_details](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__transaction_details)             | New fields:  `is_reversal`, `reversal_transaction_id`, `reversal_date`, `is_reversal_defer`, `is_eliminate`, `exchange_rate`, `department_full_name`,  `subsidiary_full_name`, `subsidiary_currency_symbol`, `transaction_line_amount`, `account_display_name`  <br> <br> New keys: `customer_id`, `vendor_id`, `class_id`, `location_id`, `department_id`, `currency_id`, `parent_account_id`, `vendor_category_id` (if `netsuite2__using_vendor_categories` is enabled)  |
+| [netsuite2__balance_sheet](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__balance_sheet)            | New fields: `account_display_name`, `subsidiary_full_name`, `is_account_intercompany`,  `is_account_leftside` |
+| [netsuite2__income_statement](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__income_statement)             |  New fields: `account_display_name` <br> <br>   New keys: `class_id`, `location_id`, `department_id` |
+
+
+> **IMPORTANT**: All of the affected models have pass-through functionality. If you have already been using passthrough column variables to include the newly added fields (without aliases), you **MUST** remove the fields from your passthrough variable configuration in order to avoid duplicate column errors.
+## Feature Updates
+- You can now leverage passthrough columns in `netsuite2__transaction_details` to bring in additional fields from the `locations` and `subsidiaries` source tables. 
+- To add additional columns to this model, do so by adding our pass-through column variables `locations_pass_through_columns` and `subsidiaries_pass_through_columns` to your `dbt_project.yml` file:
+
+```yml
+vars:
+    locations_pass_through_columns: 
+        - name: "location_custom_field"
+    subsidiaries_pass_through_columns: 
+        - name: "sub_field"
+          alias: "subsidiary_field"
+```
+- For more details on how to passthrough columns, [please consult our README section](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#passing-through-additional-fields). 
+## Under the Hood
+- Additional consistency tests added for each Netsuite2 end model in order to be used during integration test validations.
+- Updated yml documentation with new fields.
+## Contributors
+- [@jmongerlyra](https://github.com/jmongerlyra) ([PR #136](https://github.com/fivetran/dbt_netsuite/pull/136))
+- [@fastbarreto](https://github.com/fastbarreto) ([PR #124](https://github.com/fivetran/dbt_netsuite/pull/124))
+# dbt_netsuite v0.14.0
+For Netsuite2, [PR #138](https://github.com/fivetran/dbt_netsuite/pull/138) and [PR #132](https://github.com/fivetran/dbt_netsuite/pull/132) include the following updates: 
+## Breaking Changes (Full refresh required after upgrading)
+- Partitioned models have had the `partition_by` logic adjusted to include a granularity of a month. This change should only impact BigQuery warehouses and was applied to avoid the common `too many partitions` error users have experienced due to over-partitioning by day. Therefore, adjusting the partition to a monthly granularity will increase the partition windows and allow for more performant querying. 
+- This change was applied to the following models:
+  - `int_netsuite2__tran_with_converted_amounts`
+  - `netsuite2__balance_sheet`
+  - `netsuite2__income_statement`
+  - `netsuite2__transaction_details`
+
+## Upstream Netsuite Source Breaking Changes (Full refresh required after upgrading)
+- Casted specific timestamp fields across all staging models as dates where the Netsuite UI does not perform timezone conversion. Keeping these fields as type timestamp causes issues in reporting tools that perform automatic timezone conversion.   
+- Adds additional commonly used fields within the `stg_netsuite2__*` models. 
+> **IMPORTANT**: Nearly all of the affected models have pass-through functionality. If you have already been using passthrough column variables to include the newly added fields (without aliases), you **MUST** remove the fields from your passthrough variable configuration in order to avoid duplicate column errors.
+- Please refer to the [v0.11.0 `dbt_netsuite_source` release](https://github.com/fivetran/dbt_netsuite_source/releases/tag/v0.11.0) for more details regarding the upstream changes to view the fields that were added and impacted.
+
+## Bug Fixes
+- Updates logic in `netsuite2__transaction_details` to select the appropriate customer and vendor values based on the whether the transaction type is a customer invoice or credit, or a vendor bill or credit.
+  - Customer fields impacted: `company_name`, `customer_city`, `customer_state`, `customer_zipcode`, `customer_country`, `customer_date_first_order`, `customer_external_id`.
+  - Vendor fields impacted: `vendor_category_name`, `vendor_name`, `vendor_create_date`.
+
+## Feature Updates
+- New fields `customer_alt_name` and `vendor_alt_name` were introduced into `netsuite2__transaction_details`, after being added into the `stg_netsuite2__customers` and `stg_netsuite2__vendors` models in the most [recent release of `dbt_netsuite_source`](https://github.com/fivetran/dbt_netsuite_source/releases/tag/v0.11.0).  
+- We added the `employee` model in the [`v0.11.0` release of `dbt_netsuite_source`](https://github.com/fivetran/dbt_netsuite_source/releases/tag/v0.11.0), which will materialize `stg_netsuite2__employees` from the source package by default.
+  - Since this model is only used by a subset of customers, we've introduced the variable `netsuite2__using_employees` to allow users who don't utilize the `employee` table in Netsuite2 the ability to disable that functionality within your `dbt_project.yml`. This value is set to true by default. [Instructions are available in the README for how to disable this variable](https://github.com/fivetran/dbt_netsuite/?tab=readme-ov-file#step-5-disable-models-for-non-existent-sources-netsuite2-only).
+
+## Under the Hood
+- Consistency tests added for each Netsuite2 end model in order to be used during integration test validations.
+
+## Contributors
+- [@jmongerlyra](https://github.com/jmongerlyra) ([PR #131](https://github.com/fivetran/dbt_netsuite/pull/131))
+
+# dbt_netsuite v0.13.0
+
+For Netsuite2, [PR #116](https://github.com/fivetran/dbt_netsuite/pull/116) includes the following updates: 
+
+## 🚨 Breaking Changes 🚨
+> ⚠️ Since the following changes are breaking, a `--full-refresh` after upgrading will be required.
+- Performance improvements:
+  - Snowflake, Postgres, and Redshift destinations:
+    - Added an incremental strategy for the following models:
+      - `int_netsuite2__tran_with_converted_amounts`
+      - `netsuite2__balance_sheet`
+      - `netsuite2__income_statement`
+      - `netsuite2__transaction_details`
+  - Bigquery and Databricks destinations:
+    - Due to the variation in pricing and runtime priorities for customers, by default we chose to materialize these models as tables instead of incremental materialization for Bigquery and Databricks. For more information on this decision, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy) of the DECISIONLOG.
+    - To enable incremental materialization for these destinations, see the [Incremental Materialization section](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#-adding-incremental-materialization-for-bigquery-and-databricks) of the README for instructions.
+
+- To reduce storage, updated the default materialization of the upstream staging models to views. (See the [dbt_netsuite_source CHANGELOG](https://github.com/fivetran/dbt_netsuite_source/blob/main/CHANGELOG.md#dbt_netsuite_source-v0100) for more details.)
+
+## 🎉 Features
+- Added a default 3-day look-back to incremental models to accommodate late arriving records, based on the `_fivetran_synced_date` of transaction records. The number of days can be changed by setting the var `lookback_window` in your dbt_project.yml. See the [Lookback Window section of the README](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#lookback-window) for more details. 
+- Added macro `netsuite_lookback` to streamline the lookback calculation.
+
+## Under the Hood:
+- Added integration testing pipeline for Databricks SQL Warehouse.
+- Included auto-releaser GitHub Actions workflow to automate future releases.
+
+For Netsuite2, [PR #114](https://github.com/fivetran/dbt_netsuite/pull/114) includes the following updates:
+
+##  Features
+- Added the following columns to model `netsuite2__transaction_details`:
+  - department_id
+  - entity_id
+  - is_closed
+  - is_main_line
+  - is_tax_line
+  - item_id
+  - transaction_number
+- ❗Note: If you have already added any of these fields as passthrough columns to the `transactions_pass_through_columns`, `transaction_lines_pass_through_columns`, `accounts_pass_through_columns`, or `departments_pass_through_columns` vars, you will need to remove or alias these fields from the var to avoid duplicate column errors.
+
+- Removed the unnecessary reference to `entities` in the `netsuite2__transaction_details` model.
+
+## 📝 Documentation Update 📝
+- [Updated DECISIONLOG](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#why-converted-transaction-amounts-are-null-if-they-are-non-posting) with our reasoning for why we don't bring in future-facing transactions and leave the `converted_amount` in transaction details empty. ([#115](https://github.com/fivetran/dbt_netsuite/issues/115))
+
+## Contributors:
+- [@FrankTub](https://github.com/FrankTub) ([#114](https://github.com/fivetran/dbt_netsuite/issues/114))
 
 # dbt_netsuite v0.12.0
 ## 🎁 Official release for Netsuite2! 🎁
