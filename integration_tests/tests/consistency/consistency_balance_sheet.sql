@@ -9,7 +9,7 @@ with prod as (
 ),
 
 dev as (
-    select * except (transaction_amount, subsidiary_currency_symbol) -- remove after v0.17.0
+    select *
     from {{ target.schema }}_netsuite_dev.netsuite2__balance_sheet
 ),
 

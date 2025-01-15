@@ -93,10 +93,10 @@ transaction_details as (
     (lower(transactions.is_advanced_intercompany) = 'yes' or lower(transactions.is_intercompany) = 'yes') as is_transaction_intercompany
 
     --The below script allows for transactions table pass through columns.
-    {{ fivetran_utils.persist_pass_through_columns('transactions_pass_through_columns', identifier='transactions') }}    
+    {{ netsuite.persist_pass_through_columns(var('transactions_pass_through_columns', []), identifier='transactions') }}    
 
     --The below script allows for transaction lines table pass through columns.
-    {{ fivetran_utils.persist_pass_through_columns('transaction_lines_pass_through_columns', identifier='transaction_lines') }},
+    {{ netsuite.persist_pass_through_columns(var('transaction_lines_pass_through_columns', []), identifier='transaction_lines') }},
 
     accounting_periods.ending_at as accounting_period_ending,
     accounting_periods.full_name as accounting_period_full_name,
@@ -109,7 +109,7 @@ transaction_details as (
     accounts.account_number
 
     --The below script allows for accounts table pass through columns.
-    {{ fivetran_utils.persist_pass_through_columns('accounts_pass_through_columns', identifier='accounts') }},
+    {{ netsuite.persist_pass_through_columns(var('accounts_pass_through_columns', []), identifier='accounts') }},
 
     lower(accounts.is_leftside) = 't' as is_account_leftside,
     lower(accounts.type_name) like 'accounts payable%' as is_accounts_payable,
@@ -140,7 +140,7 @@ transaction_details as (
     departments.name as department_name
 
     --The below script allows for departments table pass through columns.
-    {{ fivetran_utils.persist_pass_through_columns('departments_pass_through_columns', identifier='departments') }},
+    {{ netsuite.persist_pass_through_columns(var('departments_pass_through_columns', []), identifier='departments') }},
 
     subsidiaries.name as subsidiary_name,
     case
