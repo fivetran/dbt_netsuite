@@ -4,6 +4,16 @@
 - Added Quickstart model counts to README. ([#156](https://github.com/fivetran/dbt_netsuite/pull/156))
 - Corrected references to connectors and connections in the README. ([#156](https://github.com/fivetran/dbt_netsuite/pull/156))
 
+# dbt_netsuite v0.17.1
+[PR #155](https://github.com/fivetran/dbt_netsuite/pull/155) includes the following updates: 
+
+## Macro Updates
+- Introduced a local version of the `persist_pass_through_columns` macro that directly calls the variables within our models. This removes the existing string-to-variable conversion and leads to cleaner parsing. 
+  - This new macro has no functional changes from the previous macro and will not require customers to make any changes on their end.
+- This new macro is applied to all end models with passthrough column functionality, and replaces the existing `persist_pass_through_columns` macro.
+- Models impacted for both `netsuite__*` and `netsuite2__*` include `balance_sheet`, `income_statement`, `transaction_details`.
+- The process for adding passthrough columns remains unchanged. [Consult the README](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#optional-step-6-additional-configurations) for more details.
+
 # dbt_netsuite v0.17.0
 
 This release involves **breaking changes** and will require running a **full refresh**.
@@ -57,7 +67,6 @@ For Netsuite2, [PR #144](https://github.com/fivetran/dbt_netsuite/pull/144) incl
 
 
 > **IMPORTANT**: All of the affected models have pass-through functionality. If you have already been using passthrough column variables to include the newly added fields (without aliases), you **MUST** remove the fields from your passthrough variable configuration in order to avoid duplicate column errors.
-
 ## Feature Updates
 - You can now leverage passthrough columns in `netsuite2__transaction_details` to bring in additional fields from the `locations` and `subsidiaries` source tables. 
 - To add additional columns to this model, do so by adding our pass-through column variables `locations_pass_through_columns` and `subsidiaries_pass_through_columns` to your `dbt_project.yml` file:
@@ -70,21 +79,15 @@ vars:
         - name: "sub_field"
           alias: "subsidiary_field"
 ```
-
 - For more details on how to passthrough columns, [please consult our README section](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#passing-through-additional-fields). 
-
 ## Under the Hood
 - Additional consistency tests added for each Netsuite2 end model in order to be used during integration test validations.
 - Updated yml documentation with new fields.
-
 ## Contributors
 - [@jmongerlyra](https://github.com/jmongerlyra) ([PR #136](https://github.com/fivetran/dbt_netsuite/pull/136))
 - [@fastbarreto](https://github.com/fastbarreto) ([PR #124](https://github.com/fivetran/dbt_netsuite/pull/124))
-
 # dbt_netsuite v0.14.0
-
 For Netsuite2, [PR #138](https://github.com/fivetran/dbt_netsuite/pull/138) and [PR #132](https://github.com/fivetran/dbt_netsuite/pull/132) include the following updates: 
-
 ## Breaking Changes (Full refresh required after upgrading)
 - Partitioned models have had the `partition_by` logic adjusted to include a granularity of a month. This change should only impact BigQuery warehouses and was applied to avoid the common `too many partitions` error users have experienced due to over-partitioning by day. Therefore, adjusting the partition to a monthly granularity will increase the partition windows and allow for more performant querying. 
 - This change was applied to the following models:
