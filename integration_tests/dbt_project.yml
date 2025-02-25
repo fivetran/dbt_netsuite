@@ -1,5 +1,5 @@
 name: 'netsuite_integration_tests'
-version: '0.17.1'
+version: '0.17.2'
 profile: 'integration_tests'
 config-version: 2
 
@@ -8,12 +8,12 @@ models:
   # +schema: "netsuite_{{ var('directed_schema','dev') }}"  ## To be used for validation tests
 
 vars:
-  netsuite_schema: netsuite_integration_tests_8
+  netsuite_schema: netsuite_integration_tests_88
   netsuite_data_model_override: netsuite
 
   # Enable below when generating docs
-  # netsuite2__multibook_accounting_enabled: true
-  # netsuite2__using_to_subsidiary: true
+  netsuite2__multibook_accounting_enabled: true
+  netsuite2__using_to_subsidiary: true
 
   netsuite_source:
     # Netsuite Seed Data
