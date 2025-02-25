@@ -1,10 +1,11 @@
 # dbt_netsuite v0.17.2-a1
 
 ## Fivetran Quickstart Updates
-- Added the Netsuite (netsuite.com) output models in the `public_models` configuration of the `quickstart.yml`. This ensures the netsuite.com models are accessible in Quickstart. The netsuite.com models include: ([#157](https://github.com/fivetran/dbt_netsuite/pull/157))
-  - `netsuite__balance_sheet`
-  - `netsuite__income_statement`
-  - `netsuite__transaction_details`
+- Added the Netsuite (netsuite.com) output models in the `public_models` configuration of the `quickstart.yml`. This ensures the netsuite.com models are accessible in Quickstart. ([#157](https://github.com/fivetran/dbt_netsuite/pull/157))
+  - The netsuite.com models include: 
+    - `netsuite__balance_sheet`
+    - `netsuite__income_statement`
+    - `netsuite__transaction_details`
 
 ## Documentation
 - Added Quickstart model counts to README. ([#156](https://github.com/fivetran/dbt_netsuite/pull/156))
