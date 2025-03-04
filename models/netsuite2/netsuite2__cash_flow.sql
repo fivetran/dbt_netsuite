@@ -1,9 +1,10 @@
 {{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'))}}
 
-{%- set multibook_enabled = var('netsuite2__multibook_accounting_enabled', false) -%}
+{%- set multibook_enabled = true if var('netsuite2__multibook_accounting_enabled', false) -%}
 {%- set multibook_cols = ['accounting_book_id', 'accounting_book_name'] -%}
 
-{%- set to_subsidiary_enabled = var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_in_rate', true) -%}
+{%- set to_subsidiary_enabled = (var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true)) -%}
+{{ print('to sub ' ~ to_subsidiary_enabled)}}
 {%- set to_subsidiary_cols = ['to_subsidiary_id', 'to_subsidiary_name', 'to_subsidiary_currency_symbol'] -%}
 
 {%- set base_cols_list = ['accounting_period_ending', 'subsidiary_id', 'subsidiary_name'] -%}
@@ -14,7 +15,7 @@
 with income_statement as (
     select
         {{ base_cols_sql }},
-        sum(case when account_category in ('Income', 'Expense') then transaction_amount else 0 end) as net_income,
+        sum(case when lower(account_category) in ('income', 'expense') then transaction_amount else 0 end) as net_income,
         sum(case when lower(account_name) like '%depreciation%' or lower(account_name) like '%amortization%' then transaction_amount else 0 end) as non_cash_expenses
     from {{ ref('netsuite2__income_statement') }}
     {{ dbt_utils.group_by(base_cols_list|length) }}
