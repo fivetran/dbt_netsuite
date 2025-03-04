@@ -4,7 +4,6 @@
 {%- set multibook_cols = ['accounting_book_id', 'accounting_book_name'] -%}
 
 {%- set to_subsidiary_enabled = (var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true)) -%}
-{{ print('to sub ' ~ to_subsidiary_enabled)}}
 {%- set to_subsidiary_cols = ['to_subsidiary_id', 'to_subsidiary_name', 'to_subsidiary_currency_symbol'] -%}
 
 {%- set base_cols_list = ['accounting_period_ending', 'subsidiary_id', 'subsidiary_name'] -%}
