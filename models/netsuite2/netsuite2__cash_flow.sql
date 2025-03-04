@@ -1,38 +1,39 @@
 {{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'))}}
 
 {%- set multibook_enabled = var('netsuite2__multibook_accounting_enabled', false) -%}
-{%- set to_subsidiary_enabled = var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_in_rate', true) -%}
 {%- set multibook_cols = ['accounting_book_id', 'accounting_book_name'] -%}
+
+{%- set to_subsidiary_enabled = var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_in_rate', true) -%}
 {%- set to_subsidiary_cols = ['to_subsidiary_id', 'to_subsidiary_name', 'to_subsidiary_currency_symbol'] -%}
 
-{%- set grain_cols_list = ['accounting_period_ending', 'subsidiary_id', 'subsidiary_name'] -%}
-{%- do grain_cols_list.extend(multibook_cols) if multibook_enabled -%}
-{%- do grain_cols_list.extend(to_subsidiary_cols) if to_subsidiary_enabled -%}
-{%- set grain_cols_sql = grain_cols_list | join(',\n') -%}
-
-{%- set helper_cols_list = ['account_type_name','account_type_id','account_name','account_id'] -%}
-{%- set helper_cols_sql = helper_cols_list | join(',\n') -%}
+{%- set base_cols_list = ['accounting_period_ending', 'subsidiary_id', 'subsidiary_name'] -%}
+{%- do base_cols_list.extend(multibook_cols) if multibook_enabled -%}
+{%- do base_cols_list.extend(to_subsidiary_cols) if to_subsidiary_enabled -%}
+{%- set base_cols_sql = base_cols_list | join(',\n') -%}
 
 with income_statement as (
     select
-        {{ grain_cols_sql }},
+        {{ base_cols_sql }},
         sum(case when account_category in ('Income', 'Expense') then transaction_amount else 0 end) as net_income,
         sum(case when lower(account_name) like '%depreciation%' or lower(account_name) like '%amortization%' then transaction_amount else 0 end) as non_cash_expenses
     from {{ ref('netsuite2__income_statement') }}
-    {{ dbt_utils.group_by(grain_cols_list|length) }}
+    {{ dbt_utils.group_by(base_cols_list|length) }}
 ),
 
 balance_sheet as (
     select
-        {{ grain_cols_sql }},
-        {{ helper_cols_sql }},
+        {{ base_cols_sql }},
+        account_type_name,
+        account_type_id,
+        account_name,
+        account_id,
         sum(transaction_amount) as transaction_amount
     from {{ ref('netsuite2__balance_sheet') }}
     where lower(account_type_id) in ('acctpay', 'acctrec', 'bank', 'credcard', 
         'deferexpense', 'deferrevenue', 'equity', 'fixedasset', 'longtermliab', 
         'othasset', 'othcurrasset', 'othcurrliab', 'unbilledrec')
     and not is_accounting_period_adjustment
-    {{ dbt_utils.group_by(grain_cols_list|length + helper_cols_list|length) }}
+    {{ dbt_utils.group_by(base_cols_list|length + 4) }}
 ),
 
 balance_sheet_prev_transaction as (
@@ -40,9 +41,9 @@ balance_sheet_prev_transaction as (
         *,
         lag(transaction_amount) over (
             partition by -- need to make these dynamic
+                {{ 'accounting_book_id,' if multibook_enabled }}
+                {{ 'to_subsidiary_id,' if to_subsidiary_enabled }}
                 subsidiary_id,
-                accounting_book_id,
-                to_subsidiary_id,
                 account_id
             order by accounting_period_ending
         ) as prev_transaction_amount
@@ -58,7 +59,7 @@ balance_sheet_changes as (
 
 category_changes as (
     select
-        {{ grain_cols_sql }},
+        {{ base_cols_sql }},
         -- working capital changes 
         sum(case when lower(account_type_id) = 'acctrec' 
             then change_since_prev_period else 0 end) as change_in_ar,
@@ -83,12 +84,12 @@ category_changes as (
         sum(case when lower(account_type_id) = 'bank'
             then change_since_prev_period else 0 end) as change_in_cash
     from balance_sheet_changes
-    {{ dbt_utils.group_by(grain_cols_list|length) }}
+    {{ dbt_utils.group_by(base_cols_list|length) }}
 ),
 
 cash_flow as (
     select
-        {% for col in grain_cols_list %}
+        {% for col in base_cols_list %}
         income_statement.{{ col }},
         {% endfor %}
 
@@ -119,10 +120,10 @@ cash_flow as (
     from income_statement
     left join category_changes
         on 
-        {% for col in grain_cols_list %}
-            {{ 'and' if not loop.first}} income_statement.{{ col }} = category_changes. {{ col }}
+        {% for col in base_cols_list %}
+            {{ 'and' if not loop.first}} income_statement.{{ col }} = category_changes.{{ col }}
         {% endfor %}
-    {{ dbt_utils.group_by(grain_cols_list|length) }}
+    {{ dbt_utils.group_by(base_cols_list|length) }}
 ),
 
 final as (
