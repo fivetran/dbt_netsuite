@@ -1,4 +1,4 @@
-# dbt_netsuite v0.17.2
+# dbt_netsuite v0.18.0
 
 ## Fivetran Quickstart Updates
 - Added the Netsuite (netsuite.com) output models in the `public_models` configuration of the `quickstart.yml`. This ensures the netsuite.com models are accessible in Quickstart. ([#157](https://github.com/fivetran/dbt_netsuite/pull/157))
