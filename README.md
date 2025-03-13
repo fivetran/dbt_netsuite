@@ -104,7 +104,7 @@ Include the following netsuite package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/netsuite
-    version: [">=0.17.0", "<0.18.0"]
+    version: [">=0.18.0", "<0.19.0"]
     
 ```
 ### Step 3: Define Netsuite.com or Netsuite2 Source
