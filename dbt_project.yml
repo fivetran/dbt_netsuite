@@ -38,6 +38,7 @@ vars:
     netsuite2_accounting_book_subsidiaries: "{{ ref('stg_netsuite2__accounting_book_subsidiaries') }}"
     netsuite2_accounting_books: "{{ ref('stg_netsuite2__accounting_books') }}"
     netsuite2_accounting_period_fiscal_calendars: "{{ ref('stg_netsuite2__accounting_period_fiscal_cal') }}"
+    netsuite2_fiscal_calendar: "{{ ref('stg_netsuite2__fiscal_calendar') }}"
     netsuite2_accounting_periods: "{{ ref('stg_netsuite2__accounting_periods') }}"
     netsuite2_accounts: "{{ ref('stg_netsuite2__accounts') }}"
     netsuite2_classes: "{{ ref('stg_netsuite2__classes') }}"
