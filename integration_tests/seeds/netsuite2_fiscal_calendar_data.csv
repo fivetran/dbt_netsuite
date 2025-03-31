@@ -1,0 +1,4 @@
+id,externalid,fiscalmonth,isdefault,name,_fivetran_deleted,date_deleted,_fivetran_synced
+1,,JAN,true,Calendar Year,false,,2022-05-27 13:00:58
+2,,APR,false,April Fiscal Year,false,,2022-05-27 13:00:58
+3,,CAL,false,Incorrectly Formed Month Abbreviation,false,,2022-05-27 13:00:58

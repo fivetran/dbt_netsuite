@@ -8,6 +8,7 @@ accounting_period_fiscal_calendars as (
     select * from {{ var('netsuite2_accounting_period_fiscal_calendars') }}
 ),
 
+{% if var('netsuite2__fiscal_calendar_enabled', false) %}
 fiscal_calendar as (
     select * from {{ var('netsuite2_fiscal_calendar') }}
 ),
@@ -48,6 +49,19 @@ final as (
         {{ date_from_parts('fiscal_year_start', 'fiscal_start_month', '1') }} as fiscal_year_trunc
     from adjusted
 )
+{% else %}
+
+final as (
+
+    select 
+        accounting_periods.*,
+        accounting_period_fiscal_calendars.fiscal_calendar_id,
+        cast({{ dbt.date_trunc('year', 'accounting_periods.starting_at') }} as date) as fiscal_year_trunc
+    from accounting_periods
+    left join accounting_period_fiscal_calendars
+        on accounting_periods.accounting_period_id = accounting_period_fiscal_calendars.accounting_period_id
+)
+{% endif %}
 
 select *
 from final

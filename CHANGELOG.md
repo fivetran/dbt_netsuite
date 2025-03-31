@@ -1,3 +1,14 @@
+# dbt_netsuite v0.19.0
+
+## Breaking Changes (full refresh required)
+- Added optional `fiscalcalendar` source table to support accurate fiscal year start dates (currently defaulted to calendar year). This table, related models (`stg_netsuite2__fiscal_calendar_tmp` and `stg_netsuite2__fiscal_calendar`), and relevant adjustments within `int_netsuite2__accounting_periods` are disabled by default.
+  - To enable: turn on the `fiscalcalendar` table in the connection schema tab.
+  - For dbt Core, also set the `netsuite2__fiscal_calendar_enabled` variable to true (default is false).
+
+## Under the Hood
+- Added `fiscal_year_trunc` to `int_netsuite2__accounting_periods`, which returns the truncated calendar year (default) or fiscal year (if `netsuite2__fiscal_calendar_enabled` is enabled). This replaces the previous case statements in `netsuite2__balance_sheet` for reporting_accounting_periods and transaction_accounting_periods.
+- Included the `netsuite2__fiscal_calendar_enabled` variable and `fiscalcalendar` source table configuration in the `quickstart.yml`.
+
 # dbt_netsuite v0.18.0
 
 ## Fivetran Quickstart Updates
