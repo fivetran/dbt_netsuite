@@ -16,7 +16,7 @@ table_variables:
   netsuite2__using_employees:
     - employee
   netsuite2__fiscal_calendar_enabled:
-    - fiscalcalendar
+    - FiscalCalendar
 
 destination_configurations:
   databricks:
