@@ -22,9 +22,10 @@ aggregated_transactions as (
     select
         {{ base_cols_sql }},
         cash_flow_category,
+        cash_flow_subcategory,
         sum(transaction_amount) as cash_ending_period
     from cash_flow_classifications
-    {{ dbt_utils.group_by(base_cols_list|length + 1) }}
+    {{ dbt_utils.group_by(base_cols_list|length + 2) }}
 ), 
 
 with_lag as (
@@ -33,7 +34,8 @@ with_lag as (
         lag(cash_ending_period) over (
             partition by
                 {{ base_cols_sql }},
-                cash_flow_category
+                cash_flow_category,
+                cash_flow_subcategory
             order by accounting_period_ending
         ) as cash_beginning_period
     from aggregated_transactions
@@ -44,6 +46,7 @@ final as (
         {{ base_cols_sql }},
         accounting_period_ending,
         cash_flow_category,
+        cash_flow_subcategory,
         cash_beginning_period,
         cash_ending_period,
         cash_ending_period - coalesce(cash_beginning_period, 0) as cash_net_period
