@@ -6,12 +6,8 @@
     date({{ year }}, {{ month }}, {{ day }})
 {% endmacro %}
 
-{% macro bigquery__date_from_parts(year, month, day) %}
-    date({{ year }}, {{ month }}, {{ day }})
-{% endmacro %}
-
 {% macro snowflake__date_from_parts(year, month, day) %}
-    to_date(to_timestamp({{ year }} || '-' || lpad({{ month }}, 2, '0') || '-' || lpad({{ day }}, 2, '0')))
+    date_from_parts({{ year }}, lpad({{ month }}, 2, '0'), lpad({{ day }}, 2, '0'))
 {% endmacro %}
 
 {% macro postgres__date_from_parts(year, month, day) %}
@@ -23,5 +19,5 @@
 {% endmacro %}
 
 {% macro databricks__date_from_parts(year, month, day) %}
-    to_date(concat({{ year }}, '-', lpad({{ month }}, 2, '0'), '-', lpad({{ day }}, 2, '0')))
+    make_date({{ year }}, lpad({{ month }}, 2, '0'), lpad({{ day }}, 2, '0'))
 {% endmacro %}
