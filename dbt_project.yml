@@ -13,8 +13,31 @@ models:
     netsuite2:
       intermediate:
         +materialized: ephemeral
+        # int_netsuite2__cash_flow_classifications:
+        #   +materialized: table
 
 vars:
+  cash_flow_defaults:
+    operations_transactions:
+      - condition: "lower(account_type_id) = 'acctrec'"
+        subcategory: "cash_from_customers"
+      - condition: "lower(account_type_id) = 'acctpay'"
+        subcategory: "cash_to_suppliers"
+      - condition: "lower(account_type_id) in ('expense', 'othcurrliab')"
+        subcategory: "cash_for_expenses"
+      - condition: "lower(account_name) like '%good%will%'"
+        exclude: true
+
+    investments_transactions:
+      - condition: "lower(account_type_id) in ('fixedasset', 'othasset', 'deferexpense')"
+        subcategory: "cash_spent_on_assets"
+      - condition: "lower(account_type_id) = 'unbilledrec'"
+        subcategory: "cash_spent_on_investments"
+
+    finances_transactions:
+      - condition: "lower(account_type_id) in ('equity', 'longtermliab')"
+        subcategory: "cash_from_financing"
+
   netsuite:
     ## Netsuite staging models
     netsuite_accounting_books: "{{ ref('stg_netsuite__accounting_books') }}"
