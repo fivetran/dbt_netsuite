@@ -21,7 +21,7 @@ transaction_classifications as (
               {% if filter.exclude is defined and filter.exclude %}
                 then null
               {% else %}
-                then '{{ category }}'
+                then '{{ category }}_transactions'
               {% endif %}
             {% endfor %}
           {% endfor %}

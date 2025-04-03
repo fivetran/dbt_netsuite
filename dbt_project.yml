@@ -18,7 +18,7 @@ models:
 
 vars:
   cash_flow_defaults:
-    operations_transactions:
+    operations:
       - condition: "lower(account_type_id) = 'acctrec'"
         subcategory: "cash_from_customers"
       - condition: "lower(account_type_id) = 'acctpay'"
@@ -28,13 +28,13 @@ vars:
       - condition: "lower(account_name) like '%good%will%'"
         exclude: true
 
-    investments_transactions:
+    investment:
       - condition: "lower(account_type_id) in ('fixedasset', 'othasset', 'deferexpense')"
         subcategory: "cash_spent_on_assets"
       - condition: "lower(account_type_id) = 'unbilledrec'"
         subcategory: "cash_spent_on_investments"
 
-    finances_transactions:
+    finance:
       - condition: "lower(account_type_id) in ('equity', 'longtermliab')"
         subcategory: "cash_from_financing"
 
