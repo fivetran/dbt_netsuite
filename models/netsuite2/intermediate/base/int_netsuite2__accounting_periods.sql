@@ -46,7 +46,7 @@ adjusted as (
 final as (
     select
         *,
-        {{ date_from_parts('fiscal_year_start', 'fiscal_start_month', '1') }} as fiscal_year_trunc
+        {{ netsuite.date_from_parts('fiscal_year_start', 'fiscal_start_month', '1') }} as fiscal_year_trunc
     from adjusted
 )
 {% else %}
