@@ -345,5 +345,3 @@ surrogate_key as (
 
 select *
 from surrogate_key
-where accounting_period_ending >= '2025-01-31'
-and accounting_period_ending < '2025-03-01'
