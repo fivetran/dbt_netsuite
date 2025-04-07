@@ -1,16 +1,19 @@
 {{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
 
 with accounting_periods as (
-    select * from {{ var('netsuite2_accounting_periods') }}
+    select * 
+    from {{ var('netsuite2_accounting_periods') }}
 ),
 
 accounting_period_fiscal_calendars as (
-    select * from {{ var('netsuite2_accounting_period_fiscal_calendars') }}
+    select * 
+    from {{ var('netsuite2_accounting_period_fiscal_calendars') }}
 ),
 
 {% if var('netsuite2__fiscal_calendar_enabled', false) %}
 fiscal_calendar as (
-    select * from {{ var('netsuite2_fiscal_calendar') }}
+    select * 
+    from {{ var('netsuite2_fiscal_calendar') }}
 ),
 
 joined as (
