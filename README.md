@@ -75,6 +75,7 @@ To use this dbt package, you must have At least either one Fivetran **Netsuite**
 - department
 - entity
 - entityaddress
+- fiscalcalendar (required for non–January 1 fiscal year start)
 - item
 - job
 - location
@@ -104,7 +105,7 @@ Include the following netsuite package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/netsuite
-    version: [">=0.18.0", "<0.19.0"]
+    version: [">=0.19.0", "<0.20.0"]
     
 ```
 ### Step 3: Define Netsuite.com or Netsuite2 Source
@@ -124,7 +125,7 @@ vars:
 ```
 
 ### Step 5: Disable models for non-existent sources (Netsuite2 only)
-Your Netsuite connection may not sync every table that this package expects. If your syncs exclude certain tables, it is because you either don't use that feature in Netsuite or actively excluded some tables from your syncs. To disable the corresponding functionality in the package, you must add the relevant variables. By default, all variables are assumed to be true. Add variables for only the tables you would like to disable:
+Your Netsuite connection may not sync every table that this package expects. If your syncs exclude certain tables, it is because you either don't use that feature in Netsuite or actively excluded some tables from your syncs. To disable the corresponding functionality in the package, you must add the relevant variables. By default, most variables are assumed to be true with the exception of `netsuite2__fiscal_calendar_enabled`. Add variables for only the tables you would like to disable/enable:
 ```yml
 vars:
     netsuite2__multibook_accounting_enabled: true # False by default. Disable `accountingbooksubsidiary` and `accountingbook` if you are not using the Multi-Book Accounting feature
@@ -132,6 +133,7 @@ vars:
     netsuite2__using_vendor_categories: false # True by default. Disable `vendorcategory` if you don't categorize your vendors
     netsuite2__using_jobs: false # True by default. Disable `job` if you don't use jobs
     netsuite2__using_employees: false # True by default. Disable `employee` if you don't use employees.
+    netsuite2__fiscal_calendar_enabled: true # False by default. Enable `fiscalcalendar` if you have a fiscal year starting on a month different than January.
 ```
 > **Note**: The Netsuite dbt package currently only supports disabling transforms of [Multi-Book Accounting](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/book_3831565332.html) related tables (`accountingbooksubsidiary` and `accountingbook`) and the `vendorcategory` and `job` source tables. Please create an issue to request additional tables and/or [features](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/bridgehead_N233872.html) to exclude.
 >
@@ -287,7 +289,7 @@ This dbt package is dependent on the following dbt packages. These dependencies 
 ```yml
 packages:
     - package: fivetran/netsuite_source
-      version: [">=0.11.0", "<0.12.0"]
+      version: [">=0.12.0", "<0.13.0"]
 
     - package: fivetran/fivetran_utils
       version: [">=0.4.0", "<0.5.0"]
