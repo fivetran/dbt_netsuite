@@ -11,7 +11,7 @@ vars:
   netsuite_schema: netsuite_integration_tests_9
   netsuite_data_model_override: netsuite
 
-  # Enable below when generating docs
+  ## Enable below when generating docs
   # netsuite2__multibook_accounting_enabled: true
   # netsuite2__using_to_subsidiary: true
   # netsuite2__fiscal_calendar_enabled: true
