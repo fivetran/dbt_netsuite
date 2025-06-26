@@ -105,7 +105,7 @@ Include the following netsuite package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/netsuite
-    version: [">=0.19.0", "<0.20.0"]
+    version: [">=0.20.0", "<0.21.0"]
     
 ```
 ### Step 3: Define Netsuite.com or Netsuite2 Source
@@ -289,7 +289,7 @@ This dbt package is dependent on the following dbt packages. These dependencies 
 ```yml
 packages:
     - package: fivetran/netsuite_source
-      version: [">=0.12.0", "<0.13.0"]
+      version: [">=0.13.0", "<0.14.0"]
 
     - package: fivetran/fivetran_utils
       version: [">=0.4.0", "<0.5.0"]
