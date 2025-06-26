@@ -1,6 +1,6 @@
 # dbt_netsuite v0.20.0
 
-[PR #161](https://github.com/fivetran/dbt_netsuite/pull/161) includes the following updates:
+[PR #162](https://github.com/fivetran/dbt_netsuite/pull/162) includes the following updates:
 
 ## Breaking Change for dbt Core < 1.9.6
 
