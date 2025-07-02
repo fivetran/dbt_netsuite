@@ -175,32 +175,46 @@ This package includes all source columns defined in the macros folder. To add ad
 
 ```yml
 vars:
-    accounts_pass_through_columns: 
+    accounts_pass_through_columns: # Included in all end models
         - name: "new_custom_field"
           alias: "custom_field"
-    classes_pass_through_columns: 
+    classes_pass_through_columns: # Included in income_statement models
         - name: "this_field"
-    departments_pass_through_columns: 
+    departments_pass_through_columns: # Included in income_statement and transaction_details models
         - name: "unique_string_field"
           alias: "field_id"
           transform_sql: "cast(field_id as string)"
-    transactions_pass_through_columns: 
+    transactions_pass_through_columns: # Included in transaction_details models
         - name: "that_field"
-    transaction_lines_pass_through_columns: 
+    transaction_lines_pass_through_columns: # Included in transaction_details models
         - name: "other_id"
           alias: "another_id"
           transform_sql: "cast(another_id as int64)"
-    customers_pass_through_columns: 
-        - name: "customer_custom_field"
-          alias: "customer_field"
-    locations_pass_through_columns: 
+    locations_pass_through_columns: # Included in transaction_details models
         - name: "location_custom_field"
-    subsidiaries_pass_through_columns: 
+    subsidiaries_pass_through_columns: # Included in transaction_details models
         - name: "sub_field"
           alias: "subsidiary_field"
-    consolidated_exchange_rates_pass_through_columns: 
+    customers_pass_through_columns: # Not included in end models; only in stg customer models
+        - name: "customer_custom_field"
+          alias: "customer_field"
+    consolidated_exchange_rates_pass_through_columns: # Not included in end models; only in stg consolidated_exchange_rates models
         - name: "consolidate_this_field"
+    entities_pass_through_columns: # Not included in end models; only in stg entities model
+        - name: "entity_custom_field"
+          alias: "entity_field"
+    accounting_periods_pass_through_columns: # Not included in end models; only in stg accounting_periods models
+        - name: "custom_field"
+          transform_sql: "cast(custom_field as string)"
+    vendors_pass_through_columns: # Not included in end models; only in stg vendors models
+        - name: "vendors_custom_field"
+          alias: "vendors_field"
+    items_pass_through_columns: # Not included in end models; only in stg items models
+        - name: "items_custom_field"
+          alias: "items_field"
 ```
+
+> If you would like any of the above passthrough columns to be persisted to additional downstream models (i.e. `netsuite2__income_statement`, `netsuite2__balance_sheet`, `netsuite2__transaction_details`), or passthrough column support for other source tables, please create a Feature Request [issue](https://github.com/fivetran/dbt_netsuite/issues).
 
 #### Passing Through Transaction Detail Fields
 Additionally, this package allows users to pass columns from the `netsuite__transaction_details` table into
