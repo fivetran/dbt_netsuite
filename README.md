@@ -37,7 +37,6 @@ Many of the above reports are now configurable for [visualization via Streamlit]
 Each Quickstart transformation job run materializes 88 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
 <!--section-end-->
 
-
 ## How do I use the dbt package?
 ### Step 1: Prerequisites
 To use this dbt package, you must have At least either one Fivetran **Netsuite** (netsuite.com) or **Netsuite2** (netsuite2) connection syncing the respective tables to your destination:
@@ -106,7 +105,7 @@ Include the following netsuite package version in your `packages.yml` file:
 packages:
   - package: fivetran/netsuite
     version: [">=0.20.0", "<0.21.0"]
-    
+
 ```
 ### Step 3: Define Netsuite.com or Netsuite2 Source
 As of April 2022 Fivetran released a new Netsuite connector version which leverages the Netsuite2 endpoint opposed to the original Netsuite.com endpoint. This package is designed to run for either or, not both. By default the `netsuite_data_model` variable for this package is set to the original `netsuite` value which runs the netsuite.com version of the package. If you would like to run the package on Netsuite2 data, you may adjust the `netsuite_data_model` variable to run the `netsuite2` version of the package.
@@ -238,7 +237,7 @@ models:
     netsuite:
       +schema: my_new_schema_name # leave blank for just the target_schema
 ```
-    
+
 #### Change the source table references
 If an individual source table has a different name than the package expects, add the table name as it appears in your destination to the respective variable:
 
@@ -299,7 +298,7 @@ Fivetran offers the ability for you to orchestrate your dbt project through [Fiv
 ## Does this package have dependencies?
 This dbt package is dependent on the following dbt packages. These dependencies are installed by default within this package. For more information on the following packages, refer to the [dbt hub](https://hub.getdbt.com/) site.
 > IMPORTANT: If you have any of these dependent packages in your own `packages.yml` file, we highly recommend that you remove them from your root `packages.yml` to avoid package version conflicts.
-    
+
 ```yml
 packages:
     - package: fivetran/netsuite_source
