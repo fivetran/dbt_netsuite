@@ -233,8 +233,9 @@ By default, this package builds the Netsuite staging models within a schema titl
 models:
     netsuite:
       +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.
-      staging:
-        +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.
+      netsuite2: # or netsuite:
+        staging:
+            +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.
 ```
 
 #### Change the source table references
@@ -271,10 +272,14 @@ Since pricing and runtime priorities vary by customer, by default we chose to ma
 If you wish to enable incremental materializations leveraging the `merge` strategy, you can add the below materialization settings to your `dbt_project.yml` file. You only need to add lines for the specific model materializations you wish to change.
 ```yml
 models:
-    netsuite:
-      +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.
-      staging:
-        +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.
+  netsuite:
+    netsuite2:
+      netsuite2__income_statement:
+        +materialized: incremental # default is table for Bigquery and Databricks
+      netsuite2__transaction_details:
+        +materialized: incremental # default is table for Bigquery and Databricks
+      netsuite2__balance_sheet:
+        +materialized: incremental # default is table for Bigquery and Databricks
 ```
 
 ### (Optional) Step 7: Produce Analytics-Ready Reports with Streamlit App (Bigquery and Snowflake users only)
