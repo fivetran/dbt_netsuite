@@ -3,13 +3,13 @@
 with locations as (
 
     select *
-    from {{ var('netsuite2_locations') }}
+    from {{ ref('stg_netsuite2__locations') }}
 ),
 
 location_main_address as (
 
     select *
-    from {{ var('netsuite2_location_main_address') }}
+    from {{ ref('stg_netsuite2__location_main_address') }}
 ),
 
 joined as (

@@ -40,12 +40,12 @@ accounting_periods as (
 
 subsidiaries as (
     select * 
-    from {{ var('netsuite2_subsidiaries') }}
+    from {{ ref('stg_netsuite2__subsidiaries') }}
 ),
 
 transactions as (
     select * 
-    from {{ var('netsuite2_transactions') }}
+    from {{ ref('stg_netsuite2__transactions') }}
 ),
 
 customers as (
@@ -55,7 +55,7 @@ customers as (
 
 items as (
     select * 
-    from {{ var('netsuite2_items') }}
+    from {{ ref('stg_netsuite2__items') }}
 ),
 
 locations as (
@@ -65,29 +65,29 @@ locations as (
 
 vendors as (
     select * 
-    from {{ var('netsuite2_vendors') }}
+    from {{ ref('stg_netsuite2__vendors') }}
 ),
 
 {% if var('netsuite2__using_vendor_categories', true) %}
 vendor_categories as (
     select * 
-    from {{ var('netsuite2_vendor_categories') }}
+    from {{ ref('stg_netsuite2__vendor_categories') }}
 ),
 {% endif %}
 
 departments as (
     select * 
-    from {{ var('netsuite2_departments') }}
+    from {{ ref('stg_netsuite2__departments') }}
 ),
 
 currencies as (
     select * 
-    from {{ var('netsuite2_currencies') }}
+    from {{ ref('stg_netsuite2__currencies') }}
 ),
 
 classes as (
     select *
-    from {{ var('netsuite2_classes') }}
+    from {{ ref('stg_netsuite2__classes') }}
 ),
 
 transaction_details as (

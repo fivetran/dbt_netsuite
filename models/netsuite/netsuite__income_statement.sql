@@ -15,37 +15,37 @@ transaction_details as (
 
 accounts as (
     select * 
-    from {{ var('netsuite_accounts') }}
+    from {{ ref('stg_netsuite__accounts') }}
 ), 
 
 accounting_periods as (
     select * 
-    from {{ var('netsuite_accounting_periods') }}
+    from {{ ref('stg_netsuite__accounting_periods') }}
 ),
 
 subsidiaries as (
     select * 
-    from {{ var('netsuite_subsidiaries') }}
+    from {{ ref('stg_netsuite__subsidiaries') }}
 ),
 
 transaction_lines as (
     select * 
-    from {{ var('netsuite_transaction_lines') }}
+    from {{ ref('stg_netsuite__transaction_lines') }}
 ),
 
 classes as (
     select * 
-    from {{ var('netsuite_classes') }}
+    from {{ ref('stg_netsuite__classes') }}
 ),
 
 locations as (
     select * 
-    from {{ var('netsuite_locations') }}
+    from {{ ref('stg_netsuite__locations') }}
 ),
 
 departments as (
     select * 
-    from {{ var('netsuite_departments') }}
+    from {{ ref('stg_netsuite__departments') }}
 ),
 
 income_statement as (

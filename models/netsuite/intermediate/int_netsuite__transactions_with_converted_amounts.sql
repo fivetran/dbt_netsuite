@@ -17,7 +17,7 @@ transaction_and_reporting_periods as (
 
 accounts as (
     select * 
-    from {{ var('netsuite_accounts') }}
+    from {{ ref('stg_netsuite__accounts') }}
 ),
 
 transactions_in_every_calculation_period_w_exchange_rates as (

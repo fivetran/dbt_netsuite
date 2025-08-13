@@ -2,7 +2,7 @@
 
 with transactions as (
     select * 
-    from {{ var('netsuite2_transactions') }}
+    from {{ ref('stg_netsuite2__transactions') }}
 ), 
 
 transaction_lines as (
