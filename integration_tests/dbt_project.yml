@@ -12,9 +12,9 @@ vars:
   netsuite_data_model_override: netsuite
 
   # Enable below when generating docs
-  # netsuite2__multibook_accounting_enabled: true
-  # netsuite2__using_to_subsidiary: true
-  # netsuite2__fiscal_calendar_enabled: true
+  # netsuite2__multibook_accounting_enabled: true # @docs-include
+  # netsuite2__using_to_subsidiary: true # @docs-include
+  # netsuite2__fiscal_calendar_enabled: true # @docs-include
 
   netsuite:
     # Netsuite Seed Data
