@@ -19,6 +19,10 @@
   - Removed all `accepted_values` tests.
   - Moved `loaded_at_field: _fivetran_synced` under the `config:` block in `src_netsuite.yml`.
 
+### Under the Hood
+- Updated conditions in `.github/workflows/auto-release.yml`.
+- Added `.github/workflows/generate-docs.yml`.
+
 # dbt_netsuite v0.20.0
 
 [PR #162](https://github.com/fivetran/dbt_netsuite/pull/162) includes the following updates:
