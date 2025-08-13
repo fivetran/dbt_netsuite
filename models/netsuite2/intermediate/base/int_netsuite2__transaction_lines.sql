@@ -3,20 +3,20 @@
 with transaction_lines as (
 
     select *
-    from {{ var('netsuite2_transaction_lines') }}
+    from {{ ref('stg_netsuite2__transaction_lines') }}
 ),
 
 transaction_accounting_lines as (
 
     select *
-    from {{ var('netsuite2_transaction_accounting_lines') }}
+    from {{ ref('stg_netsuite2__transaction_accounting_lines') }}
 ),
 
 {% if var('netsuite2__multibook_accounting_enabled', false) %}
 accounting_books as (
 
     select *
-    from {{ var('netsuite2_accounting_books') }}
+    from {{ ref('stg_netsuite2__accounting_books') }}
 ), 
 {% endif %}
 

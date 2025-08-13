@@ -16,7 +16,7 @@
 </p>
 
 ## What does this dbt package do?
-- Produces modeled tables that leverage Netsuite data from [Fivetran's connector](https://fivetran.com/docs/applications/netsuite) in the format described by [this ERD](https://fivetran.com/docs/applications/netsuite#schemainformation) and builds off the output of our [Netsuite source package](https://github.com/fivetran/dbt_netsuite_source).
+- Produces modeled tables that leverage Netsuite data from [Fivetran's connector](https://fivetran.com/docs/applications/netsuite) in the format described by [this ERD](https://fivetran.com/docs/applications/netsuite#schemainformation).
 - Enables users to insights into their netsuite data that can be used for financial statement reporting and deeper transactional analysis. This is achieved by the following:
     - Recreating both the balance sheet and income statement
     - Recreating commonly used data by using the transaction lines as the base table and joining other data
@@ -96,7 +96,7 @@ dispatch:
   - macro_namespace: dbt_utils
     search_order: ['spark_utils', 'dbt_utils']
 ```
-Do **NOT** include the `netsuite_source` package in this file. The transformation package itself has a dependency on it and will install the source package as well.
+> All required sources and staging models are now bundled into this transformation package. Do not include `fivetran/netsuite_source` in your `packages.yml` since this package has been deprecated.
 
 ### Step 2: Install the package
 Include the following netsuite package version in your `packages.yml` file:
@@ -104,8 +104,7 @@ Include the following netsuite package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/netsuite
-    version: [">=0.20.0", "<0.21.0"]
-
+    version: [">=1.0.0", "<1.1.0"]
 ```
 ### Step 3: Define Netsuite.com or Netsuite2 Source
 As of April 2022 Fivetran released a new Netsuite connector version which leverages the Netsuite2 endpoint opposed to the original Netsuite.com endpoint. This package is designed to run for either or, not both. By default the `netsuite_data_model` variable for this package is set to the original `netsuite` value which runs the netsuite.com version of the package. If you would like to run the package on Netsuite2 data, you may adjust the `netsuite_data_model` variable to run the `netsuite2` version of the package.
@@ -232,10 +231,10 @@ By default, this package builds the Netsuite staging models within a schema titl
 
 ```yml
 models:
-    netsuite_source:
-      +schema: my_new_schema_name # leave blank for just the target_schema
     netsuite:
-      +schema: my_new_schema_name # leave blank for just the target_schema
+      +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.
+      staging:
+        +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.
 ```
 
 #### Change the source table references
@@ -272,14 +271,10 @@ Since pricing and runtime priorities vary by customer, by default we chose to ma
 If you wish to enable incremental materializations leveraging the `merge` strategy, you can add the below materialization settings to your `dbt_project.yml` file. You only need to add lines for the specific model materializations you wish to change.
 ```yml
 models:
-  netsuite:
-    netsuite2:
-      netsuite2__income_statement:
-        +materialized: incremental # default is table for Bigquery and Databricks
-      netsuite2__transaction_details:
-        +materialized: incremental # default is table for Bigquery and Databricks
-      netsuite2__balance_sheet:
-        +materialized: incremental # default is table for Bigquery and Databricks
+    netsuite:
+      +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.
+      staging:
+        +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.
 ```
 
 ### (Optional) Step 7: Produce Analytics-Ready Reports with Streamlit App (Bigquery and Snowflake users only)
@@ -301,9 +296,6 @@ This dbt package is dependent on the following dbt packages. These dependencies 
 
 ```yml
 packages:
-    - package: fivetran/netsuite_source
-      version: [">=0.13.0", "<0.14.0"]
-
     - package: fivetran/fivetran_utils
       version: [">=0.4.0", "<0.5.0"]
 

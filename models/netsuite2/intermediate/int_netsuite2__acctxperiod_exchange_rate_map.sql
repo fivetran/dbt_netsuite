@@ -8,23 +8,23 @@ with accounts as (
 {% if var('netsuite2__multibook_accounting_enabled', false) %}
 accounting_books as (
     select * 
-    from {{ var('netsuite2_accounting_books') }}
+    from {{ ref('stg_netsuite2__accounting_books') }}
 ),
 {% endif %}
 
 subsidiaries as (
     select * 
-    from {{ var('netsuite2_subsidiaries') }}
+    from {{ ref('stg_netsuite2__subsidiaries') }}
 ),
 
 consolidated_exchange_rates as (
     select *
-    from {{ var('netsuite2_consolidated_exchange_rates') }}
+    from {{ ref('stg_netsuite2__consolidated_exchange_rates') }}
 ),
 
 currencies as (
     select *
-    from {{ var('netsuite2_currencies') }}
+    from {{ ref('stg_netsuite2__currencies') }}
 ),
 
 period_exchange_rate_map as ( -- exchange rates used, by accounting period, to convert to parent subsidiary

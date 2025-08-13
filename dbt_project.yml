@@ -1,6 +1,6 @@
 config-version: 2
 name: 'netsuite'
-version: '0.20.0'
+version: '1.0.0'
 require-dbt-version: [">=1.3.0", "<2.0.0"]
 
 models:
@@ -10,6 +10,9 @@ models:
     netsuite:
       intermediate:
         +materialized: ephemeral
+        staging:
+            +schema: netsuite_source
+            +materialized: view
     netsuite2:
       intermediate:
         +materialized: ephemeral
@@ -17,23 +20,23 @@ models:
 vars:
   netsuite:
     ## Netsuite staging models
-    netsuite_accounting_books: "{{ ref('stg_netsuite__accounting_books') }}"
-    netsuite_accounting_periods: "{{ ref('stg_netsuite__accounting_periods') }}"
-    netsuite_accounts: "{{ ref('stg_netsuite__accounts') }}"
-    netsuite_classes: "{{ ref('stg_netsuite__classes') }}"
-    netsuite_consolidated_exchange_rates: "{{ ref('stg_netsuite__consolidated_exchange_rates') }}"
-    netsuite_currencies: "{{ ref('stg_netsuite__currencies') }}"
-    netsuite_customers: "{{ ref('stg_netsuite__customers') }}"
-    netsuite_departments: "{{ ref('stg_netsuite__departments') }}"
-    netsuite_expense_accounts: "{{ ref('stg_netsuite__expense_accounts') }}"
-    netsuite_income_accounts: "{{ ref('stg_netsuite__income_accounts') }}"
-    netsuite_items: "{{ ref('stg_netsuite__items') }}"
-    netsuite_locations: "{{ ref('stg_netsuite__locations') }}"
-    netsuite_subsidiaries: "{{ ref('stg_netsuite__subsidiaries') }}"
-    netsuite_transaction_lines: "{{ ref('stg_netsuite__transaction_lines') }}"
-    netsuite_transactions: "{{ ref('stg_netsuite__transactions') }}"
-    netsuite_vendor_types: "{{ ref('stg_netsuite__vendor_types') }}"
-    netsuite_vendors: "{{ ref('stg_netsuite__vendors') }}"
+    netsuite_accounting_books: "{{ source('netsuite', 'accounting_books') }}"
+    netsuite_accounting_periods: "{{ source('netsuite', 'accounting_periods') }}"
+    netsuite_accounts: "{{ source('netsuite', 'accounts') }}"
+    netsuite_classes: "{{ source('netsuite', 'classes') }}"
+    netsuite_consolidated_exchange_rates: "{{ source('netsuite', 'consolidated_exchange_rates') }}"
+    netsuite_currencies: "{{ source('netsuite', 'currencies') }}"
+    netsuite_customers: "{{ source('netsuite', 'customers') }}"
+    netsuite_departments: "{{ source('netsuite', 'departments') }}"
+    netsuite_expense_accounts: "{{ source('netsuite', 'expense_accounts') }}"
+    netsuite_income_accounts: "{{ source('netsuite', 'income_accounts') }}"
+    netsuite_items: "{{ source('netsuite', 'items') }}"
+    netsuite_locations: "{{ source('netsuite', 'locations') }}"
+    netsuite_subsidiaries: "{{ source('netsuite', 'subsidiaries') }}"
+    netsuite_transaction_lines: "{{ source('netsuite', 'transaction_lines') }}"
+    netsuite_transactions: "{{ source('netsuite', 'transactions') }}"
+    netsuite_vendor_types: "{{ source('netsuite', 'vendor_types') }}"
+    netsuite_vendors: "{{ source('netsuite', 'vendors') }}"
     netsuite2_account_types: "{{ ref('stg_netsuite2__account_types') }}"
     netsuite2_accounting_book_subsidiaries: "{{ ref('stg_netsuite2__accounting_book_subsidiaries') }}"
     netsuite2_accounting_books: "{{ ref('stg_netsuite2__accounting_books') }}"
