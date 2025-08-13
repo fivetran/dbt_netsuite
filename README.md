@@ -127,7 +127,7 @@ Your Netsuite connection may not sync every table that this package expects. If 
 ```yml
 vars:
     netsuite2__multibook_accounting_enabled: true # False by default. Disable `accountingbooksubsidiary` and `accountingbook` if you are not using the Multi-Book Accounting feature
-    netsuite2__using_exchange_rate: false #True by default. Disable `exchange_rate` if you don't utilize exchange rates. If you set this variable to false, ensure it is scoped globally so that the `netsuite_source` package can access it as well.
+    netsuite2__using_exchange_rate: false #True by default. Disable `exchange_rate` if you don't utilize exchange rates.
     netsuite2__using_vendor_categories: false # True by default. Disable `vendorcategory` if you don't categorize your vendors
     netsuite2__using_jobs: false # True by default. Disable `job` if you don't use jobs
     netsuite2__using_employees: false # True by default. Disable `employee` if you don't use employees.
@@ -233,7 +233,10 @@ By default, this package builds the Netsuite staging models within a schema titl
 models:
     netsuite:
       +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.
-      netsuite2: # or netsuite:
+      netsuite2: # if you're using netsuite2.com
+        staging:
+            +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.
+      netsuite: # if you're using netsuite.com
         staging:
             +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.
 ```
@@ -241,7 +244,7 @@ models:
 #### Change the source table references
 If an individual source table has a different name than the package expects, add the table name as it appears in your destination to the respective variable:
 
-> IMPORTANT: See this project's [`dbt_project.yml`](https://github.com/fivetran/dbt_netsuite_source/blob/main/dbt_project.yml) variable declarations to see the expected names.
+> IMPORTANT: See this project's [`dbt_project.yml`](https://github.com/fivetran/dbt_netsuite/blob/main/dbt_project.yml) variable declarations to see the expected names.
 
 ```yml
 vars:
