@@ -16,7 +16,7 @@ vars:
   # netsuite2__using_to_subsidiary: true
   # netsuite2__fiscal_calendar_enabled: true
 
-  netsuite_source:
+  netsuite:
     # Netsuite Seed Data
     netsuite_accounting_books_identifier: "netsuite_accounting_books_data"
     netsuite_accounting_periods_identifier: "netsuite_accounting_periods_data"
