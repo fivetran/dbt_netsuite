@@ -11,14 +11,14 @@ models:
       intermediate:
         +materialized: ephemeral
       staging:
-          +schema: netsuite_source
-          +materialized: view
+        +schema: netsuite_source
+        +materialized: view
     netsuite2:
       intermediate:
         +materialized: ephemeral
       staging:
-          +schema: netsuite_source
-          +materialized: view
+        +schema: netsuite_source
+        +materialized: view
 vars:
   netsuite:
     ## Netsuite staging models
