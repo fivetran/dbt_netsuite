@@ -7,77 +7,77 @@ with transactions_with_converted_amounts as (
 
 accounts as (
     select * 
-    from {{ var('netsuite_accounts') }}
+    from {{ ref('stg_netsuite__accounts') }}
 ),
 
 accounting_periods as (
     select * 
-    from {{ var('netsuite_accounting_periods') }}
+    from {{ ref('stg_netsuite__accounting_periods') }}
 ),
 
 subsidiaries as (
     select * 
-    from {{ var('netsuite_subsidiaries') }}
+    from {{ ref('stg_netsuite__subsidiaries') }}
 ),
 
 transaction_lines as (
     select * 
-    from {{ var('netsuite_transaction_lines') }}
+    from {{ ref('stg_netsuite__transaction_lines') }}
 ),
 
 transactions as (
     select * 
-    from {{ var('netsuite_transactions') }}
+    from {{ ref('stg_netsuite__transactions') }}
 ),
 
 income_accounts as (
     select * 
-    from {{ var('netsuite_income_accounts') }}
+    from {{ ref('stg_netsuite__income_accounts') }}
 ),
 
 expense_accounts as (
     select * 
-    from {{ var('netsuite_expense_accounts') }}
+    from {{ ref('stg_netsuite__expense_accounts') }}
 ),
 
 customers as (
     select * 
-    from {{ var('netsuite_customers') }}
+    from {{ ref('stg_netsuite__customers') }}
 ),
 
 items as (
     select * 
-    from {{ var('netsuite_items') }}
+    from {{ ref('stg_netsuite__items') }}
 ),
 
 locations as (
     select * 
-    from {{ var('netsuite_locations') }}
+    from {{ ref('stg_netsuite__locations') }}
 ),
 
 vendors as (
     select * 
-    from {{ var('netsuite_vendors') }}
+    from {{ ref('stg_netsuite__vendors') }}
 ),
 
 vendor_types as (
     select * 
-    from {{ var('netsuite_vendor_types') }}
+    from {{ ref('stg_netsuite__vendor_types') }}
 ),
 
 departments as (
     select * 
-    from {{ var('netsuite_departments') }}
+    from {{ ref('stg_netsuite__departments') }}
 ),
 
 currencies as (
     select * 
-    from {{ var('netsuite_currencies') }}
+    from {{ ref('stg_netsuite__currencies') }}
 ),
 
 classes as (
     select *
-    from {{ var('netsuite_classes') }}
+    from {{ ref('stg_netsuite__classes') }}
 ),
 
 transaction_details as (

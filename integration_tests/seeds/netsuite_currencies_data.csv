@@ -1,11 +1,11 @@
-currency_id,name,symbol,_fivetran_deleted
-4,Euro,EUR,FALSE
-11,Norwegian Krone,NOK,FALSE
-1,US Dollar,USD,FALSE
-10,Israeli New Shekel,ILS,FALSE
-9,Icelandic Krona,ISK,FALSE
-5,Indian Rupee,INR,FALSE
-8,Swedish Krona,SEK,FALSE
-3,Canadian Dollar,CAD,FALSE
-14,United Arab Emirates Dirham,AED,FALSE
-2,British Pound,GBP,FALSE
+currency_id,name,symbol,_fivetran_deleted,_fivetran_synced
+4,Euro,EUR,FALSE,2022-07-10 22:45:15
+11,Norwegian Krone,NOK,FALSE,2022-07-10 22:45:15
+1,US Dollar,USD,FALSE,2022-07-10 22:45:15
+10,Israeli New Shekel,ILS,FALSE,2022-07-10 22:45:15
+9,Icelandic Krona,ISK,FALSE,2022-07-10 22:45:15
+5,Indian Rupee,INR,FALSE,2022-07-10 22:45:15
+8,Swedish Krona,SEK,FALSE,2022-07-10 22:45:15
+3,Canadian Dollar,CAD,FALSE,2022-07-10 22:45:15
+14,United Arab Emirates Dirham,AED,FALSE,2022-07-10 22:45:15
+2,British Pound,GBP,FALSE,2022-07-10 22:45:15

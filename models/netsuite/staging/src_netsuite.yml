@@ -1,0 +1,319 @@
+ 
+version: 2
+
+sources:
+  - name: netsuite
+    schema: "{{ var('netsuite_schema', 'netsuite') }}" # you will need to customize if your schema name is not netsuite
+    database: "{% if target.type != 'spark'%}{{ var('netsuite_database', target.database) }}{% endif %}"
+    loader: fivetran
+    config:
+      loaded_at_field: _fivetran_synced
+      enabled: "{{ var('netsuite_data_model', 'netsuite') == 'netsuite' }}"
+      freshness:
+        warn_after: {count: 24, period: hour}
+        error_after: {count: 48, period: hour}
+
+    tables:
+      - name: accounting_books
+        identifier: "{{ var('netsuite_accounting_books_identifier', 'accounting_books') }}"
+        description: Table detailing all accounting books set up in Netsuite.
+        columns:
+          - name: accounting_book_id
+            description: The unique identifier of the accounting book.
+          - name: is_primary
+            description: Boolean indicating whether it is a primary accounting book.
+          - name: _fivetran_deleted
+            description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+      - name: accounting_periods
+        identifier: "{{ var('netsuite_accounting_periods_identifier', 'accounting_periods') }}"
+        description: Table detailing all accounting periods, including monthly, quarterly and yearly.
+        columns:
+          - name: accounting_period_id
+            description: The unique identifier of the accounting period.
+          - name: name
+            description: The name of the accounting period.
+          - name: full_name
+            description: The full name of the accounting period.
+          - name: year_id
+            description: The year id the accounting period is associated with.
+          - name: fiscal_calendar_id
+            description: The fiscal calendar id the accounting period is associated with.
+          - name: quarter
+            description: The quarter which the accounting period takes place in.
+          - name: starting
+            description: The timestamp indicating the start of the accounting period.
+          - name: ending
+            description: The timestamp indicating the end of the accounting period.
+          - name: year_0
+            description: Value indicating whether the accounting period is in it's initial year.
+          - name: is_adjustment
+            description: Value indicating whether the accounting period is an adjustment (either yes or no).
+          - name: closed
+            description: Value indicating whether the accounting period is closed (either yes or no).
+          - name: _fivetran_deleted
+            description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+      - name: accounts
+        identifier: "{{ var('netsuite_accounts_identifier', 'accounts') }}"
+        description: Table that provides a complete listing of every account in the accounting system.
+        columns:
+          - name: account_id
+            description: The unique identifier associated with the account.
+          - name: parent_id
+            description: The accounts associated parent account id.
+          - name: name
+            description: The name of the account.
+          - name: type_name
+            description: The name of the type of the account (ie. Bank, Equity, Income, Expense).
+          - name: accountingnumber
+            description: The account number associated with the account.
+          - name: general_rate_type
+            description: The general rate type of the account (Current, Historical, Average).
+          - name: is_leftside
+            description: Value indicating whether the account is on the leftside (debit).
+          - name: is_balancesheet
+            description: Value indicating whether the account is a balance sheet account.
+          - name: _fivetran_deleted
+            description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+      - name: classes
+        identifier: "{{ var('netsuite_classes_identifier', 'classes') }}"
+        description: Table detailing all classes set up in Netsuite.
+        columns:
+          - name: class_id
+            description: The unique identifier of the class.
+          - name: full_name
+            description: The full name of the class.
+          - name: _fivetran_deleted
+            description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+      - name: consolidated_exchange_rates
+        identifier: "{{ var('netsuite_consolidated_exchange_rates_identifier', 'consolidated_exchange_rates') }}"
+        description: Table detailing average, historical and current exchange rates for all accounting periods.
+        columns:
+          - name: accounting_book_id
+            description: The accounting book the consolidated exchange rate is associated with.
+          - name: accounting_period_id
+            description: The accounting period the consolidated exchange rate is associated with.
+          - name: average_rate
+            description: The consolidated exchange rates average rate.
+          - name: current_rate
+            description: The consolidated exchange rates current rate.
+          - name: historical_rate
+            description: The consolidated exchange rates historical rate.
+          - name: from_subsidiary_id
+            description: The subsidiary id which the consolidated exchange rate is from.
+          - name: to_subsidiary_id
+            description: THe subsidiary id which the consolidated exchange rate is for.
+          - name: _fivetran_deleted
+            description: Boolean created by Fivetran to indicate whether the record has been deleted.
+      
+      - name: currencies
+        identifier: "{{ var('netsuite_currencies_identifier', 'currencies') }}"
+        description: The names and symbols for all currencies set up in Netsuite.
+        columns:
+          - name: currency_id
+            description: The unique identifier of the currency.
+          - name: name
+            description: The name of the currency.
+          - name: symbol
+            description: The currency's three letter symbol (ie. USD, EUR, CAD).
+          - name: _fivetran_deleted
+            description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+      - name: customers
+        identifier: "{{ var('netsuite_customers_identifier', 'customers') }}"
+        description: Table detailing all customer information.
+        columns:
+          - name: customer_id
+            description: The unique identifier of the customer.
+          - name: companyname
+            description: The name of the company.
+          - name: customer_extid
+            description: The unique identifier of the external customer reference.
+          - name: city
+            description: The city where the customer is located.
+          - name: state
+            description: The state where the customer is located.
+          - name: zipcode
+            description: The zipcode of the customer.
+          - name: country
+            description: The country where the customer is located.
+          - name: date_first_order
+            description: The timestamp of the customers first order.
+          - name: _fivetran_deleted
+            description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+      - name: departments
+        identifier: "{{ var('netsuite_departments_identifier', 'departments') }}"
+        description: Table detailing all departments set up in Netsuite.
+        columns:
+          - name: department_id
+            description: The unique identifier of the department.
+          - name: name
+            description: The name of the department.
+          - name: full_name
+            description: The department's full name.
+          - name: _fivetran_deleted
+            description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+      - name: expense_accounts
+        identifier: "{{ var('netsuite_expense_accounts_identifier', 'expense_accounts') }}"
+        description: Table detailing all expense accounts.
+        columns:
+          - name: expense_account_id
+            description: The unique identifier of the expense account.
+          - name: name
+            description: The name of the expense account.
+          - name: parent_id
+            description: The expense account's associated parent account.
+          - name: account_number
+            description: The account number associated with the expense account.
+          - name: _fivetran_deleted
+            description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+      - name: income_accounts
+        identifier: "{{ var('netsuite_income_accounts_identifier', 'income_accounts') }}"
+        description: Table detailing all income accounts.
+        columns:
+          - name: income_account_id
+            description: The unique identifier of the income account.
+          - name: name
+            description: The name of the income account.
+          - name: parent_id
+            description: The income account's associated parent account.
+          - name: account_number
+            description: The account number associated with the income account.
+          - name: _fivetran_deleted
+            description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+      - name: items
+        identifier: "{{ var('netsuite_items_identifier', 'items') }}"
+        description: Table detailing information about the items created in Netsuite.
+        columns:
+          - name: item_id
+            description: The unique identifier of the item.
+          - name: name
+            description: The name of the item.
+          - name: type_name
+            description: The type of the item (ie. Markup, Service, Discount).
+          - name: salesdescription
+            description: The items sales description.
+          - name: _fivetran_deleted
+            description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+      - name: locations
+        identifier: "{{ var('netsuite_locations_identifier', 'locations') }}"
+        description: Table detailing all locations, including store, warehouse and office locations.
+        columns:
+          - name: location_id
+            description: The unique identifier of the location.
+          - name: name
+            description: The location's name.
+          - name: full_name
+            description: The full name of the location.
+          - name: city
+            description: The location's city.
+          - name: country
+            description: The location's country.
+          - name: _fivetran_deleted
+            description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+      - name: subsidiaries
+        identifier: "{{ var('netsuite_subsidiaries_identifier', 'subsidiaries') }}"
+        description: Table detailing all subsidiaries.
+        columns:
+          - name: subsidiary_id
+            description: The unique identifier of the subsidiary.
+          - name: fiscal_calendar_id
+            description: The fiscal calendar id associated with the fiscal calendar the subsidiary is on.
+          - name: full_name
+            description: The full name of the subsidiary.
+          - name: name
+            description: The name of the subsidiary.
+          - name: parent_id 
+            description: The parent subsidiary id which the subsidiary is under.
+          - name: _fivetran_deleted
+            description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+      - name: transaction_lines
+        identifier: "{{ var('netsuite_transaction_lines_identifier', 'transaction_lines') }}"
+        description: A table detailing all transaction lines for all transactions.
+        columns:
+          - name: transaction_id
+            description: The transaction id which the transaction line is associated with.
+          - name: transaction_line_id
+            description: The unique identifier of the transaction line.
+          - name: subsidiary_id
+            description: The subsidiary id of the subsidiary which the transaction line is associated with.
+          - name: account_id
+            description: The account id of the account linked to the transaction line.
+          - name: company_id
+            description: The company id of the company linked to the transaction line.
+          - name: item_id
+            description: The item id of the item which is included in the transaction line.
+          - name: amount
+            description: The amount of the transaction line.
+          - name: non_posting_line
+            description: Value indicating whether the transaction line is a non posting line (either Yes or No).
+          - name: class_id
+            description: The class id of the class which the transaction line is associated with.
+          - name: location_id
+            description: The location id of the location which the transaction line took place.
+          - name: department_id
+            description: The department id of the department linked to the transaction line.
+          - name: memo
+            description: The memo attached to the transaction line.
+
+      - name: transactions
+        identifier: "{{ var('netsuite_transactions_identifier', 'transactions') }}"
+        description: A table detailing all transactions.
+        columns:
+          - name: transaction_id
+            description: The unique identifier of the transaction.
+          - name: status
+            description: The status of the transaction (ie. Paid In Full, Open, Cancelled).
+          - name: trandate
+            description: The timestamp of the transaction date.
+          - name: currency_id
+            description: The currency id of the currency used in the transaction.
+          - name: accounting_period_id
+            description: The accounting period id of the accounting period which the transaction took place in.
+          - name: due_date
+            description: The timestamp of the transaction due date.
+          - name: transaction_type
+            description: The transaction type (ie. Bill, Check, Deposit).
+          - name: is_intercompany
+            description: Value indicating whether the transaction is intercompany (either Yes or No).
+          - name: is_advanced_intercompany
+            description: Value indicating whether the transaction is an advanced intercompany journal entry (either Yes or No).
+          - name: _fivetran_deleted
+            description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+      - name: vendor_types
+        identifier: "{{ var('netsuite_vendor_types_identifier', 'vendor_types') }}"
+        description: A table detailing all the various types of vendors.
+        columns:
+          - name: vendor_type_id
+            description: The unique identifier of the vendor type
+          - name: name
+            description: The name of the vendor type.
+          - name: _fivetran_deleted
+            description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+      - name: vendors
+        identifier: "{{ var('netsuite_vendors_identifier', 'vendors') }}"
+        description: A table detailing all vendor information.
+        columns:
+          - name: vendor_id
+            description: The unique identifier of the vendor.
+          - name: vendor_type_id
+            description: The vendor type the vendor is associated with.
+          - name: companyname
+            description: The vendor's company name.
+          - name: created_date
+            description: The timestamp of the date the vendor was created.
+          - name: _fivetran_deleted
+            description: Boolean created by Fivetran to indicate whether the record has been deleted.
+    

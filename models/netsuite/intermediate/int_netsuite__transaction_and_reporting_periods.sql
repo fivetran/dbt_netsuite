@@ -2,12 +2,12 @@
 
 with accounting_periods as (
     select * 
-    from {{ var('netsuite_accounting_periods') }}
+    from {{ ref('stg_netsuite__accounting_periods') }}
 ),
 
 subsidiaries as (
     select * 
-    from {{ var('netsuite_subsidiaries') }}
+    from {{ ref('stg_netsuite__subsidiaries') }}
 ),
 
 transaction_and_reporting_periods as ( 

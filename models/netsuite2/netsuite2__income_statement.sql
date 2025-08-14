@@ -40,12 +40,12 @@ accounting_periods as (
 
 subsidiaries as (
     select * 
-    from {{ var('netsuite2_subsidiaries') }}
+    from {{ ref('stg_netsuite2__subsidiaries') }}
 ),
 
 currencies as (
     select *
-    from {{ var('netsuite2_currencies') }}
+    from {{ ref('stg_netsuite2__currencies') }}
 ),
 
 transaction_lines as (
@@ -55,17 +55,17 @@ transaction_lines as (
 
 classes as (
     select * 
-    from {{ var('netsuite2_classes') }}
+    from {{ ref('stg_netsuite2__classes') }}
 ),
 
 locations as (
     select * 
-    from {{ var('netsuite2_locations') }}
+    from {{ ref('stg_netsuite2__locations') }}
 ),
 
 departments as (
     select * 
-    from {{ var('netsuite2_departments') }}
+    from {{ ref('stg_netsuite2__departments') }}
 ),
 
 income_statement as (

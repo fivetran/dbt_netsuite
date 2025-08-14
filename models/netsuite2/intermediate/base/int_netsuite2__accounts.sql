@@ -3,13 +3,13 @@
 with accounts as (
 
     select *
-    from {{ var('netsuite2_accounts') }}
+    from {{ ref('stg_netsuite2__accounts') }}
 ),
 
 account_types as (
 
     select *
-    from {{ var('netsuite2_account_types') }}
+    from {{ ref('stg_netsuite2__account_types') }}
 ),
 
 joined as (

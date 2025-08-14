@@ -40,12 +40,12 @@ accounting_periods as (
 
 subsidiaries as (
     select * 
-    from {{ var('netsuite2_subsidiaries') }}
+    from {{ ref('stg_netsuite2__subsidiaries') }}
 ),
 
 currencies as (
     select *
-    from {{ var('netsuite2_currencies') }}
+    from {{ ref('stg_netsuite2__currencies') }}
 ),
 
 balance_sheet as ( 
