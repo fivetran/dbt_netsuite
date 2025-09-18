@@ -13,7 +13,7 @@
 
 with transactions_with_converted_amounts as (
     select * 
-    from {{ ref('int_netsuite2__tran_with_converted_amounts') }}
+    from {{ ref('netsuite', 'int_netsuite2__tran_with_converted_amounts') }}
 
     {% if is_incremental() %}
     where _fivetran_synced_date >= {{ netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=var('lookback_window', 3))  }}
@@ -24,48 +24,48 @@ with transactions_with_converted_amounts as (
 {% if var('income_statement_transaction_detail_columns') != []%}
 transaction_details as (
     select * 
-    from {{ ref('netsuite2__transaction_details') }}
+    from {{ ref('netsuite', 'netsuite2__transaction_details') }}
 ), 
 {% endif %}
 
 accounts as (
     select * 
-    from {{ ref('int_netsuite2__accounts') }}
+    from {{ ref('netsuite', 'int_netsuite2__accounts') }}
 ), 
 
 accounting_periods as (
     select * 
-    from {{ ref('int_netsuite2__accounting_periods') }}
+    from {{ ref('netsuite', 'int_netsuite2__accounting_periods') }}
 ),
 
 subsidiaries as (
     select * 
-    from {{ ref('stg_netsuite2__subsidiaries') }}
+    from {{ ref('netsuite', 'stg_netsuite2__subsidiaries') }}
 ),
 
 currencies as (
     select *
-    from {{ ref('stg_netsuite2__currencies') }}
+    from {{ ref('netsuite', 'stg_netsuite2__currencies') }}
 ),
 
 transaction_lines as (
     select * 
-    from {{ ref('int_netsuite2__transaction_lines') }}
+    from {{ ref('netsuite', 'int_netsuite2__transaction_lines') }}
 ),
 
 classes as (
     select * 
-    from {{ ref('stg_netsuite2__classes') }}
+    from {{ ref('netsuite', 'stg_netsuite2__classes') }}
 ),
 
 locations as (
     select * 
-    from {{ ref('stg_netsuite2__locations') }}
+    from {{ ref('netsuite', 'stg_netsuite2__locations') }}
 ),
 
 departments as (
     select * 
-    from {{ ref('stg_netsuite2__departments') }}
+    from {{ ref('netsuite', 'stg_netsuite2__departments') }}
 ),
 
 income_statement as (

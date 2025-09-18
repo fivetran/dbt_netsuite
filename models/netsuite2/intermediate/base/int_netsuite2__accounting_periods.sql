@@ -2,18 +2,18 @@
 
 with accounting_periods as (
     select * 
-    from {{ ref('stg_netsuite2__accounting_periods') }}
+    from {{ ref('netsuite', 'stg_netsuite2__accounting_periods') }}
 ),
 
 accounting_period_fiscal_calendars as (
     select * 
-    from {{ ref('stg_netsuite2__accounting_period_fiscal_cal') }}
+    from {{ ref('netsuite', 'stg_netsuite2__accounting_period_fiscal_cal') }}
 ),
 
 {% if var('netsuite2__fiscal_calendar_enabled', false) %}
 fiscal_calendar as (
     select * 
-    from {{ ref('stg_netsuite2__fiscal_calendar') }}
+    from {{ ref('netsuite', 'stg_netsuite2__fiscal_calendar') }}
 ),
 
 joined as (

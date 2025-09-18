@@ -3,7 +3,7 @@
 with base as (
 
     select * 
-    from {{ ref('stg_netsuite2__subsidiaries_tmp') }}
+    from {{ ref('netsuite', 'stg_netsuite2__subsidiaries_tmp') }}
 ),
 
 fields as (
