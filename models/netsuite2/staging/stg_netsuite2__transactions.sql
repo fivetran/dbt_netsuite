@@ -36,6 +36,11 @@ final as (
         entity as entity_id,
         postingperiod as accounting_period_id,
         posting = 'T' as is_posting,
+        nexus as nexus_id,
+        taxregoverride = 'T' as is_nexus_override,
+        taxdetailsoverride = 'T' as is_tax_details_override,
+        cast(taxpointdate as date) as tax_point_date,
+        taxpointdateoverride = 'T' as tax_point_date_override,
         intercoadj = 'T' as is_intercompany_adjustment,
         isreversal = 'T' as is_reversal,
         reversal as reversal_transaction_id,
@@ -51,3 +56,4 @@ final as (
 
 select * 
 from final
+
