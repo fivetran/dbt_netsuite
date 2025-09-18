@@ -16,7 +16,7 @@ with transaction_lines as (
       *,
       cast(_fivetran_synced as date) as transaction_line_fivetran_synced_date
 
-    from {{ ref('int_netsuite2__transaction_lines') }}
+    from {{ ref('netsuite', 'int_netsuite2__transaction_lines') }}
 
     {% if is_incremental() %}
     where cast(_fivetran_synced as date) >= {{ netsuite.netsuite_lookback(from_date='max(transaction_line_fivetran_synced_date)', datepart='day', interval=var('lookback_window', 3)) }}
@@ -25,69 +25,69 @@ with transaction_lines as (
 
 transactions_with_converted_amounts as (
     select * 
-    from {{ ref('int_netsuite2__tran_with_converted_amounts') }}
+    from {{ ref('netsuite', 'int_netsuite2__tran_with_converted_amounts') }}
 ),
 
 accounts as (
     select * 
-    from {{ ref('int_netsuite2__accounts') }}
+    from {{ ref('netsuite', 'int_netsuite2__accounts') }}
 ),
 
 accounting_periods as (
     select * 
-    from {{ ref('int_netsuite2__accounting_periods') }}
+    from {{ ref('netsuite', 'int_netsuite2__accounting_periods') }}
 ),
 
 subsidiaries as (
     select * 
-    from {{ ref('stg_netsuite2__subsidiaries') }}
+    from {{ ref('netsuite', 'stg_netsuite2__subsidiaries') }}
 ),
 
 transactions as (
     select * 
-    from {{ ref('stg_netsuite2__transactions') }}
+    from {{ ref('netsuite', 'stg_netsuite2__transactions') }}
 ),
 
 customers as (
     select * 
-    from {{ ref('int_netsuite2__customers') }}
+    from {{ ref('netsuite', 'int_netsuite2__customers') }}
 ),
 
 items as (
     select * 
-    from {{ ref('stg_netsuite2__items') }}
+    from {{ ref('netsuite', 'stg_netsuite2__items') }}
 ),
 
 locations as (
     select * 
-    from {{ ref('int_netsuite2__locations') }}
+    from {{ ref('netsuite', 'int_netsuite2__locations') }}
 ),
 
 vendors as (
     select * 
-    from {{ ref('stg_netsuite2__vendors') }}
+    from {{ ref('netsuite', 'stg_netsuite2__vendors') }}
 ),
 
 {% if var('netsuite2__using_vendor_categories', true) %}
 vendor_categories as (
     select * 
-    from {{ ref('stg_netsuite2__vendor_categories') }}
+    from {{ ref('netsuite', 'stg_netsuite2__vendor_categories') }}
 ),
 {% endif %}
 
 departments as (
     select * 
-    from {{ ref('stg_netsuite2__departments') }}
+    from {{ ref('netsuite', 'stg_netsuite2__departments') }}
 ),
 
 currencies as (
     select * 
-    from {{ ref('stg_netsuite2__currencies') }}
+    from {{ ref('netsuite', 'stg_netsuite2__currencies') }}
 ),
 
 classes as (
     select *
-    from {{ ref('stg_netsuite2__classes') }}
+    from {{ ref('netsuite', 'stg_netsuite2__classes') }}
 ),
 
 transaction_details as (

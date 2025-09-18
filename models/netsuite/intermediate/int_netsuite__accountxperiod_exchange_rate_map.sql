@@ -2,22 +2,22 @@
 
 with accounts as (
     select * 
-    from {{ ref('stg_netsuite__accounts') }}
+    from {{ ref('netsuite', 'stg_netsuite__accounts') }}
 ), 
 
 accounting_books as (
     select * 
-    from {{ ref('stg_netsuite__accounting_books') }}
+    from {{ ref('netsuite', 'stg_netsuite__accounting_books') }}
 ), 
 
 subsidiaries as (
     select * 
-    from {{ ref('stg_netsuite__subsidiaries') }}
+    from {{ ref('netsuite', 'stg_netsuite__subsidiaries') }}
 ),
 
 consolidated_exchange_rates as (
     select * 
-    from {{ ref('stg_netsuite__consolidated_exchange_rates') }}
+    from {{ ref('netsuite', 'stg_netsuite__consolidated_exchange_rates') }}
 ),
 
 period_exchange_rate_map as ( -- exchange rates used, by accounting period, to convert to parent subsidiary

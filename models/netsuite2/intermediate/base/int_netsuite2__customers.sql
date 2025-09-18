@@ -3,13 +3,13 @@
 with customers as (
 
     select *
-    from {{ ref('stg_netsuite2__customers') }}
+    from {{ ref('netsuite', 'stg_netsuite2__customers') }}
 ),
 
 entity_address as (
 
     select *
-    from {{ ref('stg_netsuite2__entity_address') }}
+    from {{ ref('netsuite', 'stg_netsuite2__entity_address') }}
 ),
 
 joined as (

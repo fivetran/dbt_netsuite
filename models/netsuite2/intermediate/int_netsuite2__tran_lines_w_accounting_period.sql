@@ -2,12 +2,12 @@
 
 with transactions as (
     select * 
-    from {{ ref('stg_netsuite2__transactions') }}
+    from {{ ref('netsuite', 'stg_netsuite2__transactions') }}
 ), 
 
 transaction_lines as (
     select * 
-    from {{ ref('int_netsuite2__transaction_lines') }}
+    from {{ ref('netsuite', 'int_netsuite2__transaction_lines') }}
 ),
 
 transaction_lines_w_accounting_period as ( -- transaction line totals, by accounts, accounting period and subsidiary

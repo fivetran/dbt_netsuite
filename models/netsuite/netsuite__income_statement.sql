@@ -2,50 +2,50 @@
 
 with transactions_with_converted_amounts as (
     select * 
-    from {{ ref('int_netsuite__transactions_with_converted_amounts') }}
+    from {{ ref('netsuite', 'int_netsuite__transactions_with_converted_amounts') }}
 ), 
 
 --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
 {% if var('income_statement_transaction_detail_columns') != []%}
 transaction_details as (
     select * 
-    from {{ ref('netsuite__transaction_details') }}
+    from {{ ref('netsuite', 'netsuite__transaction_details') }}
 ), 
 {% endif %}
 
 accounts as (
     select * 
-    from {{ ref('stg_netsuite__accounts') }}
+    from {{ ref('netsuite', 'stg_netsuite__accounts') }}
 ), 
 
 accounting_periods as (
     select * 
-    from {{ ref('stg_netsuite__accounting_periods') }}
+    from {{ ref('netsuite', 'stg_netsuite__accounting_periods') }}
 ),
 
 subsidiaries as (
     select * 
-    from {{ ref('stg_netsuite__subsidiaries') }}
+    from {{ ref('netsuite', 'stg_netsuite__subsidiaries') }}
 ),
 
 transaction_lines as (
     select * 
-    from {{ ref('stg_netsuite__transaction_lines') }}
+    from {{ ref('netsuite', 'stg_netsuite__transaction_lines') }}
 ),
 
 classes as (
     select * 
-    from {{ ref('stg_netsuite__classes') }}
+    from {{ ref('netsuite', 'stg_netsuite__classes') }}
 ),
 
 locations as (
     select * 
-    from {{ ref('stg_netsuite__locations') }}
+    from {{ ref('netsuite', 'stg_netsuite__locations') }}
 ),
 
 departments as (
     select * 
-    from {{ ref('stg_netsuite__departments') }}
+    from {{ ref('netsuite', 'stg_netsuite__departments') }}
 ),
 
 income_statement as (

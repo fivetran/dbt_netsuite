@@ -6,24 +6,24 @@
 
 with transaction_lines_w_accounting_period as (
   select * 
-  from {{ ref('int_netsuite2__tran_lines_w_accounting_period') }}
+  from {{ ref('netsuite', 'int_netsuite2__tran_lines_w_accounting_period') }}
 ), 
 
 {% if var('netsuite2__using_exchange_rate', true) %}
 accountxperiod_exchange_rate_map as (
   select * 
-  from {{ ref('int_netsuite2__acctxperiod_exchange_rate_map') }}
+  from {{ ref('netsuite', 'int_netsuite2__acctxperiod_exchange_rate_map') }}
 ), 
 {% endif %}
 
 transaction_and_reporting_periods as (
   select * 
-  from {{ ref('int_netsuite2__tran_and_reporting_periods') }}
+  from {{ ref('netsuite', 'int_netsuite2__tran_and_reporting_periods') }}
 ), 
 
 accounts as (
   select * 
-  from {{ ref('int_netsuite2__accounts') }}
+  from {{ ref('netsuite', 'int_netsuite2__accounts') }}
 ),
 
 transactions_in_every_calculation_period_w_exchange_rates as (

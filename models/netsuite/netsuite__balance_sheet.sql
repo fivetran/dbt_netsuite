@@ -2,30 +2,30 @@
 
 with transactions_with_converted_amounts as (
     select * 
-    from {{ref('int_netsuite__transactions_with_converted_amounts')}}
+    from {{ ref('netsuite', 'int_netsuite__transactions_with_converted_amounts') }}
 ), 
 
 --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
 {% if var('balance_sheet_transaction_detail_columns') != []%}
 transaction_details as (
     select * 
-    from {{ ref('netsuite__transaction_details') }}
+    from {{ ref('netsuite', 'netsuite__transaction_details') }}
 ), 
 {% endif %}
 
 accounts as (
     select * 
-    from {{ ref('stg_netsuite__accounts') }}
+    from {{ ref('netsuite', 'stg_netsuite__accounts') }}
 ), 
 
 accounting_periods as (
     select * 
-    from {{ ref('stg_netsuite__accounting_periods') }}
+    from {{ ref('netsuite', 'stg_netsuite__accounting_periods') }}
 ), 
 
 subsidiaries as (
     select * 
-    from {{ ref('stg_netsuite__subsidiaries') }}
+    from {{ ref('netsuite', 'stg_netsuite__subsidiaries') }}
 ),
 
 balance_sheet as ( 

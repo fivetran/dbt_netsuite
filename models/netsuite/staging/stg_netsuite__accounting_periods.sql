@@ -3,7 +3,7 @@
 with base as (
 
     select * 
-    from {{ ref('stg_netsuite__accounting_periods_tmp') }}
+    from {{ ref('netsuite', 'stg_netsuite__accounting_periods_tmp') }}
 
 ),
 
