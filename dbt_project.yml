@@ -84,3 +84,4 @@ vars:
     vendors_pass_through_columns: []
     items_pass_through_columns: []
     entities_pass_through_columns: []
+    netsuite2_sources: []
