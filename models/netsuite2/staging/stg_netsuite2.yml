@@ -358,14 +358,14 @@ models:
     description: "{{ doc('entities_table') }}"
     columns:
       - name: entity_id
-        description: Th "{{ doc('entity_id') }}"e unique identifier of the entity.
+        description: "{{ doc('entity_id') }}"
         tests:
           - unique
           - not_null
       - name: contact_id
         description: The unique identifier of the contact associated with the entity.
       - name: customer_id
-        description: The  "{{ doc('customer_id') }}"unique identifier of the customer associated with the entity.
+        description: "{{ doc('customer_id') }}"
       - name: employee_id
         description: The unique identifier of the employee associated with the entity.
       - name: entity_name
@@ -379,7 +379,7 @@ models:
       - name: entity_type
         description: The entity type (Contact, CustJob, Job, etc).
       - name: vendor_id
-        description: Th "{{ doc('vendor_id') }}"e unique identifier of the vendor associated with the entity.
+        description: "{{ doc('vendor_id') }}"
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
 
@@ -555,7 +555,7 @@ models:
     description: "{{ doc('transaction_accounting_lines_table') }}"
     columns:
       - name: transaction_id
-        description: The tra "{{ doc('transaction_id') }}"nsaction id which the transaction line is associated with.
+        description: "{{ doc('transaction_id') }}"
         tests:
           - not_null
       - name: transaction_line_id
@@ -711,3 +711,60 @@ models:
         description: "{{ doc('create_date_at') }}"
       - name: vendor_category_id
         description: "{{ doc('vendor_category_id') }}"
+
+  - name: stg_netsuite2__nexuses
+    description: "{{ doc('nexuses_table') }}"
+    columns:
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: nexus_id
+        description: The unique identifier of the nexus.
+        tests:
+          - unique
+          - not_null
+      - name: country
+        description: The country where the nexus is located.
+      - name: description
+        description: Description of the nexus.
+      - name: state
+        description: The state where the nexus is located.
+      - name: tax_agency_id
+        description: The unique identifier of the tax agency associated with the nexus.
+
+  - name: stg_netsuite2__customer_subsidiary_relationships
+    description: "{{ doc('customer_subsidiary_relationships_table') }}"
+    columns:
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: customer_subsidiary_relationship_id
+        description: The unique identifier of the customer subsidiary relationship.
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "{{ doc('customer_id') }}"
+      - name: is_primary_sub
+        description: Boolean indicating if this is the primary subsidiary for the customer.
+      - name: primary_currency_id
+        description: "{{ doc('currency_id') }}"
+      - name: subsidiary_id
+        description: "{{ doc('subsidiary_id') }}"
+
+  - name: stg_netsuite2__vendor_subsidiary_relationships
+    description: "{{ doc('vendor_subsidiary_relationships_table') }}"
+    columns:
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: vendor_subsidiary_relationship_id
+        description: The unique identifier of the vendor subsidiary relationship.
+        tests:
+          - unique
+          - not_null
+      - name: vendor_id
+        description: "{{ doc('vendor_id') }}"
+      - name: is_primary_sub
+        description: Boolean indicating if this is the primary subsidiary for the vendor.
+      - name: primary_currency_id
+        description: "{{ doc('currency_id') }}"
+      - name: subsidiary_id
+        description: "{{ doc('subsidiary_id') }}"

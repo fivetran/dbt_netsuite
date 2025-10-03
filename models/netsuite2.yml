@@ -385,3 +385,33 @@ models:
       description: "{{ doc('item_id') }}"
     - name: transaction_number
       description: The Netsuite generated number of the transaction.
+
+  - name: netsuite2__entity_subsidiary_relationships
+    description: >
+      This model provides a unified view of entity-subsidiary relationships for both customers and vendors.
+      It combines customer and vendor subsidiary relationship data into a single table, providing
+      information about which subsidiaries each entity is associated with, including primary subsidiary
+      designation and currency details.
+    columns:
+    - name: entity_type
+      description: The type of entity - either 'customer' or 'vendor'.
+    - name: _fivetran_synced
+      description: "{{ doc('_fivetran_synced') }}"
+    - name: entity_subsidiary_relationship_id
+      description: The unique identifier of the entity subsidiary relationship.
+    - name: entity_internal_id
+      description: The internal ID of the entity (customer_id or vendor_id).
+    - name: entity_display_id
+      description: The display ID of the entity.
+    - name: is_primary_sub
+      description: Boolean indicating if this is the primary subsidiary for the entity.
+    - name: entity_currency_id
+      description: The currency ID associated with the entity.
+    - name: entity_currency_symbol
+      description: The currency symbol associated with the entity.
+    - name: subsidiary_id
+      description: "{{ doc('subsidiary_id') }}"
+    - name: subsidiary_name
+      description: Name of the subsidiary.
+    - name: entity_alt_name
+      description: Alternative name of the entity.
