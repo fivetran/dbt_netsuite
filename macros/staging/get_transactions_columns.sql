@@ -38,6 +38,11 @@
     {"name": "lastmodifiedby", "datatype": dbt.type_int()},
     {"name": "postingperiod", "datatype": dbt.type_int()},
     {"name": "posting", "datatype": dbt.type_string()},
+    {"name": "nexus", "datatype": dbt.type_int()},
+    {"name": "taxregoverride", "datatype": dbt.type_string()},
+    {"name": "taxdetailsoverride", "datatype": dbt.type_string()},
+    {"name": "taxpointdate", "datatype": dbt.type_timestamp()},
+    {"name": "taxpointdateoverride", "datatype": dbt.type_string()},
     {"name": "intercoadj", "datatype": dbt.type_string()},
     {"name": "isreversal", "datatype": dbt.type_string()},
     {"name": "reversal", "datatype": dbt.type_int()},
@@ -51,3 +56,4 @@
 {{ return(columns) }}
 
 {% endmacro %}
+

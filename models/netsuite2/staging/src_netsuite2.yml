@@ -292,6 +292,23 @@ sources:
           - name: altname
             description: "{{ doc('alt_name') }}"
 
+      - name: customer_subsidiary_relationship
+        identifier: "{{ var('netsuite2_customer_subsidiary_relationship_identifier', 'customersubsidiaryrelationship') }}"
+        description: "{{ doc('customer_subsidiary_relationship_table') }}"
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: id
+            description: The unique identifier of the customer and subsidiary relationship.
+          - name: entity
+            description: "{{ doc('customer_id') }}"
+          - name: isprimarysub
+            description: Boolean indicating the customer primary subsidiary.
+          - name: subsidiary
+            description: "{{ doc('subsidiary_id') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('_fivetran_deleted') }}"
+
       - name: department
         identifier: "{{ var('netsuite2_department_identifier', 'department') }}"
         description: "{{ doc('departments_table') }}"
@@ -510,6 +527,23 @@ sources:
           - name: subsidiary
             description: "{{ doc('subsidiary_id') }}"
 
+      - name: nexus
+        identifier: "{{ var('netsuite2_item_identifier', 'nexus') }}"
+        description: "{{ doc('nexuses_table') }}"
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: id
+            description: "{{ doc('nexus_id') }}"
+          - name: country
+            description: Country this nexus is located in.
+          - name: description
+            description: Description for this record.
+          - name: state
+            description: State, province or county this nexus is located in.
+          - name: taxagency
+            description: Tax vendor id to whom you submit tax reports and remit payments.
+
       - name: subsidiary
         identifier: "{{ var('netsuite2_subsidiary_identifier', 'subsidiary') }}"
         description: "{{ doc('subsidiaries_table') }}"
@@ -683,3 +717,21 @@ sources:
             description: "{{ doc('vendor_category_id') }}"
           - name: altname
             description: "{{ doc('alt_name') }}"
+
+      - name: vendor_subsidiary_relationship
+        identifier: "{{ var('netsuite2_vendor_subsidiary_relationship_identifier', 'vendorsubsidiaryrelationship') }}"
+        description: "{{ doc('vendor_subsidiary_relationship_table') }}"
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: id
+            description: The unique identifier of the vendor and subsidiary relationship.
+          - name: entity
+            description: "{{ doc('vendor_id') }}"
+          - name: isprimarysub
+            description: Boolean indicating the vendor primary subsidiary.
+          - name: subsidiary
+            description: "{{ doc('subsidiary_id') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('_fivetran_deleted') }}"
+
