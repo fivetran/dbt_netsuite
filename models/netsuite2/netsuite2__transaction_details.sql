@@ -63,10 +63,12 @@ locations as (
     from {{ ref('int_netsuite2__locations') }}
 ),
 
+{% if var('netsuite2__using_nexuses', true) %}
 nexuses as (
     select *
     from {{ ref('stg_netsuite2__nexuses') }}
 ),
+{% endif %}
 
 vendors as (
     select * 
@@ -120,6 +122,8 @@ transaction_details as (
     transactions.transaction_date,
     transactions.due_date_at as transaction_due_date,
     transactions.transaction_type as transaction_type,
+
+    {% if var('netsuite2__using_nexuses', true) %}
     transactions.nexus_id,
     nexuses.country as nexus_country,
     nexuses.state as nexus_state,
@@ -129,6 +133,8 @@ transaction_details as (
     transactions.is_tax_details_override,
     transactions.tax_point_date,
     transactions.tax_point_date_override,
+    {% endif %}
+
     transaction_lines.transaction_line_fivetran_synced_date,
     transactions.transaction_number,
     coalesce(transaction_lines.entity_id, transactions.entity_id) as entity_id,
@@ -315,11 +321,13 @@ transaction_details as (
   left join locations 
     on locations.location_id = transaction_lines.location_id
 
+  {% if var('netsuite2__using_nexuses', true) %}
   left join nexuses
     on nexuses.nexus_id = transactions.nexus_id
 
   left join vendors vendors__nexuses
     on vendors__nexuses.vendor_id = nexuses.tax_agency_id
+  {% endif %}
 
   left join vendors vendors__transactions
     on vendors__transactions.vendor_id = transactions.entity_id

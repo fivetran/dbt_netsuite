@@ -50,7 +50,7 @@ vars:
     netsuite2_consolidated_exchange_rates: "{{ source('netsuite2', 'consolidated_exchange_rate') }}"
     netsuite2_currencies: "{{ source('netsuite2', 'currency') }}"
     netsuite2_customers: "{{ source('netsuite2', 'customer') }}"
-    netsuite2_customer_subsidiary_relationship: "{{ source('netsuite2', 'customer_subsidiary_relationship') }}"
+    netsuite2_customer_subsidiary_relationships: "{{ source('netsuite2', 'customer_subsidiary_relationship') }}"
     netsuite2_departments: "{{ source('netsuite2', 'department') }}"
     netsuite2_employees: "{{ source('netsuite2', 'employee') }}"
     netsuite2_entities: "{{ source('netsuite2', 'entity') }}"
@@ -66,7 +66,7 @@ vars:
     netsuite2_transactions: "{{ source('netsuite2', 'transaction') }}"
     netsuite2_vendor_categories: "{{ source('netsuite2', 'vendor_category') }}"
     netsuite2_vendors: "{{ source('netsuite2', 'vendor') }}"
-    netsuite2_vendor_subsidiary_relationship: "{{ source('netsuite2', 'vendor_subsidiary_relationship') }}"
+    netsuite2_vendor_subsidiary_relationships: "{{ source('netsuite2', 'vendor_subsidiary_relationship') }}"
 
     accounts_pass_through_columns: []
     accounting_periods_pass_through_columns: []

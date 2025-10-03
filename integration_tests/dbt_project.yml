@@ -60,6 +60,9 @@ vars:
     netsuite2_account_type_identifier: "netsuite2_account_type_data"
     netsuite2_entity_address_identifier: "netsuite2_entity_address_data"
     netsuite2_location_main_address_identifier: "netsuite2_location_main_address_data"
+    netsuite2_customer_subsidiary_relationships_identifier: "nnetsuite2_customer_subsidiary_relationship_data"
+    netsuite2_vendor_subsidiary_relationships_identifier: "netsuite2_vendor_subsidiary_relationship_data"
+    netsuite2_nexus_identifier: "netsuite2_nexus_data"
 
 seeds:
   +docs:

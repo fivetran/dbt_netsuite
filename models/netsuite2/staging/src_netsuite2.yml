@@ -293,7 +293,7 @@ sources:
             description: "{{ doc('alt_name') }}"
 
       - name: customer_subsidiary_relationship
-        identifier: "{{ var('netsuite2_customer_subsidiary_relationship_identifier', 'customersubsidiaryrelationship') }}"
+        identifier: "{{ var('netsuite2_customer_subsidiary_relationships_identifier', 'customersubsidiaryrelationship') }}"
         description: "{{ doc('customer_subsidiary_relationship_table') }}"
         columns:
           - name: _fivetran_synced
@@ -717,9 +717,11 @@ sources:
             description: "{{ doc('vendor_category_id') }}"
           - name: altname
             description: "{{ doc('alt_name') }}"
+          - name: entity_id
+            description: "{{ doc('entity_id') }}"
 
       - name: vendor_subsidiary_relationship
-        identifier: "{{ var('netsuite2_vendor_subsidiary_relationship_identifier', 'vendorsubsidiaryrelationship') }}"
+        identifier: "{{ var('netsuite2_vendor_subsidiary_relationships_identifier', 'vendorsubsidiaryrelationship') }}"
         description: "{{ doc('vendor_subsidiary_relationship_table') }}"
         columns:
           - name: _fivetran_synced

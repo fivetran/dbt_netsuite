@@ -24,6 +24,7 @@ final as (
     select
         _fivetran_synced,
         id as vendor_id,
+        entityid as entity_id,
         altname as alt_name,
         companyname as company_name,
         datecreated as create_date_at,
