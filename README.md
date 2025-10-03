@@ -34,6 +34,16 @@ The following table provides a detailed list of all tables materialized within t
 
 Many of the above reports are now configurable for [visualization via Streamlit](https://github.com/fivetran/streamlit_netsuite)! Check out some [sample reports here](https://fivetran-netsuite.streamlit.app/).
 
+### Example Visualizations
+Curious what these tables can do? Check out example visualizations from the [netsuite2__balance_sheet](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__balance_sheet) and [netsuite2__income_statement](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__income_statement) tables in the [Fivetran Billing Model Streamlit App](https://fivetran-billing-model.streamlit.app/), and see how you can use these tables in your own reporting. Below is a screenshot of an example report—explore the app for more.
+
+<p align="center">
+<a href="https://fivetran-billing-model.streamlit.app/">
+    <img src="https://raw.githubusercontent.com/fivetran/dbt_netsuite/main/images/streamlit_example.png" alt="Streamlit Billing Model App" width="60%">
+</a>
+</p>
+
+
 ### Materialized Models
 Each Quickstart transformation job run materializes 88 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
 <!--section-end-->
