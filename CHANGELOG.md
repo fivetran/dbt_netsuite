@@ -1,4 +1,26 @@
 # dbt_netsuite v1.1.0
+
+## Schema/Data Change
+**4 total changes • 0 possible breaking changes**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ---------- | ----------- | -------- | -------- | ----- |
+| `stg_netsuite2__nexuses` | Addition | N/A | New staging model | Provides access to Netsuite tax nexus data |
+| `stg_netsuite2__customer_subsidiary_relationships` | Addition | N/A | New staging model | Maps customers to their associated subsidiaries |
+| `stg_netsuite2__vendor_subsidiary_relationships` | Addition | N/A | New staging model | Maps vendors to their associated subsidiaries |
+| `netsuite2__entity_subsidiary_relationships` | Addition | N/A | New end model | Unified view combining customer and vendor subsidiary relationships |
+
+## Feature Update
+- **Nexus Support**: Added comprehensive support for Netsuite nexus data through new staging model `stg_netsuite2__nexuses` with configurable pass-through columns
+- **Entity-Subsidiary Relationships**: New end model `netsuite2__entity_subsidiary_relationships` provides a unified view of both customer and vendor subsidiary relationships with enhanced metadata including currency information
+- **Union Data Functionality**: Added new macros (`union_netsuite_connections`, `netsuite_source_relation`, `netsuite_union_relations`) to support multiple Netsuite source connections
+
+## Under the Hood
+- Added new staging macros: `get_nexuses_columns`, `get_customer_subsidiary_relationships_columns`, `get_vendor_subsidiary_relationships_columns`
+- Enhanced `get_vendors_columns` macro with additional field support
+- Updated integration tests configuration and seed data references
+- Added Streamlit example documentation and images
+
 # dbt_netsuite v1.0.0
 
 [PR #168](https://github.com/fivetran/dbt_netsuite/pull/168) includes the following updates:
