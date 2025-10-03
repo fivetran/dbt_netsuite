@@ -43,9 +43,8 @@ Curious what these tables can do? Check out example visualizations from the [net
 </a>
 </p>
 
-
 ### Materialized Models
-Each Quickstart transformation job run materializes 88 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
+Each Quickstart transformation job run materializes 92 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
 <!--section-end-->
 
 ## How do I use the dbt package?
