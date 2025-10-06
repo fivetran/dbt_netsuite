@@ -113,6 +113,8 @@ vars:
     netsuite_data_model: netsuite2 #netsuite by default
 ```
 
+> The `netsuite_data_model` variable is automatically configured for Fivetran Quickstart users.
+
 ### Step 4: Define database and schema variables
 By default, this package runs using your destination and the `netsuite` schema. If this is not where your Netsuite data is (for example, if your netsuite schema is named `netsuite_fivetran`), add the following configuration to your root `dbt_project.yml` file:
 
