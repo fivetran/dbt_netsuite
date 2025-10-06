@@ -1,4 +1,11 @@
-{{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
+{{
+    config(
+        enabled=(
+            var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')
+            and var('netsuite2__using_customer_subsidiary_relationships', true)
+        )
+    )
+}}
 
 {{
     netsuite.union_netsuite_connections(

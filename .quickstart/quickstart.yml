@@ -4,19 +4,26 @@ schema_key: netsuite_schema
 dbt_versions: ">=1.3.0 <2.0.0"
 
 table_variables:
+  netsuite2__fiscal_calendar_enabled:
+    - FiscalCalendar
   netsuite2__multibook_accounting_enabled:
     - accountingBook
     - AccountingBookSubsidiaries
-  netsuite2__using_exchange_rate:
-    - consolidatedExchangeRate
-  netsuite2__using_vendor_categories:
-    - VendorCategory
-  netsuite2__using_jobs:
-    - job
+
+  netsuite2__using_customer_subsidiary_relationships:
+    - CustomerSubsidiaryRelationship
   netsuite2__using_employees:
     - employee
-  netsuite2__fiscal_calendar_enabled:
-    - FiscalCalendar
+  netsuite2__using_exchange_rate:
+    - consolidatedExchangeRate
+  netsuite2__using_jobs:
+    - job
+  netsuite2__using_nexuses:
+    - Nexus
+  netsuite2__using_vendor_subsidiary_relationships:
+    - VendorSubsidiaryRelationship
+  netsuite2__using_vendor_categories:
+    - VendorCategory
 
 destination_configurations:
   databricks:
