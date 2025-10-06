@@ -6,7 +6,7 @@
 
 {% macro default__apply_source_relation() -%}
 
-{% if var('netsuite_sources', []) != [] %}
+{% if var('netsuite2_sources', []) != [] %}
 , _dbt_source_relation as source_relation
 {% else %}
 , '{{ var("netsuite_database", target.database) }}' || '.'|| '{{ var("netsuite_schema", "netsuite") }}' as source_relation

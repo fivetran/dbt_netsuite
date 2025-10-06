@@ -8,7 +8,7 @@ models:
   # +schema: "netsuite_{{ var('directed_schema','dev') }}"  ## To be used for validation tests
 
 vars:
-  netsuite_schema: netsuite_integration_tests_9
+  netsuite_schema: netsuite_integration_tests
   netsuite_data_model_override: netsuite
 
   # Enable below when generating docs
@@ -84,5 +84,4 @@ dispatch:
 
 flags:
   send_anonymous_usage_stats: False
-
   use_colors: True

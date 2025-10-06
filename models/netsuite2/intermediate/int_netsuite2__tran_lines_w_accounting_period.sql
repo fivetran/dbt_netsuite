@@ -1,3 +1,5 @@
+{%- set multibook_accounting_enabled = var('netsuite2__multibook_accounting_enabled', false) -%}
+
 {{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
 
 with transactions as (
@@ -17,7 +19,7 @@ transaction_lines_w_accounting_period as ( -- transaction line totals, by accoun
     transaction_lines.subsidiary_id,
     transaction_lines.account_id,
 
-    {% if var('netsuite2__multibook_accounting_enabled', false) %}
+    {% if multibook_accounting_enabled %}
     transaction_lines.accounting_book_id,
     transaction_lines.accounting_book_name,
     {% endif %}

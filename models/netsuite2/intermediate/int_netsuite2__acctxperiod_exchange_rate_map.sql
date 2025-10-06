@@ -1,3 +1,6 @@
+{%- set multibook_accounting_enabled = var('netsuite2__multibook_accounting_enabled', false) -%}
+{%- set using_to_subsidiary = var('netsuite2__using_to_subsidiary', false) -%}
+
 {{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2') and var('netsuite2__using_exchange_rate', true)) }}
 
 with accounts as (
@@ -5,7 +8,7 @@ with accounts as (
     from {{ ref('int_netsuite2__accounts') }}
 ), 
 
-{% if var('netsuite2__multibook_accounting_enabled', false) %}
+{% if multibook_accounting_enabled %}
 accounting_books as (
     select * 
     from {{ ref('stg_netsuite2__accounting_books') }}
@@ -31,7 +34,7 @@ period_exchange_rate_map as ( -- exchange rates used, by accounting period, to c
   select
     consolidated_exchange_rates.accounting_period_id,
 
-    {% if var('netsuite2__multibook_accounting_enabled', false) %}
+    {% if multibook_accounting_enabled %}
     consolidated_exchange_rates.accounting_book_id,
     {% endif %}
 
@@ -50,7 +53,7 @@ period_exchange_rate_map as ( -- exchange rates used, by accounting period, to c
   left join currencies
     on currencies.currency_id = to_subsidiaries.currency_id
 
-  {% if not var('netsuite2__using_to_subsidiary', false) %}
+  {% if not using_to_subsidiary %}
   where consolidated_exchange_rates.to_subsidiary_id in (select subsidiary_id from subsidiaries where parent_id is null)  -- constraint - only the primary subsidiary has no parent
   {% endif %}
 ), 
@@ -59,7 +62,7 @@ accountxperiod_exchange_rate_map as ( -- account table with exchange rate detail
   select
     period_exchange_rate_map.accounting_period_id,
 
-    {% if var('netsuite2__multibook_accounting_enabled', false) %}
+    {% if multibook_accounting_enabled %}
     period_exchange_rate_map.accounting_book_id,
     {% endif %}
     

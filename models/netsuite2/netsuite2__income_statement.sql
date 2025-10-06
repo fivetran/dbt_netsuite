@@ -1,3 +1,11 @@
+{%- set multibook_accounting_enabled = var('netsuite2__multibook_accounting_enabled', false) -%}
+{%- set using_to_subsidiary = var('netsuite2__using_to_subsidiary', false) -%}
+{%- set using_exchange_rate = var('netsuite2__using_exchange_rate', true) -%}
+{%- set income_statement_transaction_detail_columns = var('income_statement_transaction_detail_columns', []) -%}
+{%- set accounts_pass_through_columns = var('accounts_pass_through_columns', []) -%}
+{%- set classes_pass_through_columns = var('classes_pass_through_columns', []) -%}
+{%- set departments_pass_through_columns = var('departments_pass_through_columns', []) -%}
+
 {{
     config(
         enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
@@ -21,7 +29,7 @@ with transactions_with_converted_amounts as (
 ), 
 
 --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
-{% if var('income_statement_transaction_detail_columns') != []%}
+{% if income_statement_transaction_detail_columns != []%}
 transaction_details as (
     select * 
     from {{ ref('netsuite2__transaction_details') }}
@@ -74,12 +82,12 @@ income_statement as (
         transactions_with_converted_amounts.transaction_line_id,
         transactions_with_converted_amounts._fivetran_synced_date,
 
-        {% if var('netsuite2__multibook_accounting_enabled', false) %}
+        {% if multibook_accounting_enabled %}
         transactions_with_converted_amounts.accounting_book_id,
         transactions_with_converted_amounts.accounting_book_name,
         {% endif %}
 
-        {% if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
+        {% if using_to_subsidiary and using_exchange_rate %}
         transactions_with_converted_amounts.to_subsidiary_id,
         transactions_with_converted_amounts.to_subsidiary_name,
         transactions_with_converted_amounts.to_subsidiary_currency_symbol,
@@ -102,14 +110,14 @@ income_statement as (
         subsidiaries_currencies.symbol as subsidiary_currency_symbol
 
         --The below script allows for accounts table pass through columns.
-        {{ netsuite.persist_pass_through_columns(var('accounts_pass_through_columns', []), identifier='accounts') }},
+        {{ netsuite.persist_pass_through_columns(accounts_pass_through_columns, identifier='accounts') }},
 
         {{ dbt.concat(['accounts.account_number',"'-'", 'accounts.name']) }} as account_number_and_name,
         classes.class_id,
         classes.full_name as class_full_name
 
         --The below script allows for accounts table pass through columns.
-        {{ netsuite.persist_pass_through_columns(var('classes_pass_through_columns', []), identifier='classes') }},
+        {{ netsuite.persist_pass_through_columns(classes_pass_through_columns, identifier='classes') }},
 
         locations.location_id,
         locations.full_name as location_full_name,
@@ -117,7 +125,7 @@ income_statement as (
         departments.full_name as department_full_name
 
         --The below script allows for departments table pass through columns.
-        {{ netsuite.persist_pass_through_columns(var('departments_pass_through_columns', []), identifier='departments') }},
+        {{ netsuite.persist_pass_through_columns(departments_pass_through_columns, identifier='departments') }},
 
         transactions_with_converted_amounts.account_category as account_category,
         case when lower(accounts.account_type_id) = 'income' then 1
@@ -129,9 +137,9 @@ income_statement as (
             end as income_statement_sort_helper
 
         --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
-        {% if var('income_statement_transaction_detail_columns') %}
+        {% if income_statement_transaction_detail_columns %}
 
-        , transaction_details.{{ var('income_statement_transaction_detail_columns') | join (", transaction_details.")}}
+        , transaction_details.{{ income_statement_transaction_detail_columns | join (", transaction_details.")}}
 
         {% endif %}
 
@@ -145,7 +153,7 @@ income_statement as (
         on transaction_lines.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
             and transaction_lines.transaction_id = transactions_with_converted_amounts.transaction_id
 
-            {% if var('netsuite2__multibook_accounting_enabled', false) %}
+            {% if multibook_accounting_enabled %}
             and transaction_lines.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
             {% endif %}
 
@@ -171,16 +179,16 @@ income_statement as (
         on subsidiaries_currencies.currency_id = subsidiaries.currency_id
 
     --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
-    {% if var('income_statement_transaction_detail_columns') != []%}
+    {% if income_statement_transaction_detail_columns != []%}
     join transaction_details
         on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
         and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
         
-        {% if var('netsuite2__multibook_accounting_enabled', false) %}
+        {% if multibook_accounting_enabled %}
         and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
         {% endif %}
 
-        {% if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
+        {% if using_to_subsidiary and using_exchange_rate %}
         and transaction_details.to_subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
         {% endif %}
     {% endif %}
@@ -192,8 +200,8 @@ income_statement as (
 
 surrogate_key as ( 
     {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id', 'accounting_period_id', 'account_name'] %}
-    {% do surrogate_key_fields.append('to_subsidiary_id') if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
-    {% do surrogate_key_fields.append('accounting_book_id') if var('netsuite2__multibook_accounting_enabled', false) %}
+    {% do surrogate_key_fields.append('to_subsidiary_id') if using_to_subsidiary and using_exchange_rate %}
+    {% do surrogate_key_fields.append('accounting_book_id') if multibook_accounting_enabled %}
 
     select 
         *,

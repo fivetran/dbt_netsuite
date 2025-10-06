@@ -43,7 +43,7 @@
 {% else %}
 {# Not unioning #}
 
-    {% set identifier_var = "netsuite_" + single_table_name + "_identifier"%}
+    {% set identifier_var = single_source_name + "_" + single_table_name + "_identifier"%}
 
     {%- set relation=adapter.get_relation(
         database=source(single_source_name, single_table_name).database,

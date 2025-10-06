@@ -1,3 +1,9 @@
+{%- set multibook_accounting_enabled = var('netsuite2__multibook_accounting_enabled', false) -%}
+{%- set using_to_subsidiary = var('netsuite2__using_to_subsidiary', false) -%}
+{%- set using_exchange_rate = var('netsuite2__using_exchange_rate', true) -%}
+{%- set balance_sheet_transaction_detail_columns = var('balance_sheet_transaction_detail_columns', []) -%}
+{%- set accounts_pass_through_columns = var('accounts_pass_through_columns', []) -%}
+
 {{
     config(
         enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
@@ -21,7 +27,7 @@ with transactions_with_converted_amounts as (
 ), 
 
 --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
-{% if var('balance_sheet_transaction_detail_columns') != []%}
+{% if balance_sheet_transaction_detail_columns != []%}
 transaction_details as (
     select * 
     from {{ ref('netsuite2__transaction_details') }}
@@ -58,12 +64,12 @@ balance_sheet as (
         subsidiaries.name as subsidiary_name,
         subsidiaries_currencies.symbol as subsidiary_currency_symbol,
 
-        {% if var('netsuite2__multibook_accounting_enabled', false) %}
+        {% if multibook_accounting_enabled %}
         transactions_with_converted_amounts.accounting_book_id,
         transactions_with_converted_amounts.accounting_book_name,
         {% endif %}
         
-        {% if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
+        {% if using_to_subsidiary and using_exchange_rate %}
         transactions_with_converted_amounts.to_subsidiary_id,
         transactions_with_converted_amounts.to_subsidiary_name,
         transactions_with_converted_amounts.to_subsidiary_currency_symbol,
@@ -167,25 +173,25 @@ balance_sheet as (
             end as balance_sheet_sort_helper
 
     --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
-    {% if var('balance_sheet_transaction_detail_columns') %}
+    {% if balance_sheet_transaction_detail_columns %}
     
-    , transaction_details.{{ var('balance_sheet_transaction_detail_columns') | join (", transaction_details.")}}
+    , transaction_details.{{ balance_sheet_transaction_detail_columns | join (", transaction_details.")}}
 
     {% endif %}
 
     from transactions_with_converted_amounts
     
     --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
-    {% if var('balance_sheet_transaction_detail_columns') != []%}
+    {% if balance_sheet_transaction_detail_columns != []%}
     left join transaction_details
         on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
         and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
 
-        {% if var('netsuite2__multibook_accounting_enabled', false) %}
+        {% if multibook_accounting_enabled %}
         and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
         {% endif %}
 
-        {% if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
+        {% if using_to_subsidiary and using_exchange_rate %}
         and transaction_details.to_subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
         {% endif %}
     {% endif %}
@@ -222,12 +228,12 @@ balance_sheet as (
         subsidiaries.name as subsidiary_name,
         subsidiaries_currencies.symbol as subsidiary_currency_symbol,
 
-        {% if var('netsuite2__multibook_accounting_enabled', false) %}
+        {% if multibook_accounting_enabled %}
         transactions_with_converted_amounts.accounting_book_id,
         transactions_with_converted_amounts.accounting_book_name,
         {% endif %}
 
-        {% if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
+        {% if using_to_subsidiary and using_exchange_rate %}
         transactions_with_converted_amounts.to_subsidiary_id,
         transactions_with_converted_amounts.to_subsidiary_name,
         transactions_with_converted_amounts.to_subsidiary_currency_symbol,
@@ -248,8 +254,8 @@ balance_sheet as (
         false as is_account_intercompany,
         false as is_account_leftside,
 
-        {% if var('accounts_pass_through_columns') %}
-        {% for field in var('accounts_pass_through_columns') %}
+        {% if accounts_pass_through_columns %}
+        {% for field in accounts_pass_through_columns %}
             null as {{ field.alias if field.alias else field.name }},
         {% endfor %}
         {% endif %}
@@ -264,25 +270,25 @@ balance_sheet as (
         16 as balance_sheet_sort_helper
 
         --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
-        {% if var('balance_sheet_transaction_detail_columns') %}
+        {% if balance_sheet_transaction_detail_columns %}
 
-        , transaction_details.{{ var('balance_sheet_transaction_detail_columns') | join (", transaction_details.")}}
+        , transaction_details.{{ balance_sheet_transaction_detail_columns | join (", transaction_details.")}}
 
         {% endif %}
 
     from transactions_with_converted_amounts
 
     --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
-    {% if var('balance_sheet_transaction_detail_columns') != []%}
+    {% if balance_sheet_transaction_detail_columns != []%}
     left join transaction_details
         on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
         and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
         
-        {% if var('netsuite2__multibook_accounting_enabled', false) %}
+        {% if multibook_accounting_enabled %}
         and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
         {% endif %}
 
-        {% if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
+        {% if using_to_subsidiary and using_exchange_rate %}
         and transaction_details.to_subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
         {% endif %}
     {% endif %}
@@ -306,8 +312,8 @@ balance_sheet as (
 
     surrogate_key as ( 
     {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id', 'accounting_period_id', 'account_name', 'account_id'] %}
-    {% do surrogate_key_fields.append('to_subsidiary_id') if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
-    {% do surrogate_key_fields.append('accounting_book_id') if var('netsuite2__multibook_accounting_enabled', false) %}
+    {% do surrogate_key_fields.append('to_subsidiary_id') if using_to_subsidiary and using_exchange_rate %}
+    {% do surrogate_key_fields.append('accounting_book_id') if multibook_accounting_enabled %}
 
     select 
         *,
