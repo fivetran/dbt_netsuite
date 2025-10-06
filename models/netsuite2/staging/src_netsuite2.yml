@@ -16,6 +16,8 @@ sources:
       - name: account_type
         identifier: "{{ var('netsuite2_account_type_identifier', 'accounttype') }}"
         description: "{{ doc('account_types_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_account_types', true) }}"
         columns:
           - name: _fivetran_deleted
             description:  "{{ doc('_fivetran_deleted') }}"
@@ -34,7 +36,7 @@ sources:
         identifier: "{{ var('netsuite2_accounting_book_subsidiaries_identifier', 'accountingbooksubsidiaries') }}"
         description: "{{ doc('accounting_book_subsidiaries_table') }}"
         config:
-          enabled: "{{ var('netsuite2__multibook_accounting_enabled', true) }}"
+          enabled: "{{ var('netsuite2__multibook_accounting_enabled', true) and var('netsuite2__using_accounting_book_subsidiaries', true) }}"
         columns:
           - name: _fivetran_id
             description: "{{ doc('_fivetran_id') }}"
@@ -51,7 +53,7 @@ sources:
         identifier: "{{ var('netsuite2_accounting_book_identifier', 'accountingbook') }}"
         description: "{{ doc('accounting_books_table') }}"
         config:
-          enabled: "{{ var('netsuite2__multibook_accounting_enabled', true) }}"
+          enabled: "{{ var('netsuite2__multibook_accounting_enabled', true) and var('netsuite2__using_accounting_books', true) }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -79,6 +81,8 @@ sources:
       - name: accounting_period_fiscal_calendars
         identifier: "{{ var('netsuite2_accounting_period_fiscal_calendars_identifier', 'accountingperiodfiscalcalendars') }}"
         description: "{{ doc('accounting_period_fiscal_calendars_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_accounting_period_fiscal_calendars', true) }}"
         columns:
           - name: _fivetran_id
             description: "{{ doc('_fivetran_id') }}"
@@ -201,6 +205,8 @@ sources:
       - name: classification
         identifier: "{{ var('netsuite2_classification_identifier', 'classification') }}"
         description: "{{ doc('classes_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_classification', true) }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -312,6 +318,8 @@ sources:
       - name: department
         identifier: "{{ var('netsuite2_department_identifier', 'department') }}"
         description: "{{ doc('departments_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_departments', true) }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -370,6 +378,8 @@ sources:
       - name: entity
         identifier: "{{ var('netsuite2_entity_identifier', 'entity') }}"
         description: "{{ doc('entities_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_entities', true) }}"
         columns:
           - name: id
             description: Th "{{ doc('entity_id') }}"e unique identifier of the entity.
@@ -395,6 +405,8 @@ sources:
       - name: entity_address
         identifier: "{{ var('netsuite2_entity_address_identifier', 'entityaddress') }}"
         description: "{{ doc('entity_address_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_entity_address', true) }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -422,6 +434,8 @@ sources:
       - name: item
         identifier: "{{ var('netsuite2_item_identifier', 'item') }}"
         description: "{{ doc('items_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_items', true) }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -484,6 +498,8 @@ sources:
       - name: location_main_address
         identifier: "{{ var('netsuite2_location_main_address_identifier', 'locationmainaddress') }}"
         description: "{{ doc('location_main_address_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_location_main_address', true) }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -511,6 +527,8 @@ sources:
       - name: location
         identifier: "{{ var('netsuite2_location_identifier', 'location') }}"
         description: "{{ doc('locations_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_locations', true) }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -547,6 +565,8 @@ sources:
       - name: subsidiary
         identifier: "{{ var('netsuite2_subsidiary_identifier', 'subsidiary') }}"
         description: "{{ doc('subsidiaries_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_subsidiaries', true) }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
