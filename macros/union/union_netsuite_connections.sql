@@ -50,8 +50,13 @@
         schema=source(single_source_name, single_table_name).schema,
         identifier=var(identifier_var, single_table_name)
     ) -%}
+    -- ** Values passed to adapter.get_relation:
+    {{ '--  --full-identifier_var=' ~ identifier_var }}
+    {{ '-- database=' ~ source(single_source_name, single_table_name).database }}
+    {{ '-- schema=' ~ source(single_source_name, single_table_name).schema }}
+    {{ '-- identifier=' ~ var(identifier_var, single_table_name) }}
 
-    {%- if relation is not none -%}
+    {% if relation is not none -%}
         select
             {{ dbt_utils.star(from=source(single_source_name, single_table_name)) }}
         from {{ source(single_source_name, single_table_name) }} as source_table

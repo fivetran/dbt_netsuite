@@ -8,7 +8,7 @@ models:
   # +schema: "netsuite_{{ var('directed_schema','dev') }}"  ## To be used for validation tests
 
 vars:
-  netsuite_schema: netsuite_integration_tests
+  netsuite_schema: zz_dbt_catherine #netsuite_integration_tests
   netsuite_data_model_override: netsuite
 
   # Enable below when generating docs
@@ -60,8 +60,8 @@ vars:
     netsuite2_account_type_identifier: "netsuite2_account_type_data"
     netsuite2_entity_address_identifier: "netsuite2_entity_address_data"
     netsuite2_location_main_address_identifier: "netsuite2_location_main_address_data"
-    netsuite2_customer_subsidiary_relationships_identifier: "netsuite2_customer_subsidiary_relationship_data"
-    netsuite2_vendor_subsidiary_relationships_identifier: "netsuite2_vendor_subsidiary_relationship_data"
+    netsuite2_customer_subsidiary_relationship_identifier: "netsuite2_customer_subsidiary_relationship_data"
+    netsuite2_vendor_subsidiary_relationship_identifier: "netsuite2_vendor_subsidiary_relationship_data"
     netsuite2_nexus_identifier: "netsuite2_nexus_data"
 
 seeds:

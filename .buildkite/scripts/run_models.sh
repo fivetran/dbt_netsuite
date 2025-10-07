@@ -34,9 +34,10 @@ dbt test --vars '{netsuite_schema: netsuite_integrations_tests_sqlw}' --target "
 
 else
 
+dbt run-operation fivetran_utils.drop_schemas_automation --target "$db"
 dbt seed --target "$db" --full-refresh
 dbt source freshness --target "$db" || echo "...Only verifying freshness runs…"
-dbt compile --target "$db"
+dbt compile --target "$db" --full-refresh
 dbt run --target "$db" --full-refresh
 dbt run --target "$db"
 dbt test --target "$db"
