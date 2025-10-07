@@ -85,29 +85,3 @@ vars:
     items_pass_through_columns: []
     entities_pass_through_columns: []
     netsuite2_sources: []
-
-    ## Netsuite2 table enablement variables
-    netsuite2__using_account_types: true
-    netsuite2__using_accounting_book_subsidiaries: true
-    netsuite2__using_accounting_books: true
-    netsuite2__using_accounting_period_fiscal_calendars: true
-    netsuite2__using_classification: true
-    netsuite2__using_customer_subsidiary_relationships: true
-    netsuite2__using_departments: true
-    netsuite2__using_employees: true
-    netsuite2__using_entities: true
-    netsuite2__using_entity_address: true
-    netsuite2__using_exchange_rate: true
-    netsuite2__using_items: true
-    netsuite2__using_jobs: true
-    netsuite2__using_location_main_address: true
-    netsuite2__using_locations: true
-    netsuite2__using_nexuses: true
-    netsuite2__using_subsidiaries: true
-    netsuite2__using_vendor_categories: true
-    netsuite2__using_vendor_subsidiary_relationships: true
-
-    ## Netsuite2 feature enablement variables
-    netsuite2__fiscal_calendar_enabled: false
-    netsuite2__multibook_accounting_enabled: false
-    netsuite2__using_to_subsidiary: false
