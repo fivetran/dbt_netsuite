@@ -4,7 +4,7 @@ profile: 'integration_tests'
 config-version: 2
 
 models:
-  +schema: "{{ 'netsuite_integrations_tests_sqlw_2' if target.name == 'databricks-sql' else 'netsuite' }}"
+  +schema: "{{ 'netsuite_integrations_tests_sqlw' if target.name == 'databricks-sql' else 'netsuite' }}"
   # +schema: "netsuite_{{ var('directed_schema','dev') }}"  ## To be used for validation tests
 
 vars:
@@ -69,11 +69,22 @@ seeds:
     show: False
   +quote_columns: "{{ true if target.type in ('redshift','postgres') else false }}"
   netsuite_integration_tests:
-    +column_types:
-      ending: timestamp
-      due_date: timestamp
-      startdate: timestamp
-      starting: timestamp
+    netsuite_accounting_periods_data:
+      +column_types:
+        ending: timestamp
+        starting: timestamp
+    netsuite_transactions_data:
+      +column_types:
+        due_date: timestamp
+    netsuite2_accounting_period_data:
+      +column_types:
+        startdate: timestamp
+    netsuite2_customer_data:
+      +column_types:
+        startdate: timestamp
+    netsuite2_job_data:
+      +column_types:
+        startdate: timestamp
     netsuite2_account_data:
       +column_types:
         eliminate: "{{ 'string' if target.type in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
