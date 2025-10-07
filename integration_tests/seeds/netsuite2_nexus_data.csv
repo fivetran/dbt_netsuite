@@ -1,0 +1,11 @@
+id,_fivetran_synced,country,description,state,taxagency
+1,2022-05-27 13:17:39,US,US Federal Tax Nexus,Federal,101
+2,2022-05-27 13:17:39,US,California State Tax Nexus,CA,102
+3,2022-05-27 13:17:39,US,New York State Tax Nexus,NY,103
+4,2022-05-27 13:17:39,US,Texas State Tax Nexus,TX,104
+5,2022-05-27 13:17:39,CA,Canada Federal Tax Nexus,Federal,201
+6,2022-05-27 13:17:39,CA,Ontario Provincial Tax Nexus,ON,202
+7,2022-05-27 13:17:39,US,Florida State Tax Nexus,FL,105
+8,2022-05-27 13:17:39,US,Illinois State Tax Nexus,IL,106
+9,2022-05-27 13:17:39,GB,United Kingdom VAT Nexus,England,301
+10,2022-05-27 13:17:39,DE,Germany VAT Nexus,Bayern,401
