@@ -1,0 +1,343 @@
+version: 2
+
+models:
+  - name: stg_netsuite__accounting_books
+    description: "{{ doc('accounting_books_table') }}"
+    columns:
+      - name: accounting_book_id
+        description: The unique identifier of the accounting book.
+        tests:
+          - unique
+          - not_null
+      - name: is_primary
+        description: Boolean indicating whether it is a primary accounting book.
+      - name: _fivetran_deleted
+        description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+  - name: stg_netsuite__accounting_periods
+    description: "{{ doc('account_periods_table') }}"
+    columns:
+      - name: accounting_period_id
+        description: The unique identifier of the accounting period.
+        tests:
+          - not_null
+      - name: name
+        description: The name of the accounting period.
+      - name: full_name
+        description: The full name of the accounting period.
+      - name: year_id
+        description: The year id the accounting period is associated with.
+      - name: fiscal_calendar_id
+        description: The fiscal calendar id the accounting period is associated with.
+        tests:
+          - not_null
+      - name: quarter
+        description: The quarter which the accounting period takes place in.
+      - name: starting_at
+        description: The timestamp indicating the start of the accounting period.
+      - name: ending_at
+        description: The timestamp indicating the end of the accounting period.
+      - name: year_0
+        description: Value indicating whether the accounting period is in it's initial year.
+      - name: is_adjustment
+        description: Value indicating whether the accounting period is an adjustment (either yes or no).
+      - name: is_closed
+        description: Value indicating whether the accounting period is closed (either yes or no).
+      - name: _fivetran_deleted
+        description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+  - name: stg_netsuite__accounts
+    description: "{{ doc('accounts_table') }}"
+    columns:
+      - name: account_id
+        description: The unique identifier associated with the account.
+        tests:
+          - unique
+          - not_null
+      - name: parent_id
+        description: The accounts associated parent account id.
+      - name: name
+        description: The name of the account.
+      - name: type_name
+        description: The name of the type of the account (ie. Bank, Equity, Income, Expense).
+      - name: account_number
+        description: The account number associated with the account.
+      - name: general_rate_type
+        description: The general rate type of the account (Current, Historical, Average).
+      - name: is_leftside
+        description: Value indicating whether the account is on the leftside (debit).
+      - name: is_balancesheet
+        description: Value indicating whether the account is a balance sheet account.
+      - name: _fivetran_deleted
+        description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+  - name: stg_netsuite__classes
+    description: "{{ doc('classes_table') }}"
+    columns:
+      - name: class_id
+        description: The unique identifier of the class.
+        tests:
+          - unique
+          - not_null
+      - name: full_name
+        description: The full name of the class.
+      - name: _fivetran_deleted
+        description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+  - name: stg_netsuite__consolidated_exchange_rates
+    description: "{{ doc('consolidated_exchange_rates_table') }}"
+    columns:
+      - name: consolidated_exchange_rate_id
+        description: The unique identifier for the consolidated exchange rate.
+        tests:
+          - unique
+          - not_null
+      - name: accounting_book_id
+        description: The accounting book the consolidated exchange rate is associated with.
+      - name: accounting_period_id
+        description: The accounting period the consolidated exchange rate is associated with.
+      - name: average_rate
+        description: The consolidated exchange rates average rate.
+      - name: current_rate
+        description: The consolidated exchange rates current rate.
+      - name: historical_rate
+        description: The consolidated exchange rates historical rate.
+      - name: from_subsidiary_id
+        description: The subsidiary id which the consolidated exchange rate is from.
+      - name: to_subsidiary_id
+        description: The subsidiary id which the consolidated exchange rate is for.
+      - name: _fivetran_deleted
+        description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+  - name: stg_netsuite__currencies
+    description: "{{ doc('currencies_table') }}"
+    columns:
+      - name: currency_id
+        description: The unique identifier of the currency.
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: The name of the currency.
+      - name: symbol
+        description: The currency's three letter symbol (ie. USD, EUR, CAD).
+      - name: _fivetran_deleted
+        description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+  - name: stg_netsuite__customers
+    description: "{{ doc('customers_table') }}"
+    columns:
+      - name: customer_id
+        description: The unique identifier of the customer.
+        tests:
+          - unique
+          - not_null
+      - name: company_name
+        description: The name of the company.
+      - name: customer_external_id
+        description: The unique identifier of the external customer reference.
+      - name: city
+        description: The city where the customer is located.
+      - name: state
+        description: The state where the customer is located.
+      - name: zipcode
+        description: The zipcode of the customer.
+      - name: country
+        description: The country where the customer is located.
+      - name: date_first_order_at
+        description: The timestamp of the customers first order.
+      - name: _fivetran_deleted
+        description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+  - name: stg_netsuite__departments
+    description: "{{ doc('departments_table') }}"
+    columns:
+      - name: department_id
+        description: The unique identifier of the department.
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: The name of the department.
+      - name: full_name
+        description: The department's full name.
+      - name: _fivetran_deleted
+        description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+  - name: stg_netsuite__expense_accounts
+    description: "{{ doc('expense_accounts_table') }}"
+    columns:
+      - name: expense_account_id
+        description: The unique identifier of the expense account.
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: The name of the expense account.
+      - name: parent_id
+        description: The expense account's associated parent account.
+      - name: account_number
+        description: The account number associated with the expense account.
+      - name: _fivetran_deleted
+        description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+  - name: stg_netsuite__income_accounts
+    description: "{{ doc('income_accounts_table') }}"
+    columns:
+      - name: income_account_id
+        description: The unique identifier of the income account.
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: The name of the income account.
+      - name: parent_id
+        description: The income account's associated parent account.
+      - name: account_number
+        description: The account number associated with the income account.
+      - name: _fivetran_deleted
+        description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+  - name: stg_netsuite__items
+    description: "{{ doc('items_table') }}"
+    columns:
+      - name: item_id
+        description: The unique identifier of the item.
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: The name of the item.
+      - name: type_name
+        description: The type of the item (ie. Markup, Service, Discount).
+      - name: sales_description
+        description: The items sales description.
+      - name: _fivetran_deleted
+        description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+  - name: stg_netsuite__locations
+    description: "{{ doc('locations_table') }}"
+    columns:
+      - name: location_id
+        description: The unique identifier of the location.
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: The location's name.
+      - name: full_name
+        description: The full name of the location.
+      - name: city
+        description: The location's city.
+      - name: country
+        description: The location's country.
+      - name: _fivetran_deleted
+        description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+  - name: stg_netsuite__subsidiaries
+    description: "{{ doc('subsidiaries_table') }}"
+    columns:
+      - name: subsidiary_id
+        description: The unique identifier of the subsidiary.
+        tests:
+          - unique
+          - not_null
+      - name: fiscal_calendar_id
+        description: The fiscal calendar id associated with the fiscal calendar the subsidiary is on.
+      - name: full_name
+        description: The full name of the subsidiary.
+      - name: name
+        description: The name of the subsidiary.
+      - name: parent_id
+        description: The parent subsidiary id which the subsidiary is under.
+      - name: _fivetran_deleted
+        description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+  - name: stg_netsuite__transaction_lines
+    description: "{{ doc('transaction_lines_table') }}"
+    columns:
+      - name: transaction_id
+        description: The transaction id which the transaction line is associated with.
+        tests:
+          - not_null
+      - name: transaction_line_id
+        description: The unique identifier of the transaction line.
+        tests:
+          - not_null
+      - name: subsidiary_id
+        description: The subsidiary id of the subsidiary which the transaction line is associated with.
+      - name: account_id
+        description: The account id of the account linked to the transaction line.
+      - name: company_id
+        description: The company id of the company linked to the transaction line.
+      - name: item_id
+        description: The item id of the item which is included in the transaction line.
+      - name: amount
+        description: The amount of the transaction line.
+      - name: non_posting_line
+        description: Value indicating whether the transaction line is a non posting line (either Yes or No).
+      - name: class_id
+        description: The class id of the class which the transaction line is associated with.
+      - name: location_id
+        description: The location id of the location which the transaction line took place.
+      - name: department_id
+        description: The department id of the department linked to the transaction line.
+      - name: memo
+        description: The memo attached to the transaction line.
+
+  - name: stg_netsuite__transactions
+    description: "{{ doc('transaction_table') }}"
+    columns:
+      - name: transaction_id
+        description: The unique identifier of the transaction.
+        tests:
+          - unique
+          - not_null
+      - name: status
+        description: The status of the transaction (ie. Paid In Full, Open, Cancelled).
+      - name: transaction_date
+        description: The timestamp of the transaction date.
+      - name: currency_id
+        description: The currency id of the currency used in the transaction.
+      - name: accounting_period_id
+        description: The accounting period id of the accounting period which the transaction took place in.
+      - name: due_date_at
+        description: The timestamp of the transaction due date.
+      - name: transaction_type
+        description: The transaction type (ie. Bill, Check, Deposit).
+      - name: is_intercompany
+        description: Value indicating whether the transaction is intercompany (either Yes or No).
+      - name: is_advanced_intercompany
+        description: Value indicating whether the transaction is an advanced intercompany journal entry (either Yes or No).
+      - name: _fivetran_deleted
+        description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+  - name: stg_netsuite__vendor_types
+    description: "{{ doc('vendor_types_table') }}"
+    columns:
+      - name: vendor_type_id
+        description: The unique identifier of the vendor type
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: The name of the vendor type.
+      - name: _fivetran_deleted
+        description: Boolean created by Fivetran to indicate whether the record has been deleted.
+
+  - name: stg_netsuite__vendors
+    description: "{{ doc('vendor_table') }}"
+    columns:
+      - name: vendor_id
+        description: The unique identifier of the vendor.
+        tests:
+          - unique
+          - not_null
+      - name: vendor_type_id
+        description: The vendor type the vendor is associated with.
+      - name: company_name
+        description: The vendor's company name.
+      - name: create_date_at
+        description: The timestamp of the date the vendor was created.
+      - name: _fivetran_deleted
+        description: Boolean created by Fivetran to indicate whether the record has been deleted.

@@ -15,17 +15,17 @@ transaction_details as (
 
 accounts as (
     select * 
-    from {{ var('netsuite_accounts') }}
+    from {{ ref('stg_netsuite__accounts') }}
 ), 
 
 accounting_periods as (
     select * 
-    from {{ var('netsuite_accounting_periods') }}
+    from {{ ref('stg_netsuite__accounting_periods') }}
 ), 
 
 subsidiaries as (
     select * 
-    from {{ var('netsuite_subsidiaries') }}
+    from {{ ref('stg_netsuite__subsidiaries') }}
 ),
 
 balance_sheet as ( 

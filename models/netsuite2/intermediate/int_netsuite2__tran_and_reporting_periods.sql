@@ -7,7 +7,7 @@ with accounting_periods as (
 
 subsidiaries as (
     select * 
-    from {{ var('netsuite2_subsidiaries') }}
+    from {{ ref('stg_netsuite2__subsidiaries') }}
 ),
 
 transaction_and_reporting_periods as ( 
