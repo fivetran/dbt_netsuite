@@ -42,7 +42,15 @@
   - Removed all `accepted_values` tests.
   - Moved `loaded_at_field: _fivetran_synced` under the `config:` block in `src_netsuite.yml`.
 
-### Under the Hood
+## Features
+- Added pass through columns functionality to the `stg_netsuite__accounting_periods` and `stg_netsuite2__accounting_periods` models using a new `accounting_periods_pass_through_columns` variable. This allows users to pass through additional columns from the source accounting periods tables.
+  - See the [README](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#passing-through-additional-fields) for more details.
+> Note: Columns specified by `accounting_periods_pass_through_columns` are not currently included in Netsuite transform models. Please open an [issue](https://github.com/fivetran/dbt_netsuite/issues) if you would like to see accounting period custom columns persisted downstream.
+
+## Documentation
+- Updated the [README](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#passing-through-additional-fields) to include all available passthrough column variables and which models they materialize in. ([PR #163](https://github.com/fivetran/dbt_netsuite/pull/163))
+
+## Under the Hood
 - Updated conditions in `.github/workflows/auto-release.yml`.
 - Added `.github/workflows/generate-docs.yml`.
 
