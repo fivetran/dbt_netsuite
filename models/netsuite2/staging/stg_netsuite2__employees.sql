@@ -22,12 +22,15 @@ fields as (
                 staging_columns=get_employee_columns()
             )
         }}
+
+        {{ netsuite.apply_source_relation() }}
     from base
 ),
 
 final as (
-    
+
     select
+        source_relation,
         _fivetran_synced,
         id as employee_id,
         entityid as entity_id,

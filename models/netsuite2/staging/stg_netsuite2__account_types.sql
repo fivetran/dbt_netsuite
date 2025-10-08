@@ -22,12 +22,15 @@ fields as (
                 staging_columns=get_accounttype_columns()
             )
         }}
+
+        {{ netsuite.apply_source_relation() }}
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation, 
         _fivetran_deleted,
         _fivetran_synced,
         id as account_type_id,

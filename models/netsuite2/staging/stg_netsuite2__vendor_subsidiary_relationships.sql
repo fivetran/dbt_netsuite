@@ -10,20 +10,22 @@
 with base as (
 
     select *
-        from {{ ref('stg_netsuite2__vendor_subsidiary_relationships_tmp') }}
+    from {{ ref('stg_netsuite2__vendor_subsidiary_relationships_tmp') }}
 ),
 
 fields as (
 
-select
-    {{
-    fivetran_utils.fill_staging_columns(
-    source_columns=adapter.get_columns_in_relation(ref('stg_netsuite2__vendor_subsidiary_relationships_tmp')),
-    staging_columns=get_netsuite2_vendor_subsidiary_relationships_columns()
-    )
-    }}
-    from base
-        ),
+    select
+        {{
+            fivetran_utils.fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(ref('stg_netsuite2__vendor_subsidiary_relationships_tmp')),
+                staging_columns=get_netsuite2_vendor_subsidiary_relationships_columns()
+            )
+        }}
+
+        {{ netsuite.apply_source_relation() }}
+        from base
+),
 
 final as (
 

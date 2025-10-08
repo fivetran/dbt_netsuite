@@ -15,12 +15,15 @@ fields as (
                 staging_columns=get_transactionaccountingline_columns()
             )
         }}
+
+        {{ netsuite.apply_source_relation() }}
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation, 
         _fivetran_deleted,
         _fivetran_synced,
         transaction as transaction_id,

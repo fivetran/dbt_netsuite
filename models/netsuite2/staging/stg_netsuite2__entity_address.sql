@@ -15,12 +15,15 @@ fields as (
                 staging_columns=get_entityaddress_columns()
             )
         }}
+
+        {{ netsuite.apply_source_relation() }}
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation, 
         _fivetran_synced,
         addr1,
         addr2,

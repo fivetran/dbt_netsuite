@@ -16,12 +16,15 @@ fields as (
                 staging_columns=get_netsuite2_accounting_periods_columns()
             )
         }}
+
+        {{ netsuite.apply_source_relation() }}
     from base
 ),
 
 final as (
-    
+
     select
+        source_relation,
         _fivetran_synced,
         id as accounting_period_id,
         parent as parent_id, 

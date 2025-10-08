@@ -15,19 +15,22 @@ with base as (
 
 fields as (
 
-select
-    {{
-    fivetran_utils.fill_staging_columns(
-    source_columns=adapter.get_columns_in_relation(ref('stg_netsuite2__customer_subsidiary_relationships_tmp')),
-    staging_columns=get_netsuite2_customer_subsidiary_relationships_columns()
-    )
-    }}
-    from base
-        ),
+    select
+        {{
+            fivetran_utils.fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(ref('stg_netsuite2__customer_subsidiary_relationships_tmp')),
+                staging_columns=get_netsuite2_customer_subsidiary_relationships_columns()
+            )
+        }}
+
+        {{ netsuite.apply_source_relation() }}
+        from base
+),
 
 final as (
 
     select
+        source_relation,
         _fivetran_synced,
         id as customer_subsidiary_relationship_id,
         entity as customer_id,

@@ -4,6 +4,8 @@ models:
   - name: stg_netsuite2__account_types
     description: "{{ doc('account_types_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: _fivetran_deleted
         description:  "{{ doc('_fivetran_deleted') }}"
       - name: _fivetran_synced
@@ -23,6 +25,8 @@ models:
   - name: stg_netsuite2__accounting_book_subsidiaries
     description: "{{ doc('accounting_book_subsidiaries_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: _fivetran_id
         description: "{{ doc('_fivetran_id') }}"
         tests: 
@@ -40,6 +44,8 @@ models:
   - name: stg_netsuite2__accounting_books
     description: "{{ doc('accounting_books_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: accounting_book_id
@@ -67,6 +73,8 @@ models:
   - name: stg_netsuite2__accounting_period_fiscal_cal
     description: "{{ doc('accounting_period_fiscal_calendars_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: _fivetran_id
         description: "{{ doc('_fivetran_id') }}"
         tests: 
@@ -84,6 +92,8 @@ models:
   - name: stg_netsuite2__fiscal_calendar
     description: Table containing a list of fiscal calendars, their names, and starting fiscal months. Used to determine fiscal year boundaries.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: fiscal_calendar_id
         description: Internal identifier for the fiscal calendar record.
         tests: 
@@ -107,6 +117,8 @@ models:
   - name: stg_netsuite2__accounting_periods
     description: "{{ doc('account_periods_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: accounting_period_id
@@ -144,6 +156,8 @@ models:
   - name: stg_netsuite2__accounts
     description: "{{ doc('accounts_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: account_id
@@ -195,6 +209,8 @@ models:
   - name: stg_netsuite2__classes
     description: "{{ doc('classes_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: class_id
@@ -216,6 +232,8 @@ models:
   - name: stg_netsuite2__consolidated_exchange_rates
     description: "{{ doc('consolidated_exchange_rates_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: consolidated_exchange_rate_id
         description:  unique identifier for the consolidated exchange rate.
         tests:
@@ -243,6 +261,8 @@ models:
   - name: stg_netsuite2__currencies
     description: "{{ doc('currencies_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: currency_id
@@ -258,6 +278,8 @@ models:
   - name: stg_netsuite2__customers
     description: "{{ doc('customers_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: customer_id
         description: "{{ doc('customer_id') }}"
         tests:
@@ -297,6 +319,8 @@ models:
   - name: stg_netsuite2__departments
     description: "{{ doc('departments_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: department_id
@@ -320,6 +344,8 @@ models:
   - name: stg_netsuite2__employees
     description: "{{ doc('employee_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: employee_id
@@ -357,6 +383,8 @@ models:
   - name: stg_netsuite2__entities
     description: "{{ doc('entities_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: entity_id
         description: "{{ doc('entity_id') }}"
         tests:
@@ -386,6 +414,8 @@ models:
   - name: stg_netsuite2__entity_address
     description: "{{ doc('entity_address_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: addr1
@@ -412,6 +442,8 @@ models:
   - name: stg_netsuite2__items
     description: "{{ doc('items_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: item_id
@@ -455,6 +487,8 @@ models:
   - name: stg_netsuite2__jobs
     description: "{{ doc('jobs_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: job_id
         description: The unique identifier of the job.
         tests:
@@ -476,6 +510,8 @@ models:
   - name: stg_netsuite2__location_main_address
     description: "{{ doc('location_main_address_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: addr1
@@ -502,6 +538,8 @@ models:
   - name: stg_netsuite2__locations
     description: "{{ doc('locations_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: location_id
@@ -523,6 +561,8 @@ models:
   - name: stg_netsuite2__subsidiaries
     description: "{{ doc('subsidiaries_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: subsidiary_id
@@ -554,6 +594,8 @@ models:
   - name: stg_netsuite2__transaction_accounting_lines
     description: "{{ doc('transaction_accounting_lines_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: transaction_id
         description: "{{ doc('transaction_id') }}"
         tests:
@@ -588,6 +630,8 @@ models:
   - name: stg_netsuite2__transaction_lines
     description: "{{ doc('transaction_lines_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: transaction_line_id
@@ -636,6 +680,8 @@ models:
   - name: stg_netsuite2__transactions
     description: "{{ doc('transaction_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: _fivetran_synced_date
@@ -683,6 +729,8 @@ models:
   - name: stg_netsuite2__vendor_categories
     description: "{{ doc('vendor_categories_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: vendor_category_id
         description: "{{ doc('vendor_category_id') }}"
         tests:
@@ -696,6 +744,8 @@ models:
   - name: stg_netsuite2__vendors
     description: "{{ doc('vendor_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: vendor_id
@@ -715,6 +765,8 @@ models:
   - name: stg_netsuite2__nexuses
     description: "{{ doc('nexuses_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: nexus_id
@@ -734,6 +786,8 @@ models:
   - name: stg_netsuite2__customer_subsidiary_relationships
     description: "{{ doc('customer_subsidiary_relationships_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: customer_subsidiary_relationship_id
@@ -753,6 +807,8 @@ models:
   - name: stg_netsuite2__vendor_subsidiary_relationships
     description: "{{ doc('vendor_subsidiary_relationships_table') }}"
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: vendor_subsidiary_relationship_id

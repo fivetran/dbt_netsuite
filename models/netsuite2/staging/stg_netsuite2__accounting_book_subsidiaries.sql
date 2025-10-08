@@ -22,12 +22,15 @@ fields as (
                 staging_columns=get_accountingbooksubsidiaries_columns()
             )
         }}
+
+        {{ netsuite.apply_source_relation() }}
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation, 
         _fivetran_id,
         _fivetran_synced,
         accountingbook as accounting_book_id,

@@ -15,12 +15,15 @@ fields as (
                 staging_columns=get_job_columns()
             )
         }}
+
+        {{ netsuite.apply_source_relation() }}
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation, 
         _fivetran_synced,
         id as job_id,
         externalid as job_external_id,
