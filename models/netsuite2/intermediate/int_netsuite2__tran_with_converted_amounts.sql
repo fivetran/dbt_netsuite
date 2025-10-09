@@ -48,14 +48,16 @@ transactions_in_every_calculation_period_w_exchange_rates as (
 
   from transaction_lines_w_accounting_period
 
-  left join transaction_and_reporting_periods 
-    on transaction_and_reporting_periods.accounting_period_id = transaction_lines_w_accounting_period.transaction_accounting_period_id 
+  left join transaction_and_reporting_periods
+    on transaction_and_reporting_periods.accounting_period_id = transaction_lines_w_accounting_period.transaction_accounting_period_id
+      and transaction_and_reporting_periods.source_relation = transaction_lines_w_accounting_period.source_relation 
 
   {% if using_exchange_rate %}
   left join accountxperiod_exchange_rate_map as exchange_reporting_period
     on exchange_reporting_period.accounting_period_id = transaction_and_reporting_periods.reporting_accounting_period_id
       and exchange_reporting_period.account_id = transaction_lines_w_accounting_period.account_id
       and exchange_reporting_period.from_subsidiary_id = transaction_lines_w_accounting_period.subsidiary_id
+      and exchange_reporting_period.source_relation = transaction_lines_w_accounting_period.source_relation
 
       {% if multibook_accounting_enabled %}
       and exchange_reporting_period.accounting_book_id = transaction_lines_w_accounting_period.accounting_book_id
@@ -65,6 +67,7 @@ transactions_in_every_calculation_period_w_exchange_rates as (
     on exchange_transaction_period.accounting_period_id = transaction_and_reporting_periods.accounting_period_id
       and exchange_transaction_period.account_id = transaction_lines_w_accounting_period.account_id
       and exchange_transaction_period.from_subsidiary_id = transaction_lines_w_accounting_period.subsidiary_id
+      and exchange_transaction_period.source_relation = transaction_lines_w_accounting_period.source_relation
       
       {% if multibook_accounting_enabled %}
       and exchange_transaction_period.accounting_book_id = transaction_lines_w_accounting_period.accounting_book_id
@@ -102,7 +105,8 @@ transactions_with_converted_amounts as (
   from transactions_in_every_calculation_period_w_exchange_rates
 
   left join accounts
-    on accounts.account_id = transactions_in_every_calculation_period_w_exchange_rates.account_id 
+    on accounts.account_id = transactions_in_every_calculation_period_w_exchange_rates.account_id
+    and accounts.source_relation = transactions_in_every_calculation_period_w_exchange_rates.source_relation 
 ),
 
 surrogate_key as ( 

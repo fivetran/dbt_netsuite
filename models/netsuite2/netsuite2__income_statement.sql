@@ -78,6 +78,7 @@ departments as (
 
 income_statement as (
     select
+        transactions_with_converted_amounts.source_relation,
         transactions_with_converted_amounts.transaction_id,
         transactions_with_converted_amounts.transaction_line_id,
         transactions_with_converted_amounts._fivetran_synced_date,
@@ -152,37 +153,46 @@ income_statement as (
     join transaction_lines as transaction_lines
         on transaction_lines.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
             and transaction_lines.transaction_id = transactions_with_converted_amounts.transaction_id
+            and transaction_lines.source_relation = transactions_with_converted_amounts.source_relation
 
             {% if multibook_accounting_enabled %}
             and transaction_lines.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
             {% endif %}
 
-    left join departments 
+    left join departments
         on departments.department_id = transaction_lines.department_id
+        and departments.source_relation = transaction_lines.source_relation
     
-    left join accounts 
+    left join accounts
         on accounts.account_id = transactions_with_converted_amounts.account_id
+        and accounts.source_relation = transactions_with_converted_amounts.source_relation
 
     left join locations
         on locations.location_id = transaction_lines.location_id
+        and locations.source_relation = transaction_lines.source_relation
 
-    left join classes 
+    left join classes
         on classes.class_id = transaction_lines.class_id
+        and classes.source_relation = transaction_lines.source_relation
 
-    left join accounting_periods as reporting_accounting_periods 
+    left join accounting_periods as reporting_accounting_periods
         on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+        and reporting_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
     
     left join subsidiaries
         on transactions_with_converted_amounts.subsidiary_id = subsidiaries.subsidiary_id
+        and transactions_with_converted_amounts.source_relation = subsidiaries.source_relation
 
     left join currencies subsidiaries_currencies
         on subsidiaries_currencies.currency_id = subsidiaries.currency_id
+        and subsidiaries_currencies.source_relation = subsidiaries.source_relation
 
     --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
     {% if income_statement_transaction_detail_columns != []%}
     join transaction_details
         on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
         and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
+        and transaction_details.source_relation = transactions_with_converted_amounts.source_relation
         
         {% if multibook_accounting_enabled %}
         and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id

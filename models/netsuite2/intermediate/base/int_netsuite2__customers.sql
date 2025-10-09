@@ -36,6 +36,7 @@ joined as (
     {% if using_entity_address %}
     left join entity_address
         on coalesce(customers.default_billing_address_id, customers.default_shipping_address_id) = entity_address.nkey
+        and customers.source_relation = entity_address.source_relation
     {% endif %}
 )
 

@@ -52,6 +52,7 @@ subsidiaries as (
 customer_subsidiary_relationships_enhanced as (
     select
         'customer' as entity_type,
+        customer_subsidiary_relationship.source_relation,
         customer_subsidiary_relationship._fivetran_synced,
         customer_subsidiary_relationship.customer_subsidiary_relationship_id as entity_subsidiary_relationship_id,
         customer_subsidiary_relationship.customer_id as entity_internal_id,
@@ -69,11 +70,14 @@ customer_subsidiary_relationships_enhanced as (
     from customer_subsidiary_relationship
     left join customers
         on customer_subsidiary_relationship.customer_id = customers.customer_id
+        and customer_subsidiary_relationship.source_relation = customers.source_relation
     left join currencies
         on customer_subsidiary_relationship.primary_currency_id = currencies.currency_id
+        and customer_subsidiary_relationship.source_relation = currencies.source_relation
     {% if using_subsidiaries %}
     left join subsidiaries
         on customer_subsidiary_relationship.subsidiary_id = subsidiaries.subsidiary_id
+        and customer_subsidiary_relationship.source_relation = subsidiaries.source_relation
     {% endif %}
 ),
 {% endif %}
@@ -82,6 +86,7 @@ customer_subsidiary_relationships_enhanced as (
 vendor_subsidiary_relationships_enhanced as (
     select
         'vendor' as entity_type,
+        vendor_subsidiary_relationship.source_relation,
         vendor_subsidiary_relationship._fivetran_synced,
         vendor_subsidiary_relationship.vendor_subsidiary_relationship_id as entity_subsidiary_relationship_id,
         vendor_subsidiary_relationship.vendor_id as entity_internal_id,
@@ -99,11 +104,14 @@ vendor_subsidiary_relationships_enhanced as (
     from vendor_subsidiary_relationship
     left join vendors
         on vendor_subsidiary_relationship.vendor_id = vendors.vendor_id
+        and vendor_subsidiary_relationship.source_relation = vendors.source_relation
     left join currencies
         on vendor_subsidiary_relationship.primary_currency_id = currencies.currency_id
+        and vendor_subsidiary_relationship.source_relation = currencies.source_relation
     {% if using_subsidiaries %}
     left join subsidiaries
         on vendor_subsidiary_relationship.subsidiary_id = subsidiaries.subsidiary_id
+        and vendor_subsidiary_relationship.source_relation = subsidiaries.source_relation
     {% endif %}
 ),
 {% endif %}
@@ -111,8 +119,9 @@ vendor_subsidiary_relationships_enhanced as (
 final as (
     {% if using_customer_subsidiary_relationships %}
     select
-        entity_type,
+        source_relation,
         _fivetran_synced,
+        entity_type,
         entity_subsidiary_relationship_id,
         entity_internal_id,
         entity_display_id,
@@ -131,8 +140,9 @@ final as (
 
     {% if using_vendor_subsidiary_relationships %}
     select
-        entity_type,
+        source_relation,
         _fivetran_synced,
+        entity_type,
         entity_subsidiary_relationship_id,
         entity_internal_id,
         entity_display_id,

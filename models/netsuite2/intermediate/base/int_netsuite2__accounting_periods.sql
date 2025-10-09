@@ -31,12 +31,20 @@ joined as (
         {% endif %}
         fiscal_calendar.fiscal_month
     from accounting_periods
+
     {% if using_accounting_period_fiscal_calendars %}
     left join accounting_period_fiscal_calendars
         on accounting_periods.accounting_period_id = accounting_period_fiscal_calendars.accounting_period_id
+        and accounting_periods.source_relation = accounting_period_fiscal_calendars.source_relation
     {% endif %}
+
     left join fiscal_calendar
-        on {% if using_accounting_period_fiscal_calendars %}fiscal_calendar.fiscal_calendar_id = accounting_period_fiscal_calendars.fiscal_calendar_id{% else %}1=0{% endif %}
+        {% if using_accounting_period_fiscal_calendars %}
+        on fiscal_calendar.fiscal_calendar_id = accounting_period_fiscal_calendars.fiscal_calendar_id
+        and fiscal_calendar.source_relation = accounting_period_fiscal_calendars.source_relation
+        {% else %}
+        on 1=0
+        {% endif %}
 ),
 
 year_extract as (
@@ -76,9 +84,11 @@ final as (
         {% endif %}
         cast({{ dbt.date_trunc('year', 'accounting_periods.starting_at') }} as date) as fiscal_year_trunc
     from accounting_periods
+
     {% if using_accounting_period_fiscal_calendars %}
     left join accounting_period_fiscal_calendars
         on accounting_periods.accounting_period_id = accounting_period_fiscal_calendars.accounting_period_id
+        and accounting_periods.source_relation = accounting_period_fiscal_calendars.source_relation
     {% endif %}
 )
 {% endif %}

@@ -126,6 +126,7 @@ transaction_details as (
     transactions_with_converted_amounts.to_subsidiary_currency_symbol,
     {% endif %}
 
+    transaction_lines.source_relation,
     transaction_lines.transaction_line_id,
     transaction_lines.memo as transaction_memo,
     not transaction_lines.is_posting as is_transaction_non_posting,
@@ -318,79 +319,99 @@ transaction_details as (
 
   join transactions
     on transactions.transaction_id = transaction_lines.transaction_id
+    and transactions.source_relation = transaction_lines.source_relation
 
   left join transactions_with_converted_amounts
     on transactions_with_converted_amounts.transaction_line_id = transaction_lines.transaction_line_id
       and transactions_with_converted_amounts.transaction_id = transaction_lines.transaction_id
       and transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+      and transactions_with_converted_amounts.source_relation = transaction_lines.source_relation
 
       {% if multibook_accounting_enabled %}
       and transactions_with_converted_amounts.accounting_book_id = transaction_lines.accounting_book_id
       {% endif %}
 
-  left join accounts 
+  left join accounts
     on accounts.account_id = transaction_lines.account_id
+    and accounts.source_relation = transaction_lines.source_relation
 
-  left join accounts as parent_account 
+  left join accounts as parent_account
     on parent_account.account_id = accounts.parent_id
+    and parent_account.source_relation = accounts.source_relation
 
-  left join accounting_periods 
+  left join accounting_periods
     on accounting_periods.accounting_period_id = transactions.accounting_period_id
+    and accounting_periods.source_relation = transactions.source_relation
 
   left join customers customers__transactions
     on customers__transactions.customer_id = transactions.entity_id
+    and customers__transactions.source_relation = transactions.source_relation
 
   left join customers customers__transaction_lines
     on customers__transaction_lines.customer_id = transaction_lines.entity_id
+    and customers__transaction_lines.source_relation = transaction_lines.source_relation
 
   {% if using_classification %}
   left join classes
     on classes.class_id = transaction_lines.class_id
+    and classes.source_relation = transaction_lines.source_relation
   {% endif %}
 
   {% if using_items %}
   left join items
     on items.item_id = transaction_lines.item_id
+    and items.source_relation = transaction_lines.source_relation
   {% endif %}
 
-  left join locations 
+  left join locations
     on locations.location_id = transaction_lines.location_id
+    and locations.source_relation = transaction_lines.source_relation
 
   {% if using_nexuses %}
   left join nexuses
     on nexuses.nexus_id = transactions.nexus_id
+    and nexuses.source_relation = transactions.source_relation
 
   left join vendors vendors__nexuses
     on vendors__nexuses.vendor_id = nexuses.tax_agency_id
+    and vendors__nexuses.source_relation = nexuses.source_relation
   {% endif %}
 
   left join vendors vendors__transactions
     on vendors__transactions.vendor_id = transactions.entity_id
+    and vendors__transactions.source_relation = transactions.source_relation
 
   left join vendors vendors__transaction_lines
     on vendors__transaction_lines.vendor_id = transaction_lines.entity_id
+    and vendors__transaction_lines.source_relation = transaction_lines.source_relation
 
   {% if using_vendor_categories %}
   left join vendor_categories vendor_categories__transactions
     on vendor_categories__transactions.vendor_category_id = vendors__transactions.vendor_category_id
+    and vendor_categories__transactions.source_relation = vendors__transactions.source_relation
 
   left join vendor_categories vendor_categories__transaction_lines
     on vendor_categories__transaction_lines.vendor_category_id = vendors__transaction_lines.vendor_category_id
+    and vendor_categories__transaction_lines.source_relation = vendors__transaction_lines.source_relation
   {% endif %}
 
   left join currencies
     on currencies.currency_id = transactions.currency_id
+    and currencies.source_relation = transactions.source_relation
 
   {% if using_departments %}
   left join departments
     on departments.department_id = transaction_lines.department_id
+    and departments.source_relation = transaction_lines.source_relation
   {% endif %}
 
-  join subsidiaries 
+  join subsidiaries
     on subsidiaries.subsidiary_id = transaction_lines.subsidiary_id
- 
+    and subsidiaries.source_relation = transaction_lines.source_relation
+
   left join currencies subsidiaries_currencies
     on subsidiaries_currencies.currency_id = subsidiaries.currency_id
+    and subsidiaries_currencies.source_relation = subsidiaries.source_relation
   
   where (accounting_periods.fiscal_calendar_id is null
     or accounting_periods.fiscal_calendar_id  = (select fiscal_calendar_id from subsidiaries where parent_id is null))

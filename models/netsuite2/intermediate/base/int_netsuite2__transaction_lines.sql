@@ -45,10 +45,12 @@ joined as (
     left join transaction_accounting_lines
         on transaction_lines.transaction_line_id = transaction_accounting_lines.transaction_line_id
         and transaction_lines.transaction_id = transaction_accounting_lines.transaction_id
+        and transaction_lines.source_relation = transaction_accounting_lines.source_relation
         
     {% if multibook_accounting_enabled %}
     left join accounting_books
         on accounting_books.accounting_book_id = transaction_accounting_lines.accounting_book_id
+        and accounting_books.source_relation = transaction_accounting_lines.source_relation
 
     union all
 
@@ -69,8 +71,10 @@ joined as (
     left join transaction_accounting_lines
         on transaction_lines.transaction_line_id = transaction_accounting_lines.transaction_line_id
         and transaction_lines.transaction_id = transaction_accounting_lines.transaction_id
+        and transaction_lines.source_relation = transaction_accounting_lines.source_relation
     left join accounting_books
         on accounting_books.base_book_id = transaction_accounting_lines.accounting_book_id
+        and accounting_books.source_relation = transaction_accounting_lines.source_relation
     where accounting_books.base_book_id is not null
     {% endif %}
 
