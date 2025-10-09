@@ -298,7 +298,6 @@ For Netsuite2, [PR #114](https://github.com/fivetran/dbt_netsuite/pull/114) incl
 - [@FrankTub](https://github.com/FrankTub) ([#114](https://github.com/fivetran/dbt_netsuite/issues/114))
 
 # dbt_netsuite v0.12.0
-
 ## 🎁 Official release for Netsuite2! 🎁
 [PR #98](https://github.com/fivetran/dbt_netsuite/pull/98) is the official supported release of [dbt_netsuite v0.12.0-b1](https://github.com/fivetran/dbt_netsuite/releases/tag/v0.12.0-b1). 
 
