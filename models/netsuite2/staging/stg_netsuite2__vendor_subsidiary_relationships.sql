@@ -30,6 +30,7 @@ fields as (
 final as (
 
     select
+        source_relation,
         _fivetran_synced,
         id as vendor_subsidiary_relationship_id,
         entity as vendor_id,

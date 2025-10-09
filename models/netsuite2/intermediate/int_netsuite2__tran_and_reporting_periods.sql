@@ -16,7 +16,7 @@ subsidiaries as (
 
 transaction_and_reporting_periods as ( 
   select
-    base.accounting_period_id as source_relation,
+    base.source_relation,
     base.accounting_period_id as accounting_period_id,
     multiplier.accounting_period_id as reporting_accounting_period_id
   from accounting_periods as base
