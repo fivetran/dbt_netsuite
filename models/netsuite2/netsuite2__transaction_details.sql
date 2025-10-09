@@ -418,7 +418,7 @@ transaction_details as (
 ),
 
 surrogate_key as ( 
-    {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id'] %}
+    {% set surrogate_key_fields = ['source_relation', 'transaction_line_id', 'transaction_id'] %}
     {% do surrogate_key_fields.append('to_subsidiary_id') if using_to_subsidiary and using_exchange_rate %}
     {% do surrogate_key_fields.append('accounting_book_id') if multibook_accounting_enabled %}
 
