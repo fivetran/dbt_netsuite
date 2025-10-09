@@ -226,6 +226,8 @@ sources:
       - name: consolidated_exchange_rate
         identifier: "{{ var('netsuite2_consolidated_exchange_rate_identifier', 'consolidatedexchangerate') }}"
         description: "{{ doc('consolidated_exchange_rates_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_exchange_rate', true) }}"
         columns:
           - name: id
             description:  unique identifier for the consolidated exchange rate.
@@ -301,6 +303,8 @@ sources:
       - name: customer_subsidiary_relationship
         identifier: "{{ var('netsuite2_customer_subsidiary_relationship_identifier', 'customersubsidiaryrelationship') }}"
         description: "{{ doc('customer_subsidiary_relationship_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_customer_subsidiary_relationships', true) }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -312,6 +316,8 @@ sources:
             description: Boolean indicating the customer primary subsidiary.
           - name: subsidiary
             description: "{{ doc('subsidiary_id') }}"
+          - name: primarycurrency
+            description: "{{ doc('currency_id') }}"
           - name: _fivetran_deleted
             description: "{{ doc('_fivetran_deleted') }}"
 
@@ -546,8 +552,10 @@ sources:
             description: "{{ doc('subsidiary_id') }}"
 
       - name: nexus
-        identifier: "{{ var('netsuite2_item_identifier', 'nexus') }}"
+        identifier: "{{ var('netsuite2_nexus_identifier', 'nexus') }}"
         description: "{{ doc('nexuses_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_nexuses', true) }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -743,6 +751,8 @@ sources:
       - name: vendor_subsidiary_relationship
         identifier: "{{ var('netsuite2_vendor_subsidiary_relationship_identifier', 'vendorsubsidiaryrelationship') }}"
         description: "{{ doc('vendor_subsidiary_relationship_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_vendor_subsidiary_relationships', true) }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -754,6 +764,8 @@ sources:
             description: Boolean indicating the vendor primary subsidiary.
           - name: subsidiary
             description: "{{ doc('subsidiary_id') }}"
+          - name: primarycurrency
+            description: "{{ doc('currency_id') }}"
           - name: _fivetran_deleted
             description: "{{ doc('_fivetran_deleted') }}"
 
