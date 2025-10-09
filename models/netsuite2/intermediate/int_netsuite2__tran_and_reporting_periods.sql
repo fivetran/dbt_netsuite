@@ -26,7 +26,6 @@ transaction_and_reporting_periods as (
   select
     base.source_relation,
     base.accounting_period_id as accounting_period_id,
-    base.source_relation,
     multiplier.accounting_period_id as reporting_accounting_period_id
   from accounting_periods as base
 

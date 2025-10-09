@@ -10,7 +10,6 @@ models:
 vars:
   netsuite_schema: netsuite_integration_tests_9
   netsuite_data_model_override: netsuite
-  use_table_name_identifer_override: true # to use seed identifiers in integration tests
 
   # Enable below when generating docs
   # netsuite2__multibook_accounting_enabled: true # @docs-include

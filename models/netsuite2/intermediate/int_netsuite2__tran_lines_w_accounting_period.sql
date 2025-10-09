@@ -19,7 +19,6 @@ transaction_lines_w_accounting_period as ( -- transaction line totals, by accoun
     transaction_lines.transaction_line_id,
     transaction_lines.subsidiary_id,
     transaction_lines.account_id,
-    transaction_lines.source_relation,
 
     {% if multibook_accounting_enabled %}
     transaction_lines.accounting_book_id,
