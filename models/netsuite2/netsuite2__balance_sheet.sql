@@ -19,7 +19,7 @@
 
 with transactions_with_converted_amounts as (
     select * 
-    from {{ref('int_netsuite2__tran_with_converted_amounts')}}
+    from {{ ref('int_netsuite2__tran_with_converted_amounts') }}
 
     {% if is_incremental() %}
     where _fivetran_synced_date >= {{ netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=var('lookback_window', 3)) }}
@@ -27,7 +27,7 @@ with transactions_with_converted_amounts as (
 ), 
 
 --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
-{% if balance_sheet_transaction_detail_columns != []%}
+{% if balance_sheet_transaction_detail_columns != [] %}
 transaction_details as (
     select * 
     from {{ ref('netsuite2__transaction_details') }}
@@ -176,7 +176,7 @@ balance_sheet as (
     --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
     {% if balance_sheet_transaction_detail_columns %}
     
-    , transaction_details.{{ balance_sheet_transaction_detail_columns | join (", transaction_details.")}}
+    , transaction_details.{{ balance_sheet_transaction_detail_columns | join (", transaction_details.") }}
 
     {% endif %}
 
@@ -279,7 +279,7 @@ balance_sheet as (
         --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
         {% if balance_sheet_transaction_detail_columns %}
 
-        , transaction_details.{{ balance_sheet_transaction_detail_columns | join (", transaction_details.")}}
+        , transaction_details.{{ balance_sheet_transaction_detail_columns | join (", transaction_details.") }}
 
         {% endif %}
 

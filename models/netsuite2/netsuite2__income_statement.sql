@@ -140,7 +140,7 @@ income_statement as (
         --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
         {% if income_statement_transaction_detail_columns %}
 
-        , transaction_details.{{ income_statement_transaction_detail_columns | join (", transaction_details.")}}
+        , transaction_details.{{ income_statement_transaction_detail_columns | join (", transaction_details.") }}
 
         {% endif %}
 
