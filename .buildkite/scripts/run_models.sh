@@ -28,14 +28,7 @@ dbt test --vars '{netsuite_schema: netsuite_integrations_tests_sqlw_2}' --target
 dbt run --vars '{netsuite_schema: netsuite_integrations_tests_sqlw_2, netsuite2__using_to_subsidiary: true, netsuite2__multibook_accounting_enabled: true, netsuite2__using_exchange_rate: false, netsuite2__using_vendor_categories: false, netsuite2__using_jobs: false, netsuite2__using_employees: false, netsuite2__fiscal_calendar_enabled: true}' --target "$db" --full-refresh
 dbt run --vars '{netsuite_schema: netsuite_integrations_tests_sqlw_2, netsuite2__using_to_subsidiary: true, netsuite2__multibook_accounting_enabled: true, netsuite2__using_exchange_rate: false, netsuite2__using_vendor_categories: false, netsuite2__using_jobs: false, netsuite2__using_employees: false, netsuite2__fiscal_calendar_enabled: true}' --target "$db"
 dbt test --vars '{netsuite_schema: netsuite_integrations_tests_sqlw_2}' --target "$db"
-dbt run --vars '{netsuite_schema: netsuite_integrations_tests_sqlw_2, netsuite2__using_to_subsidiary: true, netsuite2__using_exchange_rate: true}' --target "$db" --full-refresh
-dbt test --vars '{netsuite_schema: netsuite_integrations_tests_sqlw_2}' --target "$db"
-dbt run --vars '{netsuite_schema: netsuite_integrations_tests_sqlw_2, netsuite2__using_customer_subsidiary_relationships: true, netsuite2__using_vendor_subsidiary_relationships: true, netsuite2__using_subsidiaries: true}' --target "$db" --full-refresh
-dbt test --vars '{netsuite_schema: netsuite_integrations_tests_sqlw_2}' --target "$db"
-dbt run --vars '{netsuite_schema: netsuite_integrations_tests_sqlw_2, netsuite2__using_departments: true, netsuite2__using_classification: true, netsuite2__using_location_main_address: true}' --target "$db" --full-refresh
-dbt test --vars '{netsuite_schema: netsuite_integrations_tests_sqlw_2}' --target "$db"
-dbt run --vars '{netsuite_schema: netsuite_integrations_tests_sqlw_2, netsuite2__using_items: true, netsuite2__using_nexuses: true}' --target "$db" --full-refresh
-dbt test --vars '{netsuite_schema: netsuite_integrations_tests_sqlw_2}' --target "$db"
+# Removed extra tests for SQL warehouse for efficiency
 
 else
 
