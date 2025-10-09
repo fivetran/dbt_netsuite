@@ -1,8 +1,10 @@
+{%- set multibook_accounting_enabled = var('netsuite2__multibook_accounting_enabled', false) -%}
+
 {{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
 
 with transactions as (
     select * 
-    from {{ var('netsuite2_transactions') }}
+    from {{ ref('stg_netsuite2__transactions') }}
 ), 
 
 transaction_lines as (
@@ -12,19 +14,21 @@ transaction_lines as (
 
 transaction_lines_w_accounting_period as ( -- transaction line totals, by accounts, accounting period and subsidiary
   select
+    transaction_lines.source_relation,
     transaction_lines.transaction_id,
     transaction_lines.transaction_line_id,
     transaction_lines.subsidiary_id,
     transaction_lines.account_id,
     transaction_lines.source_relation,
 
-    {% if var('netsuite2__multibook_accounting_enabled', false) %}
+    {% if multibook_accounting_enabled %}
     transaction_lines.accounting_book_id,
     transaction_lines.accounting_book_name,
     {% endif %}
     
     transactions.accounting_period_id as transaction_accounting_period_id,
-    coalesce(transaction_lines.amount, 0) as unconverted_amount
+    coalesce(transaction_lines.amount, 0) as unconverted_amount,
+    transactions._fivetran_synced_date
   from transaction_lines
 
   join transactions 

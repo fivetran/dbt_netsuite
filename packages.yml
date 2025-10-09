@@ -1,6 +1,6 @@
 packages:
-  # - package: fivetran/netsuite_source
-    # version: [">=0.9.0", "<0.10.0"]
-  - git: https://github.com/fivetran/dbt_netsuite_source.git
-    revision: feature/add-union-data
-    warn-unpinned: false
+- package: fivetran/fivetran_utils
+  version: [">=0.4.0", "<0.5.0"]
+
+- package: dbt-labs/spark_utils
+  version: [">=0.3.0", "<0.4.0"]

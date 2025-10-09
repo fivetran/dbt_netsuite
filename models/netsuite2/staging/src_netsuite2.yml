@@ -1,0 +1,759 @@
+version: 2
+
+sources:
+  - name: netsuite2
+    schema: "{{ var('netsuite_schema', 'netsuite') }}"
+    database: "{% if target.type != 'spark'%}{{ var('netsuite_database', target.database) }}{% endif %}"
+    loader: fivetran
+    config:
+      loaded_at_field: _fivetran_synced
+      enabled: "{{ var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2') }}"
+      freshness:
+        warn_after: { count: 24, period: hour }
+        error_after: { count: 48, period: hour }
+
+    tables:
+      - name: account_type
+        identifier: "{{ var('netsuite2_account_type_identifier', 'accounttype') }}"
+        description: "{{ doc('account_types_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_account_types', true) }}"
+        columns:
+          - name: _fivetran_deleted
+            description:  "{{ doc('_fivetran_deleted') }}"
+          - name: _fivetran_synced
+            description:  "{{ doc('_fivetran_synced') }}"
+          - name: id
+            description: "{{ doc('account_type_id') }}"
+          - name: balancesheet
+            description: Boolean indicating if the account type is a balance sheet account. Represented as "T" or "F" for true and false respectively.
+          - name: left
+            description: Boolean indicating if the account type is leftside. Represented as "T" or "F" for true and false respectively.
+          - name: longname
+            description: The name of the account type.
+
+      - name: accounting_book_subsidiaries
+        identifier: "{{ var('netsuite2_accounting_book_subsidiaries_identifier', 'accountingbooksubsidiaries') }}"
+        description: "{{ doc('accounting_book_subsidiaries_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__multibook_accounting_enabled', true) and var('netsuite2__using_accounting_book_subsidiaries', true) }}"
+        columns:
+          - name: _fivetran_id
+            description: "{{ doc('_fivetran_id') }}"
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: accountingbook
+            description: "{{ doc('accounting_book_id') }}"
+          - name: status
+            description: The status of the accounting book subsidiary.
+          - name: subsidiary
+            description: "{{ doc('subsidiary_id') }}"
+
+      - name: accounting_book
+        identifier: "{{ var('netsuite2_accounting_book_identifier', 'accountingbook') }}"
+        description: "{{ doc('accounting_books_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__multibook_accounting_enabled', true) and var('netsuite2__using_accounting_books', true) }}"
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: id
+            description: "{{ doc('accounting_book_id') }}"
+          - name: name
+            description: Name of the accounting book.
+          - name: basebook
+            description: Reference to the base book.
+          - name: effectiveperiod
+            description: Reference to the effective period of the accounting book.
+          - name: isadjustmentonly
+            description: Boolean indicating if the accounting book is an adjustment only. Represented as "T" or "F" for true and false respectively.
+          - name: isconsolidated
+            description: Boolean indicating if the accounting book is a consolidated entry. Represented as "T" or "F" for true and false respectively.
+          - name: contingentrevenuehandling
+            description: Boolean indicating if the accounting book is contingent revenue handling. Represented as "T" or "F" for true and false respectively.
+          - name: isprimary
+            description: Boolean indicating if the accounting book is a primary entry. Represented as "T" or "F" for true and false respectively.
+          - name: twosteprevenueallocation
+            description: Boolean indicating if the accounting book is a two step revenue allocation entry. Represented as "T" or "F" for true and false respectively.
+          - name: unbilledreceivablegrouping
+            description: Boolean indicating if the accounting book is an unbilled receivable grouping. Represented as "T" or "F" for true and false respectively.
+
+      - name: accounting_period_fiscal_calendars
+        identifier: "{{ var('netsuite2_accounting_period_fiscal_calendars_identifier', 'accountingperiodfiscalcalendars') }}"
+        description: "{{ doc('accounting_period_fiscal_calendars_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_accounting_period_fiscal_calendars', true) }}"
+        columns:
+          - name: _fivetran_id
+            description: "{{ doc('_fivetran_id') }}"
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: accountingperiod
+            description: "{{ doc('accounting_period_id') }}"
+          - name: fiscalcalendar
+            description: "{{ doc('fiscal_calendar_id') }}"
+          - name: parent
+            description: Reference to the parent fiscal calendar accounting period.
+
+      - name: fiscal_calendar
+        identifier: "{{ var('netsuite2_fiscal_calendar_identifier', 'fiscalcalendar') }}"
+        description: Table containing a list of fiscal calendars, their names, and starting fiscal months. Used to determine fiscal year boundaries.
+        config:
+          enabled: "{{ var('netsuite2__fiscal_calendar_enabled', false) }}"
+        columns:
+          - name: id
+            description: Internal identifier for the fiscal calendar record.
+          - name: externalid
+            description: Custom or system-defined external identifier for the fiscal calendar.
+          - name: fiscalmonth
+            description: The starting month of the fiscal calendar (e.g., JAN for January, APR for April).
+          - name: isdefault
+            description: Boolean flag indicating whether this is the default fiscal calendar.
+          - name: name
+            description: Name of the fiscal calendar (e.g., 'Standard Fiscal Year').
+          - name: _fivetran_deleted
+            description: "{{ doc('_fivetran_deleted') }}"
+          - name: date_deleted
+            description: Timestamp when the record was deleted in the source system, if applicable.
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+
+      - name: accounting_period
+        identifier: "{{ var('netsuite2_accounting_period_identifier', 'accountingperiod') }}"
+        description: "{{ doc('account_periods_table') }}"
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: id
+            description: "{{ doc('accounting_period_id') }}"
+          - name: parent
+            description: Reference to the parent accounting period.
+          - name: periodname
+            description: Name of the accounting period.
+          - name: startdate
+            description: Timestamp of when the accounting period starts.
+          - name: enddate
+            description: Timestamp if when the accounting period ends.
+          - name: closedondate
+            description: Timestamp of when the accounting period is closed.
+          - name: isquarter
+            description: Boolean indicating if the accounting period is the initial quarter. Represented as "T" or "F" for true and false respectively.
+          - name: isyear
+            description: Boolean indicating if the accounting period is the initial period. Represented as "T" or "F" for true and false respectively.
+          - name: isadjust
+            description: Boolean indicating if the accounting period is an adjustment. Represented as "T" or "F" for true and false respectively.
+          - name: isposting
+            description: Boolean indicating if the accounting period is posting. Represented as "T" or "F" for true and false respectively.
+          - name: closed
+            description: Boolean indicating if the accounting period is closed. Represented as "T" or "F" for true and false respectively.
+          - name: alllocked
+            description: Boolean indicating if all the accounting periods are locked. Represented as "T" or "F" for true and false respectively.
+          - name: arlocked
+            description: Boolean indicating if the ar accounting period is locked. Represented as "T" or "F" for true and false respectively.
+          - name: aplocked
+            description: Boolean indicating if the ap accounting period is locked. Represented as "T" or "F" for true and false respectively.
+
+      - name: account
+        identifier: "{{ var('netsuite2_account_identifier', 'account') }}"
+        description: "{{ doc('accounts_table') }}"
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: id
+            description: The unique identifier associated with the account.
+          - name: externalid
+            description: Reference to the external account,
+          - name: parent
+            description: Reference to the parent account.
+          - name: acctnumber
+            description: Netsuite generated account number.
+          - name: accttype
+            description: Reference to the account type.
+          - name: sspecacct
+            description: Special account type.
+          - name: fullname
+            description: Name of the account.
+          - name: description
+            description: Description of the account.
+          - name: deferralacct
+            description: Reference to the deferral account.
+          - name: cashflowrate
+            description: The cash flow rate type of the account.
+          - name: generalrate
+            description: The general rate type of the account (Current, Historical, Average).
+          - name: currency
+            description: "{{ doc('currency_id') }}"
+          - name: class
+            description: "{{ doc('class_id') }}"
+          - name: department
+            description: "{{ doc('department_id') }}"
+          - name: location
+            description: "{{ doc('location_id') }}"
+          - name: includechildren
+            description: Boolean indicating if the account includes sub accounts. Represented as "T" or "F" for true and false respectively.
+          - name: isinactive
+            description: Boolean indicating if the account is inactive. Represented as "T" or "F" for true and false respectively.
+          - name: issummary
+            description: Boolean indicating if the account is a summary account. Represented as "T" or "F" for true and false respectively.
+          - name: eliminate
+            description: Indicates this is an intercompany account used only to record transactions between subsidiaries. Amounts posted to intercompany accounts are eliminated when you run the intercompany elimination process at the end of an accounting period. Represented as "T" or "F" for true and false respectively.
+          - name: _fivetran_deleted
+            description: "{{ doc('_fivetran_deleted') }}"
+          - name: accountsearchdisplaynamecopy
+            description: Display name of the account.
+
+      - name: classification
+        identifier: "{{ var('netsuite2_classification_identifier', 'classification') }}"
+        description: "{{ doc('classes_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_classification', true) }}"
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: id
+            description: "{{ doc('class_id') }}"
+          - name: externalid
+            description: Reference to the external class.
+          - name: name
+            description: Name of the class.
+          - name: fullname
+            description: Full name of the class.
+          - name: isinactive
+            description: Boolean indicating if the class is active. Represented as "T" or "F" for true and false respectively.
+          - name: _fivetran_deleted
+            description: "{{ doc('_fivetran_deleted') }}"
+
+      - name: consolidated_exchange_rate
+        identifier: "{{ var('netsuite2_consolidated_exchange_rate_identifier', 'consolidatedexchangerate') }}"
+        description: "{{ doc('consolidated_exchange_rates_table') }}"
+        columns:
+          - name: id
+            description:  unique identifier for the consolidated exchange rate.
+          - name: postingperiod
+            description: "{{ doc('accounting_period_id') }}"
+          - name: fromcurrency
+            description: The currency id which the consolidated exchange rate is from.
+          - name: fromsubsidiary
+            description: The subsidiary id which the consolidated exchange rate is from.
+          - name: tocurrency
+            description: The subsidiary id which the consolidated exchange rate is for.
+          - name: tosubsidiary
+            description: The subsidiary id which the consolidated exchange rate is for.
+          - name: currentrate
+            description: The current rate associated with the exchange rate.
+          - name: averagerate
+            description: The consolidated exchange rates average rate.
+          - name: accountingbook
+            description: "{{ doc('accounting_book_id') }}"
+          - name: historicalrate
+            description: The historical rate of the exchange rate.
+
+      - name: currency
+        identifier: "{{ var('netsuite2_currency_identifier', 'currency') }}"
+        description: "{{ doc('currencies_table') }}"
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: id
+            description: "{{ doc('currency_id') }}"
+          - name: name
+            description: Name of the currency.
+          - name: symbol
+            description: Currency symbol.
+
+      - name: customer
+        identifier: "{{ var('netsuite2_customer_identifier', 'customer') }}"
+        description: "{{ doc('customers_table') }}"
+        columns:
+          - name: id
+            description: "{{ doc('customer_id') }}"
+          - name: entityid
+            description: "{{ doc('entity_id') }}"
+          - name: externalid
+            description: Reference to the associated external customer.
+          - name: parent
+            description: Reference to the parent customer.
+          - name: isperson
+            description: Boolean indicating if the customer is an individual person. Represented as "T" or "F" for true and false respectively.
+          - name: companyname
+            description: "{{ doc('company_name') }}"
+          - name: firstname
+            description: First name of the customer.
+          - name: lastname
+            description: Last name of the customer.
+          - name: email
+            description: Customers email address.
+          - name: phone
+            description: Phone number of the customer.
+          - name: defaultbillingaddress
+            description: Reference to the associated billing address.
+          - name: defaultshippingaddress
+            description: Reference to the associated default shipping address.
+          - name: receivablesaccount
+            description: Reference to the associated receivables account.
+          - name: currency
+            description: "{{ doc('currency_id') }}"
+          - name: firstorderdate
+            description: Timestamp of when the first order was created.
+          - name: altname
+            description: "{{ doc('alt_name') }}"
+
+      - name: customer_subsidiary_relationship
+        identifier: "{{ var('netsuite2_customer_subsidiary_relationship_identifier', 'customersubsidiaryrelationship') }}"
+        description: "{{ doc('customer_subsidiary_relationship_table') }}"
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: id
+            description: The unique identifier of the customer and subsidiary relationship.
+          - name: entity
+            description: "{{ doc('customer_id') }}"
+          - name: isprimarysub
+            description: Boolean indicating the customer primary subsidiary.
+          - name: subsidiary
+            description: "{{ doc('subsidiary_id') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('_fivetran_deleted') }}"
+
+      - name: department
+        identifier: "{{ var('netsuite2_department_identifier', 'department') }}"
+        description: "{{ doc('departments_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_departments', true) }}"
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: id
+            description: "{{ doc('department_id') }}"
+          - name: parent
+            description: Reference to the parent department.
+          - name: name
+            description: Name of the department.
+          - name: fullname
+            description: Full name of the department.
+          - name: subsidiary
+            description: "{{ doc('subsidiary_id') }}"
+          - name: isinactive
+            description: Boolean indicating if the department is active. Represented as "T" or "F" for true and false respectively.
+          - name: _fivetran_deleted
+            description: "{{ doc('_fivetran_deleted') }}"
+
+      - name: employee
+        identifier: "{{ var('netsuite2_employee_identifier', 'employee') }}"
+        description: "{{ doc('employee_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_employees', true) }}"
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: id
+            description: "{{ doc('employee_id') }}"
+          - name: entityid
+            description: "{{ doc('entity_id') }}"
+          - name: firstname
+            description: First name of the employee.
+          - name: lastname
+            description: Last name of the employee.
+          - name: department
+            description: "{{ doc('department_id') }}"
+          - name: subsidiary
+            description: "{{ doc('subsidiary_id') }}"
+          - name: email
+            description: Email address of the employee.
+          - name: supervisor
+            description: "{{ doc('supervisor_id') }}"
+          - name: approvallimit
+            description: The largest expense report this supervisor can approve.
+          - name: expenselimit
+            description: Amount this employee can expense without approval from a supervisor or approver.
+          - name: purchaseorderapprovallimit
+            description: Amount an employee is allowed to approve on a purchase request when specified as an approver.
+          - name: purchaseorderlimit
+            description: Amount this employee can purchase without approval from a supervisor or approver.
+          - name: currency
+            description: "{{ doc('currency_id') }}"
+          - name: isinactive
+            description: Boolean indicating this employee is active.
+
+      - name: entity
+        identifier: "{{ var('netsuite2_entity_identifier', 'entity') }}"
+        description: "{{ doc('entities_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_entities', true) }}"
+        columns:
+          - name: id
+            description: Th "{{ doc('entity_id') }}"e unique identifier of the entity.
+          - name: contact
+            description: The unique identifier of the contact associated with the entity.
+          - name: customer
+            description: The unique identifier of the customer associated with the entity.
+          - name: employee
+            description: The unique identifier of the employee associated with the entity.
+          - name: entitytitle
+            description: The entity name.
+          - name: isperson
+            description: Value indicating whether the entity is a person (either yes or no).
+          - name: parent
+            description: The unique identifier of the parent entity.
+          - name: project
+            description: The unique identifier of the project (job) associated with the entity.
+          - name: type
+            description: The entity type (Contact, CustJob, Job, etc).
+          - name: vendor
+            description: The unique identifier of the vendor associated with the entity.
+
+      - name: entity_address
+        identifier: "{{ var('netsuite2_entity_address_identifier', 'entityaddress') }}"
+        description: "{{ doc('entity_address_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_entity_address', true) }}"
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: addr1
+            description: "{{ doc('addr1') }}" 
+          - name: addr2
+            description: "{{ doc('addr2') }}" 
+          - name: addr3
+            description: "{{ doc('addr3') }}" 
+          - name: addressee
+            description: "{{ doc('addressee') }}"
+          - name: addrtext
+            description: "{{ doc('full_address') }}" 
+          - name: city
+            description: "{{ doc('city') }}" 
+          - name: country
+            description: "{{ doc('country') }}" 
+          - name: state
+            description: "{{ doc('state') }}" 
+          - name: nkey
+            description: "{{ doc('nkey') }}" 
+          - name: zip
+            description: "{{ doc('zipcode') }}" 
+
+      - name: item
+        identifier: "{{ var('netsuite2_item_identifier', 'item') }}"
+        description: "{{ doc('items_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_items', true) }}"
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: id
+            description: "{{ doc('item_id') }}"
+          - name: fullname
+            description: Name of the item.
+          - name: itemtype
+            description: Item type name.
+          - name: description
+            description: Sales description associated with the item.
+          - name: department
+            description: "{{ doc('department_id') }}"
+          - name: class
+            description: "{{ doc('class_id') }}"
+          - name: location
+            description: "{{ doc('location_id') }}"
+          - name: subsidiary
+            description: "{{ doc('subsidiary_id') }}"
+          - name: assetaccount
+            description: Reference to the asset account.
+          - name: expenseaccount
+            description: Reference to the expense account.
+          - name: gainlossaccount
+            description: Reference to the gain or loss account.
+          - name: incomeaccount
+            description: Reference to the income account.
+          - name: intercoexpenseaccount
+            description: Reference to the intercompany expense account.
+          - name: intercoincomeaccount
+            description: Reference to the intercompany income account.
+          - name: deferralaccount
+            description: Reference to the deferred expense account.
+          - name: deferredrevenueaccount
+            description: Reference to the deferred revenue account.
+          - name: parent
+            description: Reference to the parent item.
+
+      - name: job
+        identifier: "{{ var('netsuite2_job_identifier', 'job') }}"
+        description: "{{ doc('jobs_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_jobs', true) }}"
+        columns:
+          - name: id
+            description: The unique identifier of the job.
+          - name: externalid
+            description: The unique identifier of the external job reference.
+          - name: customer
+            description: The unique identifier of the customer associated with the job.
+          - name: entityid
+            description: Reference the the entity.
+          - name: defaultbillingaddress
+            description: Default billing address.
+          - name: defaultshippingaddress
+            description: Default shipping address.
+          - name: parent
+            description: Reference to the parent job.
+
+      - name: location_main_address
+        identifier: "{{ var('netsuite2_location_main_address_identifier', 'locationmainaddress') }}"
+        description: "{{ doc('location_main_address_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_location_main_address', true) }}"
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: addr1
+            description: "{{ doc('addr1') }}" 
+          - name: addr2
+            description: "{{ doc('addr2') }}" 
+          - name: addr3
+            description: "{{ doc('addr3') }}" 
+          - name: addressee
+            description: "{{ doc('addressee') }}"
+          - name: addrtext
+            description: "{{ doc('full_address') }}" 
+          - name: city
+            description: "{{ doc('city') }}" 
+          - name: country
+            description: "{{ doc('country') }}" 
+          - name: state
+            description: "{{ doc('state') }}" 
+          - name: nkey
+            description: "{{ doc('nkey') }}" 
+          - name: zip
+            description: "{{ doc('zipcode') }}" 
+
+      - name: location
+        identifier: "{{ var('netsuite2_location_identifier', 'location') }}"
+        description: "{{ doc('locations_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_locations', true) }}"
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: id
+            description: "{{ doc('location_id') }}"
+          - name: name
+            description: Name of the location.
+          - name: fullname
+            description: Full name of the location.
+          - name: mainaddress
+            description: "{{ doc('main_address_id') }}"
+          - name: parent
+            description: Reference to the parent location.
+          - name: subsidiary
+            description: "{{ doc('subsidiary_id') }}"
+
+      - name: nexus
+        identifier: "{{ var('netsuite2_item_identifier', 'nexus') }}"
+        description: "{{ doc('nexuses_table') }}"
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: id
+            description: "{{ doc('nexus_id') }}"
+          - name: country
+            description: Country this nexus is located in.
+          - name: description
+            description: Description for this record.
+          - name: state
+            description: State, province or county this nexus is located in.
+          - name: taxagency
+            description: Tax vendor id to whom you submit tax reports and remit payments.
+
+      - name: subsidiary
+        identifier: "{{ var('netsuite2_subsidiary_identifier', 'subsidiary') }}"
+        description: "{{ doc('subsidiaries_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_subsidiaries', true) }}"
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: id
+            description: "{{ doc('subsidiary_id') }}"
+          - name: name
+            description: Name of the subsidiary.
+          - name: fullname
+            description: Full name of the subsidiary.
+          - name: email
+            description: Email address associated with the subsidiary.
+          - name: mainaddress
+            description: "{{ doc('main_address_id') }}"
+          - name: country
+            description: The country which the subsidiary is located.
+          - name: state
+            description: The state which the subsidiary is located.
+          - name: fiscalcalendar
+            description: "{{ doc('fiscal_calendar_id') }}"
+          - name: parent
+            description: Reference to the parent subsidiary.
+          - name: currency
+            description:  "{{ doc('currency_id') }}"
+          - name: iselimination
+            description: Boolean indicating if the subsidiary is an elimination subsidiary. Represented as "T" or "F" for true and false respectively.
+
+      - name: transaction_accounting_line
+        identifier: "{{ var('netsuite2_transaction_accounting_line_identifier', 'transactionaccountingline') }}"
+        description: "{{ doc('transaction_accounting_lines_table') }}"
+        columns:
+          - name: transaction
+            description: The transaction id which the transaction line is associated with.
+          - name: transactionline
+            description: The unique identifier of the transaction line.
+          - name: amount
+            description: The amount of the transaction line.
+          - name: netamount
+            description: The net amount of the transaction line.
+          - name: accountingbook
+            description: "{{ doc('accounting_book_id') }}"
+          - name: account
+            description: Reference to the account associated with the entry.
+          - name: posting
+            description: Boolean indicating if the entry is posting. Represented as "T" or "F" for true and false respectively.
+          - name: credit
+            description: Amount associated as a credit.
+          - name: debit
+            description: Amount associated as a debit.
+          - name: amountpaid
+            description: Total amount paid.
+          - name: amountunpaid
+            description: Total amount unpaid.
+
+      - name: transaction_line
+        identifier: "{{ var('netsuite2_transaction_line_identifier', 'transactionline') }}"
+        description: "{{ doc('transaction_lines_table') }}"
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: id
+            description: Unique identifier of the transaction line.
+          - name: transaction
+            description: "{{ doc('transaction_id') }}"
+          - name: linesequencenumber
+            description: Netsuite generated number associated with the transaction line.
+          - name: memo
+            description: The memo attached to the transaction line.
+          - name: entity
+            description: "{{ doc('entity_id') }}"
+          - name: item
+            description: "{{ doc('item_id') }}"
+          - name: class
+            description: "{{ doc('class_id') }}"
+          - name: location
+            description: "{{ doc('location_id') }}"
+          - name: subsidiary
+            description: "{{ doc('subsidiary_id') }}"
+          - name: department
+            description: "{{ doc('department_id') }}"
+          - name: isclosed
+            description: Boolean indicating if the transaction line is closed. Represented as "T" or "F" for true and false respectively.
+          - name: isbillable
+            description: Boolean indicating if the transaction line is billable. Represented as "T" or "F" for true and false respectively.
+          - name: iscogs
+            description: Boolean indicating if the transaction line is a cost of goods sold entry. Represented as "T" or "F" for true and false respectively.
+          - name: cleared
+            description: Boolean indicating if the transaction line is cleared. Represented as "T" or "F" for true and false respectively.
+          - name: commitmentfirm
+            description: Boolean indicating if the transaction line is a commitment firm. Represented as "T" or "F" for true and false respectively.
+          - name: mainline
+            description: Boolean indicating if the transaction line is a main line entry. Represented as "T" or "F" for true and false respectively.
+          - name: taxline
+            description: Boolean indicating if the transaction line is a tax line. Represented as "T" or "F" for true and false respectively.
+          - name: eliminate
+            description: Boolean indicating if the transaction line is eliminated. Represented as "T" or "F" for true and false respectively.
+          - name: netamount
+            description: Net amount of transaction line.
+
+      - name: transaction
+        identifier: "{{ var('netsuite2_transaction_identifier', 'transaction') }}"
+        description: "{{ doc('transaction_table') }}"
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: id
+            description: "{{ doc('transaction_id') }}"
+          - name: transactionnumber
+            description: The Netsuite generated number of the transaction.
+          - name: type
+            description: The type of the transaction.
+          - name: memo
+            description: Memo attached to the transaction.
+          - name: trandate
+            description: The timestamp of the transaction date.
+          - name: status
+            description: Status of the transaction.
+          - name: createddate
+            description: "{{ doc('created_at') }}"
+          - name: duedate
+            description: Timestamp of the transactions due date.
+          - name: closedate
+            description: Timestamp of when the transaction was closed.
+          - name: currency
+            description: "{{ doc('currency_id') }}"
+          - name: entity
+            description: "{{ doc('entity_id') }}"
+          - name: postingperiod
+            description: "{{ doc('accounting_period_id') }}"
+          - name: posting
+            description: Boolean indicating if the transaction is a posting event. Represented as "T" or "F" for true and false respectively.
+          - name: intercoadj
+            description: Boolean indicating if the transaction is an intercompany adjustment. Represented as "T" or "F" for true and false respectively.
+          - name: isreversal
+            description: Boolean indicating if the transaction is a reversal entry. Represented as "T" or "F" for true and false respectively.
+          - name: reversal
+            description: Transaction id of the reversal.
+          - name: reversaldate
+            description: If the transaction is a reversal, date of the reversal entry.
+          - name: reversaldefer
+            description: Boolean indicating if the transaction is a reversal and if it's been deferred.
+
+      - name: vendor_category
+        identifier: "{{ var('netsuite2_vendor_category_identifier', 'vendorcategory') }}"
+        description: "{{ doc('vendor_categories_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_vendor_categories', true) }}"
+        columns:
+          - name: id
+            description: "{{ doc('vendor_category_id') }}"
+          - name: name
+            description: Name of the vendor category.
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+
+      - name: vendor
+        identifier: "{{ var('netsuite2_vendor_identifier', 'vendor') }}"
+        description: "{{ doc('vendor_table') }}"
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: id
+            description: "{{ doc('vendor_id') }}"
+          - name: companyname
+            description: "{{ doc('company_name') }}"
+          - name: datecreated
+            description: "{{ doc('create_date_at') }}"
+          - name: category
+            description: "{{ doc('vendor_category_id') }}"
+          - name: altname
+            description: "{{ doc('alt_name') }}"
+          - name: entity_id
+            description: "{{ doc('entity_id') }}"
+
+      - name: vendor_subsidiary_relationship
+        identifier: "{{ var('netsuite2_vendor_subsidiary_relationship_identifier', 'vendorsubsidiaryrelationship') }}"
+        description: "{{ doc('vendor_subsidiary_relationship_table') }}"
+        columns:
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+          - name: id
+            description: The unique identifier of the vendor and subsidiary relationship.
+          - name: entity
+            description: "{{ doc('vendor_id') }}"
+          - name: isprimarysub
+            description: Boolean indicating the vendor primary subsidiary.
+          - name: subsidiary
+            description: "{{ doc('subsidiary_id') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('_fivetran_deleted') }}"
+

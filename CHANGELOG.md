@@ -1,15 +1,301 @@
-# dbt_netsuite v0.13.0
+# dbt_netsuite v1.1.0
 
-## 🎉 Feature Update 🎉 
-This release supports running the package on multiple Netsuite sources at once! See the [README](https://github.com/fivetran/dbt_netsuite/tree/main?tab=readme-ov-file#step-4-define-database-and-schema-variables) for details on how to leverage this feature ([PR #104](https://github.com/fivetran/dbt_netsuite/pull/104)).
-> Please note: For each end model, we have a added a new field, `source_relation`, that points to the source connector from which the record originated.
+## Schema/Data Change
+**4 total changes • 0 possible breaking changes**
 
-## 🛠️ Under the Hood 🛠️
-- Included auto-releaser GitHub Actions workflow to automate future releases.
-- Updated the maintainer PR template to resemble the most up to date format.
+| Data Model(s) | Change type | Old | New | Notes |
+| ---------- | ----------- | -------- | -------- | ----- |
+| `stg_netsuite2__nexuses` | Addition | N/A | New staging model | Provides access to Netsuite tax nexus data |
+| `stg_netsuite2__customer_subsidiary_relationships` | Addition | N/A | New staging model | Maps customers to their associated subsidiaries |
+| `stg_netsuite2__vendor_subsidiary_relationships` | Addition | N/A | New staging model | Maps vendors to their associated subsidiaries |
+| `netsuite2__entity_subsidiary_relationships` | Addition | N/A | New end model | Unified view combining customer and vendor subsidiary relationships |
+
+## Feature Update
+- **Nexus Support**: Added comprehensive support for Netsuite nexus data through new staging model `stg_netsuite2__nexuses` with configurable pass-through columns
+- **Entity-Subsidiary Relationships**: New end model `netsuite2__entity_subsidiary_relationships` provides a unified view of both customer and vendor subsidiary relationships with enhanced metadata including currency information
+- **Union Data Functionality**: Added new macros (`union_netsuite_connections`, `netsuite_source_relation`, `netsuite_union_relations`) to support multiple Netsuite source connections
+
+## Under the Hood
+- Added new staging macros: `get_nexuses_columns`, `get_customer_subsidiary_relationships_columns`, `get_vendor_subsidiary_relationships_columns`
+- Enhanced `get_vendors_columns` macro with additional field support
+- Updated integration tests configuration and seed data references
+- Added Streamlit example documentation and images
 
 ## Contributors:
 - [@fivetran-poonamagate](https://github.com/fivetran-poonamagate) ([PR #104](https://github.com/fivetran/dbt_netsuite/pull/104))
+
+# dbt_netsuite v1.0.0
+
+[PR #168](https://github.com/fivetran/dbt_netsuite/pull/168) includes the following updates:
+
+## Breaking Changes
+
+### Source Package Consolidation
+- Removed the dependency on the `fivetran/netsuite_source` package.
+  - All functionality from the source package has been merged into this transformation package for improved maintainability and clarity.
+  - If you reference `fivetran/netsuite_source` in your `packages.yml`, you must remove this dependency to avoid conflicts.
+  - Any source overrides referencing the `fivetran/netsuite_source` package will also need to be removed or updated to reference this package.
+  - Update any netsuite_source-scoped variables to be scoped to only under this package. See the [README](https://github.com/fivetran/dbt_netsuite/blob/main/README.md) for how to configure the build schema of staging models.
+- As part of the consolidation, vars are no longer used to reference staging models, and only sources are represented by vars. Staging models are now referenced directly with `ref()` in downstream models.
+
+### dbt Fusion Compatibility Updates
+- Updated package to maintain compatibility with dbt-core versions both before and after v1.10.6, which introduced a breaking change to multi-argument test syntax (e.g., `unique_combination_of_columns`).
+- Temporarily removed unsupported tests to avoid errors and ensure smoother upgrades across different dbt-core versions. These tests will be reintroduced once a safe migration path is available.
+  - Removed all `dbt_utils.unique_combination_of_columns` tests.
+  - Removed all `accepted_values` tests.
+  - Moved `loaded_at_field: _fivetran_synced` under the `config:` block in `src_netsuite.yml`.
+
+## Features
+- Added pass through columns functionality to the `stg_netsuite__accounting_periods` and `stg_netsuite2__accounting_periods` models using a new `accounting_periods_pass_through_columns` variable. This allows users to pass through additional columns from the source accounting periods tables.
+  - See the [README](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#passing-through-additional-fields) for more details.
+> Note: Columns specified by `accounting_periods_pass_through_columns` are not currently included in Netsuite transform models. Please open an [issue](https://github.com/fivetran/dbt_netsuite/issues) if you would like to see accounting period custom columns persisted downstream.
+
+## Documentation
+- Updated the [README](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#passing-through-additional-fields) to include all available passthrough column variables and which models they materialize in. ([PR #163](https://github.com/fivetran/dbt_netsuite/pull/163))
+
+## Under the Hood
+- Updated conditions in `.github/workflows/auto-release.yml`.
+- Added `.github/workflows/generate-docs.yml`.
+
+# dbt_netsuite v0.20.0
+
+[PR #162](https://github.com/fivetran/dbt_netsuite/pull/162) includes the following updates:
+
+## Breaking Change for dbt Core < 1.9.6
+
+> *Note: This is not relevant to Fivetran Quickstart users.*
+
+Migrated `freshness` from a top-level source property to a source `config` in alignment with [recent updates](https://github.com/dbt-labs/dbt-core/issues/11506) from dbt Core ([Netsuite Source v0.13.0](https://github.com/fivetran/dbt_netsuite_source/releases/tag/v0.13.0)). This will resolve the following deprecation warning that users running dbt >= 1.9.6 may have received:
+
+```
+[WARNING]: Deprecated functionality
+Found `freshness` as a top-level property of `netsuite` in file
+`models/src_netsuite.yml`. The `freshness` top-level property should be moved
+into the `config` of `netsuite`.
+```
+
+**IMPORTANT:** Users running dbt Core < 1.9.6 will not be able to utilize freshness tests in this release or any subsequent releases, as older versions of dbt will not recognize freshness as a source `config` and therefore not run the tests.
+
+If you are using dbt Core < 1.9.6 and want to continue running Netsuite freshness tests, please elect **one** of the following options:
+  1. (Recommended) Upgrade to dbt Core >= 1.9.6
+  2. Do not upgrade your installed version of the `netsuite` package. Pin your dependency on v0.19.0 in your `packages.yml` file.
+  3. Utilize a dbt [override](https://docs.getdbt.com/reference/resource-properties/overrides) to overwrite the package's `netsuite` source and apply freshness via the previous release top-level property route. This will require you to copy and paste the entirety of the previous release `src_netsuite.yml` file and add an `overrides: netsuite_source` property.
+
+## Under the Hood
+- Updates to ensure integration tests use latest version of dbt.
+
+# dbt_netsuite v0.19.0
+
+For Netsuite2, [PR #160](https://github.com/fivetran/dbt_netsuite/pull/160) includes the following updates: 
+
+## Breaking Changes (full refresh required)
+- Added optional `fiscalcalendar` source table to support accurate fiscal year start dates (currently defaulted to calendar year). This table, related models (`stg_netsuite2__fiscal_calendar_tmp` and `stg_netsuite2__fiscal_calendar`), and relevant adjustments within `int_netsuite2__accounting_periods` are disabled by default. To enable this feature:
+  - Quickstart users: enable the fiscalcalendar table in the connection schema tab.
+  - dbt Core users: enable the fiscalcalendar table in the connection schema tab and also set the `netsuite2__fiscal_calendar_enabled` variable to true (default is false).
+
+## Under the Hood
+- Added `fiscal_year_trunc` to `int_netsuite2__accounting_periods`, which returns the truncated calendar year (default) or fiscal year (if `netsuite2__fiscal_calendar_enabled` is enabled). This replaces the previous case statements in `netsuite2__balance_sheet` for reporting_accounting_periods and transaction_accounting_periods.
+- Included the `netsuite2__fiscal_calendar_enabled` variable and `fiscalcalendar` source table configuration in the `quickstart.yml`.
+- Created new `date_from_parts` and `get_month_number` macros to be used when calculating the results for the `fiscal_year_trunc` field.
+
+# dbt_netsuite v0.19.0-a1
+
+## Breaking Changes (full refresh required)
+- Added optional `fiscalcalendar` source table to support accurate fiscal year start dates (currently defaulted to calendar year). This table, related models (`stg_netsuite2__fiscal_calendar_tmp` and `stg_netsuite2__fiscal_calendar`), and relevant adjustments within `int_netsuite2__accounting_periods` are disabled by default. To enable this feature:
+  - Quickstart users: enable the fiscalcalendar table in the connection schema tab.
+  - dbt Core users: enable the fiscalcalendar table in the connection schema tab and also set the `netsuite2__fiscal_calendar_enabled` variable to true (default is false).
+
+## Under the Hood
+- Added `fiscal_year_trunc` to `int_netsuite2__accounting_periods`, which returns the truncated calendar year (default) or fiscal year (if `netsuite2__fiscal_calendar_enabled` is enabled). This replaces the previous case statements in `netsuite2__balance_sheet` for reporting_accounting_periods and transaction_accounting_periods.
+- Included the `netsuite2__fiscal_calendar_enabled` variable and `fiscalcalendar` source table configuration in the `quickstart.yml`.
+
+# dbt_netsuite v0.18.0
+
+## Fivetran Quickstart Updates
+- Added the Netsuite (netsuite.com) output models in the `public_models` configuration of the `quickstart.yml`. This ensures the netsuite.com models are accessible in Quickstart. ([#157](https://github.com/fivetran/dbt_netsuite/pull/157))
+  - The netsuite.com models include: 
+    - `netsuite__balance_sheet`
+    - `netsuite__income_statement`
+    - `netsuite__transaction_details`
+
+## Documentation
+- Added Quickstart model counts to README. ([#156](https://github.com/fivetran/dbt_netsuite/pull/156))
+- Corrected references to connectors and connections in the README. ([#156](https://github.com/fivetran/dbt_netsuite/pull/156))
+
+# dbt_netsuite v0.17.2-a1
+
+## Fivetran Quickstart Updates
+- Added the Netsuite (netsuite.com) output models in the `public_models` configuration of the `quickstart.yml`. This ensures the netsuite.com models are accessible in Quickstart. ([#157](https://github.com/fivetran/dbt_netsuite/pull/157))
+  - The netsuite.com models include: 
+    - `netsuite__balance_sheet`
+    - `netsuite__income_statement`
+    - `netsuite__transaction_details`
+
+## Documentation
+- Added Quickstart model counts to README. ([#156](https://github.com/fivetran/dbt_netsuite/pull/156))
+- Corrected references to connectors and connections in the README. ([#156](https://github.com/fivetran/dbt_netsuite/pull/156))
+
+# dbt_netsuite v0.17.1
+[PR #155](https://github.com/fivetran/dbt_netsuite/pull/155) includes the following updates: 
+
+## Macro Updates
+- Introduced a local version of the `persist_pass_through_columns` macro that directly calls the variables within our models. This removes the existing string-to-variable conversion and leads to cleaner parsing. 
+  - This new macro has no functional changes from the previous macro and will not require customers to make any changes on their end.
+- This new macro is applied to all end models with passthrough column functionality, and replaces the existing `persist_pass_through_columns` macro.
+- Models impacted for both `netsuite__*` and `netsuite2__*` include `balance_sheet`, `income_statement`, `transaction_details`.
+- The process for adding passthrough columns remains unchanged. [Consult the README](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#optional-step-6-additional-configurations) for more details.
+
+# dbt_netsuite v0.17.0
+
+This release involves **breaking changes** and will require running a **full refresh**.
+
+## Bug Fixes
+- Adjusted the materialization of the `int_netsuite2__tran_with_converted_amounts` model **from incremental to [ephemeral](https://docs.getdbt.com/docs/build/materializations#ephemeral)** to resolve potential duplicate records in certain situations ([PR #153](https://github.com/fivetran/dbt_netsuite/pull/153)).
+   - This simplification minimizes duplication risk with marginal performance impact.
+> This is a **Breaking Change**, as `int_netsuite2__tran_with_converted_amounts` will no longer materialize in the warehouse.
+
+## Feature Updates
+- Added two fields to the `netsuite2__balance_sheet` and `netsuite2__income_statement` models to support reporting on amounts in the functional currency alongside consolidated (`converted_amount`) results ([PR #151](https://github.com/fivetran/dbt_netsuite/pull/151)):
+  - `transaction_amount`
+  - `subsidiary_currency_symbol`
+> This change **will require running a full refresh**, as we are adding new fields to incrementally materialized models.
+
+## Contribtors
+- [@jmongerlyra](https://github.com/jmongerlyra) ([PR #151](https://github.com/fivetran/dbt_netsuite/pull/151))
+
+# dbt_netsuite v0.16.0
+For Netsuite2, [PR #149](https://github.com/fivetran/dbt_netsuite/pull/149) includes the following updates: 
+
+## Breaking Changes (Full Refresh Required)
+- Revised the incremental logic of the `netsuite2__transaction_details` model to use `transaction_lines` CTE as the primary driver instead of `transactions`. 
+  - This ensures all transaction lines are captured, including those synced after the parent transaction.
+  - This also aligns with `transaction_lines` serving as the base CTE in the model, onto which all other CTEs are left-joined.
+  - When the `balance_sheet_transaction_detail_columns` and `income_statement_transaction_detail_columns` variables are used in the `netsuite2__balance_sheet` and `netsuite2__income_statement` models, all transactions are now included during incremental runs. This ensures no transactions are missed, aligning with the changes made in the `netsuite2__transaction_details` model.
+  - We still recommend running `dbt --full-refresh` periodically to maintain data quality of the models.
+
+## Documentation
+- Updated dbt documentation definitions.
+
+# dbt_netsuite v0.15.0
+For Netsuite2, [PR #144](https://github.com/fivetran/dbt_netsuite/pull/144) includes the following updates: 
+
+## Breaking Changes (Full refresh required after upgrading)
+- Corrected `account_number` field logic for the `netsuite2__balance_sheet` model to match the native Balance Sheet report within Netsuite:
+  - Income statement accounts should use the account number of the system-generated retained earnings account. 
+  - Cumulative Translation Adjustment (CTA) accounts should use the account number of the system-generated CTA account.
+  - We modified the logic to ensure the account number is the retained earnings number for income statement accounts in the balance sheet, and CTA rather than null. 
+  - Since this will change the `account_number`, a `--full-refresh` after upgrading will be required. 
+
+## New Fields
+- Added commonly used fields to each end model. They are listed in the below table.
+- Also added foreign keys to each end model to make it easier for customers to join back to source tables for better insights.
+
+| **Models**                | **New Fields**                                                                                                                                |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| [netsuite2__transaction_details](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__transaction_details)             | New fields:  `is_reversal`, `reversal_transaction_id`, `reversal_date`, `is_reversal_defer`, `is_eliminate`, `exchange_rate`, `department_full_name`,  `subsidiary_full_name`, `subsidiary_currency_symbol`, `transaction_line_amount`, `account_display_name`  <br> <br> New keys: `customer_id`, `vendor_id`, `class_id`, `location_id`, `department_id`, `currency_id`, `parent_account_id`, `vendor_category_id` (if `netsuite2__using_vendor_categories` is enabled)  |
+| [netsuite2__balance_sheet](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__balance_sheet)            | New fields: `account_display_name`, `subsidiary_full_name`, `is_account_intercompany`,  `is_account_leftside` |
+| [netsuite2__income_statement](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__income_statement)             |  New fields: `account_display_name` <br> <br>   New keys: `class_id`, `location_id`, `department_id` |
+
+
+> **IMPORTANT**: All of the affected models have pass-through functionality. If you have already been using passthrough column variables to include the newly added fields (without aliases), you **MUST** remove the fields from your passthrough variable configuration in order to avoid duplicate column errors.
+## Feature Updates
+- You can now leverage passthrough columns in `netsuite2__transaction_details` to bring in additional fields from the `locations` and `subsidiaries` source tables. 
+- To add additional columns to this model, do so by adding our pass-through column variables `locations_pass_through_columns` and `subsidiaries_pass_through_columns` to your `dbt_project.yml` file:
+
+```yml
+vars:
+    locations_pass_through_columns: 
+        - name: "location_custom_field"
+    subsidiaries_pass_through_columns: 
+        - name: "sub_field"
+          alias: "subsidiary_field"
+```
+- For more details on how to passthrough columns, [please consult our README section](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#passing-through-additional-fields). 
+## Under the Hood
+- Additional consistency tests added for each Netsuite2 end model in order to be used during integration test validations.
+- Updated yml documentation with new fields.
+## Contributors
+- [@jmongerlyra](https://github.com/jmongerlyra) ([PR #136](https://github.com/fivetran/dbt_netsuite/pull/136))
+- [@fastbarreto](https://github.com/fastbarreto) ([PR #124](https://github.com/fivetran/dbt_netsuite/pull/124))
+# dbt_netsuite v0.14.0
+For Netsuite2, [PR #138](https://github.com/fivetran/dbt_netsuite/pull/138) and [PR #132](https://github.com/fivetran/dbt_netsuite/pull/132) include the following updates: 
+## Breaking Changes (Full refresh required after upgrading)
+- Partitioned models have had the `partition_by` logic adjusted to include a granularity of a month. This change should only impact BigQuery warehouses and was applied to avoid the common `too many partitions` error users have experienced due to over-partitioning by day. Therefore, adjusting the partition to a monthly granularity will increase the partition windows and allow for more performant querying. 
+- This change was applied to the following models:
+  - `int_netsuite2__tran_with_converted_amounts`
+  - `netsuite2__balance_sheet`
+  - `netsuite2__income_statement`
+  - `netsuite2__transaction_details`
+
+## Upstream Netsuite Source Breaking Changes (Full refresh required after upgrading)
+- Casted specific timestamp fields across all staging models as dates where the Netsuite UI does not perform timezone conversion. Keeping these fields as type timestamp causes issues in reporting tools that perform automatic timezone conversion.   
+- Adds additional commonly used fields within the `stg_netsuite2__*` models. 
+> **IMPORTANT**: Nearly all of the affected models have pass-through functionality. If you have already been using passthrough column variables to include the newly added fields (without aliases), you **MUST** remove the fields from your passthrough variable configuration in order to avoid duplicate column errors.
+- Please refer to the [v0.11.0 `dbt_netsuite_source` release](https://github.com/fivetran/dbt_netsuite_source/releases/tag/v0.11.0) for more details regarding the upstream changes to view the fields that were added and impacted.
+
+## Bug Fixes
+- Updates logic in `netsuite2__transaction_details` to select the appropriate customer and vendor values based on the whether the transaction type is a customer invoice or credit, or a vendor bill or credit.
+  - Customer fields impacted: `company_name`, `customer_city`, `customer_state`, `customer_zipcode`, `customer_country`, `customer_date_first_order`, `customer_external_id`.
+  - Vendor fields impacted: `vendor_category_name`, `vendor_name`, `vendor_create_date`.
+
+## Feature Updates
+- New fields `customer_alt_name` and `vendor_alt_name` were introduced into `netsuite2__transaction_details`, after being added into the `stg_netsuite2__customers` and `stg_netsuite2__vendors` models in the most [recent release of `dbt_netsuite_source`](https://github.com/fivetran/dbt_netsuite_source/releases/tag/v0.11.0).  
+- We added the `employee` model in the [`v0.11.0` release of `dbt_netsuite_source`](https://github.com/fivetran/dbt_netsuite_source/releases/tag/v0.11.0), which will materialize `stg_netsuite2__employees` from the source package by default.
+  - Since this model is only used by a subset of customers, we've introduced the variable `netsuite2__using_employees` to allow users who don't utilize the `employee` table in Netsuite2 the ability to disable that functionality within your `dbt_project.yml`. This value is set to true by default. [Instructions are available in the README for how to disable this variable](https://github.com/fivetran/dbt_netsuite/?tab=readme-ov-file#step-5-disable-models-for-non-existent-sources-netsuite2-only).
+
+## Under the Hood
+- Consistency tests added for each Netsuite2 end model in order to be used during integration test validations.
+
+## Contributors
+- [@jmongerlyra](https://github.com/jmongerlyra) ([PR #131](https://github.com/fivetran/dbt_netsuite/pull/131))
+
+# dbt_netsuite v0.13.0
+
+For Netsuite2, [PR #116](https://github.com/fivetran/dbt_netsuite/pull/116) includes the following updates: 
+
+## 🚨 Breaking Changes 🚨
+> ⚠️ Since the following changes are breaking, a `--full-refresh` after upgrading will be required.
+- Performance improvements:
+  - Snowflake, Postgres, and Redshift destinations:
+    - Added an incremental strategy for the following models:
+      - `int_netsuite2__tran_with_converted_amounts`
+      - `netsuite2__balance_sheet`
+      - `netsuite2__income_statement`
+      - `netsuite2__transaction_details`
+  - Bigquery and Databricks destinations:
+    - Due to the variation in pricing and runtime priorities for customers, by default we chose to materialize these models as tables instead of incremental materialization for Bigquery and Databricks. For more information on this decision, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy) of the DECISIONLOG.
+    - To enable incremental materialization for these destinations, see the [Incremental Materialization section](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#-adding-incremental-materialization-for-bigquery-and-databricks) of the README for instructions.
+
+- To reduce storage, updated the default materialization of the upstream staging models to views. (See the [dbt_netsuite_source CHANGELOG](https://github.com/fivetran/dbt_netsuite_source/blob/main/CHANGELOG.md#dbt_netsuite_source-v0100) for more details.)
+
+## 🎉 Features
+- Added a default 3-day look-back to incremental models to accommodate late arriving records, based on the `_fivetran_synced_date` of transaction records. The number of days can be changed by setting the var `lookback_window` in your dbt_project.yml. See the [Lookback Window section of the README](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#lookback-window) for more details. 
+- Added macro `netsuite_lookback` to streamline the lookback calculation.
+
+## Under the Hood:
+- Added integration testing pipeline for Databricks SQL Warehouse.
+- Included auto-releaser GitHub Actions workflow to automate future releases.
+
+For Netsuite2, [PR #114](https://github.com/fivetran/dbt_netsuite/pull/114) includes the following updates:
+
+##  Features
+- Added the following columns to model `netsuite2__transaction_details`:
+  - department_id
+  - entity_id
+  - is_closed
+  - is_main_line
+  - is_tax_line
+  - item_id
+  - transaction_number
+- ❗Note: If you have already added any of these fields as passthrough columns to the `transactions_pass_through_columns`, `transaction_lines_pass_through_columns`, `accounts_pass_through_columns`, or `departments_pass_through_columns` vars, you will need to remove or alias these fields from the var to avoid duplicate column errors.
+
+- Removed the unnecessary reference to `entities` in the `netsuite2__transaction_details` model.
+
+## 📝 Documentation Update 📝
+- [Updated DECISIONLOG](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#why-converted-transaction-amounts-are-null-if-they-are-non-posting) with our reasoning for why we don't bring in future-facing transactions and leave the `converted_amount` in transaction details empty. ([#115](https://github.com/fivetran/dbt_netsuite/issues/115))
+
+## Contributors:
+- [@FrankTub](https://github.com/FrankTub) ([#114](https://github.com/fivetran/dbt_netsuite/issues/114))
 
 # dbt_netsuite v0.12.0
 

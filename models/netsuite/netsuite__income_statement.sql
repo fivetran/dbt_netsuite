@@ -15,37 +15,37 @@ transaction_details as (
 
 accounts as (
     select * 
-    from {{ var('netsuite_accounts') }}
+    from {{ ref('stg_netsuite__accounts') }}
 ), 
 
 accounting_periods as (
     select * 
-    from {{ var('netsuite_accounting_periods') }}
+    from {{ ref('stg_netsuite__accounting_periods') }}
 ),
 
 subsidiaries as (
     select * 
-    from {{ var('netsuite_subsidiaries') }}
+    from {{ ref('stg_netsuite__subsidiaries') }}
 ),
 
 transaction_lines as (
     select * 
-    from {{ var('netsuite_transaction_lines') }}
+    from {{ ref('stg_netsuite__transaction_lines') }}
 ),
 
 classes as (
     select * 
-    from {{ var('netsuite_classes') }}
+    from {{ ref('stg_netsuite__classes') }}
 ),
 
 locations as (
     select * 
-    from {{ var('netsuite_locations') }}
+    from {{ ref('stg_netsuite__locations') }}
 ),
 
 departments as (
     select * 
-    from {{ var('netsuite_departments') }}
+    from {{ ref('stg_netsuite__departments') }}
 ),
 
 income_statement as (
@@ -67,19 +67,19 @@ income_statement as (
         subsidiaries.name as subsidiary_name
 
         --The below script allows for accounts table pass through columns.
-        {{ fivetran_utils.persist_pass_through_columns('accounts_pass_through_columns', identifier='accounts') }},
+        {{ netsuite.persist_pass_through_columns(var('accounts_pass_through_columns', []), identifier='accounts') }},
 
         {{ dbt.concat(['accounts.account_number',"'-'", 'accounts.name']) }} as account_number_and_name,
         classes.full_name as class_full_name
 
         --The below script allows for classes table pass through columns.
-        {{ fivetran_utils.persist_pass_through_columns('classes_pass_through_columns', identifier='classes') }},
+        {{ netsuite.persist_pass_through_columns(var('classes_pass_through_columns', []), identifier='classes') }},
 
         locations.full_name as location_full_name,
         departments.full_name as department_full_name
 
         --The below script allows for departments table pass through columns.
-        {{ fivetran_utils.persist_pass_through_columns('departments_pass_through_columns', identifier='departments') }},
+        {{ netsuite.persist_pass_through_columns(var('departments_pass_through_columns', []), identifier='departments') }},
 
         -converted_amount_using_transaction_accounting_period as converted_amount,
         transactions_with_converted_amounts.account_category as account_category,
