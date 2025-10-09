@@ -44,16 +44,16 @@ accounting_periods as (
     from {{ ref('int_netsuite2__accounting_periods') }}
 ), 
 
-currencies as (
-    select *
-    from {{ ref('stg_netsuite2__currencies') }}
-),
-
 subsidiaries as (
     select * 
     from {{ ref('stg_netsuite2__subsidiaries') }}
 ),
 
+currencies as (
+    select *
+    from {{ ref('stg_netsuite2__currencies') }}
+),
+    
 primary_subsidiary_calendar as (
     select 
       fiscal_calendar_id, 
@@ -61,25 +61,6 @@ primary_subsidiary_calendar as (
     from subsidiaries 
     where parent_id is null
 ),
-
-balance_sheet as ( 
-  select
-    transactions_with_converted_amounts.transaction_id,
-    transactions_with_converted_amounts.transaction_line_id,
-    transactions_with_converted_amounts.source_relation,
-    transactions_with_converted_amounts.subsidiary_id,
-    subsidiaries.name as subsidiary_name,
-
-    {% if var('netsuite2__multibook_accounting_enabled', false) %}
-    transactions_with_converted_amounts.accounting_book_id,
-    transactions_with_converted_amounts.accounting_book_name,
-    {% endif %}
-    
-    {% if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
-    transactions_with_converted_amounts.to_subsidiary_id,
-    transactions_with_converted_amounts.to_subsidiary_name,
-    transactions_with_converted_amounts.to_subsidiary_currency_symbol,
-    {% endif %}
 
 balance_sheet as ( 
     select
@@ -245,10 +226,14 @@ balance_sheet as (
         on subsidiaries_currencies.currency_id = subsidiaries.currency_id
         and subsidiaries_currencies.source_relation = subsidiaries.source_relation
 
-    where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
-        and transaction_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
-        and (accounts.is_balancesheet
-        or transactions_with_converted_amounts.is_income_statement)
+  join primary_subsidiary_calendar 
+    on reporting_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
+    and reporting_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
+    and transaction_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
+    and transaction_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
+
+  where accounts.is_balancesheet 
+    or transactions_with_converted_amounts.is_income_statement
 
     union all
 
@@ -344,9 +329,12 @@ balance_sheet as (
         on subsidiaries_currencies.currency_id = subsidiaries.currency_id
         and subsidiaries_currencies.source_relation = subsidiaries.source_relation
 
-    where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
-        and (accounts.is_balancesheet
-        or transactions_with_converted_amounts.is_income_statement)
+  join primary_subsidiary_calendar 
+    on reporting_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
+    and reporting_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
+
+  where accounts.is_balancesheet
+      or transactions_with_converted_amounts.is_income_statement
     ),
 
     surrogate_key as ( 
