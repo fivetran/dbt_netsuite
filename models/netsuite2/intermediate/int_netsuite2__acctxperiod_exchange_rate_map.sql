@@ -75,7 +75,7 @@ period_exchange_rate_map as ( -- exchange rates used, by accounting period, to c
 
 accountxperiod_exchange_rate_map as ( -- account table with exchange rate details by accounting period
   select
-    period_exchange_rate_map.source_relation,
+    accounts.source_relation,
     period_exchange_rate_map.accounting_period_id,
 
     {% if multibook_accounting_enabled %}
@@ -92,8 +92,7 @@ accountxperiod_exchange_rate_map as ( -- account table with exchange rate detail
       when lower(accounts.general_rate_type) = 'current' then period_exchange_rate_map.current_rate
       when lower(accounts.general_rate_type) = 'average' then period_exchange_rate_map.average_rate
       else null
-        end as exchange_rate,
-    accounts.source_relation
+        end as exchange_rate
   from accounts
   
   join period_exchange_rate_map
