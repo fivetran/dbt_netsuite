@@ -120,6 +120,8 @@ models:
       description: Total amount of the transaction line.
     - name: subsidiary_currency_symbol
       description: Currency of the subsidiary.
+    - name: source_relation
+      description: The source table from which this record originated.
 
   - name: netsuite2__income_statement
     description: >
@@ -204,6 +206,8 @@ models:
       description: Total amount of the transaction line.
     - name: subsidiary_currency_symbol
       description: Currency of the subsidiary.
+    - name: source_relation
+      description: The source table from which this record originated.
 
   - name: netsuite2__transaction_details
     description: >
@@ -385,6 +389,8 @@ models:
       description: "{{ doc('item_id') }}"
     - name: transaction_number
       description: The Netsuite generated number of the transaction.
+    - name: source_relation
+      description: The source table from which this record originated.
 
   - name: netsuite2__entity_subsidiary_relationships
     description: >
@@ -415,3 +421,5 @@ models:
       description: Name of the subsidiary.
     - name: entity_alt_name
       description: Alternative name of the entity.
+    - name: source_relation
+      description: The source table from which this record originated.
