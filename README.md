@@ -135,6 +135,55 @@ vars:
     netsuite_schema: your_schema_name 
 ```
 
+> **Note**: If you are running the package on one source connector, each model will have a `source_relation` column that is just an empty string.
+
+### Option 2: Union multiple connectors (Netsuite2 only) 👯
+If you have multiple Netsuite connectors in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. The package will union all of the data together and pass the unioned table into the transformations. You will be able to see which source it came from in the `source_relation` column of each model. To use this functionality, you will need to set either the `netsuite_union_schemas` OR `netsuite_union_databases` variables (cannot do both, though a more flexible approach is in the works...) in your root `dbt_project.yml` file:
+
+```yml
+# dbt_project.yml
+
+vars:
+    netsuite2_union_schemas: ['netsuite2_usa','netsuite2_canada'] # use this if the data is in different schemas/datasets of the same database/project
+    netsuite2_union_databases: ['netsuite2_usa','netsuite2_canada'] # use this if the data is in different databases/projects but uses the same schema name
+```
+
+#### Recommended: Incorporate unioned sources into DAG
+By default, this package defines one single-connector source, called `netsuite2`, which will be disabled if you are unioning multiple connectors. This means that your DAG will not include your Netsuite sources, though the package will run successfully.
+
+To properly incorporate all of your Netsuite2 connectors into your project's DAG:
+1. Define each of your sources in a `.yml` file in your project. Utilize the following template for the `source`-level configurations, and, **most importantly**, copy and paste the table and column-level definitions from the package's `src_netsuite2.yml` [file](https://github.com/fivetran/dbt_netsuite_source/blob/main/models/netsuite2/src_netsuite2.yml#L15-L607).
+
+```yml
+# a .yml file in your root project
+sources:
+  - name: <name> # ex: netsuite2_usa
+    schema: <schema_name> # one of var('netsuite2_union_schemas') if unioning schemas, otherwise just 'netsuite2'
+    database: <database_name> # one of var('netsuite2_union_databases') if unioning databases, otherwise whatever DB your netsuite2 schemas all live in
+    loader: fivetran
+    loaded_at_field: _fivetran_synced
+
+    freshness: # feel free to adjust to your liking
+      warn_after: {count: 72, period: hour}
+      error_after: {count: 168, period: hour}
+
+    tables: # copy and paste from netsuite_source/models/netsuite2/src_netsuite2.yml 
+```
+
+> **Note**: If there are source tables you do not have (see [Step 4](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#step-5-disable-models-for-non-existent-sources-netsuite2-only)), you may still include them, as long as you have set the right [variables](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#step-5-disable-models-for-non-existent-sources-netsuite2-only) to `False`. Otherwise, you may remove them from your source definitions.
+
+2. Set the `has_defined_sources` variable (scoped to the `netsuite_source` package) to `True`, like such:
+```yml
+# dbt_project.yml
+vars:
+  netsuite_source:
+    has_defined_sources: true
+```
+
+## Step 5: Disable models for non-existent sources (Netsuite2 only)
+> _This step is unnecessary (but still available for use) if you are unioning multiple connectors together in the previous step. That is, the `union_data` macro we use will create completely empty staging models for sources that are not found in any of your Netsuite2 schemas/databases. However, you can still leverage the below variables if you would like to avoid this behavior._
+
+It's possible that your Netsuite connector does not sync every table that this package expects. If your syncs exclude certain tables, it is because you either don't use that feature in Netsuite or actively excluded some tables from your syncs. To disable the corresponding functionality in the package, you must add the relevant variables. By default, all variables are assumed to be true. Add variables for only the tables you would like to disable:
 ### Step 5: Disable models for non-existent sources (Netsuite2 only)
 Your Netsuite connection may not sync every table that this package expects. If your syncs exclude certain tables, it is because you either don't use that feature in Netsuite or actively excluded some tables from your syncs. To disable the corresponding functionality in the package, you must add the relevant variables. By default, most variables are assumed to be true with the exception of `netsuite2__fiscal_calendar_enabled`. Add variables for only the tables you would like to disable/enable:
 ```yml
@@ -150,7 +199,8 @@ vars:
 >
 > To determine if a table or field is activated by a feature, access the [Records Catalog](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/article_159367781370.html).
 
-### (Optional) Step 6: Additional configurations
+## (Optional) Step 6: Additional configurations
+<details open><summary>Expand/collapse configurations</summary>
 
 #### Enable additional features
 
@@ -261,6 +311,8 @@ If an individual source table has a different name than the package expects, add
 
 ```yml
 vars:
+    use_table_name_identifer_override: true # Netsuite2 users must set this to TRUE. default = false
+    
     # For all Netsuite source tables
     netsuite_<default_source_table_name>_identifier: your_table_name 
 

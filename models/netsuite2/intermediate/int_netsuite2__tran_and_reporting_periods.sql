@@ -12,6 +12,14 @@ subsidiaries as (
     select *
     from {{ ref('stg_netsuite2__subsidiaries') }}
 ),
+
+primary_subsidiary_calendar as (
+    select 
+      fiscal_calendar_id, 
+      source_relation 
+    from subsidiaries 
+    where parent_id is null
+),
 {% endif %}
 
 transaction_and_reporting_periods as ( 
@@ -29,11 +37,14 @@ transaction_and_reporting_periods as (
       and cast(multiplier.starting_at as {{ dbt.type_timestamp() }}) <= {{ current_timestamp() }}
       and multiplier.source_relation = base.source_relation 
 
+  {% if using_subsidiaries %}
+  join primary_subsidiary_calendar
+    on base.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
+    and base.source_relation = primary_subsidiary_calendar.source_relation
+  {% endif %}
+
   where not base.is_quarter
     and not base.is_year
-    {% if using_subsidiaries %}
-    and base.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null) -- fiscal calendar will align with parent subsidiary's default calendar
-    {% endif %}
 )
 
 select * 

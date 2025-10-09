@@ -30,7 +30,8 @@ transaction_lines_w_accounting_period as ( -- transaction line totals, by accoun
     transactions._fivetran_synced_date
   from transaction_lines
 
-  join transactions on transactions.transaction_id = transaction_lines.transaction_id
+  join transactions 
+    on transactions.transaction_id = transaction_lines.transaction_id
     and transactions.source_relation = transaction_lines.source_relation
 
   where lower(transactions.transaction_type) != 'revenue arrangement'

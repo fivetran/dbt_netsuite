@@ -76,6 +76,14 @@ departments as (
     from {{ ref('stg_netsuite2__departments') }}
 ),
 
+primary_subsidiary_calendar as (
+    select 
+        fiscal_calendar_id, 
+        source_relation 
+    from subsidiaries 
+    where parent_id is null
+),
+
 income_statement as (
     select
         transactions_with_converted_amounts.source_relation,
@@ -203,8 +211,11 @@ income_statement as (
         {% endif %}
     {% endif %}
 
-    where reporting_accounting_periods.fiscal_calendar_id  = (select fiscal_calendar_id from subsidiaries where parent_id is null)
-        and transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+    join primary_subsidiary_calendar 
+        on reporting_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
+        and reporting_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
+
+    where transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
         and transactions_with_converted_amounts.is_income_statement
 ),
 

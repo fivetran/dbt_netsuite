@@ -33,7 +33,7 @@ accounts as (
 transactions_in_every_calculation_period_w_exchange_rates as (
   select
     transaction_lines_w_accounting_period.*,
-    reporting_accounting_period_id
+    transaction_and_reporting_periods.reporting_accounting_period_id
     
     {% if using_exchange_rate %}
     , exchange_reporting_period.exchange_rate as exchange_rate_reporting_period
@@ -61,6 +61,7 @@ transactions_in_every_calculation_period_w_exchange_rates as (
 
       {% if multibook_accounting_enabled %}
       and exchange_reporting_period.accounting_book_id = transaction_lines_w_accounting_period.accounting_book_id
+      and exchange_reporting_period.source_relation = transaction_lines_w_accounting_period.source_relation
       {% endif %}
       
   left join accountxperiod_exchange_rate_map as exchange_transaction_period
@@ -117,7 +118,6 @@ surrogate_key as (
   select 
     *,
     {{ dbt_utils.generate_surrogate_key(surrogate_key_fields) }} as tran_with_converted_amounts_id
-
   from transactions_with_converted_amounts
 )
 

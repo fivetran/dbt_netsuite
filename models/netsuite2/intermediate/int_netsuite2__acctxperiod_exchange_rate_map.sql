@@ -30,6 +30,15 @@ currencies as (
     from {{ ref('stg_netsuite2__currencies') }}
 ),
 
+{% if not using_to_subsidiary %}
+primary_subsidiaries as (
+  select 
+    subsidiary_id,
+    source_relation
+  from subsidiaries where parent_id is null
+),
+{% endif %}
+
 period_exchange_rate_map as ( -- exchange rates used, by accounting period, to convert to parent subsidiary
   select
     consolidated_exchange_rates.source_relation,
@@ -57,13 +66,15 @@ period_exchange_rate_map as ( -- exchange rates used, by accounting period, to c
     and currencies.source_relation = to_subsidiaries.source_relation
 
   {% if not using_to_subsidiary %}
-  where consolidated_exchange_rates.to_subsidiary_id in (select subsidiary_id from subsidiaries where parent_id is null)  -- constraint - only the primary subsidiary has no parent
+  join primary_subsidiaries
+    on consolidated_exchange_rates.to_subsidiary_id = primary_subsidiaries.subsidiary_id
+    and consolidated_exchange_rates.source_relation = primary_subsidiaries.source_relation
   {% endif %}
 ), 
 
 accountxperiod_exchange_rate_map as ( -- account table with exchange rate details by accounting period
   select
-    period_exchange_rate_map.source_relation,
+    accounts.source_relation,
     period_exchange_rate_map.accounting_period_id,
 
     {% if multibook_accounting_enabled %}

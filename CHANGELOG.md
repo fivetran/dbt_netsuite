@@ -21,6 +21,9 @@
 - Updated integration tests configuration and seed data references
 - Added Streamlit example documentation and images
 
+## Contributors:
+- [@fivetran-poonamagate](https://github.com/fivetran-poonamagate) ([PR #104](https://github.com/fivetran/dbt_netsuite/pull/104))
+
 # dbt_netsuite v1.0.0
 
 [PR #168](https://github.com/fivetran/dbt_netsuite/pull/168) includes the following updates:

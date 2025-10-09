@@ -53,6 +53,14 @@ currencies as (
     select *
     from {{ ref('stg_netsuite2__currencies') }}
 ),
+    
+primary_subsidiary_calendar as (
+    select 
+      fiscal_calendar_id, 
+      source_relation 
+    from subsidiaries 
+    where parent_id is null
+),
 
 balance_sheet as ( 
     select
@@ -218,10 +226,14 @@ balance_sheet as (
         on subsidiaries_currencies.currency_id = subsidiaries.currency_id
         and subsidiaries_currencies.source_relation = subsidiaries.source_relation
 
-    where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
-        and transaction_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
-        and (accounts.is_balancesheet
-        or transactions_with_converted_amounts.is_income_statement)
+  join primary_subsidiary_calendar 
+    on reporting_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
+    and reporting_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
+    and transaction_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
+    and transaction_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
+
+  where accounts.is_balancesheet 
+    or transactions_with_converted_amounts.is_income_statement
 
     union all
 
@@ -317,9 +329,12 @@ balance_sheet as (
         on subsidiaries_currencies.currency_id = subsidiaries.currency_id
         and subsidiaries_currencies.source_relation = subsidiaries.source_relation
 
-    where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
-        and (accounts.is_balancesheet
-        or transactions_with_converted_amounts.is_income_statement)
+  join primary_subsidiary_calendar 
+    on reporting_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
+    and reporting_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
+
+  where accounts.is_balancesheet
+      or transactions_with_converted_amounts.is_income_statement
     ),
 
     surrogate_key as ( 
