@@ -17,7 +17,7 @@
 
 ## What does this dbt package do?
 - Produces modeled tables that leverage Netsuite data from [Fivetran's connector](https://fivetran.com/docs/applications/netsuite) in the format described by [this ERD](https://fivetran.com/docs/applications/netsuite#schemainformation).
-- Enables users to insights into their netsuite data that can be used for financial statement reporting and deeper transactional analysis. This is achieved by the following:
+- Enables users to gain insights into their netsuite data that can be used for financial statement reporting and deeper transactional analysis. This is achieved by the following:
     - Recreating both the balance sheet and income statement
     - Recreating commonly used data by using the transaction lines as the base table and joining other data
 - Generates a comprehensive data dictionary of your source and modeled Netsuite data through the [dbt docs site](https://fivetran.github.io/dbt_netsuite/).
