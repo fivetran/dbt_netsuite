@@ -311,8 +311,6 @@ If an individual source table has a different name than the package expects, add
 
 ```yml
 vars:
-    use_table_name_identifer_override: true # Netsuite2 users must set this to TRUE. default = false
-    
     # For all Netsuite source tables
     netsuite_<default_source_table_name>_identifier: your_table_name 
 
