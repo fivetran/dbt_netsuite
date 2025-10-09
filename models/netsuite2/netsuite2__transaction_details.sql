@@ -421,8 +421,12 @@ transaction_details as (
     on subsidiaries_currencies.currency_id = subsidiaries.currency_id
     and subsidiaries_currencies.source_relation = subsidiaries.source_relation
   
-  where (accounting_periods.fiscal_calendar_id is null
-    or accounting_periods.fiscal_calendar_id  = (select fiscal_calendar_id from subsidiaries where parent_id is null))
+  left join primary_subsidiary_calendar
+    on accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
+    and accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
+    
+  where accounting_periods.fiscal_calendar_id is null
+    or primary_subsidiary_calendar.fiscal_calendar_id is not null
 ),
 
 surrogate_key as ( 
