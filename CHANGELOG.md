@@ -1,25 +1,25 @@
 # dbt_netsuite v1.1.0
 
 ## Schema/Data Change
-**4 total changes • 0 possible breaking changes**
+**7 total changes • 0 possible breaking changes**
 
 | Data Model(s) | Change type | Old | New | Notes |
-| ------------- | ----------- | --------- | ----- |
-| `stg_netsuite2__nexuses` | New model | | New staging model | Provides access to Netsuite tax nexus data |
-| `stg_netsuite2__customer_subsidiary_relationships` | New model | | New staging model | Maps customers to their associated subsidiaries |
-| `stg_netsuite2__vendor_subsidiary_relationships` | New model | | New staging model | Maps vendors to their associated subsidiaries |
-| `netsuite2__entity_subsidiary_relationships` | New model | | New end model | Unified view combining customer and vendor subsidiary relationships |
+| ------------- | ----------- | ----| --- | ----- |
+| `stg_netsuite2__nexuses` | New model | | | Provides access to Netsuite tax nexus data |
+| `stg_netsuite2__customer_subsidiary_relationships` | New model | | | Maps customers to their associated subsidiaries |
+| `stg_netsuite2__vendor_subsidiary_relationships` | New model | | | Maps vendors to their associated subsidiaries |
+| `netsuite2__entity_subsidiary_relationships` | New model | | | Unified view combining customer and vendor subsidiary relationships |
+| `netsuite2__transaction_details` | New columns | | `nexus_id`<br>`nexus_country`<br>`nexus_state`<br>`tax_agency_id`<br>`tax_agency_alt_name`<br>`is_nexus_override`<br>`is_tax_details_override`<br>`tax_point_date`<br>`tax_point_date_override` | Nexus-related tax information when var `netsuite2__using_nexuses` is enabled |
+| All models | New column | | `source_relation` | Identifies the source connection when using multiple Netsuite connectors |
 
 ## Feature Update
 - **Union Data Functionality**: This release supports running the package on multiple Netsuite source connections. See the [README](https://github.com/fivetran/dbt_netsuite/tree/main?tab=readme-ov-file#step-4-define-database-and-schema-variables) for details on how to leverage this feature.
-- **Nexus Support**: Added comprehensive support for Netsuite nexus data through new staging model `stg_netsuite2__nexuses` with configurable pass-through columns
 - **Entity-Subsidiary Relationships**: New end model `netsuite2__entity_subsidiary_relationships` provides a unified view of both customer and vendor subsidiary relationships with enhanced metadata including currency information
+- **Nexus Support**: Added comprehensive support for Netsuite nexus data through new staging model `stg_netsuite2__nexuses` with configurable pass-through columns
+- Added Streamlit example to the README. See the [README](https://github.com/fivetran/dbt_netsuite/tree/main?tab=readme-ov-file#example-visualizations) for more details.
 
 ## Under the Hood
-- Added new staging macros: `get_nexuses_columns`, `get_customer_subsidiary_relationships_columns`, `get_vendor_subsidiary_relationships_columns`
-- Enhanced `get_vendors_columns` macro with additional field support
 - Updated integration tests configuration and seed data references
-- Added Streamlit example documentation and images
 
 ## Contributors:
 - [@jmongerlyra](https://github.com/jmongerlyra) ([PR #171](https://github.com/fivetran/dbt_netsuite/pull/171))

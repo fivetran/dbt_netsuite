@@ -1,9 +1,10 @@
 {{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2') and var('netsuite2__fiscal_calendar_enabled', false)) }}
 
-{{
-    netsuite.union_netsuite_connections(
-        connection_dictionary=var('netsuite2_sources'),
-        single_source_name='netsuite2',
-        single_table_name='fiscal_calendar'
+{{ 
+    config(
+        enabled=(
+            var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')
+            and var('netsuite2__fiscal_calendar_enabled', false)
+        )
     )
 }}
