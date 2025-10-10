@@ -1,6 +1,5 @@
 {%- set using_customer_subsidiary_relationships = var('netsuite2__using_customer_subsidiary_relationships', true) -%}
 {%- set using_vendor_subsidiary_relationships = var('netsuite2__using_vendor_subsidiary_relationships', true) -%}
-{%- set using_subsidiaries = var('netsuite2__using_subsidiaries', true) -%}
 
 {{
     config(
@@ -15,6 +14,11 @@
 with currencies as (
     select *
     from {{ ref('stg_netsuite2__currencies') }}
+),
+
+subsidiaries as (
+    select *
+    from {{ ref('stg_netsuite2__subsidiaries') }}
 ),
 
 {% if using_customer_subsidiary_relationships %}
@@ -41,13 +45,6 @@ vendor_subsidiary_relationship as (
 ),
 {% endif %}
 
-{% if using_subsidiaries %}
-subsidiaries as (
-    select *
-    from {{ ref('stg_netsuite2__subsidiaries') }}
-),
-{% endif %}
-
 {% if using_customer_subsidiary_relationships %}
 customer_subsidiary_relationships_enhanced as (
     select
@@ -61,11 +58,7 @@ customer_subsidiary_relationships_enhanced as (
         customer_subsidiary_relationship.primary_currency_id as entity_currency_id,
         currencies.symbol as entity_currency_symbol,
         customer_subsidiary_relationship.subsidiary_id,
-        {% if using_subsidiaries %}
         subsidiaries.name as subsidiary_name,
-        {% else %}
-        cast(null as {{ dbt.type_string() }}) as subsidiary_name,
-        {% endif %}
         customers.alt_name as entity_alt_name
     from customer_subsidiary_relationship
     left join customers
@@ -74,11 +67,9 @@ customer_subsidiary_relationships_enhanced as (
     left join currencies
         on customer_subsidiary_relationship.primary_currency_id = currencies.currency_id
         and customer_subsidiary_relationship.source_relation = currencies.source_relation
-    {% if using_subsidiaries %}
     left join subsidiaries
         on customer_subsidiary_relationship.subsidiary_id = subsidiaries.subsidiary_id
         and customer_subsidiary_relationship.source_relation = subsidiaries.source_relation
-    {% endif %}
 ),
 {% endif %}
 
@@ -95,11 +86,7 @@ vendor_subsidiary_relationships_enhanced as (
         vendor_subsidiary_relationship.primary_currency_id as entity_currency_id,
         currencies.symbol as entity_currency_symbol,
         vendor_subsidiary_relationship.subsidiary_id,
-        {% if using_subsidiaries %}
         subsidiaries.name as subsidiary_name,
-        {% else %}
-        cast(null as {{ dbt.type_string() }}) as subsidiary_name,
-        {% endif %}
         vendors.alt_name as entity_alt_name
     from vendor_subsidiary_relationship
     left join vendors
@@ -108,11 +95,9 @@ vendor_subsidiary_relationships_enhanced as (
     left join currencies
         on vendor_subsidiary_relationship.primary_currency_id = currencies.currency_id
         and vendor_subsidiary_relationship.source_relation = currencies.source_relation
-    {% if using_subsidiaries %}
     left join subsidiaries
         on vendor_subsidiary_relationship.subsidiary_id = subsidiaries.subsidiary_id
         and vendor_subsidiary_relationship.source_relation = subsidiaries.source_relation
-    {% endif %}
 ),
 {% endif %}
 

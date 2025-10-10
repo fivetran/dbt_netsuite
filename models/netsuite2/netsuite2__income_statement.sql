@@ -2,9 +2,6 @@
 {%- set using_to_subsidiary = var('netsuite2__using_to_subsidiary', false) -%}
 {%- set using_exchange_rate = var('netsuite2__using_exchange_rate', true) -%}
 {%- set income_statement_transaction_detail_columns = var('income_statement_transaction_detail_columns', []) -%}
-{%- set accounts_pass_through_columns = var('accounts_pass_through_columns', []) -%}
-{%- set classes_pass_through_columns = var('classes_pass_through_columns', []) -%}
-{%- set departments_pass_through_columns = var('departments_pass_through_columns', []) -%}
 
 {{
     config(
@@ -29,7 +26,7 @@ with transactions_with_converted_amounts as (
 ), 
 
 --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
-{% if income_statement_transaction_detail_columns != []%}
+{% if income_statement_transaction_detail_columns != [] %}
 transaction_details as (
     select * 
     from {{ ref('netsuite2__transaction_details') }}
@@ -119,14 +116,14 @@ income_statement as (
         subsidiaries_currencies.symbol as subsidiary_currency_symbol
 
         --The below script allows for accounts table pass through columns.
-        {{ netsuite.persist_pass_through_columns(accounts_pass_through_columns, identifier='accounts') }},
+        {{ netsuite.persist_pass_through_columns(var('accounts_pass_through_columns', []), identifier='accounts') }},
 
         {{ dbt.concat(['accounts.account_number',"'-'", 'accounts.name']) }} as account_number_and_name,
         classes.class_id,
         classes.full_name as class_full_name
 
         --The below script allows for accounts table pass through columns.
-        {{ netsuite.persist_pass_through_columns(classes_pass_through_columns, identifier='classes') }},
+        {{ netsuite.persist_pass_through_columns(var('classes_pass_through_columns', []), identifier='classes') }},
 
         locations.location_id,
         locations.full_name as location_full_name,
@@ -134,7 +131,7 @@ income_statement as (
         departments.full_name as department_full_name
 
         --The below script allows for departments table pass through columns.
-        {{ netsuite.persist_pass_through_columns(departments_pass_through_columns, identifier='departments') }},
+        {{ netsuite.persist_pass_through_columns(var('departments_pass_through_columns', []), identifier='departments') }},
 
         transactions_with_converted_amounts.account_category as account_category,
         case when lower(accounts.account_type_id) = 'income' then 1
@@ -146,7 +143,7 @@ income_statement as (
             end as income_statement_sort_helper
 
         --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
-        {% if income_statement_transaction_detail_columns %}
+        {% if income_statement_transaction_detail_columns != [] %}
 
         , transaction_details.{{ income_statement_transaction_detail_columns | join (", transaction_details.") }}
 
@@ -196,7 +193,7 @@ income_statement as (
         and subsidiaries_currencies.source_relation = subsidiaries.source_relation
 
     --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
-    {% if income_statement_transaction_detail_columns != []%}
+    {% if income_statement_transaction_detail_columns != [] %}
     join transaction_details
         on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
         and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id

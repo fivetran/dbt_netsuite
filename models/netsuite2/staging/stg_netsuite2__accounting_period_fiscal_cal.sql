@@ -1,11 +1,4 @@
-{{
-    config(
-        enabled=(
-            var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')
-            and var('netsuite2__using_accounting_period_fiscal_calendars', true)
-        )
-    )
-}}
+{{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
 
 with base as (
 

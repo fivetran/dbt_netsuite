@@ -1,8 +1,3 @@
-{%- set using_nexuses = var('netsuite2__using_nexuses', true) -%}
-{%- set using_vendor_categories = var('netsuite2__using_vendor_categories', true) -%}
-{%- set using_departments = var('netsuite2__using_departments', true) -%}
-{%- set using_classification = var('netsuite2__using_classification', true) -%}
-{%- set using_items = var('netsuite2__using_items', true) -%}
 {%- set multibook_accounting_enabled = var('netsuite2__multibook_accounting_enabled', false) -%}
 {%- set using_to_subsidiary = var('netsuite2__using_to_subsidiary', false) -%}
 {%- set using_exchange_rate = var('netsuite2__using_exchange_rate', true) -%}
@@ -62,55 +57,45 @@ customers as (
     from {{ ref('int_netsuite2__customers') }}
 ),
 
-{% if using_items %}
 items as (
     select *
     from {{ ref('stg_netsuite2__items') }}
 ),
-{% endif %}
 
 locations as (
     select * 
     from {{ ref('int_netsuite2__locations') }}
 ),
 
-{% if using_nexuses %}
 nexuses as (
     select *
     from {{ ref('stg_netsuite2__nexuses') }}
 ),
-{% endif %}
 
 vendors as (
     select * 
     from {{ ref('stg_netsuite2__vendors') }}
 ),
 
-{% if using_vendor_categories %}
 vendor_categories as (
     select *
     from {{ ref('stg_netsuite2__vendor_categories') }}
 ),
-{% endif %}
 
-{% if using_departments %}
 departments as (
     select *
     from {{ ref('stg_netsuite2__departments') }}
 ),
-{% endif %}
 
 currencies as (
     select *
     from {{ ref('stg_netsuite2__currencies') }}
 ),
 
-{% if using_classification %}
 classes as (
     select *
     from {{ ref('stg_netsuite2__classes') }}
 ),
-{% endif %}
 
 primary_subsidiary_calendar as (
     select 
@@ -146,8 +131,6 @@ transaction_details as (
     transactions.transaction_date,
     transactions.due_date_at as transaction_due_date,
     transactions.transaction_type as transaction_type,
-
-    {% if using_nexuses %}
     transactions.nexus_id,
     nexuses.country as nexus_country,
     nexuses.state as nexus_state,
@@ -157,8 +140,6 @@ transaction_details as (
     transactions.is_tax_details_override,
     transactions.tax_point_date,
     transactions.tax_point_date_override,
-    {% endif %}
-
     transaction_lines.transaction_line_fivetran_synced_date,
     transactions.transaction_number,
     coalesce(transaction_lines.entity_id, transactions.entity_id) as entity_id,
@@ -236,19 +217,12 @@ transaction_details as (
       when lower(transactions.transaction_type) in ('custinvc', 'custcred') then customers__transactions.customer_external_id
       else customers__transaction_lines.customer_external_id
         end as customer_external_id,
-    {% if using_classification %}
     classes.class_id,
     classes.full_name as class_full_name,
-    {% else %}
-    cast(null as {{ dbt.type_string() }}) as class_id,
-    cast(null as {{ dbt.type_string() }}) as class_full_name,
-    {% endif %}
     transaction_lines.item_id,
-    {% if using_items %}
     items.name as item_name,
     items.type_name as item_type_name,
     items.sales_description,
-    {% else %}
     cast(null as {{ dbt.type_string() }}) as item_name,
     cast(null as {{ dbt.type_string() }}) as item_type_name,
     cast(null as {{ dbt.type_string() }}) as sales_description,
@@ -261,7 +235,6 @@ transaction_details as (
     -- The below script allows for locations table pass through columns.
     {{ netsuite.persist_pass_through_columns(var('locations_pass_through_columns', []), identifier='locations') }},
 
-    {% if using_vendor_categories %}
     case 
       when lower(transactions.transaction_type) in ('vendbill', 'vendcred') then vendor_categories__transactions.vendor_category_id
       else vendor_categories__transaction_lines.vendor_category_id
@@ -270,7 +243,6 @@ transaction_details as (
       when lower(transactions.transaction_type) in ('vendbill', 'vendcred') then vendor_categories__transactions.name
       else vendor_categories__transaction_lines.name
         end as vendor_category_name,
-    {% endif %}
     case 
       when lower(transactions.transaction_type) in ('vendbill', 'vendcred') then vendors__transactions.vendor_id
       else vendors__transaction_lines.vendor_id
@@ -292,13 +264,8 @@ transaction_details as (
     currencies.symbol as currency_symbol,
     transaction_lines.department_id,
     transaction_lines.exchange_rate,
-    {% if using_departments %}
     departments.full_name as department_full_name,
     departments.name as department_name
-    {% else %}
-    cast(null as {{ dbt.type_string() }}) as department_full_name,
-    cast(null as {{ dbt.type_string() }}) as department_name
-    {% endif %}
 
     --The below script allows for departments table pass through columns.
     {{ netsuite.persist_pass_through_columns(var('departments_pass_through_columns', []), identifier='departments') }},
@@ -359,23 +326,18 @@ transaction_details as (
     on customers__transaction_lines.customer_id = transaction_lines.entity_id
     and customers__transaction_lines.source_relation = transaction_lines.source_relation
 
-  {% if using_classification %}
   left join classes
     on classes.class_id = transaction_lines.class_id
     and classes.source_relation = transaction_lines.source_relation
-  {% endif %}
 
-  {% if using_items %}
   left join items
     on items.item_id = transaction_lines.item_id
     and items.source_relation = transaction_lines.source_relation
-  {% endif %}
 
   left join locations
     on locations.location_id = transaction_lines.location_id
     and locations.source_relation = transaction_lines.source_relation
 
-  {% if using_nexuses %}
   left join nexuses
     on nexuses.nexus_id = transactions.nexus_id
     and nexuses.source_relation = transactions.source_relation
@@ -383,7 +345,6 @@ transaction_details as (
   left join vendors vendors__nexuses
     on vendors__nexuses.vendor_id = nexuses.tax_agency_id
     and vendors__nexuses.source_relation = nexuses.source_relation
-  {% endif %}
 
   left join vendors vendors__transactions
     on vendors__transactions.vendor_id = transactions.entity_id
@@ -393,7 +354,6 @@ transaction_details as (
     on vendors__transaction_lines.vendor_id = transaction_lines.entity_id
     and vendors__transaction_lines.source_relation = transaction_lines.source_relation
 
-  {% if using_vendor_categories %}
   left join vendor_categories vendor_categories__transactions
     on vendor_categories__transactions.vendor_category_id = vendors__transactions.vendor_category_id
     and vendor_categories__transactions.source_relation = vendors__transactions.source_relation
@@ -401,17 +361,14 @@ transaction_details as (
   left join vendor_categories vendor_categories__transaction_lines
     on vendor_categories__transaction_lines.vendor_category_id = vendors__transaction_lines.vendor_category_id
     and vendor_categories__transaction_lines.source_relation = vendors__transaction_lines.source_relation
-  {% endif %}
 
   left join currencies
     on currencies.currency_id = transactions.currency_id
     and currencies.source_relation = transactions.source_relation
 
-  {% if using_departments %}
   left join departments
     on departments.department_id = transaction_lines.department_id
     and departments.source_relation = transaction_lines.source_relation
-  {% endif %}
 
   join subsidiaries
     on subsidiaries.subsidiary_id = transaction_lines.subsidiary_id

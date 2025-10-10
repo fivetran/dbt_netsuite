@@ -14,10 +14,6 @@ table_variables:
   # Source
   netsuite2__using_account_types:
     - accountType
-  netsuite2__using_accounting_books:
-    - accountingBook
-  netsuite2__using_accounting_book_subsidiaries:
-    - AccountingBookSubsidiaries
   netsuite2__using_accounting_period_fiscal_calendars:
     - accountingPeriodFiscalCalendars
   netsuite2__using_classification:
@@ -28,8 +24,6 @@ table_variables:
     - Department
   netsuite2__using_employees:
     - employee
-  netsuite2__using_entities:
-    - entity
   netsuite2__using_entity_address:
     - EntityAddress
   netsuite2__using_exchange_rate:
@@ -44,8 +38,6 @@ table_variables:
     - Location
   netsuite2__using_nexuses:
     - Nexus
-  netsuite2__using_subsidiaries:
-    - Subsidiary
   netsuite2__using_vendor_categories:
     - VendorCategory
   netsuite2__using_vendor_subsidiary_relationships:

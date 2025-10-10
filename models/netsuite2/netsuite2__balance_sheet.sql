@@ -56,8 +56,8 @@ currencies as (
     
 primary_subsidiary_calendar as (
     select 
-      fiscal_calendar_id, 
-      source_relation 
+        fiscal_calendar_id, 
+        source_relation 
     from subsidiaries 
     where parent_id is null
 ),
@@ -139,7 +139,7 @@ balance_sheet as (
         else accounts.is_leftside
             end as is_account_leftside 
         --The below script allows for accounts table pass through columns.
-        {{ netsuite.persist_pass_through_columns(var('accounts_pass_through_columns', []), identifier='accounts') }},
+        {{ netsuite.persist_pass_through_columns(accounts_pass_through_columns, identifier='accounts') }},
 
         case
         when not accounts.is_balancesheet and lower(accounts.general_rate_type) in ('historical', 'average') then -converted_amount_using_transaction_accounting_period
@@ -226,14 +226,14 @@ balance_sheet as (
         on subsidiaries_currencies.currency_id = subsidiaries.currency_id
         and subsidiaries_currencies.source_relation = subsidiaries.source_relation
 
-  join primary_subsidiary_calendar 
-    on reporting_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
-    and reporting_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
-    and transaction_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
-    and transaction_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
+    join primary_subsidiary_calendar 
+        on reporting_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
+        and reporting_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
+        and transaction_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
+        and transaction_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
 
-  where accounts.is_balancesheet 
-    or transactions_with_converted_amounts.is_income_statement
+    where accounts.is_balancesheet 
+        or transactions_with_converted_amounts.is_income_statement
 
     union all
 
@@ -273,7 +273,7 @@ balance_sheet as (
         false as is_account_intercompany,
         false as is_account_leftside,
 
-        {% if accounts_pass_through_columns %}
+        {% if accounts_pass_through_columns != [] %}
         {% for field in accounts_pass_through_columns %}
             null as {{ field.alias if field.alias else field.name }},
         {% endfor %}
@@ -329,12 +329,12 @@ balance_sheet as (
         on subsidiaries_currencies.currency_id = subsidiaries.currency_id
         and subsidiaries_currencies.source_relation = subsidiaries.source_relation
 
-  join primary_subsidiary_calendar 
-    on reporting_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
-    and reporting_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
+    join primary_subsidiary_calendar 
+        on reporting_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
+        and reporting_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
 
-  where accounts.is_balancesheet
-      or transactions_with_converted_amounts.is_income_statement
+    where accounts.is_balancesheet
+        or transactions_with_converted_amounts.is_income_statement
     ),
 
     surrogate_key as ( 

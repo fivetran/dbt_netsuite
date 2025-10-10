@@ -1,5 +1,3 @@
-{%- set using_subsidiaries = var('netsuite2__using_subsidiaries', true) -%}
-
 {{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
 
 with accounting_periods as (
@@ -7,7 +5,6 @@ with accounting_periods as (
     from {{ ref('int_netsuite2__accounting_periods') }}
 ),
 
-{% if using_subsidiaries %}
 subsidiaries as (
     select *
     from {{ ref('stg_netsuite2__subsidiaries') }}
@@ -20,7 +17,6 @@ primary_subsidiary_calendar as (
     from subsidiaries 
     where parent_id is null
 ),
-{% endif %}
 
 transaction_and_reporting_periods as ( 
   select
@@ -37,11 +33,9 @@ transaction_and_reporting_periods as (
       and cast(multiplier.starting_at as {{ dbt.type_timestamp() }}) <= {{ current_timestamp() }}
       and multiplier.source_relation = base.source_relation 
 
-  {% if using_subsidiaries %}
   join primary_subsidiary_calendar
     on base.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
     and base.source_relation = primary_subsidiary_calendar.source_relation
-  {% endif %}
 
   where not base.is_quarter
     and not base.is_year

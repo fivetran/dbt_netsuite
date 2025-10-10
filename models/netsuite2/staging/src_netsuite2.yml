@@ -573,8 +573,6 @@ sources:
       - name: subsidiary
         identifier: "{{ var('netsuite2_subsidiary_identifier', 'subsidiary') }}"
         description: "{{ doc('subsidiaries_table') }}"
-        config:
-          enabled: "{{ var('netsuite2__using_subsidiaries', true) }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
