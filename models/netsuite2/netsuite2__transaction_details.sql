@@ -230,10 +230,6 @@ transaction_details as (
     items.name as item_name,
     items.type_name as item_type_name,
     items.sales_description,
-    cast(null as {{ dbt.type_string() }}) as item_name,
-    cast(null as {{ dbt.type_string() }}) as item_type_name,
-    cast(null as {{ dbt.type_string() }}) as sales_description,
-    {% endif %}
     locations.location_id,
     locations.name as location_name,
     locations.city as location_city,

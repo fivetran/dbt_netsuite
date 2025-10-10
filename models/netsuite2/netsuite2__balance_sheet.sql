@@ -192,7 +192,7 @@ balance_sheet as (
     from transactions_with_converted_amounts
     
     --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
-    {% if balance_sheet_transaction_detail_columns != []%}
+    {% if balance_sheet_transaction_detail_columns != [] %}
     left join transaction_details
         on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
         and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
@@ -299,7 +299,7 @@ balance_sheet as (
     from transactions_with_converted_amounts
 
     --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
-    {% if balance_sheet_transaction_detail_columns != []%}
+    {% if balance_sheet_transaction_detail_columns != [] %}
     left join transaction_details
         on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
         and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
