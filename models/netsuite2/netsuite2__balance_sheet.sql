@@ -3,6 +3,7 @@
 {%- set using_exchange_rate = var('netsuite2__using_exchange_rate', true) -%}
 {%- set balance_sheet_transaction_detail_columns = var('balance_sheet_transaction_detail_columns', []) -%}
 {%- set accounts_pass_through_columns = var('accounts_pass_through_columns', []) -%}
+{%- set lookback_window = var('lookback_window', 3) -%}
 
 {{
     config(
@@ -22,7 +23,7 @@ with transactions_with_converted_amounts as (
     from {{ ref('int_netsuite2__tran_with_converted_amounts') }}
 
     {% if is_incremental() %}
-    where _fivetran_synced_date >= {{ netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=var('lookback_window', 3)) }}
+    where _fivetran_synced_date >= {{ netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=lookback_window) }}
     {% endif %}
 ), 
 

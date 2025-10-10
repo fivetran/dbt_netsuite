@@ -15,7 +15,7 @@ entity_address as (
 joined as (
 
     select
-        customers.*
+        customers.*,
         entity_address.city,
         entity_address.state,
         entity_address.zipcode,

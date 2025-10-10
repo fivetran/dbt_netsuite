@@ -15,7 +15,7 @@ location_main_address as (
 joined as (
 
     select
-        locations.*
+        locations.*,
         location_main_address.city,
         location_main_address.state,
         location_main_address.zipcode,

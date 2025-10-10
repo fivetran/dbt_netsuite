@@ -1,4 +1,4 @@
-name: 'netsuite_integration_tests_9'
+name: 'netsuite_integration_tests'
 version: '1.1.0'
 profile: 'integration_tests'
 config-version: 2

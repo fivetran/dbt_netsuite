@@ -15,7 +15,7 @@ account_types as (
 joined as (
 
     select
-        accounts.*
+        accounts.*,
         account_types.type_name,
         account_types.is_balancesheet,
         account_types.is_leftside
