@@ -21,7 +21,7 @@ table_variables:
   netsuite2__using_customer_subsidiary_relationships:
     - CustomerSubsidiaryRelationship
   netsuite2__using_departments:
-    - Department
+    - department
   netsuite2__using_employees:
     - employee
   netsuite2__using_entity_address:
