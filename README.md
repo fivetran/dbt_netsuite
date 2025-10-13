@@ -208,6 +208,7 @@ vars:
     netsuite2__using_exchange_rate: false #True by default. Disable `exchange_rate` if you don't utilize exchange rates.
     netsuite2__using_jobs: false # True by default. Disable `job` if you don't use jobs
     netsuite2__using_vendor_categories: false # True by default. Disable `vendorcategory` if you don't categorize your vendors
+    netsuite2__using_customer_subsidiary_relationships: false # True by default. Disable `customersubsidiaryrelationships` if you don't use this table
     netsuite2__using_vendor_subsidiary_relationships: false # True by default. Disable `vendorsubsidiaryrelationships` if you don't use this table
 ```
 > **Note**: The Netsuite dbt package currently only supports disabling of the prior listed source tables. Please create an issue to request additional tables and/or [features](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/bridgehead_N233872.html) to exclude.

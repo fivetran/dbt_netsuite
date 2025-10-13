@@ -1,6 +1,14 @@
+{%- set using_customer_subsidiary_relationships = var('netsuite2__using_customer_subsidiary_relationships', true) -%}
 {%- set using_vendor_subsidiary_relationships = var('netsuite2__using_vendor_subsidiary_relationships', true) -%}
 
-{{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
+{{
+    config(
+        enabled=(
+            var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')
+            and (using_customer_subsidiary_relationships or using_vendor_subsidiary_relationships)
+        )
+    )
+}}
 
 with currencies as (
     select *
@@ -12,6 +20,7 @@ subsidiaries as (
     from {{ ref('stg_netsuite2__subsidiaries') }}
 ),
 
+{% if using_customer_subsidiary_relationships %}
 customers as (
     select *
     from {{ ref('stg_netsuite2__customers') }}
@@ -47,6 +56,7 @@ customer_subsidiary_relationships_enhanced as (
         on customer_subsidiary_relationship.subsidiary_id = subsidiaries.subsidiary_id
         and customer_subsidiary_relationship.source_relation = subsidiaries.source_relation
 ),
+{% endif %}
 
 {% if using_vendor_subsidiary_relationships %}
 vendors as (
@@ -87,6 +97,7 @@ vendor_subsidiary_relationships_enhanced as (
 {% endif %}
 
 final as (
+    {% if using_customer_subsidiary_relationships %}
     select
         source_relation,
         _fivetran_synced,
@@ -101,10 +112,13 @@ final as (
         subsidiary_name,
         entity_alt_name
     from customer_subsidiary_relationships_enhanced
+    {% endif %}
+
+    {% if using_customer_subsidiary_relationships and using_vendor_subsidiary_relationships %}
+    union all
+    {% endif %}
 
     {% if using_vendor_subsidiary_relationships %}
-    union all
-
     select
         source_relation,
         _fivetran_synced,

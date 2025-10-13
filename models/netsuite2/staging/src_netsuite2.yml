@@ -295,6 +295,8 @@ sources:
       - name: customer_subsidiary_relationship
         identifier: "{{ var('netsuite2_customer_subsidiary_relationship_identifier', 'customersubsidiaryrelationship') }}"
         description: "{{ doc('customer_subsidiary_relationship_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_customer_subsidiary_relationships', true) }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
