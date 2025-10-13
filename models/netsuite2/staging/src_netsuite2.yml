@@ -34,7 +34,7 @@ sources:
         identifier: "{{ var('netsuite2_accounting_book_subsidiaries_identifier', 'accountingbooksubsidiaries') }}"
         description: "{{ doc('accounting_book_subsidiaries_table') }}"
         config:
-          enabled: "{{ var('netsuite2__multibook_accounting_enabled', true)"
+          enabled: "{{ var('netsuite2__multibook_accounting_enabled', true) }}"
         columns:
           - name: _fivetran_id
             description: "{{ doc('_fivetran_id') }}"
@@ -51,7 +51,7 @@ sources:
         identifier: "{{ var('netsuite2_accounting_book_identifier', 'accountingbook') }}"
         description: "{{ doc('accounting_books_table') }}"
         config:
-          enabled: "{{ var('netsuite2__multibook_accounting_enabled', true)"
+          enabled: "{{ var('netsuite2__multibook_accounting_enabled', true) }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
