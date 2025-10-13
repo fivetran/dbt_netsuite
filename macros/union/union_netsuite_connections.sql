@@ -48,13 +48,13 @@
     {%- set relation=adapter.get_relation(
         database=source(single_source_name, single_table_name).database,
         schema=source(single_source_name, single_table_name).schema,
-        identifier=var(identifier_var, single_table_name)
+        identifier=source(single_source_name, single_table_name).identifier
     ) -%}
     -- ** Values passed to adapter.get_relation:
     {{ '-- full-identifier_var: ' ~ identifier_var }}
     {{ '-- database: ' ~ source(single_source_name, single_table_name).database }}
     {{ '-- schema: ' ~ source(single_source_name, single_table_name).schema }}
-    {{ '-- identifier: ' ~ var(identifier_var, single_table_name) }}
+    {{ '-- identifier: ' ~ source(single_source_name, single_table_name).identifier }}
 
     {% if relation is not none -%}
         select
