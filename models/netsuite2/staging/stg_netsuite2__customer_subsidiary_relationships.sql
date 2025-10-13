@@ -1,16 +1,9 @@
-{{
-    config(
-        enabled=(
-            var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')
-            and var('netsuite2__using_customer_subsidiary_relationships', true)
-        )
-    )
-}}
+{{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
 
 with base as (
 
     select *
-        from {{ ref('stg_netsuite2__customer_subsidiary_relationships_tmp') }}
+    from {{ ref('stg_netsuite2__customer_subsidiary_relationships_tmp') }}
 ),
 
 fields as (

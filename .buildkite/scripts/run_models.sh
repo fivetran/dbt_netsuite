@@ -43,7 +43,7 @@ dbt run --vars '{netsuite2__using_to_subsidiary: true, netsuite2__multibook_acco
 dbt test --target "$db"
 dbt run --vars '{netsuite2__using_to_subsidiary: true, netsuite2__using_exchange_rate: true}' --target "$db" --full-refresh
 dbt test --target "$db"
-dbt run --vars '{netsuite2__using_customer_subsidiary_relationships: true, netsuite2__using_vendor_subsidiary_relationships: true}' --target "$db" --full-refresh
+dbt run --vars '{netsuite2__using_vendor_subsidiary_relationships: false}' --target "$db" --full-refresh
 dbt test --target "$db"
 fi
 
