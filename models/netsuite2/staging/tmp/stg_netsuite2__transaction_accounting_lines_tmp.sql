@@ -4,6 +4,7 @@
     netsuite.netsuite_union_connections(
         connection_dictionary=var('netsuite2_sources'),
         single_source_name='netsuite2',
-        single_table_name='transaction_accounting_line'
+        single_table_name='transaction_accounting_line',
+        default_identifier='transactionaccountingline'
     )
 }}

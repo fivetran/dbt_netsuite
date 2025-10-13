@@ -4,6 +4,7 @@
     netsuite.netsuite_union_connections(
         connection_dictionary=var('netsuite2_sources'),
         single_source_name='netsuite2',
-        single_table_name='accounting_period_fiscal_calendars'
+        single_table_name='accounting_period_fiscal_calendars',
+        default_identifier='accountingperiodfiscalcalendars'
     )
 }}

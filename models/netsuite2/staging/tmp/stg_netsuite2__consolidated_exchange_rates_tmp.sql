@@ -11,6 +11,7 @@
     netsuite.netsuite_union_connections(
         connection_dictionary=var('netsuite2_sources'),
         single_source_name='netsuite2',
-        single_table_name='consolidated_exchange_rate'
+        single_table_name='consolidated_exchange_rate',
+        default_identifier='consolidatedexchangerate'
     )
 }}

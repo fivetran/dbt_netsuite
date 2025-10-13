@@ -4,6 +4,7 @@
     netsuite.netsuite_union_connections(
         connection_dictionary=var('netsuite2_sources'),
         single_source_name='netsuite2',
-        single_table_name='item'
+        single_table_name='item',
+        default_identifier='item'
     )
 }}

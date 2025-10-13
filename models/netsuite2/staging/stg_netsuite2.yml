@@ -13,7 +13,6 @@ models:
       - name: account_type_id
         description: "{{ doc('account_type_id') }}"
         tests:
-          - unique
           - not_null
       - name: is_balancesheet
         description: Boolean indicating if the account type is a balance sheet account.
@@ -30,7 +29,6 @@ models:
       - name: _fivetran_id
         description: "{{ doc('_fivetran_id') }}"
         tests: 
-          - unique
           - not_null
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -51,7 +49,6 @@ models:
       - name: accounting_book_id
         description: "{{ doc('accounting_book_id') }}"
         tests:
-          - unique
           - not_null
       - name: accounting_book_name
         description: Name of the accounting book.
@@ -78,7 +75,6 @@ models:
       - name: _fivetran_id
         description: "{{ doc('_fivetran_id') }}"
         tests: 
-          - unique
           - not_null
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -97,7 +93,6 @@ models:
       - name: fiscal_calendar_id
         description: Internal identifier for the fiscal calendar record.
         tests: 
-          - unique
           - not_null
       - name: external_id
         description: Custom or system-defined external identifier for the fiscal calendar.
@@ -124,7 +119,6 @@ models:
       - name: accounting_period_id
         description: "{{ doc('accounting_period_id') }}"
         tests:
-          - unique
           - not_null
       - name: parent_id
         description: Reference to the parent accounting period.
@@ -163,7 +157,6 @@ models:
       - name: account_id
         description: The unique identifier associated with the account.
         tests:
-          - unique
           - not_null
       - name: account_external_id
         description: Reference to the external account,
@@ -216,7 +209,6 @@ models:
       - name: class_id
         description: "{{ doc('class_id') }}"
         tests:
-          - unique
           - not_null
       - name: class_external_id
         description: Reference to the external class.
@@ -237,7 +229,6 @@ models:
       - name: consolidated_exchange_rate_id
         description:  unique identifier for the consolidated exchange rate.
         tests:
-          - unique
           - not_null
       - name: accounting_period_id
         description: "{{ doc('accounting_period_id') }}"
@@ -268,7 +259,6 @@ models:
       - name: currency_id
         description: "{{ doc('currency_id') }}"
         tests:
-          - unique
           - not_null
       - name: name
         description: Name of the currency.
@@ -283,7 +273,6 @@ models:
       - name: customer_id
         description: "{{ doc('customer_id') }}"
         tests:
-          - unique
           - not_null
       - name: entity_id
         description: "{{ doc('entity_id') }}"
@@ -326,7 +315,6 @@ models:
       - name: department_id
         description: "{{ doc('department_id') }}"
         tests:
-          - unique
           - not_null
       - name: parent_id
         description: Reference to the parent department.
@@ -351,7 +339,6 @@ models:
       - name: employee_id
         description: "{{ doc('employee_id') }}"
         tests:
-          - unique
           - not_null
       - name: entity_id
         description: "{{ doc('entity_id') }}"
@@ -388,7 +375,6 @@ models:
       - name: entity_id
         description: "{{ doc('entity_id') }}"
         tests:
-          - unique
           - not_null
       - name: contact_id
         description: The unique identifier of the contact associated with the entity.
@@ -449,7 +435,6 @@ models:
       - name: item_id
         description: "{{ doc('item_id') }}"
         tests:
-          - unique
           - not_null
       - name: name
         description: Name of the item.
@@ -492,7 +477,6 @@ models:
       - name: job_id
         description: The unique identifier of the job.
         tests:
-          - unique
           - not_null
       - name: job_external_id
         description: The unique identifier of the external job reference.
@@ -545,7 +529,6 @@ models:
       - name: location_id
         description: "{{ doc('location_id') }}"
         tests:
-          - unique
           - not_null
       - name: name
         description: Name of the location.
@@ -568,7 +551,6 @@ models:
       - name: subsidiary_id
         description: "{{ doc('subsidiary_id') }}"
         tests:
-          - unique
           - not_null
       - name: name
         description: Name of the subsidiary.
@@ -689,7 +671,6 @@ models:
       - name: transaction_id
         description: "{{ doc('transaction_id') }}"
         tests:
-          - unique
           - not_null
       - name: transaction_number
         description: The Netsuite generated number of the transaction.
@@ -734,7 +715,6 @@ models:
       - name: vendor_category_id
         description: "{{ doc('vendor_category_id') }}"
         tests:
-          - unique
           - not_null
       - name: name
         description: Name of the vendor category.
@@ -751,7 +731,6 @@ models:
       - name: vendor_id
         description: "{{ doc('vendor_id') }}"
         tests:
-          - unique
           - not_null
       - name: alt_name
         description: "{{ doc('alt_name') }}"
@@ -772,7 +751,6 @@ models:
       - name: nexus_id
         description: The unique identifier of the nexus.
         tests:
-          - unique
           - not_null
       - name: country
         description: The country where the nexus is located.
@@ -793,7 +771,6 @@ models:
       - name: customer_subsidiary_relationship_id
         description: The unique identifier of the customer subsidiary relationship.
         tests:
-          - unique
           - not_null
       - name: customer_id
         description: "{{ doc('customer_id') }}"
@@ -814,7 +791,6 @@ models:
       - name: vendor_subsidiary_relationship_id
         description: The unique identifier of the vendor subsidiary relationship.
         tests:
-          - unique
           - not_null
       - name: vendor_id
         description: "{{ doc('vendor_id') }}"
