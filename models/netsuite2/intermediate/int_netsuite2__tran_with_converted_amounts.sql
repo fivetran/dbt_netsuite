@@ -55,6 +55,8 @@ transactions_in_every_calculation_period_w_exchange_rates as (
   {% if using_exchange_rate %}
   left join accountxperiod_exchange_rate_map as exchange_reporting_period
     on exchange_reporting_period.accounting_period_id = transaction_and_reporting_periods.reporting_accounting_period_id
+      and exchange_reporting_period.source_relation = transaction_and_reporting_periods.source_relation
+
       and exchange_reporting_period.account_id = transaction_lines_w_accounting_period.account_id
       and exchange_reporting_period.from_subsidiary_id = transaction_lines_w_accounting_period.subsidiary_id
       and exchange_reporting_period.source_relation = transaction_lines_w_accounting_period.source_relation
@@ -65,6 +67,8 @@ transactions_in_every_calculation_period_w_exchange_rates as (
       
   left join accountxperiod_exchange_rate_map as exchange_transaction_period
     on exchange_transaction_period.accounting_period_id = transaction_and_reporting_periods.accounting_period_id
+      and exchange_transaction_period.source_relation = transaction_and_reporting_periods.source_relation
+
       and exchange_transaction_period.account_id = transaction_lines_w_accounting_period.account_id
       and exchange_transaction_period.from_subsidiary_id = transaction_lines_w_accounting_period.subsidiary_id
       and exchange_transaction_period.source_relation = transaction_lines_w_accounting_period.source_relation
@@ -75,6 +79,7 @@ transactions_in_every_calculation_period_w_exchange_rates as (
 
       {% if using_to_subsidiary %}
       and exchange_transaction_period.to_subsidiary_id = exchange_reporting_period.to_subsidiary_id
+      and exchange_transaction_period.source_relation = exchange_reporting_period.source_relation
       {% endif %}
   {% endif %}
 ), 

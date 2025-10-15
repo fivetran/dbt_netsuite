@@ -230,6 +230,7 @@ balance_sheet as (
     join primary_subsidiary_calendar 
         on reporting_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
         and reporting_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
+
         and transaction_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
         and transaction_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
 
