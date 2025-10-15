@@ -16,7 +16,7 @@
 
 ## Feature Update
 - **Union Data Functionality**: This release supports running the package on multiple Netsuite source connections. See the [README](https://github.com/fivetran/dbt_netsuite/tree/main?tab=readme-ov-file#step-4-define-database-and-schema-variables) for details on how to leverage this feature.
-- **Entity-Subsidiary Relationships**: New end model `netsuite2__entity_subsidiary_relationships` provides a unified view of both customer and vendor subsidiary relationships with enhanced metadata including currency information
+- **Entity-Subsidiary Relationships**: New end model `netsuite2__entity_subsidiary_relationships` provides a unified view of both customer and vendor subsidiary relationships with enhanced metadata including currency information. Unions and enhances data from `stg_netsuite2__customer_subsidiary_relationships` and `stg_netsuite2__vendor_subsidiary_relationships`.
 - **Nexus Support**: Adds comprehensive support for Netsuite nexus data through new staging model `stg_netsuite2__nexuses` with configurable pass-through columns. See the [README](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#passing-through-additional-fields) for instructions on how to configure them. 
 - Adds Streamlit example to the README. See the [README](https://github.com/fivetran/dbt_netsuite/tree/main?tab=readme-ov-file#example-visualizations) for more details.
 
