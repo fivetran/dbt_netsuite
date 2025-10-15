@@ -73,18 +73,10 @@ To use this dbt package, you must have At least either one Fivetran **Netsuite**
 
 #### Netsuite2
 - account
-<!-- - accounttype -->
-<!-- - accountingbooksubsidiary -->
-<!-- - accountingperiodfiscalcalendar -->
 - accountingperiod
-<!-- - accountingbook -->
-<!-- - consolidatedexchangerate -->
 - currency
 - customer
 - classification
-<!-- - department -->
-<!-- - entity
-- entityaddress -->
 - fiscalcalendar (required for non–January 1 fiscal year start)
 - item
 - job
@@ -135,8 +127,6 @@ vars:
     netsuite_database: your_destination_name
     netsuite_schema: your_schema_name 
 ```
-
-> **Note**: When running the package with a single source connection, the `source_relation` column in each model will be populated with an empty string.
 
 ### Option B: Union multiple connections (Netsuite2 only)
 If you have multiple Netsuite connections in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. For each source table, the package will union all of the data together and pass the unioned table into the transformations. The source_relation column in each model indicates the origin of each record.
@@ -191,11 +181,10 @@ vars:
     has_defined_sources: true
 ```
 
-## Step 5: Disable models for non-existent sources (Netsuite2 only)
+### Step 5: Disable models for non-existent sources (Netsuite2 only)
+
 > _This step is unnecessary (but still available for use) if you are unioning multiple connectors together in the previous step. That is, the `union_data` macro we use will create completely empty staging models for sources that are not found in any of your Netsuite2 schemas/databases. However, you can still leverage the below variables if you would like to avoid this behavior._
 
-It's possible that your Netsuite connector does not sync every table that this package expects. If your syncs exclude certain tables, it is because you either don't use that feature in Netsuite or actively excluded some tables from your syncs. To disable the corresponding functionality in the package, you must add the relevant variables. By default, all variables are assumed to be true. Add variables for only the tables you would like to disable:
-### Step 5: Disable models for non-existent sources (Netsuite2 only)
 Your Netsuite connection may not sync every table that this package expects. If your syncs exclude certain tables, it is because you either don't use that feature in Netsuite or actively excluded some tables from your syncs. To disable the corresponding functionality in the package, you must add the relevant variables. By default, most variables are assumed to be true with the exception of `netsuite2__fiscal_calendar_enabled`. Add variables for only the tables you would like to disable/enable:
 ```yml
 vars:
@@ -211,7 +200,7 @@ vars:
     netsuite2__using_customer_subsidiary_relationships: false # True by default. Disable `customersubsidiaryrelationships` if you don't use this table
     netsuite2__using_vendor_subsidiary_relationships: false # True by default. Disable `vendorsubsidiaryrelationships` if you don't use this table
 ```
-> **Note**: The Netsuite dbt package currently only supports disabling of the prior listed source tables. Please create an issue to request additional tables and/or [features](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/bridgehead_N233872.html) to exclude.
+> **Note**: The Netsuite dbt package currently only supports disabling of the previously listed source tables. Please create an issue to request additional tables and/or [features](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/bridgehead_N233872.html) to exclude.
 >
 > To determine if a table or field is activated by a feature, access the [Records Catalog](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/article_159367781370.html).
 
@@ -222,7 +211,7 @@ vars:
 
 #### Multi-Book (Netsuite2 only)
 To include `accounting_book_id` and `accounting_book_name` columns in the end models, set the below variable to `true` in your `dbt_project.yml`. This feature is disabled by default.
-
+> **Note**: The Netsuite dbt package currently only supports disabling of the source tables listed above. Please create an issue to request additional tables and/or [features](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/bridgehead_N233872.html) to exclude.
 >Notes:
 > - If you choose to enable this feature, this adds rows for transactions for any non-primary `accounting_book_id`, and your downstream use cases may need to be adjusted.
 > - The surrogate keys for the end models are dynamically generated depending on the enabled/disabled features, so adding these rows will not cause test failures.
@@ -288,7 +277,8 @@ vars:
           alias: "vendors_field"
     items_pass_through_columns: # Not included in end models; only in stg items models
         - name: "items_custom_field"
-          alias: "items_field"
+     nexuses_pass_through_columns: # Not included in end models; only in stg items models
+        - name: "items_custom_field"
 ```
 
 > If you would like any of the above passthrough columns to be persisted to additional downstream models (i.e. `netsuite2__income_statement`, `netsuite2__balance_sheet`, `netsuite2__transaction_details`), or passthrough column support for other source tables, please create a Feature Request [issue](https://github.com/fivetran/dbt_netsuite/issues).
