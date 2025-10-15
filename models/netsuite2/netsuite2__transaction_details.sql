@@ -86,7 +86,6 @@ vendors as (
 ),
 
 {% if using_vendor_categories %}
-
 vendor_categories as (
     select *
     from {{ ref('stg_netsuite2__vendor_categories') }}
@@ -242,6 +241,7 @@ transaction_details as (
     -- The below script allows for locations table pass through columns.
     {{ netsuite.persist_pass_through_columns(locations_pass_through_columns, identifier='locations') }},
 
+    {% if using_vendor_categories %}
     case 
       when lower(transactions.transaction_type) in ('vendbill', 'vendcred') then vendor_categories__transactions.vendor_category_id
       else vendor_categories__transaction_lines.vendor_category_id
@@ -250,6 +250,8 @@ transaction_details as (
       when lower(transactions.transaction_type) in ('vendbill', 'vendcred') then vendor_categories__transactions.name
       else vendor_categories__transaction_lines.name
         end as vendor_category_name,
+    {% endif %}
+
     case 
       when lower(transactions.transaction_type) in ('vendbill', 'vendcred') then vendors__transactions.vendor_id
       else vendors__transaction_lines.vendor_id
@@ -369,7 +371,7 @@ transaction_details as (
   left join vendor_categories vendor_categories__transaction_lines
     on vendor_categories__transaction_lines.vendor_category_id = vendors__transaction_lines.vendor_category_id
     and vendor_categories__transaction_lines.source_relation = vendors__transaction_lines.source_relation
-    {% endif %}
+  {% endif %}
 
   left join currencies
     on currencies.currency_id = transactions.currency_id
