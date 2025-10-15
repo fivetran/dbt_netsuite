@@ -65,7 +65,7 @@
 {% docs location_main_address_table %} A table containing the location main addresses. {% enddocs %}
 
 # Field Definitions
-{% docs source_relation %} Identifies the record’s source when unioning is enabled; otherwise, this field is null. {% enddocs %}
+{% docs source_relation %} Identifies the record’s source. {% enddocs %}
 
 {% docs _fivetran_id %} Unique ID used by Fivetran to sync and dedupe data. {% enddocs %}
 

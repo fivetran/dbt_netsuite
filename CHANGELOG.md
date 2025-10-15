@@ -5,12 +5,13 @@
 
 | Data Model(s) | Change type | Old | New | Notes |
 | ------------- | ----------- | ----| --- | ----- |
-| `stg_netsuite2__nexuses` | New model | | | Provides access to Netsuite tax nexus data |
-| `stg_netsuite2__customer_subsidiary_relationships` | New model | | | Maps customers to their associated subsidiaries |
-| `stg_netsuite2__vendor_subsidiary_relationships` | New model | | | Maps vendors to their associated subsidiaries |
 | `netsuite2__entity_subsidiary_relationships` | New model | | | Unified view combining customer and vendor subsidiary relationships |
 | `netsuite2__transaction_details` | New columns | | `nexus_id`<br>`nexus_country`<br>`nexus_state`<br>`tax_agency_id`<br>`tax_agency_alt_name`<br>`is_nexus_override`<br>`is_tax_details_override`<br>`tax_point_date`<br>`is_tax_point_date_override` | Nexus-related tax information when var `netsuite2__using_nexuses` is enabled |
 | All models | New column | | `source_relation` | Identifies the source connection when using multiple Netsuite connectors |
+| `stg_netsuite2__nexuses` | New model | | | Provides access to Netsuite tax nexus data |
+| `stg_netsuite2__customer_subsidiary_relationships` | New model | | | Maps customers to their associated subsidiaries |
+| `stg_netsuite2__vendor_subsidiary_relationships` | New model | | | Maps vendors to their associated subsidiaries |
+| `stg_netsuite2__vendors` | New column | | `entity_id` | For use in `netsuite2__entity_subsidiary_relationships` |
 
 ## Feature Update
 - **Union Data Functionality**: This release supports running the package on multiple Netsuite source connections. See the [README](https://github.com/fivetran/dbt_netsuite/tree/main?tab=readme-ov-file#step-4-define-database-and-schema-variables) for details on how to leverage this feature.

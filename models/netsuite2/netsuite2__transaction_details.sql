@@ -1,7 +1,7 @@
 {%- set multibook_accounting_enabled = var('netsuite2__multibook_accounting_enabled', false) -%}
 {%- set using_to_subsidiary = var('netsuite2__using_to_subsidiary', false) -%}
 {%- set using_exchange_rate = var('netsuite2__using_exchange_rate', true) -%}
-{%- set using_vendor_categories = var('netsuite2__using_vendor_categories, true) -%}
+{%- set using_vendor_categories = var('netsuite2__using_vendor_categories', true) -%}
 {%- set accounts_pass_through_columns = var('accounts_pass_through_columns', []) -%}
 {%- set departments_pass_through_columns = var('departments_pass_through_columns', []) -%}
 {%- set locations_pass_through_columns = var('locations_pass_through_columns', []) -%}

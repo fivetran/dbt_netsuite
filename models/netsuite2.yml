@@ -121,7 +121,7 @@ models:
     - name: subsidiary_currency_symbol
       description: Currency of the subsidiary.
     - name: source_relation
-      description: The source table from which this record originated.
+      description: "{{ doc('source_relation') }}"
 
   - name: netsuite2__income_statement
     description: >
@@ -207,7 +207,7 @@ models:
     - name: subsidiary_currency_symbol
       description: Currency of the subsidiary.
     - name: source_relation
-      description: The source table from which this record originated.
+      description: "{{ doc('source_relation') }}"
 
   - name: netsuite2__transaction_details
     description: >
@@ -410,7 +410,7 @@ models:
     - name: vendor_alt_name
       description: Alternative name of the vendor.
     - name: source_relation
-      description: The source table from which this record originated.
+      description: "{{ doc('source_relation') }}"
 
   - name: netsuite2__entity_subsidiary_relationships
     description: >
