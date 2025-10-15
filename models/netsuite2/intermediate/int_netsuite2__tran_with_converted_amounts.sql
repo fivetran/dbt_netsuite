@@ -61,7 +61,6 @@ transactions_in_every_calculation_period_w_exchange_rates as (
 
       {% if multibook_accounting_enabled %}
       and exchange_reporting_period.accounting_book_id = transaction_lines_w_accounting_period.accounting_book_id
-      and exchange_reporting_period.source_relation = transaction_lines_w_accounting_period.source_relation
       {% endif %}
       
   left join accountxperiod_exchange_rate_map as exchange_transaction_period

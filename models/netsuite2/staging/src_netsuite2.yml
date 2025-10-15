@@ -94,6 +94,8 @@ sources:
       - name: fiscal_calendar
         identifier: "{{ var('netsuite2_fiscal_calendar_identifier', 'fiscalcalendar') }}"
         description: Table containing a list of fiscal calendars, their names, and starting fiscal months. Used to determine fiscal year boundaries.
+        config:
+          enabled: "{{ var('netsuite2__fiscal_calendar_enabled', false) }}"
         columns:
           - name: id
             description: Internal identifier for the fiscal calendar record.
@@ -337,6 +339,8 @@ sources:
       - name: employee
         identifier: "{{ var('netsuite2_employee_identifier', 'employee') }}"
         description: "{{ doc('employee_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_employees', true) }}"
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -465,6 +469,8 @@ sources:
       - name: job
         identifier: "{{ var('netsuite2_job_identifier', 'job') }}"
         description: "{{ doc('jobs_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_jobs', true) }}"
         columns:
           - name: id
             description: The unique identifier of the job.
@@ -691,6 +697,8 @@ sources:
       - name: vendor_category
         identifier: "{{ var('netsuite2_vendor_category_identifier', 'vendorcategory') }}"
         description: "{{ doc('vendor_categories_table') }}"
+        config:
+          enabled: "{{ var('netsuite2__using_vendor_categories', true) }}"
         columns:
           - name: id
             description: "{{ doc('vendor_category_id') }}"

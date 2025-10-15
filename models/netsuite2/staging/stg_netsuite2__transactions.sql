@@ -43,7 +43,7 @@ final as (
         taxregoverride = 'T' as is_nexus_override,
         taxdetailsoverride = 'T' as is_tax_details_override,
         cast(taxpointdate as date) as tax_point_date,
-        taxpointdateoverride = 'T' as tax_point_date_override,
+        taxpointdateoverride = 'T' as is_tax_point_date_override,
         intercoadj = 'T' as is_intercompany_adjustment,
         isreversal = 'T' as is_reversal,
         reversal as reversal_transaction_id,

@@ -1,6 +1,7 @@
 {%- set multibook_accounting_enabled = var('netsuite2__multibook_accounting_enabled', false) -%}
 {%- set using_to_subsidiary = var('netsuite2__using_to_subsidiary', false) -%}
 {%- set using_exchange_rate = var('netsuite2__using_exchange_rate', true) -%}
+{%- set using_vendor_categories = var('netsuite2__using_vendor_categories, true) -%}
 {%- set accounts_pass_through_columns = var('accounts_pass_through_columns', []) -%}
 {%- set departments_pass_through_columns = var('departments_pass_through_columns', []) -%}
 {%- set locations_pass_through_columns = var('locations_pass_through_columns', []) -%}
@@ -84,10 +85,13 @@ vendors as (
     from {{ ref('stg_netsuite2__vendors') }}
 ),
 
+{% if using_vendor_categories %}
+
 vendor_categories as (
     select *
     from {{ ref('stg_netsuite2__vendor_categories') }}
 ),
+{% endif %}
 
 departments as (
     select *
@@ -357,6 +361,7 @@ transaction_details as (
     on vendors__transaction_lines.vendor_id = transaction_lines.entity_id
     and vendors__transaction_lines.source_relation = transaction_lines.source_relation
 
+  {% if using_vendor_categories %}
   left join vendor_categories vendor_categories__transactions
     on vendor_categories__transactions.vendor_category_id = vendors__transactions.vendor_category_id
     and vendor_categories__transactions.source_relation = vendors__transactions.source_relation
@@ -364,6 +369,7 @@ transaction_details as (
   left join vendor_categories vendor_categories__transaction_lines
     on vendor_categories__transaction_lines.vendor_category_id = vendors__transaction_lines.vendor_category_id
     and vendor_categories__transaction_lines.source_relation = vendors__transaction_lines.source_relation
+    {% endif %}
 
   left join currencies
     on currencies.currency_id = transactions.currency_id
