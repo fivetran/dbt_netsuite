@@ -776,7 +776,7 @@ models:
         description: The unique identifier of the tax agency associated with the nexus.
 
   - name: stg_netsuite2__customer_subsidiary_relationships
-    description: "{{ doc('customer_subsidiary_relationships_table') }}"
+    description: "{{ doc('customer_subsidiary_relationship_table') }}"
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -796,7 +796,7 @@ models:
         description: "{{ doc('subsidiary_id') }}"
 
   - name: stg_netsuite2__vendor_subsidiary_relationships
-    description: "{{ doc('vendor_subsidiary_relationships_table') }}"
+    description: "{{ doc('vendor_subsidiary_relationship_table') }}"
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
