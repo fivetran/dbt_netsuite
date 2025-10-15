@@ -6,20 +6,18 @@
 | Data Model(s) | Change type | Old | New | Notes |
 | ------------- | ----------- | ----| --- | ----- |
 | `netsuite2__entity_subsidiary_relationships` | New model | | | Unified view combining customer and vendor subsidiary relationships |
-| `netsuite2__transaction_details` | New columns | | `nexus_id`<br>`nexus_country`<br>`nexus_state`<br>`tax_agency_id`<br>`tax_agency_alt_name`<br>`is_nexus_override`<br>`is_tax_details_override`<br>`tax_point_date`<br>`is_tax_point_date_override` | Nexus-related tax information when var `netsuite2__using_nexuses` is enabled |
-| `stg_netsuite2__nexuses` | New model | | | Provides access to Netsuite tax nexus data |
+| `netsuite2__transaction_details` | New columns | | `nexus_id`<br>`nexus_country`<br>`nexus_state`<br>`tax_agency_id`<br>`tax_agency_alt_name`<br>`is_nexus_override`<br>`is_tax_details_override`<br>`tax_point_date`<br>`is_tax_point_date_override` | Adds nexus-related tax information.<br><br>**Breaking change**: If you already include any of these fields via the [passthrough columns](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#passing-through-additional-fields) variable `transactions_pass_through_columns`, remove them from the list to avoid duplicate column errors. |
+| `stg_netsuite2__nexuses` | New model | | | Provides access to Netsuite tax nexus data with configurable pass-through columns. See the [README](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#passing-through-additional-fields) for instructions with adding the pass-through columns. |
 | `stg_netsuite2__customer_subsidiary_relationships` | New model | | | Maps customers to their associated subsidiaries |
 | `stg_netsuite2__vendor_subsidiary_relationships` | New model | | | Maps vendors to their associated subsidiaries |
-| `stg_netsuite2__transactions` | New columns | | `nexus_id`<br>`is_nexus_override`<br>`is_tax_details_override`<br>`tax_point_date`<br>`is_tax_point_date_override` | Nexus-related tax information when var `netsuite2__using_nexuses` is enabled.<br><br>**Breaking change**: If you already include any of these fields via the [passthrough columns](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#passing-through-additional-fields) variable `transactions_pass_through_columns`, remove them from the list to avoid duplicate column errors. |
+| `stg_netsuite2__transactions` | New columns | | `nexus_id`<br>`is_nexus_override`<br>`is_tax_details_override`<br>`tax_point_date`<br>`is_tax_point_date_override` | Adds nexus-related tax information.<br><br>**Breaking change**: If you already include any of these fields via the [passthrough columns](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#passing-through-additional-fields) variable `transactions_pass_through_columns`, remove them from the list to avoid duplicate column errors. |
 | `stg_netsuite2__vendors` | New column | | `entity_id` | For use in `netsuite2__entity_subsidiary_relationships`.<br><br>**Breaking change**: If you already include this field via the [passthrough columns](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#passing-through-additional-fields) variable `vendors_pass_through_columns`, remove it from the list to avoid duplicate column errors.  |
 | All models | New column | | `source_relation` | Identifies the source connection when using multiple Netsuite connectors |
-
-**Breaking change**: If you already include this field via the [passthrough columns](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#passing-through-additional-fields) variable `vendors_pass_through_columns`, remove it from the list to avoid duplicate column errors. 
 
 ## Feature Update
 - **Union Data Functionality**: This release supports running the package on multiple Netsuite source connections. See the [README](https://github.com/fivetran/dbt_netsuite/tree/main?tab=readme-ov-file#step-4-define-database-and-schema-variables) for details on how to leverage this feature.
 - **Entity-Subsidiary Relationships**: New end model `netsuite2__entity_subsidiary_relationships` provides a unified view of both customer and vendor subsidiary relationships with enhanced metadata including currency information
-- **Nexus Support**: Adds comprehensive support for Netsuite nexus data through new staging model `stg_netsuite2__nexuses` with configurable pass-through columns
+- **Nexus Support**: Adds comprehensive support for Netsuite nexus data through new staging model `stg_netsuite2__nexuses` with configurable pass-through columns. See the [README](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#passing-through-additional-fields) for instructions to configure them. 
 - Adds Streamlit example to the README. See the [README](https://github.com/fivetran/dbt_netsuite/tree/main?tab=readme-ov-file#example-visualizations) for more details.
 
 ## Under the Hood

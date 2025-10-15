@@ -706,6 +706,16 @@ models:
         description: If the transaction is a reversal, date of the reversal entry.
       - name: is_reversal_defer
         description: Boolean indicating if the transaction is a reversal and if it's been deferred.
+      - name: nexus_id
+        description: The unique identifier of the nexus associated with the transaction.
+      - name: is_nexus_override
+        description: Boolean indicating if the nexus has been overridden for this transaction.
+      - name: is_tax_details_override
+        description: Boolean indicating if the tax details have been overridden for this transaction.
+      - name: tax_point_date
+        description: The tax point date for the transaction.
+      - name: is_tax_point_date_override
+        description: Boolean indicating if the tax point date has been overridden for this transaction.
 
   - name: stg_netsuite2__vendor_categories
     description: "{{ doc('vendor_categories_table') }}"
@@ -740,6 +750,8 @@ models:
         description: "{{ doc('create_date_at') }}"
       - name: vendor_category_id
         description: "{{ doc('vendor_category_id') }}"
+      - name: entity_id
+        description: "{{ doc('entity_id') }}"
 
   - name: stg_netsuite2__nexuses
     description: "{{ doc('nexuses_table') }}"

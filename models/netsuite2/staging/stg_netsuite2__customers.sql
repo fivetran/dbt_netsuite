@@ -24,6 +24,7 @@ final as (
 
     select
         source_relation,
+        _fivetran_synced,
         id as customer_id,
         entityid as entity_id,
         externalid as customer_external_id,
