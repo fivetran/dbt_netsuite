@@ -150,7 +150,7 @@ transaction_details as (
     transactions.is_nexus_override,
     transactions.is_tax_details_override,
     transactions.tax_point_date,
-    transactions.tax_point_date_override,
+    transactions.is_tax_point_date_override,
     transaction_lines.transaction_line_fivetran_synced_date,
     transactions.transaction_number,
     coalesce(transaction_lines.entity_id, transactions.entity_id) as entity_id,

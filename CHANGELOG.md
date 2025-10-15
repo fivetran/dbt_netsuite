@@ -9,7 +9,7 @@
 | `stg_netsuite2__customer_subsidiary_relationships` | New model | | | Maps customers to their associated subsidiaries |
 | `stg_netsuite2__vendor_subsidiary_relationships` | New model | | | Maps vendors to their associated subsidiaries |
 | `netsuite2__entity_subsidiary_relationships` | New model | | | Unified view combining customer and vendor subsidiary relationships |
-| `netsuite2__transaction_details` | New columns | | `nexus_id`<br>`nexus_country`<br>`nexus_state`<br>`tax_agency_id`<br>`tax_agency_alt_name`<br>`is_nexus_override`<br>`is_tax_details_override`<br>`tax_point_date`<br>`tax_point_date_override` | Nexus-related tax information when var `netsuite2__using_nexuses` is enabled |
+| `netsuite2__transaction_details` | New columns | | `nexus_id`<br>`nexus_country`<br>`nexus_state`<br>`tax_agency_id`<br>`tax_agency_alt_name`<br>`is_nexus_override`<br>`is_tax_details_override`<br>`tax_point_date`<br>`is_tax_point_date_override` | Nexus-related tax information when var `netsuite2__using_nexuses` is enabled |
 | All models | New column | | `source_relation` | Identifies the source connection when using multiple Netsuite connectors |
 
 ## Feature Update

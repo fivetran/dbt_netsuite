@@ -405,7 +405,7 @@ models:
       description: Boolean indicating if the tax details have been overridden.
     - name: tax_point_date
       description: The date at which the tax point is determined.
-    - name: tax_point_date_override
+    - name: is_tax_point_date_override
       description: Boolean indicating if the tax point date has been overridden.
     - name: vendor_alt_name
       description: Alternative name of the vendor.
