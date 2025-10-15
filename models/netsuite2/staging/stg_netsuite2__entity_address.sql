@@ -12,7 +12,7 @@ fields as (
         {{
             fivetran_utils.fill_staging_columns(
                 source_columns=adapter.get_columns_in_relation(ref('stg_netsuite2__entity_address_tmp')),
-                staging_columns=get_entityaddress_columns()
+                staging_columns=get_netsuite2_entityaddress_columns()
             )
         }}
 

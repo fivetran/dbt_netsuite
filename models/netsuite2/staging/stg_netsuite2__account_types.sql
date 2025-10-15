@@ -12,7 +12,7 @@ fields as (
         {{
             fivetran_utils.fill_staging_columns(
                 source_columns=adapter.get_columns_in_relation(ref('stg_netsuite2__account_types_tmp')),
-                staging_columns=get_accounttype_columns()
+                staging_columns=get_netsuite2_accounttype_columns()
             )
         }}
 

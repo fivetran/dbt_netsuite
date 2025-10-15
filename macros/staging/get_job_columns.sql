@@ -77,3 +77,20 @@
 {{ return(columns) }}
 
 {% endmacro %}
+
+{% macro get_netsuite2_job_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
+    {"name": "customer", "datatype": dbt.type_int()},
+    {"name": "defaultbillingaddress", "datatype": dbt.type_int()},
+    {"name": "defaultshippingaddress", "datatype": dbt.type_int()},
+    {"name": "entityid", "datatype": dbt.type_string()},
+    {"name": "externalid", "datatype": dbt.type_string()},
+    {"name": "id", "datatype": dbt.type_int()},
+    {"name": "parent", "datatype": dbt.type_int()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}

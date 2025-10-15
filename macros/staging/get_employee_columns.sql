@@ -33,3 +33,27 @@
 {{ return(columns) }}
 
 {% endmacro %}
+
+{% macro get_netsuite2_employee_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
+    {"name": "approvallimit", "datatype": dbt.type_float()},
+    {"name": "currency", "datatype": dbt.type_int()},
+    {"name": "department", "datatype": dbt.type_int()},
+    {"name": "email", "datatype": dbt.type_string()},
+    {"name": "entityid", "datatype": dbt.type_string()},
+    {"name": "expenselimit", "datatype": dbt.type_string()},
+    {"name": "firstname", "datatype": dbt.type_string()},
+    {"name": "id", "datatype": dbt.type_int()},
+    {"name": "isinactive", "datatype": dbt.type_string()},
+    {"name": "lastname", "datatype": dbt.type_string()},
+    {"name": "purchaseorderapprovallimit", "datatype": dbt.type_float()},
+    {"name": "purchaseorderlimit", "datatype": dbt.type_float()},
+    {"name": "subsidiary", "datatype": dbt.type_int()},
+    {"name": "supervisor", "datatype": dbt.type_int()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}

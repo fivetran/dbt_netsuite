@@ -19,12 +19,12 @@
 ## Feature Update
 - **Union Data Functionality**: This release supports running the package on multiple Netsuite source connections. See the [README](https://github.com/fivetran/dbt_netsuite/tree/main?tab=readme-ov-file#step-4-define-database-and-schema-variables) for details on how to leverage this feature.
 - **Entity-Subsidiary Relationships**: New end model `netsuite2__entity_subsidiary_relationships` provides a unified view of both customer and vendor subsidiary relationships with enhanced metadata including currency information
-- **Nexus Support**: Added comprehensive support for Netsuite nexus data through new staging model `stg_netsuite2__nexuses` with configurable pass-through columns
-- Added Streamlit example to the README. See the [README](https://github.com/fivetran/dbt_netsuite/tree/main?tab=readme-ov-file#example-visualizations) for more details.
+- **Nexus Support**: Adds comprehensive support for Netsuite nexus data through new staging model `stg_netsuite2__nexuses` with configurable pass-through columns
+- Adds Streamlit example to the README. See the [README](https://github.com/fivetran/dbt_netsuite/tree/main?tab=readme-ov-file#example-visualizations) for more details.
 
 ## Under the Hood
 - Updates integration tests configuration and seed data references
-- Updates the `get_items_columns` and `get_vendors_columns` macro to return only the columns referenced by the staging model.
+- Updates the `get_*_columns` macros to return only the columns referenced by the corresponding staging model.
 
 ## Contributors:
 - [@jmongerlyra](https://github.com/jmongerlyra) ([PR #171](https://github.com/fivetran/dbt_netsuite/pull/171))
