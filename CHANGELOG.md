@@ -1,7 +1,7 @@
 # dbt_netsuite v1.1.0
 
 ## Schema/Data Change
-**7 total changes • 0 possible breaking changes**
+**7 total changes • 2 possible breaking changes**
 
 | Data Model(s) | Change type | Old | New | Notes |
 | ------------- | ----------- | ----| --- | ----- |
@@ -23,7 +23,8 @@
 - Added Streamlit example to the README. See the [README](https://github.com/fivetran/dbt_netsuite/tree/main?tab=readme-ov-file#example-visualizations) for more details.
 
 ## Under the Hood
-- Updated integration tests configuration and seed data references
+- Updates integration tests configuration and seed data references
+- Updates the `get_items_columns` and `get_vendors_columns` macro to return only the columns referenced by the staging model.
 
 ## Contributors:
 - [@jmongerlyra](https://github.com/jmongerlyra) ([PR #171](https://github.com/fivetran/dbt_netsuite/pull/171))
