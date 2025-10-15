@@ -604,6 +604,8 @@ models:
         description: Total amount paid.
       - name: unpaid_amount
         description: Total amount unpaid.
+      - name: exchange_rate
+        description: The exchange rate used to convert the transaction amount from the transaction currency to the base currency.
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
       - name: _fivetran_deleted
