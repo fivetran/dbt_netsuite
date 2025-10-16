@@ -50,7 +50,8 @@ Each Quickstart transformation job run materializes 92 models if all components 
 
 ## How do I use the dbt package?
 ### Step 1: Prerequisites
-To use this dbt package, you must have At least either one Fivetran **Netsuite** (netsuite.com) or **Netsuite2** (netsuite2) connection syncing the respective tables to your destination:
+To use this dbt package, you must have at least one Fivetran **Netsuite** (netsuite.com) or **Netsuite2** (netsuite2) connection syncing the respective tables to your destination:
+
 #### Netsuite.com
 - accounts
 - accounting_periods
@@ -76,18 +77,30 @@ To use this dbt package, you must have At least either one Fivetran **Netsuite**
 - accountingperiod
 - currency
 - customer
-- classification
-- fiscalcalendar (required for non–January 1 fiscal year start)
-- item
-- job
-- location
-- locationmainaddress
 - transactionaccountingline
 - transactionline
 - transaction
 - subsidiary
 - vendor
-- vendorcategory
+- **Not required but recommended**:
+  - accounttype
+  - accountingbook
+  - accountingbooksubsidiary
+  - accountingperiodfiscalcalendar
+  - accountingbook
+  - classification
+  - consolidatedexchangerate
+  - department
+  - entity
+  - entityaddress
+  - fiscalcalendar (required for non–January 1 fiscal year start)
+  - item
+  - job
+  - location
+  - locationmainaddress
+  - nexus
+  - vendorcategory
+  - vendorsubsidiaryrelationship
 
 #### Database Compatibility
 This package is compatible with either a **BigQuery**, **Snowflake**, **Redshift**, **PostgreSQL**, or **Databricks** destination.
@@ -129,7 +142,7 @@ vars:
 ```
 
 ### Option B: Union multiple connections (Netsuite2 only)
-If you have multiple Netsuite connections in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. For each source table, the package will union all of the data together and pass the unioned table into the transformations. The source_relation column in each model indicates the origin of each record.
+If you have multiple Netsuite connections in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. For each source table, the package will union all of the data together and pass the unioned table into the transformations. The `source_relation` column in each model indicates the origin of each record.
 
 To use this functionality, you will need to set the netsuite2_sources variable in your root dbt_project.yml file:
 
@@ -277,7 +290,7 @@ vars:
           alias: "vendors_field"
     items_pass_through_columns: # Not included in end models; only in stg items models
         - name: "items_custom_field"
-     nexuses_pass_through_columns: # Not included in end models; only in stg items models
+    nexuses_pass_through_columns: # Not included in end models; only in stg items models
         - name: "items_custom_field"
 ```
 
