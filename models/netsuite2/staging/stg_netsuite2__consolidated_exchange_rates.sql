@@ -1,4 +1,11 @@
-{{ config(enabled=(var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2') and var('netsuite2__using_exchange_rate', true))) }}
+{{
+    config(
+        enabled=(
+            var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')
+            and var('netsuite2__using_exchange_rate', true)
+        )
+    )
+}}
 
 with base as (
 
@@ -15,12 +22,15 @@ fields as (
                 staging_columns=get_netsuite2_consolidated_exchange_rates_columns()
             )
         }}
+
+        {{ netsuite.apply_source_relation() }}
     from base
 ),
 
 final as (
-    
+
     select
+        source_relation,
         id as consolidated_exchange_rate_id,
         postingperiod as accounting_period_id,
         fromcurrency as from_currency_id,

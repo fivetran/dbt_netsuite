@@ -1,4 +1,11 @@
-{{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2') and var('netsuite2__fiscal_calendar_enabled', false)) }}
+{{
+    config(
+        enabled=(
+            var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')
+            and var('netsuite2__fiscal_calendar_enabled', false)
+        )
+    )
+}}
 
 with base as (
 
@@ -15,12 +22,15 @@ fields as (
                 staging_columns=get_fiscalcalendar_columns()
             )
         }}
+
+        {{ netsuite.apply_source_relation() }}
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation, 
         id as fiscal_calendar_id,
         externalid as external_id,
         fiscalmonth as fiscal_month,

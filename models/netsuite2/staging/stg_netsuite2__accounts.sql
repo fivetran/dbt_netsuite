@@ -15,12 +15,15 @@ fields as (
                 staging_columns=get_netsuite2_accounts_columns()
             )
         }}
+
+        {{ netsuite.apply_source_relation() }}
     from base
 ),
 
 final as (
-    
+
     select
+        source_relation,
         _fivetran_synced,
         id as account_id, 
         externalid as account_external_id,

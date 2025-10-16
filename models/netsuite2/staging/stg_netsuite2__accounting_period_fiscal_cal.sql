@@ -12,15 +12,18 @@ fields as (
         {{
             fivetran_utils.fill_staging_columns(
                 source_columns=adapter.get_columns_in_relation(ref('stg_netsuite2__accounting_period_fiscal_cal_tmp')),
-                staging_columns=get_accountingperiodfiscalcalendars_columns()
+                staging_columns=get_netsuite2_accountingperiodfiscalcalendars_columns()
             )
         }}
+
+        {{ netsuite.apply_source_relation() }}
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation, 
         _fivetran_id,
         _fivetran_synced,
         accountingperiod as accounting_period_id,

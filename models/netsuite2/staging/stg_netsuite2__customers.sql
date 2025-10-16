@@ -15,12 +15,15 @@ fields as (
                 staging_columns=get_netsuite2_customers_columns()
             )
         }}
+
+        {{ netsuite.apply_source_relation() }}
     from base
 ),
 
 final as (
-    
+
     select
+        source_relation,
         id as customer_id,
         entityid as entity_id,
         externalid as customer_external_id,

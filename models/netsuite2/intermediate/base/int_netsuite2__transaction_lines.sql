@@ -1,3 +1,5 @@
+{%- set multibook_accounting_enabled = var('netsuite2__multibook_accounting_enabled', false) -%}
+
 {{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
 
 with transaction_lines as (
@@ -12,7 +14,7 @@ transaction_accounting_lines as (
     from {{ ref('stg_netsuite2__transaction_accounting_lines') }}
 ),
 
-{% if var('netsuite2__multibook_accounting_enabled', false) %}
+{% if multibook_accounting_enabled %}
 accounting_books as (
 
     select *
@@ -26,7 +28,7 @@ joined as (
         transaction_lines.*,
         transaction_accounting_lines.account_id,
 
-        {% if var('netsuite2__multibook_accounting_enabled', false) %}
+        {% if multibook_accounting_enabled %}
         transaction_accounting_lines.accounting_book_id,
         accounting_books.accounting_book_name,
         {% endif %}
@@ -43,10 +45,12 @@ joined as (
     left join transaction_accounting_lines
         on transaction_lines.transaction_line_id = transaction_accounting_lines.transaction_line_id
         and transaction_lines.transaction_id = transaction_accounting_lines.transaction_id
+        and transaction_lines.source_relation = transaction_accounting_lines.source_relation
         
-    {% if var('netsuite2__multibook_accounting_enabled', false) %}
+    {% if multibook_accounting_enabled %}
     left join accounting_books
         on accounting_books.accounting_book_id = transaction_accounting_lines.accounting_book_id
+        and accounting_books.source_relation = transaction_accounting_lines.source_relation
 
     union all
 
@@ -67,8 +71,10 @@ joined as (
     left join transaction_accounting_lines
         on transaction_lines.transaction_line_id = transaction_accounting_lines.transaction_line_id
         and transaction_lines.transaction_id = transaction_accounting_lines.transaction_id
+        and transaction_lines.source_relation = transaction_accounting_lines.source_relation
     left join accounting_books
         on accounting_books.base_book_id = transaction_accounting_lines.accounting_book_id
+        and accounting_books.source_relation = transaction_accounting_lines.source_relation
     where accounting_books.base_book_id is not null
     {% endif %}
 

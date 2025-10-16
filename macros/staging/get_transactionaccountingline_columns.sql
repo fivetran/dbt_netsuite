@@ -25,3 +25,26 @@
 {{ return(columns) }}
 
 {% endmacro %}
+
+{% macro get_netsuite2_transactionaccountingline_columns() %}
+
+{% set columns = [
+    {"name": "_fivetran_deleted", "datatype": "boolean"},
+    {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
+    {"name": "account", "datatype": dbt.type_int()},
+    {"name": "accountingbook", "datatype": dbt.type_int()},
+    {"name": "amount", "datatype": dbt.type_float()},
+    {"name": "amountpaid", "datatype": dbt.type_float()},
+    {"name": "amountunpaid", "datatype": dbt.type_float()},
+    {"name": "credit", "datatype": dbt.type_float()},
+    {"name": "debit", "datatype": dbt.type_float()},
+    {"name": "exchangerate", "datatype": dbt.type_float()},
+    {"name": "netamount", "datatype": dbt.type_float()},
+    {"name": "posting", "datatype": dbt.type_string()},
+    {"name": "transaction", "datatype": dbt.type_int()},
+    {"name": "transactionline", "datatype": dbt.type_int()}
+] %}
+
+{{ return(columns) }}
+
+{% endmacro %}

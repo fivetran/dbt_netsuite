@@ -1,4 +1,17 @@
-{{ config(enabled=(var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2') and var('netsuite2__using_exchange_rate', true))) }}
+{{
+    config(
+        enabled=(
+            var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')
+            and var('netsuite2__using_exchange_rate', true)
+        )
+    )
+}}
 
-select *
-from {{ var('netsuite2_consolidated_exchange_rates') }}
+{{
+    netsuite.netsuite_union_connections(
+        connection_dictionary=var('netsuite2_sources'),
+        single_source_name='netsuite2',
+        single_table_name='consolidated_exchange_rate',
+        default_identifier='consolidatedexchangerate'
+    )
+}}

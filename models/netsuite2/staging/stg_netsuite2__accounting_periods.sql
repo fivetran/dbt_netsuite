@@ -16,12 +16,15 @@ fields as (
                 staging_columns=get_netsuite2_accounting_periods_columns()
             )
         }}
+
+        {{ netsuite.apply_source_relation() }}
     from base
 ),
 
 final as (
-    
+
     select
+        source_relation,
         _fivetran_synced,
         id as accounting_period_id,
         parent as parent_id, 
@@ -38,7 +41,7 @@ final as (
         arlocked = 'T' as is_ar_locked,
         aplocked = 'T' as is_ap_locked
 
-         --The below macro adds the fields defined within your accounting_periods_pass_through_columns variable into the staging model
+        --The below macro adds the fields defined within your accounting_periods_pass_through_columns variable into the staging model
         {{ netsuite.fill_pass_through_columns(var('accounting_periods_pass_through_columns', [])) }}
 
         

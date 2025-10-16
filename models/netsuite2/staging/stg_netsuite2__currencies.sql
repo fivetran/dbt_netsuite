@@ -15,12 +15,15 @@ fields as (
                 staging_columns=get_netsuite2_currencies_columns()
             )
         }}
+
+        {{ netsuite.apply_source_relation() }}
     from base
 ),
 
 final as (
-    
+
     select
+        source_relation,
         _fivetran_synced,
         id as currency_id,
         name,

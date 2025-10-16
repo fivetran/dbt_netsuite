@@ -14,16 +14,16 @@ location_main_address as (
 
 joined as (
 
-    select 
+    select
         locations.*,
         location_main_address.city,
         location_main_address.state,
         location_main_address.zipcode,
         location_main_address.country
-
     from locations
     left join location_main_address
         on locations.main_address_id = location_main_address.nkey
+        and locations.source_relation = location_main_address.source_relation
 )
 
 select *

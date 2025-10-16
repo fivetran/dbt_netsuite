@@ -1,3 +1,15 @@
+{%- set multibook_accounting_enabled = var('netsuite2__multibook_accounting_enabled', false) -%}
+{%- set using_to_subsidiary = var('netsuite2__using_to_subsidiary', false) -%}
+{%- set using_exchange_rate = var('netsuite2__using_exchange_rate', true) -%}
+{%- set using_vendor_categories = var('netsuite2__using_vendor_categories', true) -%}
+{%- set accounts_pass_through_columns = var('accounts_pass_through_columns', []) -%}
+{%- set departments_pass_through_columns = var('departments_pass_through_columns', []) -%}
+{%- set locations_pass_through_columns = var('locations_pass_through_columns', []) -%}
+{%- set subsidiaries_pass_through_columns = var('subsidiaries_pass_through_columns', []) -%}
+{%- set transactions_pass_through_columns = var('transactions_pass_through_columns', []) -%}
+{%- set transaction_lines_pass_through_columns = var('transaction_lines_pass_through_columns', []) -%}
+{%- set lookback_window = var('lookback_window', 3) -%}
+
 {{
     config(
         enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
@@ -19,7 +31,7 @@ with transaction_lines as (
     from {{ ref('int_netsuite2__transaction_lines') }}
 
     {% if is_incremental() %}
-    where cast(_fivetran_synced as date) >= {{ netsuite.netsuite_lookback(from_date='max(transaction_line_fivetran_synced_date)', datepart='day', interval=var('lookback_window', 3)) }}
+    where cast(_fivetran_synced as date) >= {{ netsuite.netsuite_lookback(from_date='max(transaction_line_fivetran_synced_date)', datepart='day', interval=lookback_window) }}
     {% endif %}
 ),
 
@@ -54,7 +66,7 @@ customers as (
 ),
 
 items as (
-    select * 
+    select *
     from {{ ref('stg_netsuite2__items') }}
 ),
 
@@ -63,25 +75,30 @@ locations as (
     from {{ ref('int_netsuite2__locations') }}
 ),
 
+nexuses as (
+    select *
+    from {{ ref('stg_netsuite2__nexuses') }}
+),
+
 vendors as (
     select * 
     from {{ ref('stg_netsuite2__vendors') }}
 ),
 
-{% if var('netsuite2__using_vendor_categories', true) %}
+{% if using_vendor_categories %}
 vendor_categories as (
-    select * 
+    select *
     from {{ ref('stg_netsuite2__vendor_categories') }}
 ),
 {% endif %}
 
 departments as (
-    select * 
+    select *
     from {{ ref('stg_netsuite2__departments') }}
 ),
 
 currencies as (
-    select * 
+    select *
     from {{ ref('stg_netsuite2__currencies') }}
 ),
 
@@ -90,20 +107,29 @@ classes as (
     from {{ ref('stg_netsuite2__classes') }}
 ),
 
+primary_subsidiary_calendar as (
+    select 
+      fiscal_calendar_id, 
+      source_relation 
+    from subsidiaries 
+    where parent_id is null
+),
+
 transaction_details as (
   select
 
-    {% if var('netsuite2__multibook_accounting_enabled', false) %}
+    {% if multibook_accounting_enabled %}
     transaction_lines.accounting_book_id,
     transaction_lines.accounting_book_name,
     {% endif %}
 
-    {% if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
+    {% if using_to_subsidiary and using_exchange_rate %}
     transactions_with_converted_amounts.to_subsidiary_id,
     transactions_with_converted_amounts.to_subsidiary_name,
     transactions_with_converted_amounts.to_subsidiary_currency_symbol,
     {% endif %}
 
+    transaction_lines.source_relation,
     transaction_lines.transaction_line_id,
     transaction_lines.memo as transaction_memo,
     not transaction_lines.is_posting as is_transaction_non_posting,
@@ -115,6 +141,15 @@ transaction_details as (
     transactions.transaction_date,
     transactions.due_date_at as transaction_due_date,
     transactions.transaction_type as transaction_type,
+    transactions.nexus_id,
+    nexuses.country as nexus_country,
+    nexuses.state as nexus_state,
+    nexuses.tax_agency_id,
+    vendors__nexuses.alt_name as tax_agency_alt_name,
+    transactions.is_nexus_override,
+    transactions.is_tax_details_override,
+    transactions.tax_point_date,
+    transactions.is_tax_point_date_override,
     transaction_lines.transaction_line_fivetran_synced_date,
     transactions.transaction_number,
     coalesce(transaction_lines.entity_id, transactions.entity_id) as entity_id,
@@ -126,11 +161,11 @@ transaction_details as (
 
     --The below script allows for transactions table pass through columns.
     
-    {{ netsuite.persist_pass_through_columns(var('transactions_pass_through_columns', []), identifier='transactions') }}
+    {{ netsuite.persist_pass_through_columns(transactions_pass_through_columns, identifier='transactions') }}
 
     --The below script allows for transaction lines table pass through columns.
     
-    {{ netsuite.persist_pass_through_columns(var('transaction_lines_pass_through_columns', []), identifier='transaction_lines') }},
+    {{ netsuite.persist_pass_through_columns(transaction_lines_pass_through_columns, identifier='transaction_lines') }},
 
     accounting_periods.ending_at as accounting_period_ending,
     accounting_periods.name as accounting_period_name,
@@ -145,7 +180,7 @@ transaction_details as (
     accounts.account_number
 
     --The below script allows for accounts table pass through columns.
-    {{ netsuite.persist_pass_through_columns(var('accounts_pass_through_columns', []), identifier='accounts') }},
+    {{ netsuite.persist_pass_through_columns(accounts_pass_through_columns, identifier='accounts') }},
 
     accounts.is_leftside as is_account_leftside,
     lower(accounts.account_type_id) = 'acctpay' as is_accounts_payable,
@@ -204,9 +239,9 @@ transaction_details as (
     locations.country as location_country
 
     -- The below script allows for locations table pass through columns.
-    {{ netsuite.persist_pass_through_columns(var('locations_pass_through_columns', []), identifier='locations') }},
+    {{ netsuite.persist_pass_through_columns(locations_pass_through_columns, identifier='locations') }},
 
-    {% if var('netsuite2__using_vendor_categories', true) %}
+    {% if using_vendor_categories %}
     case 
       when lower(transactions.transaction_type) in ('vendbill', 'vendcred') then vendor_categories__transactions.vendor_category_id
       else vendor_categories__transaction_lines.vendor_category_id
@@ -216,6 +251,7 @@ transaction_details as (
       else vendor_categories__transaction_lines.name
         end as vendor_category_name,
     {% endif %}
+
     case 
       when lower(transactions.transaction_type) in ('vendbill', 'vendcred') then vendors__transactions.vendor_id
       else vendors__transaction_lines.vendor_id
@@ -241,7 +277,7 @@ transaction_details as (
     departments.name as department_name
 
     --The below script allows for departments table pass through columns.
-    {{ netsuite.persist_pass_through_columns(var('departments_pass_through_columns', []), identifier='departments') }},
+    {{ netsuite.persist_pass_through_columns(departments_pass_through_columns, identifier='departments') }},
 
     subsidiaries.subsidiary_id,
     subsidiaries.full_name as subsidiary_full_name,
@@ -249,7 +285,7 @@ transaction_details as (
     subsidiaries_currencies.symbol as subsidiary_currency_symbol
 
     --The below script allows for subsidiaries table pass through columns.
-    {{ netsuite.persist_pass_through_columns(var('subsidiaries_pass_through_columns', []), identifier='subsidiaries') }},
+    {{ netsuite.persist_pass_through_columns(subsidiaries_pass_through_columns, identifier='subsidiaries') }},
 
     case
       when lower(accounts.account_type_id) in ('income', 'othincome') then -transactions_with_converted_amounts.converted_amount_using_transaction_accounting_period
@@ -267,74 +303,106 @@ transaction_details as (
 
   join transactions
     on transactions.transaction_id = transaction_lines.transaction_id
+    and transactions.source_relation = transaction_lines.source_relation
 
   left join transactions_with_converted_amounts
     on transactions_with_converted_amounts.transaction_line_id = transaction_lines.transaction_line_id
       and transactions_with_converted_amounts.transaction_id = transaction_lines.transaction_id
-      and transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+      and transactions_with_converted_amounts.source_relation = transaction_lines.source_relation
 
-      {% if var('netsuite2__multibook_accounting_enabled', false) %}
+      and transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+      and transactions_with_converted_amounts.source_relation = transactions_with_converted_amounts.source_relation
+
+      {% if multibook_accounting_enabled %}
       and transactions_with_converted_amounts.accounting_book_id = transaction_lines.accounting_book_id
       {% endif %}
 
-  left join accounts 
+  left join accounts
     on accounts.account_id = transaction_lines.account_id
+    and accounts.source_relation = transaction_lines.source_relation
 
-  left join accounts as parent_account 
+  left join accounts as parent_account
     on parent_account.account_id = accounts.parent_id
+    and parent_account.source_relation = accounts.source_relation
 
-  left join accounting_periods 
+  left join accounting_periods
     on accounting_periods.accounting_period_id = transactions.accounting_period_id
+    and accounting_periods.source_relation = transactions.source_relation
 
   left join customers customers__transactions
     on customers__transactions.customer_id = transactions.entity_id
+    and customers__transactions.source_relation = transactions.source_relation
 
   left join customers customers__transaction_lines
     on customers__transaction_lines.customer_id = transaction_lines.entity_id
+    and customers__transaction_lines.source_relation = transaction_lines.source_relation
 
   left join classes
     on classes.class_id = transaction_lines.class_id
+    and classes.source_relation = transaction_lines.source_relation
 
-  left join items 
+  left join items
     on items.item_id = transaction_lines.item_id
+    and items.source_relation = transaction_lines.source_relation
 
-  left join locations 
+  left join locations
     on locations.location_id = transaction_lines.location_id
+    and locations.source_relation = transaction_lines.source_relation
+
+  left join nexuses
+    on nexuses.nexus_id = transactions.nexus_id
+    and nexuses.source_relation = transactions.source_relation
+
+  left join vendors vendors__nexuses
+    on vendors__nexuses.vendor_id = nexuses.tax_agency_id
+    and vendors__nexuses.source_relation = nexuses.source_relation
 
   left join vendors vendors__transactions
     on vendors__transactions.vendor_id = transactions.entity_id
+    and vendors__transactions.source_relation = transactions.source_relation
 
   left join vendors vendors__transaction_lines
     on vendors__transaction_lines.vendor_id = transaction_lines.entity_id
+    and vendors__transaction_lines.source_relation = transaction_lines.source_relation
 
-  {% if var('netsuite2__using_vendor_categories', true) %}
+  {% if using_vendor_categories %}
   left join vendor_categories vendor_categories__transactions
     on vendor_categories__transactions.vendor_category_id = vendors__transactions.vendor_category_id
+    and vendor_categories__transactions.source_relation = vendors__transactions.source_relation
 
   left join vendor_categories vendor_categories__transaction_lines
     on vendor_categories__transaction_lines.vendor_category_id = vendors__transaction_lines.vendor_category_id
+    and vendor_categories__transaction_lines.source_relation = vendors__transaction_lines.source_relation
   {% endif %}
 
-  left join currencies 
+  left join currencies
     on currencies.currency_id = transactions.currency_id
+    and currencies.source_relation = transactions.source_relation
 
-  left join departments 
+  left join departments
     on departments.department_id = transaction_lines.department_id
+    and departments.source_relation = transaction_lines.source_relation
 
-  join subsidiaries 
+  join subsidiaries
     on subsidiaries.subsidiary_id = transaction_lines.subsidiary_id
- 
+    and subsidiaries.source_relation = transaction_lines.source_relation
+
   left join currencies subsidiaries_currencies
     on subsidiaries_currencies.currency_id = subsidiaries.currency_id
+    and subsidiaries_currencies.source_relation = subsidiaries.source_relation
   
-  where (accounting_periods.fiscal_calendar_id is null
-    or accounting_periods.fiscal_calendar_id  = (select fiscal_calendar_id from subsidiaries where parent_id is null))
+  left join primary_subsidiary_calendar
+    on accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
+    and accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
+    
+  where accounting_periods.fiscal_calendar_id is null
+    or primary_subsidiary_calendar.fiscal_calendar_id is not null
 ),
 
 surrogate_key as ( 
-    {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id'] %}
-    {% do surrogate_key_fields.append('to_subsidiary_id') if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
-    {% do surrogate_key_fields.append('accounting_book_id') if var('netsuite2__multibook_accounting_enabled', false) %}
+    {% set surrogate_key_fields = ['source_relation', 'transaction_line_id', 'transaction_id'] %}
+    {% do surrogate_key_fields.append('to_subsidiary_id') if using_to_subsidiary and using_exchange_rate %}
+    {% do surrogate_key_fields.append('accounting_book_id') if multibook_accounting_enabled %}
 
     select 
         *,

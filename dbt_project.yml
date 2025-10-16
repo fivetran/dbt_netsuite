@@ -1,6 +1,6 @@
 config-version: 2
 name: 'netsuite'
-version: '1.0.0'
+version: '1.1.0'
 require-dbt-version: [">=1.3.0", "<2.0.0"]
 
 models:
@@ -50,6 +50,7 @@ vars:
     netsuite2_consolidated_exchange_rates: "{{ source('netsuite2', 'consolidated_exchange_rate') }}"
     netsuite2_currencies: "{{ source('netsuite2', 'currency') }}"
     netsuite2_customers: "{{ source('netsuite2', 'customer') }}"
+    netsuite2_customer_subsidiary_relationships: "{{ source('netsuite2', 'customer_subsidiary_relationship') }}"
     netsuite2_departments: "{{ source('netsuite2', 'department') }}"
     netsuite2_employees: "{{ source('netsuite2', 'employee') }}"
     netsuite2_entities: "{{ source('netsuite2', 'entity') }}"
@@ -58,12 +59,14 @@ vars:
     netsuite2_jobs: "{{ source('netsuite2', 'job') }}"
     netsuite2_location_main_address: "{{ source('netsuite2', 'location_main_address') }}"
     netsuite2_locations: "{{ source('netsuite2', 'location') }}"
+    netsuite2_nexuses: "{{ source('netsuite2','nexus') }}"
     netsuite2_subsidiaries: "{{ source('netsuite2', 'subsidiary') }}"
     netsuite2_transaction_accounting_lines: "{{ source('netsuite2', 'transaction_accounting_line') }}"
     netsuite2_transaction_lines: "{{ source('netsuite2', 'transaction_line') }}"
     netsuite2_transactions: "{{ source('netsuite2', 'transaction') }}"
     netsuite2_vendor_categories: "{{ source('netsuite2', 'vendor_category') }}"
     netsuite2_vendors: "{{ source('netsuite2', 'vendor') }}"
+    netsuite2_vendor_subsidiary_relationships: "{{ source('netsuite2', 'vendor_subsidiary_relationship') }}"
 
     accounts_pass_through_columns: []
     accounting_periods_pass_through_columns: []
@@ -77,6 +80,8 @@ vars:
     balance_sheet_transaction_detail_columns: []
     income_statement_transaction_detail_columns: []
     consolidated_exchange_rates_pass_through_columns: []
+    nexuses_pass_through_columns: []
     vendors_pass_through_columns: []
     items_pass_through_columns: []
     entities_pass_through_columns: []
+    netsuite2_sources: []

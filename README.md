@@ -17,29 +17,41 @@
 
 ## What does this dbt package do?
 - Produces modeled tables that leverage Netsuite data from [Fivetran's connector](https://fivetran.com/docs/applications/netsuite) in the format described by [this ERD](https://fivetran.com/docs/applications/netsuite#schemainformation).
-- Enables users to insights into their netsuite data that can be used for financial statement reporting and deeper transactional analysis. This is achieved by the following:
+- Enables users to gain insights into their netsuite data that can be used for financial statement reporting and deeper transactional analysis. This is achieved by the following:
     - Recreating both the balance sheet and income statement
     - Recreating commonly used data by using the transaction lines as the base table and joining other data
 - Generates a comprehensive data dictionary of your source and modeled Netsuite data through the [dbt docs site](https://fivetran.github.io/dbt_netsuite/).
 
 <!--section="netsuite_transformation_model"-->
-The following table provides a detailed list of all tables materialized within this package by default.
+The following tables provide comprehensive financial reporting capabilities from your NetSuite data.
 > TIP: See more details about these tables in the package's [dbt docs site](https://fivetran.github.io/dbt_netsuite/#!/overview?g_v=1&g_e=seeds).
 
-| **Table**                | **Description**                                                                                                                                |
-| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| [netsuite__transaction_details](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite__transaction_details) or [netsuite2__transaction_details](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__transaction_details)             | All transactions with the associated accounting period, account and subsidiary information. Where applicable, you can also see data about the customer, location, item, vendor, and department. |
-| [netsuite__income_statement](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite__income_statement) or [netsuite2__income_statement](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__income_statement)             | All transaction lines necessary to generate an income statement (converted for the appropriate exchange rate of the parent subsidiary). Department, class, and location information are included for additional reporting functionality. |
-| [netsuite__balance_sheet](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite__balance_sheet) or [netsuite2__balance_sheet](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__balance_sheet)            | All transaction lines necessary to generate a balance sheet (converted for the appropriate exchange rate of the parent subsidiary). Non balance sheet transactions are categorized as either Retained Earnings or Net Income. |
+| **Table** | **Details** |
+|-----------|-------------|
+| [`netsuite2__balance_sheet`](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__balance_sheet) | Creates all transaction lines necessary to generate a balance sheet with proper currency conversion for the parent subsidiary. Non-balance sheet transactions are categorized as Retained Earnings or Net Income, with manual calculation of Cumulative Translation Adjustment.<br><br>**Example Analytics Questions:**<li>What is our current cash position and working capital across subsidiaries?<li>How has our debt-to-equity ratio changed over the past year?<li>How have retained earnings and total equity evolved across accounting periods? |
+| [`netsuite2__income_statement`](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__income_statement) | Provides all transaction lines needed for income statement generation with currency conversion and department, class, and location details for enhanced reporting capabilities.<br><br>**Example Analytics Questions:**<li>What is our gross margin by product line, department, or location?<li>How has operating income changed quarter over quarter?<li>Which expense categories are growing the fastest this period? |
+| [`netsuite2__transaction_details`](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__transaction_details) | Comprehensive transaction-level view combining transaction lines with detailed context including accounting period, account, subsidiary, customer, vendor, location, item, and department information.<br><br>**Example Analytics Questions:**<li>Which customers or vendors generate the highest transaction volumes?<li>What are the most common transaction types by subsidiary or department?<li>Which accounts show the largest transaction fluctuations month over month? |
+| [`netsuite2__entity_subsidiary_relationships`](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__entity_subsidiary_relationships) | Unified view of customer and vendor relationships across subsidiaries, showing which entities operate in which subsidiaries with primary subsidiary designations and currency details.<br><br>**Example Analytics Questions:**<li>Which customers operate across multiple subsidiaries?<li>What currencies are most commonly used by our entities?<li>Which subsidiaries have the most vendor relationships? |
 
 Many of the above reports are now configurable for [visualization via Streamlit](https://github.com/fivetran/streamlit_netsuite)! Check out some [sample reports here](https://fivetran-netsuite.streamlit.app/).
+
+### Example Visualizations
+Curious what these tables can do? Check out example visualizations from the [netsuite2__balance_sheet](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__balance_sheet) and [netsuite2__income_statement](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__income_statement) tables in the [Fivetran Netsuite Streamlit App](https://fivetran-netsuite.streamlit.app/), and see how you can use these tables in your own reporting. Below is a screenshot of an example report—explore the app for more.
+
+<p align="center">
+  <a href="https://fivetran-netsuite.streamlit.app/">
+    <img src="https://raw.githubusercontent.com/fivetran/dbt_netsuite/main/images/streamlit_example.png" alt="Fivetran Netsuite Streamlit App" width="60%">
+  </a>
+</p>
+
 ### Materialized Models
-Each Quickstart transformation job run materializes 88 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
+Each Quickstart transformation job run materializes 92 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
 <!--section-end-->
 
 ## How do I use the dbt package?
 ### Step 1: Prerequisites
-To use this dbt package, you must have At least either one Fivetran **Netsuite** (netsuite.com) or **Netsuite2** (netsuite2) connection syncing the respective tables to your destination:
+To use this dbt package, you must have at least one Fivetran **Netsuite** (netsuite.com) or **Netsuite2** (netsuite2) connection syncing the respective tables to your destination:
+
 #### Netsuite.com
 - accounts
 - accounting_periods
@@ -62,29 +74,33 @@ To use this dbt package, you must have At least either one Fivetran **Netsuite**
 
 #### Netsuite2
 - account
-- accounttype
-- accountingbooksubsidiary
-- accountingperiodfiscalcalendar
 - accountingperiod
-- accountingbook
-- consolidatedexchangerate
 - currency
 - customer
-- classification
-- department
-- entity
-- entityaddress
-- fiscalcalendar (required for non–January 1 fiscal year start)
-- item
-- job
-- location
-- locationmainaddress
 - transactionaccountingline
 - transactionline
 - transaction
 - subsidiary
 - vendor
-- vendorcategory
+- **Not required but recommended**:
+  - accounttype
+  - accountingbook
+  - accountingbooksubsidiary
+  - accountingperiodfiscalcalendar
+  - accountingbook
+  - classification
+  - consolidatedexchangerate
+  - department
+  - entity
+  - entityaddress
+  - fiscalcalendar (required for non–January 1 fiscal year start)
+  - item
+  - job
+  - location
+  - locationmainaddress
+  - nexus
+  - vendorcategory
+  - vendorsubsidiaryrelationship
 
 #### Database Compatibility
 This package is compatible with either a **BigQuery**, **Snowflake**, **Redshift**, **PostgreSQL**, or **Databricks** destination.
@@ -104,7 +120,7 @@ Include the following netsuite package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/netsuite
-    version: [">=1.0.0", "<1.1.0"]
+    version: [">=1.1.0", "<1.2.0"]
 ```
 ### Step 3: Define Netsuite.com or Netsuite2 Source
 As of April 2022 Fivetran released a new Netsuite connector version which leverages the Netsuite2 endpoint opposed to the original Netsuite.com endpoint. This package is designed to run for either or, not both. By default the `netsuite_data_model` variable for this package is set to the original `netsuite` value which runs the netsuite.com version of the package. If you would like to run the package on Netsuite2 data, you may adjust the `netsuite_data_model` variable to run the `netsuite2` version of the package.
@@ -113,7 +129,10 @@ vars:
     netsuite_data_model: netsuite2 #netsuite by default
 ```
 
+> The `netsuite_data_model` variable is automatically configured for Fivetran Quickstart users.
+
 ### Step 4: Define database and schema variables
+#### Option A: Single connection
 By default, this package runs using your destination and the `netsuite` schema. If this is not where your Netsuite data is (for example, if your netsuite schema is named `netsuite_fivetran`), add the following configuration to your root `dbt_project.yml` file:
 
 ```yml
@@ -122,30 +141,92 @@ vars:
     netsuite_schema: your_schema_name 
 ```
 
+### Option B: Union multiple connections (Netsuite2 only)
+If you have multiple Netsuite connections in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. For each source table, the package will union all of the data together and pass the unioned table into the transformations. The `source_relation` column in each model indicates the origin of each record.
+
+To use this functionality, you will need to set the netsuite2_sources variable in your root dbt_project.yml file:
+
+```yml
+# dbt_project.yml
+
+vars:
+  netsuite2_sources:
+    - database: connection_1_destination_name # Required
+      schema: connection_1_schema_name # Required
+      name: connection_1_source_name # Required only if following the step in the following subsection
+
+    - database: connection_2_destination_name
+      schema: connection_2_schema_name
+      name: connection_2_source_name
+```
+
+##### Recommended: Incorporate unioned sources into DAG
+> *If you are running the package through [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/transformations/dbt#transformationsfordbtcore), the below step is necessary in order to synchronize model runs with your Netsuite connections. Alternatively, you may choose to run the package through Fivetran [Quickstart](https://fivetran.com/docs/transformations/quickstart), which would create separate sets of models for each Netsuite source rather than one set of unioned models.*
+
+By default, this package defines one single-connection source, called `netsuite2`, which will be disabled if you are unioning multiple connections. This means that your DAG will not include your Netsuite2 sources, though the package will run successfully.
+
+To properly incorporate all of your Netsuite connections into your project's DAG:
+1. Define each of your sources in a `.yml` file in your project. Utilize the following template for the `source`-level configurations, and, **most importantly**, copy and paste the table and column-level definitions from the package's `src_netsuite2.yml` [file](https://github.com/fivetran/dbt_netsuite/blob/main/models/netsuite2/staging/src_netsuite2.yml).
+
+```yml
+# a .yml file in your root project
+sources:
+  - name: <name> # ex: Should match name in netsuite_sources
+    schema: <schema_name>
+    database: <database_name>
+    loader: fivetran
+    loaded_at_field: _fivetran_synced
+
+    freshness: # feel free to adjust to your liking
+      warn_after: {count: 72, period: hour}
+      error_after: {count: 168, period: hour}
+
+    tables: # copy and paste from netsuite/models/staging/src_netsuite2.yml - see https://support.atlassian.com/bitbucket-cloud/docs/yaml-anchors/ for how to use anchors to only do so once
+```
+
+> **Note**: If there are source tables you do not have (see [Step 4](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#step-4-disable-models-for-non-existent-sources)), you may still include them, as long as you have set the right variables to `False`. Otherwise, you may remove them from your source definition.
+
+2. Set the `has_defined_sources` variable (scoped to the `netsuite` package) to `True`, like such:
+```yml
+# dbt_project.yml
+vars:
+  netsuite:
+    has_defined_sources: true
+```
+
 ### Step 5: Disable models for non-existent sources (Netsuite2 only)
+
+> _This step is unnecessary (but still available for use) if you are unioning multiple connectors together in the previous step. That is, the `union_data` macro we use will create completely empty staging models for sources that are not found in any of your Netsuite2 schemas/databases. However, you can still leverage the below variables if you would like to avoid this behavior._
+
 Your Netsuite connection may not sync every table that this package expects. If your syncs exclude certain tables, it is because you either don't use that feature in Netsuite or actively excluded some tables from your syncs. To disable the corresponding functionality in the package, you must add the relevant variables. By default, most variables are assumed to be true with the exception of `netsuite2__fiscal_calendar_enabled`. Add variables for only the tables you would like to disable/enable:
 ```yml
 vars:
-    netsuite2__multibook_accounting_enabled: true # False by default. Disable `accountingbooksubsidiary` and `accountingbook` if you are not using the Multi-Book Accounting feature
-    netsuite2__using_exchange_rate: false #True by default. Disable `exchange_rate` if you don't utilize exchange rates.
-    netsuite2__using_vendor_categories: false # True by default. Disable `vendorcategory` if you don't categorize your vendors
-    netsuite2__using_jobs: false # True by default. Disable `job` if you don't use jobs
-    netsuite2__using_employees: false # True by default. Disable `employee` if you don't use employees.
+    # Features
     netsuite2__fiscal_calendar_enabled: true # False by default. Enable `fiscalcalendar` if you have a fiscal year starting on a month different than January.
+    netsuite2__multibook_accounting_enabled: true # False by default. Disable `accountingbooksubsidiary` and `accountingbook` if you are not using the Multi-Book Accounting feature
+
+    # Sources
+    netsuite2__using_employees: false # True by default. Disable `employee` if you don't use employees.
+    netsuite2__using_exchange_rate: false #True by default. Disable `exchange_rate` if you don't utilize exchange rates.
+    netsuite2__using_jobs: false # True by default. Disable `job` if you don't use jobs
+    netsuite2__using_vendor_categories: false # True by default. Disable `vendorcategory` if you don't categorize your vendors
+    netsuite2__using_customer_subsidiary_relationships: false # True by default. Disable `customersubsidiaryrelationships` if you don't use this table
+    netsuite2__using_vendor_subsidiary_relationships: false # True by default. Disable `vendorsubsidiaryrelationships` if you don't use this table
 ```
-> **Note**: The Netsuite dbt package currently only supports disabling transforms of [Multi-Book Accounting](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/book_3831565332.html) related tables (`accountingbooksubsidiary` and `accountingbook`) and the `vendorcategory` and `job` source tables. Please create an issue to request additional tables and/or [features](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/bridgehead_N233872.html) to exclude.
+> **Note**: The Netsuite dbt package currently only supports disabling of the previously listed source tables. Please create an issue to request additional tables and/or [features](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/bridgehead_N233872.html) to exclude.
 >
 > To determine if a table or field is activated by a feature, access the [Records Catalog](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/article_159367781370.html).
 
-### (Optional) Step 6: Additional configurations
+## (Optional) Step 6: Additional configurations
+<details open><summary>Expand/collapse configurations</summary>
 
 #### Enable additional features
 
 #### Multi-Book (Netsuite2 only)
 To include `accounting_book_id` and `accounting_book_name` columns in the end models, set the below variable to `true` in your `dbt_project.yml`. This feature is disabled by default.
-
+> **Note**: The Netsuite dbt package currently only supports disabling of the source tables listed above. Please create an issue to request additional tables and/or [features](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/bridgehead_N233872.html) to exclude.
 >Notes:
-> - If you choose to enable this feature, this will add rows for transactions for any non-primary `accounting_book_id`, and your downstream use cases may need to be adjusted.
+> - If you choose to enable this feature, this adds rows for transactions for any non-primary `accounting_book_id`, and your downstream use cases may need to be adjusted.
 > - The surrogate keys for the end models are dynamically generated depending on the enabled/disabled features, so adding these rows will not cause test failures.
 > - If you are leveraging a `*_pass_through_columns` variable to include the added columns, you may need to remove them to avoid a duplicate column error.
 ```yml
@@ -153,13 +234,13 @@ vars:
     netsuite2__multibook_accounting_enabled: true # False by default.
 ```
 
-**IMPORTANT**: If you are using multi-book accounting, this variable must be set to true, or you will see test failures in your data. 
+**IMPORTANT**: If you are using multi-book accounting, this variable must be set to true, or you see test failures in your data. 
 
 #### To Subsidiary (Netsuite2 only)
-To include `to_subsidiary_id` and `to_subsidiary_name` columns in the end models, set the below variable to `true` in your `dbt_project.yml`. This feature is disabled by default. You will also need to be using exchange rates, which is enabled by default.
+To include `to_subsidiary_id` and `to_subsidiary_name` columns in the end models, set the below variable to `true` in your `dbt_project.yml`. This feature is disabled by default. You also need to be using exchange rates, which is enabled by default.
 
 >Notes:
-> - If you choose to enable this feature, this will add rows for transactions where `to_subsidiary` is not a top-level subsidiary. Your downstream use cases may need to be adjusted.
+> - If you choose to enable this feature, this adds rows for transactions where `to_subsidiary` is not a top-level subsidiary. Your downstream use cases may need to be adjusted.
 > - The surrogate keys for the end models are dynamically generated depending on the enabled/disabled features, so adding these rows will not cause test failures.
 > - If you are leveraging a `*_pass_through_columns` variable to include the added columns, you may need to remove them to avoid a duplicate column error.
 
@@ -209,7 +290,8 @@ vars:
           alias: "vendors_field"
     items_pass_through_columns: # Not included in end models; only in stg items models
         - name: "items_custom_field"
-          alias: "items_field"
+    nexuses_pass_through_columns: # Not included in end models; only in stg items models
+        - name: "items_custom_field"
 ```
 
 > If you would like any of the above passthrough columns to be persisted to additional downstream models (i.e. `netsuite2__income_statement`, `netsuite2__balance_sheet`, `netsuite2__transaction_details`), or passthrough column support for other source tables, please create a Feature Request [issue](https://github.com/fivetran/dbt_netsuite/issues).

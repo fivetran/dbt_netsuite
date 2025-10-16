@@ -1,3 +1,12 @@
+{%- set multibook_accounting_enabled = var('netsuite2__multibook_accounting_enabled', false) -%}
+{%- set using_to_subsidiary = var('netsuite2__using_to_subsidiary', false) -%}
+{%- set using_exchange_rate = var('netsuite2__using_exchange_rate', true) -%}
+{%- set income_statement_transaction_detail_columns = var('income_statement_transaction_detail_columns', []) -%}
+{%- set accounts_pass_through_columns = var('accounts_pass_through_columns', []) -%}
+{%- set classes_pass_through_columns = var('classes_pass_through_columns', []) -%}
+{%- set departments_pass_through_columns = var('departments_pass_through_columns', []) -%}
+{%- set lookback_window = var('lookback_window', 3) -%}
+
 {{
     config(
         enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
@@ -16,12 +25,12 @@ with transactions_with_converted_amounts as (
     from {{ ref('int_netsuite2__tran_with_converted_amounts') }}
 
     {% if is_incremental() %}
-    where _fivetran_synced_date >= {{ netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=var('lookback_window', 3))  }}
+    where _fivetran_synced_date >= {{ netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=lookback_window)  }}
     {% endif %}
 ), 
 
 --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
-{% if var('income_statement_transaction_detail_columns') != []%}
+{% if income_statement_transaction_detail_columns != [] %}
 transaction_details as (
     select * 
     from {{ ref('netsuite2__transaction_details') }}
@@ -68,18 +77,27 @@ departments as (
     from {{ ref('stg_netsuite2__departments') }}
 ),
 
+primary_subsidiary_calendar as (
+    select 
+        fiscal_calendar_id, 
+        source_relation 
+    from subsidiaries 
+    where parent_id is null
+),
+
 income_statement as (
     select
+        transactions_with_converted_amounts.source_relation,
         transactions_with_converted_amounts.transaction_id,
         transactions_with_converted_amounts.transaction_line_id,
         transactions_with_converted_amounts._fivetran_synced_date,
 
-        {% if var('netsuite2__multibook_accounting_enabled', false) %}
+        {% if multibook_accounting_enabled %}
         transactions_with_converted_amounts.accounting_book_id,
         transactions_with_converted_amounts.accounting_book_name,
         {% endif %}
 
-        {% if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
+        {% if using_to_subsidiary and using_exchange_rate %}
         transactions_with_converted_amounts.to_subsidiary_id,
         transactions_with_converted_amounts.to_subsidiary_name,
         transactions_with_converted_amounts.to_subsidiary_currency_symbol,
@@ -102,14 +120,14 @@ income_statement as (
         subsidiaries_currencies.symbol as subsidiary_currency_symbol
 
         --The below script allows for accounts table pass through columns.
-        {{ netsuite.persist_pass_through_columns(var('accounts_pass_through_columns', []), identifier='accounts') }},
+        {{ netsuite.persist_pass_through_columns(accounts_pass_through_columns, identifier='accounts') }},
 
         {{ dbt.concat(['accounts.account_number',"'-'", 'accounts.name']) }} as account_number_and_name,
         classes.class_id,
         classes.full_name as class_full_name
 
         --The below script allows for accounts table pass through columns.
-        {{ netsuite.persist_pass_through_columns(var('classes_pass_through_columns', []), identifier='classes') }},
+        {{ netsuite.persist_pass_through_columns(classes_pass_through_columns, identifier='classes') }},
 
         locations.location_id,
         locations.full_name as location_full_name,
@@ -117,7 +135,7 @@ income_statement as (
         departments.full_name as department_full_name
 
         --The below script allows for departments table pass through columns.
-        {{ netsuite.persist_pass_through_columns(var('departments_pass_through_columns', []), identifier='departments') }},
+        {{ netsuite.persist_pass_through_columns(departments_pass_through_columns, identifier='departments') }},
 
         transactions_with_converted_amounts.account_category as account_category,
         case when lower(accounts.account_type_id) = 'income' then 1
@@ -129,9 +147,9 @@ income_statement as (
             end as income_statement_sort_helper
 
         --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
-        {% if var('income_statement_transaction_detail_columns') %}
+        {% if income_statement_transaction_detail_columns != [] %}
 
-        , transaction_details.{{ var('income_statement_transaction_detail_columns') | join (", transaction_details.")}}
+        , transaction_details.{{ income_statement_transaction_detail_columns | join (", transaction_details.") }}
 
         {% endif %}
 
@@ -144,56 +162,68 @@ income_statement as (
     join transaction_lines as transaction_lines
         on transaction_lines.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
             and transaction_lines.transaction_id = transactions_with_converted_amounts.transaction_id
+            and transaction_lines.source_relation = transactions_with_converted_amounts.source_relation
 
-            {% if var('netsuite2__multibook_accounting_enabled', false) %}
+            {% if multibook_accounting_enabled %}
             and transaction_lines.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
             {% endif %}
 
-    left join departments 
+    left join departments
         on departments.department_id = transaction_lines.department_id
+        and departments.source_relation = transaction_lines.source_relation
     
-    left join accounts 
+    left join accounts
         on accounts.account_id = transactions_with_converted_amounts.account_id
+        and accounts.source_relation = transactions_with_converted_amounts.source_relation
 
     left join locations
         on locations.location_id = transaction_lines.location_id
+        and locations.source_relation = transaction_lines.source_relation
 
-    left join classes 
+    left join classes
         on classes.class_id = transaction_lines.class_id
+        and classes.source_relation = transaction_lines.source_relation
 
-    left join accounting_periods as reporting_accounting_periods 
+    left join accounting_periods as reporting_accounting_periods
         on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+        and reporting_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
     
     left join subsidiaries
         on transactions_with_converted_amounts.subsidiary_id = subsidiaries.subsidiary_id
+        and transactions_with_converted_amounts.source_relation = subsidiaries.source_relation
 
     left join currencies subsidiaries_currencies
         on subsidiaries_currencies.currency_id = subsidiaries.currency_id
+        and subsidiaries_currencies.source_relation = subsidiaries.source_relation
 
     --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
-    {% if var('income_statement_transaction_detail_columns') != []%}
+    {% if income_statement_transaction_detail_columns != [] %}
     join transaction_details
         on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
         and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
+        and transaction_details.source_relation = transactions_with_converted_amounts.source_relation
         
-        {% if var('netsuite2__multibook_accounting_enabled', false) %}
+        {% if multibook_accounting_enabled %}
         and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
         {% endif %}
 
-        {% if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
+        {% if using_to_subsidiary and using_exchange_rate %}
         and transaction_details.to_subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
         {% endif %}
     {% endif %}
 
-    where reporting_accounting_periods.fiscal_calendar_id  = (select fiscal_calendar_id from subsidiaries where parent_id is null)
-        and transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+    join primary_subsidiary_calendar 
+        on reporting_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
+        and reporting_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
+
+    where transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
         and transactions_with_converted_amounts.is_income_statement
 ),
 
 surrogate_key as ( 
-    {% set surrogate_key_fields = ['transaction_line_id', 'transaction_id', 'accounting_period_id', 'account_name'] %}
-    {% do surrogate_key_fields.append('to_subsidiary_id') if var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) %}
-    {% do surrogate_key_fields.append('accounting_book_id') if var('netsuite2__multibook_accounting_enabled', false) %}
+    {% set surrogate_key_fields = ['source_relation', 'transaction_line_id', 'transaction_id', 'accounting_period_id', 'account_name'] %}
+    {% do surrogate_key_fields.append('to_subsidiary_id') if using_to_subsidiary and using_exchange_rate %}
+    {% do surrogate_key_fields.append('accounting_book_id') if multibook_accounting_enabled %}
 
     select 
         *,

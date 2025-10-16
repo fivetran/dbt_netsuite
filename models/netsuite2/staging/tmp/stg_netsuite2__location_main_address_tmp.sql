@@ -1,4 +1,10 @@
 {{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
 
-select * 
-from {{ var('netsuite2_location_main_address') }}
+{{
+    netsuite.netsuite_union_connections(
+        connection_dictionary=var('netsuite2_sources'),
+        single_source_name='netsuite2',
+        single_table_name='location_main_address',
+        default_identifier='locationmainaddress'
+    )
+}}
