@@ -105,6 +105,7 @@ income_statement as (
 
         reporting_accounting_periods.accounting_period_id as accounting_period_id,
         reporting_accounting_periods.ending_at as accounting_period_ending,
+        reporting_accounting_periods.full_name as accounting_period_full_name,
         reporting_accounting_periods.name as accounting_period_name,
         reporting_accounting_periods.is_adjustment as is_accounting_period_adjustment,
         reporting_accounting_periods.is_closed as is_accounting_period_closed,

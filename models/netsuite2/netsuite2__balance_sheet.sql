@@ -54,14 +54,6 @@ currencies as (
     select *
     from {{ ref('stg_netsuite2__currencies') }}
 ),
-    
-primary_subsidiary_calendar as (
-    select 
-        fiscal_calendar_id, 
-        source_relation 
-    from subsidiaries 
-    where parent_id is null
-),
 
 balance_sheet as ( 
     select
@@ -87,6 +79,7 @@ balance_sheet as (
 
         reporting_accounting_periods.accounting_period_id as accounting_period_id,
         reporting_accounting_periods.ending_at as accounting_period_ending,
+        reporting_accounting_periods.full_name as accounting_period_full_name,
         reporting_accounting_periods.name as accounting_period_name,
         reporting_accounting_periods.is_adjustment as is_accounting_period_adjustment,
         reporting_accounting_periods.is_closed as is_accounting_period_closed,
@@ -211,28 +204,27 @@ balance_sheet as (
         on accounts.account_id = transactions_with_converted_amounts.account_id
         and accounts.source_relation = transactions_with_converted_amounts.source_relation
 
-    left join accounting_periods as reporting_accounting_periods
-        on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
-        and reporting_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
-
-    left join accounting_periods as transaction_accounting_periods
-        on transaction_accounting_periods.accounting_period_id = transactions_with_converted_amounts.transaction_accounting_period_id
-        and transaction_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
-
     left join subsidiaries
         on subsidiaries.subsidiary_id = transactions_with_converted_amounts.subsidiary_id
         and subsidiaries.source_relation = transactions_with_converted_amounts.source_relation
 
+    left join subsidiaries to_subsidiaries
+        on to_subsidiaries.subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
+        and to_subsidiaries.source_relation = transactions_with_converted_amounts.source_relation
+
+    left join accounting_periods as reporting_accounting_periods 
+        on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+        and reporting_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
+        and reporting_accounting_periods.fiscal_calendar_id = to_subsidiaries.fiscal_calendar_id
+
+    left join accounting_periods as transaction_accounting_periods
+        on transaction_accounting_periods.accounting_period_id = transactions_with_converted_amounts.transaction_accounting_period_id
+        and transaction_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
+        and transaction_accounting_periods.fiscal_calendar_id = to_subsidiaries.fiscal_calendar_id
+
     left join currencies subsidiaries_currencies
         on subsidiaries_currencies.currency_id = subsidiaries.currency_id
         and subsidiaries_currencies.source_relation = subsidiaries.source_relation
-
-    join primary_subsidiary_calendar 
-        on reporting_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
-        and reporting_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
-
-        and transaction_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
-        and transaction_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
 
     where accounts.is_balancesheet 
         or transactions_with_converted_amounts.is_income_statement
@@ -262,6 +254,7 @@ balance_sheet as (
         
         reporting_accounting_periods.accounting_period_id as accounting_period_id,
         reporting_accounting_periods.ending_at as accounting_period_ending,
+        reporting_accounting_periods.full_name as accounting_period_full_name,
         reporting_accounting_periods.name as accounting_period_name,
         reporting_accounting_periods.is_adjustment as is_accounting_period_adjustment,
         reporting_accounting_periods.is_closed as is_accounting_period_closed,
@@ -319,21 +312,22 @@ balance_sheet as (
         on accounts.account_id = transactions_with_converted_amounts.account_id
         and accounts.source_relation = transactions_with_converted_amounts.source_relation
 
-    left join accounting_periods as reporting_accounting_periods
-        on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
-        and reporting_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
-
     left join subsidiaries
         on subsidiaries.subsidiary_id = transactions_with_converted_amounts.subsidiary_id
         and subsidiaries.source_relation = transactions_with_converted_amounts.source_relation
 
+    left join subsidiaries to_subsidiaries
+        on to_subsidiaries.subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
+        and to_subsidiaries.source_relation = transactions_with_converted_amounts.source_relation
+
+    left join accounting_periods as reporting_accounting_periods 
+        on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+        and reporting_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
+        and reporting_accounting_periods.fiscal_calendar_id = to_subsidiaries.fiscal_calendar_id
+
     left join currencies subsidiaries_currencies
         on subsidiaries_currencies.currency_id = subsidiaries.currency_id
         and subsidiaries_currencies.source_relation = subsidiaries.source_relation
-
-    join primary_subsidiary_calendar 
-        on reporting_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
-        and reporting_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
 
     where accounts.is_balancesheet
         or transactions_with_converted_amounts.is_income_statement

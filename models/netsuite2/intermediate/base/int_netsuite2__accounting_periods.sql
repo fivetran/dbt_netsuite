@@ -22,6 +22,7 @@ joined as (
     select
         accounting_periods.*,
         accounting_period_fiscal_calendars.fiscal_calendar_id,
+        accounting_period_fiscal_calendars.full_name,
         fiscal_calendar.fiscal_month
     from accounting_periods
 
