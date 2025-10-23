@@ -8,7 +8,7 @@
 {%- set subsidiaries_pass_through_columns = var('subsidiaries_pass_through_columns', []) -%}
 {%- set transactions_pass_through_columns = var('transactions_pass_through_columns', []) -%}
 {%- set transaction_lines_pass_through_columns = var('transaction_lines_pass_through_columns', []) -%}
-{%- set lookback_window_date = netsuite.netsuite_lookback(from_date='max(transaction_line_fivetran_synced_date)', datepart='day', interval=var('lookback_window', 3)) -%}
+{%- set lookback_window = var('lookback_window', 3) -%}
 
 {{
     config(
@@ -19,7 +19,8 @@
         cluster_by = ['transaction_id'],
         unique_key='transaction_details_id',
         incremental_strategy = 'merge' if target.type in ('bigquery', 'databricks', 'spark') else 'delete+insert',
-        file_format='delta'
+        file_format='delta',
+        post_hook = "{{ remove_deleted_rows_post_hook('stg_netsuite2__transactions_tmp', 'id', 'transaction_id') }}"
     )
 }}
 
@@ -68,6 +69,21 @@ subsidiaries as (
     from {{ ref('stg_netsuite2__subsidiaries') }}
 ),
 
+nexuses as (
+    select *
+    from {{ ref('stg_netsuite2__nexuses') }}
+),
+
+vendor_categories as (
+    select *
+    from {{ ref('stg_netsuite2__vendor_categories') }}
+),
+
+currencies as (
+    select *
+    from {{ ref('stg_netsuite2__currencies') }}
+),
+
 base_transaction_lines as (
     select *
     from {{ ref('int_netsuite2__transaction_lines') }}
@@ -80,6 +96,7 @@ transaction_lines as (
     from base_transaction_lines
 
     {% if is_incremental() %}
+    {%- set lookback_window_date = netsuite.netsuite_lookback(from_date='max(transaction_line_fivetran_synced_date)', datepart='day', interval=lookback_window) -%}
     where cast(_fivetran_synced as date) >= {{ lookback_window_date }}
 
     --- Include transaction lines with updated dimensional attributes
@@ -180,45 +197,62 @@ transactions_with_converted_amounts as (
     from {{ ref('int_netsuite2__tran_with_converted_amounts') }}
 ),
 
-accounts as (
-    select * 
-    from {{ ref('int_netsuite2__accounts') }}
-),
-
 accounting_periods as (
     select * 
     from {{ ref('int_netsuite2__accounting_periods') }}
 ),
 
-subsidiaries as (
-    select * 
-    from {{ ref('stg_netsuite2__subsidiaries') }}
+primary_subsidiary_calendar as (
+    select 
+      fiscal_calendar_id, 
+      source_relation 
+    from subsidiaries 
+    where parent_id is null
 ),
 
-transactions as (
-    select * 
-    from {{ ref('stg_netsuite2__transactions') }}
-),
+transaction_details as (
+  select
 
-customers as (
-    select * 
-    from {{ ref('int_netsuite2__customers') }}
-),
+    {% if multibook_accounting_enabled %}
+    transaction_lines.accounting_book_id,
+    transaction_lines.accounting_book_name,
+    {% endif %}
 
-items as (
-    select *
-    from {{ ref('stg_netsuite2__items') }}
-),
+    {% if using_to_subsidiary and using_exchange_rate %}
+    transactions_with_converted_amounts.to_subsidiary_id,
+    transactions_with_converted_amounts.to_subsidiary_name,
+    transactions_with_converted_amounts.to_subsidiary_currency_symbol,
+    {% endif %}
 
-locations as (
-    select * 
-    from {{ ref('int_netsuite2__locations') }}
-    {{ netsuite.persist_pass_through_columns(departments_pass_through_columns, identifier='departments') }},
-
-    subsidiaries.subsidiary_id,
-    subsidiaries.full_name as subsidiary_full_name,
-    subsidiaries.name as subsidiary_name,
-    subsidiaries_currencies.symbol as subsidiary_currency_symbol
+    transaction_lines.source_relation,
+    transaction_lines.transaction_line_id,
+    transaction_lines.memo as transaction_memo,
+    not transaction_lines.is_posting as is_transaction_non_posting,
+    transaction_lines.is_main_line,
+    transaction_lines.is_tax_line,
+    transaction_lines.is_closed,
+    transactions.transaction_id,
+    transactions.status as transaction_status,
+    transactions.transaction_date,
+    transactions.due_date_at as transaction_due_date,
+    transactions.transaction_type as transaction_type,
+    transactions.nexus_id,
+    nexuses.country as nexus_country,
+    nexuses.state as nexus_state,
+    nexuses.tax_agency_id,
+    vendors__nexuses.alt_name as tax_agency_alt_name,
+    transactions.is_nexus_override,
+    transactions.is_tax_details_override,
+    transactions.tax_point_date,
+    transactions.is_tax_point_date_override,
+    transaction_lines.transaction_line_fivetran_synced_date,
+    transactions.transaction_number,
+    coalesce(transaction_lines.entity_id, transactions.entity_id) as entity_id,
+    transactions.is_intercompany_adjustment as is_transaction_intercompany_adjustment,
+    transactions.is_reversal,
+    transactions.reversal_transaction_id,
+    transactions.reversal_date,
+    transactions.is_reversal_defer
 
     --The below script allows for subsidiaries table pass through columns.
     {{ netsuite.persist_pass_through_columns(subsidiaries_pass_through_columns, identifier='subsidiaries') }},
