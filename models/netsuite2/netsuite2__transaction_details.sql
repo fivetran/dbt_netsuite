@@ -20,7 +20,7 @@
         unique_key='transaction_details_id',
         incremental_strategy = 'merge' if target.type in ('bigquery', 'databricks', 'spark') else 'delete+insert',
         file_format='delta',
-        post_hook = "{{ remove_deleted_rows_post_hook('stg_netsuite2__transactions_tmp', 'id', 'transaction_id') }}"
+        post_hook = "{{ remove_deleted_rows_post_hook('stg_netsuite2__transaction_lines_tmp', 'id', 'transaction_line_id') }}"
     )
 }}
 
