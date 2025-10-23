@@ -7,7 +7,7 @@
 | ------------- | ----------- | ----| --- | ----- |
 | `netsuite2__entity_subsidiary_relationships` | New model | | | Unified view combining customer and vendor subsidiary relationships |
 | `netsuite2__transaction_details` | New columns | | `nexus_id`<br>`nexus_country`<br>`nexus_state`<br>`tax_agency_id`<br>`tax_agency_alt_name`<br>`is_nexus_override`<br>`is_tax_details_override`<br>`tax_point_date`<br>`is_tax_point_date_override` | Adds nexus-related tax information.<br><br>**Breaking change**: If you already include any of these fields via the [passthrough columns](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#passing-through-additional-fields) variable `transactions_pass_through_columns`, remove them from the list to avoid duplicate column errors. |
-| `stg_netsuite2__nexuses` | New model | | | Provides access to Netsuite tax nexus data with configurable pass-through columns. See the [README](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#passing-through-additional-fields) for instructions with adding the pass-through columns. |
+| `stg_netsuite2__nexuses` | New model | | | Provides access to Netsuite tax nexus data with configurable pass-through columns. See the [README](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#passing-through-additional-fields) for instructions on adding the pass-through columns. |
 | `stg_netsuite2__customer_subsidiary_relationships` | New model | | | Maps customers to their associated subsidiaries |
 | `stg_netsuite2__vendor_subsidiary_relationships` | New model | | | Maps vendors to their associated subsidiaries |
 | `stg_netsuite2__transactions` | New columns | | `nexus_id`<br>`is_nexus_override`<br>`is_tax_details_override`<br>`tax_point_date`<br>`is_tax_point_date_override` | Adds nexus-related tax information.<br><br>**Breaking change**: If you already include any of these fields via the [passthrough columns](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#passing-through-additional-fields) variable `transactions_pass_through_columns`, remove them from the list to avoid duplicate column errors. |
@@ -16,8 +16,13 @@
 
 ## Feature Update
 - **Union Data Functionality**: This release supports running the package on multiple Netsuite source connections. See the [README](https://github.com/fivetran/dbt_netsuite/tree/main?tab=readme-ov-file#step-4-define-database-and-schema-variables) for details on how to leverage this feature.
+<<<<<<< HEAD
 - **Entity-Subsidiary Relationships**: New end model `netsuite2__entity_subsidiary_relationships` provides a unified view of both customer and vendor subsidiary relationships with enhanced metadata including currency information
 - **Nexus Support**: Adds comprehensive support for Netsuite nexus data through new staging model `stg_netsuite2__nexuses` with configurable pass-through columns. See the [README](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#passing-through-additional-fields) for instructions to configure them. 
+=======
+- **Entity-Subsidiary Relationships**: New end model `netsuite2__entity_subsidiary_relationships` provides a unified view of both customer and vendor subsidiary relationships with enhanced metadata including currency information. Unions and enhances data from `stg_netsuite2__customer_subsidiary_relationships` and `stg_netsuite2__vendor_subsidiary_relationships`.
+- **Nexus Support**: Adds comprehensive support for Netsuite nexus data through new staging model `stg_netsuite2__nexuses` with configurable pass-through columns. See the [README](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#passing-through-additional-fields) for instructions on how to configure them. 
+>>>>>>> origin/main
 - Adds Streamlit example to the README. See the [README](https://github.com/fivetran/dbt_netsuite/tree/main?tab=readme-ov-file#example-visualizations) for more details.
 
 ## Under the Hood

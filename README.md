@@ -28,10 +28,10 @@ The following tables provide comprehensive financial reporting capabilities from
 
 | **Table** | **Details** |
 |-----------|-------------|
-| [`netsuite2__balance_sheet`](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__balance_sheet) | Creates all transaction lines necessary to generate a balance sheet with proper currency conversion for the parent subsidiary. Non-balance sheet transactions are categorized as Retained Earnings or Net Income, with manual calculation of Cumulative Translation Adjustment.<br><br>**Example Analytics Questions:**<li>What is our current cash position and working capital across subsidiaries?<li>How has our debt-to-equity ratio changed over the past year?<li>How have retained earnings and total equity evolved across accounting periods? |
-| [`netsuite2__income_statement`](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__income_statement) | Provides all transaction lines needed for income statement generation with currency conversion and department, class, and location details for enhanced reporting capabilities.<br><br>**Example Analytics Questions:**<li>What is our gross margin by product line, department, or location?<li>How has operating income changed quarter over quarter?<li>Which expense categories are growing the fastest this period? |
-| [`netsuite2__transaction_details`](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__transaction_details) | Comprehensive transaction-level view combining transaction lines with detailed context including accounting period, account, subsidiary, customer, vendor, location, item, and department information.<br><br>**Example Analytics Questions:**<li>Which customers or vendors generate the highest transaction volumes?<li>What are the most common transaction types by subsidiary or department?<li>Which accounts show the largest transaction fluctuations month over month? |
-| [`netsuite2__entity_subsidiary_relationships`](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__entity_subsidiary_relationships) | Unified view of customer and vendor relationships across subsidiaries, showing which entities operate in which subsidiaries with primary subsidiary designations and currency details.<br><br>**Example Analytics Questions:**<li>Which customers operate across multiple subsidiaries?<li>What currencies are most commonly used by our entities?<li>Which subsidiaries have the most vendor relationships? |
+| [`netsuite2__balance_sheet`](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__balance_sheet) | Creates all transaction lines necessary to generate a balance sheet with proper currency conversion for the parent subsidiary. Non-balance sheet transactions are categorized as Retained Earnings or Net Income, with manual calculation of Cumulative Translation Adjustment.<br></br>**Example Analytics Questions:**<ul><li>What is our current cash position and working capital across subsidiaries?</li><li>How has our debt-to-equity ratio changed over the past year?</li><li>How have retained earnings and total equity evolved across accounting periods?</li></ul> |
+| [`netsuite2__income_statement`](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__income_statement) | Provides all transaction lines needed for income statement generation with currency conversion and department, class, and location details for enhanced reporting capabilities.<br></br>**Example Analytics Questions:**<ul><li>What is our gross margin by product line, department, or location?</li><li>How has operating income changed quarter over quarter?</li><li>Which expense categories are growing the fastest this period?</li></ul> |
+| [`netsuite2__transaction_details`](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__transaction_details) | Comprehensive transaction-level view combining transaction lines with detailed context including accounting period, account, subsidiary, customer, vendor, location, item, and department information.<br></br>**Example Analytics Questions:**<ul><li>Which customers or vendors generate the highest transaction volumes?</li><li>What are the most common transaction types by subsidiary or department?</li><li>Which accounts show the largest transaction fluctuations month over month?</li></ul> |
+| [`netsuite2__entity_subsidiary_relationships`](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__entity_subsidiary_relationships) | Unified view of customer and vendor relationships across subsidiaries, showing which entities operate in which subsidiaries with primary subsidiary designations and currency details.<br></br>**Example Analytics Questions:**<ul><li>Which customers operate across multiple subsidiaries?</li><li>What currencies are most commonly used by our entities?</li><li>Which subsidiaries have the most vendor relationships?</li></ul> |
 
 Many of the above reports are now configurable for [visualization via Streamlit](https://github.com/fivetran/streamlit_netsuite)! Check out some [sample reports here](https://fivetran-netsuite.streamlit.app/).
 
@@ -50,7 +50,8 @@ Each Quickstart transformation job run materializes 92 models if all components 
 
 ## How do I use the dbt package?
 ### Step 1: Prerequisites
-To use this dbt package, you must have At least either one Fivetran **Netsuite** (netsuite.com) or **Netsuite2** (netsuite2) connection syncing the respective tables to your destination:
+To use this dbt package, you must have at least one Fivetran **Netsuite** (netsuite.com) or **Netsuite2** (netsuite2) connection syncing the respective tables to your destination:
+
 #### Netsuite.com
 - accounts
 - accounting_periods
@@ -76,18 +77,30 @@ To use this dbt package, you must have At least either one Fivetran **Netsuite**
 - accountingperiod
 - currency
 - customer
-- classification
-- fiscalcalendar (required for non–January 1 fiscal year start)
-- item
-- job
-- location
-- locationmainaddress
 - transactionaccountingline
 - transactionline
 - transaction
 - subsidiary
 - vendor
-- vendorcategory
+- **Not required but recommended**:
+  - accounttype
+  - accountingbook
+  - accountingbooksubsidiary
+  - accountingperiodfiscalcalendar
+  - accountingbook
+  - classification
+  - consolidatedexchangerate
+  - department
+  - entity
+  - entityaddress
+  - fiscalcalendar (required for non–January 1 fiscal year start)
+  - item
+  - job
+  - location
+  - locationmainaddress
+  - nexus
+  - vendorcategory
+  - vendorsubsidiaryrelationship
 
 #### Database Compatibility
 This package is compatible with either a **BigQuery**, **Snowflake**, **Redshift**, **PostgreSQL**, or **Databricks** destination.
@@ -129,7 +142,7 @@ vars:
 ```
 
 ### Option B: Union multiple connections (Netsuite2 only)
-If you have multiple Netsuite connections in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. For each source table, the package will union all of the data together and pass the unioned table into the transformations. The source_relation column in each model indicates the origin of each record.
+If you have multiple Netsuite connections in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. For each source table, the package will union all of the data together and pass the unioned table into the transformations. The `source_relation` column in each model indicates the origin of each record.
 
 To use this functionality, you will need to set the netsuite2_sources variable in your root dbt_project.yml file:
 
@@ -277,7 +290,7 @@ vars:
           alias: "vendors_field"
     items_pass_through_columns: # Not included in end models; only in stg items models
         - name: "items_custom_field"
-     nexuses_pass_through_columns: # Not included in end models; only in stg items models
+    nexuses_pass_through_columns: # Not included in end models; only in stg items models
         - name: "items_custom_field"
 ```
 
@@ -353,6 +366,7 @@ models:
       netsuite2__balance_sheet:
         +materialized: incremental # default is table for Bigquery and Databricks
 ```
+</details>
 
 ### (Optional) Step 7: Produce Analytics-Ready Reports with Streamlit App (Bigquery and Snowflake users only)
 For those who want to take their reports a step further, our team has created the [Fivetran Netsuite Streamlit App](https://fivetran-netsuite.streamlit.app/) to generate end model visualizations based off of the reports we created in this package.  This way you can replicate much of the reporting you see internally in Netsuite and automate a lot of the work needed to report on your core metrics.

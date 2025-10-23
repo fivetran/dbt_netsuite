@@ -441,3 +441,5 @@ models:
       description: Name of the subsidiary.
     - name: entity_alt_name
       description: Alternative name of the entity.
+    - name: source_relation
+      description: "{{ doc('source_relation') }}"

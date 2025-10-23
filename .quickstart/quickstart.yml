@@ -18,6 +18,11 @@ table_variables:
     - accountingPeriodFiscalCalendars
   netsuite2__using_classification:
     - classification
+<<<<<<< HEAD
+=======
+  netsuite2__using_customer_subsidiary_relationships:
+    - CustomerSubsidiaryRelationship
+>>>>>>> origin/main
   netsuite2__using_departments:
     - department
   netsuite2__using_employees:

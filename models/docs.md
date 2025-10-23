@@ -14,8 +14,6 @@
 
 {% docs customer_subsidiary_relationship_table %} A table detailing all customer subsidiary relationships. {% enddocs %}
 
-{% docs customer_subsidiary_relationships_table %} Table detailing all customer subsidiary relationships with enhanced mapping and primary subsidiary designation. {% enddocs %}
-
 {% docs currencies_table %} Table detailing all currency information. {% enddocs %}
 
 {% docs departments_table %} Table detailing all departments set up in Netsuite. {% enddocs %}
@@ -42,8 +40,11 @@
 
 {% docs vendor_subsidiary_relationship_table %} A table detailing all vendor subsidiary relationships. {% enddocs %}
 
+<<<<<<< HEAD
 {% docs vendor_subsidiary_relationships_table %} Table detailing all vendor subsidiary relationships with enhanced mapping and primary subsidiary designation. {% enddocs %}
 
+=======
+>>>>>>> origin/main
 {% docs entities_table %} Table detailing all entities in Netsuite. {% enddocs %}
 
 {% docs employee_table %} Table detailing all employees in Netsuite. {% enddocs %}
