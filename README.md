@@ -48,9 +48,11 @@ Curious what these tables can do? Check out example visualizations from the [net
 Each Quickstart transformation job run materializes 92 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
 <!--section-end-->
 
+<!--section="netsuite_transformation_model_two"-->
 ## How do I use the dbt package?
 ### Step 1: Prerequisites
 To use this dbt package, you must have at least one Fivetran **Netsuite** (netsuite.com) or **Netsuite2** (netsuite2) connection syncing the respective tables to your destination:
+<!--section-end-->
 
 #### Netsuite.com
 - accounts
