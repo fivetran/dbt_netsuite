@@ -353,11 +353,17 @@ models:
     - name: subsidiary_currency_symbol
       description: Currency of the subsidiary.
     - name: converted_amount
-      description: Transaction amount, converted into the primary subsidiary's default currency.
+      description: Transaction amount, converted into the primary subsidiary's default currency. The sign is flipped for income and other income accounts to follow accounting conventions. All other accounts retain their original sign.
     - name: transaction_amount
-      description: Total amount of the transaction line.
+      description: Total amount of the transaction line. The sign is flipped for income and other income accounts to follow accounting conventions. All other accounts retain their original sign.
     - name: transaction_line_amount
-      description: Net amount of the transaction line. This is the actual amount entered when it's in a currency other than the functional currency of the subsidiary. 
+      description: Net amount of the transaction line. This is the actual amount entered when it's in a currency other than the functional currency of the subsidiary. The sign is flipped for income and other income accounts to follow accounting conventions. All other accounts retain their original sign.
+    - name: converted_amount_raw
+      description: Original converted transaction amount, without sign adjustments. Represents the amount exactly as recorded in the source system.
+    - name: transaction_amount_raw
+      description: Original transaction line amount, without sign adjustments. Reflects the raw amount entered in the source system.
+    - name: transaction_line_amount_raw
+      description: Original net amount of the transaction line, without sign adjustments. Matches the amount entered in the transaction currency.
     - name: accounting_book_id
       description: The unique identifier of the accounting book.
     - name: accounting_book_name
