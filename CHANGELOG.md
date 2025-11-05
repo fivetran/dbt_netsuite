@@ -1,5 +1,7 @@
 # dbt_netsuite v1.2.0
 
+[PR #185](https://github.com/fivetran/dbt_netsuite/pull/185) includes the following updates:
+
 ## Schema/Data Change (--full-refresh required after upgrading)
 **1 total change • 1 possible breaking change**
 
