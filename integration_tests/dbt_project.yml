@@ -8,7 +8,7 @@ models:
   # +schema: "netsuite_{{ var('directed_schema','dev') }}"  ## To be used for validation tests
 
 vars:
-  netsuite_schema: netsuite_integration_tests
+  netsuite_schema: netsuite_integrations_tests
   netsuite_data_model_override: netsuite
 
   # Enable below when generating docs
