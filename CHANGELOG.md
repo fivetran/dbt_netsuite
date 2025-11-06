@@ -1,3 +1,17 @@
+# dbt_netsuite v1.2.0
+
+[PR #185](https://github.com/fivetran/dbt_netsuite/pull/185) includes the following updates:
+
+## Schema/Data Change (--full-refresh required after upgrading)
+**1 total change • 1 possible breaking change**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | --- | --- | ----- |
+| [netsuite2__transaction_details](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__transaction_details) | New columns | | `converted_amount_raw`<br>`transaction_amount_raw`<br>`transaction_line_amount_raw` | Adds raw amount fields without sign adjustments, providing access to original amounts as recorded in the source system. These fields complement the existing sign-adjusted amount fields.<br><br>**Breaking change**: If you already include `amount` or `netamount` from `transaction_lines` via the [passthrough columns](https://github.com/fivetran/dbt_netsuite/blob/main/README.md#passing-through-additional-fields) variable `transaction_lines_pass_through_columns`, remove them from the list to avoid duplicate column errors.<br><br>A full refresh is required after upgrading because the incremental model schema needs to be reset to accommodate the new columns. |
+
+## Documentation
+- Enhanced documentation for amount fields in `netsuite2__transaction_details` and `netsuite__transaction_details` to clarify that the sign is flipped for income and other income accounts to follow accounting conventions. All other accounts retain their original sign.
+
 # dbt_netsuite v1.1.0
 
 ## Schema/Data Change
@@ -164,7 +178,7 @@ This release involves **breaking changes** and will require running a **full ref
   - `subsidiary_currency_symbol`
 > This change **will require running a full refresh**, as we are adding new fields to incrementally materialized models.
 
-## Contribtors
+## Contributors
 - [@jmongerlyra](https://github.com/jmongerlyra) ([PR #151](https://github.com/fivetran/dbt_netsuite/pull/151))
 
 # dbt_netsuite v0.16.0

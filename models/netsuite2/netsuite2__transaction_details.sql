@@ -298,7 +298,11 @@ transaction_details as (
     case
       when lower(accounts.account_type_id) in ('income', 'othincome') then -transaction_lines.netamount
       else transaction_lines.netamount
-        end as transaction_line_amount  
+        end as transaction_line_amount,
+
+    transactions_with_converted_amounts.converted_amount_using_transaction_accounting_period as converted_amount_raw,
+    transaction_lines.amount as transaction_amount_raw,
+    transaction_lines.netamount as transaction_line_amount_raw
   from transaction_lines
 
   join transactions

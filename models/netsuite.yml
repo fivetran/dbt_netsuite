@@ -243,6 +243,6 @@ models:
     - name: subsidiary_name
       description: Name of the subsidiary.
     - name: converted_amount
-      description: Transaction amount, converted into the primary subsidiary's default currency.
+      description: Transaction amount, converted into the primary subsidiary's default currency. The sign is flipped for income and other income accounts to follow accounting conventions. All other accounts retain their original sign.
     - name: transaction_amount
-      description: Total amount of the transaction line.
+      description: Total amount of the transaction line. The sign is flipped for income and other income accounts to follow accounting conventions. All other accounts retain their original sign.
