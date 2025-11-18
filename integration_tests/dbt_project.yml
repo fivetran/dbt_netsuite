@@ -4,7 +4,7 @@ profile: 'integration_tests'
 config-version: 2
 
 models:
-  +schema: "{{ 'netsuite_integrations_tests_sqlw_2' if target.name == 'databricks-sql' else 'netsuite' }}"
+  +schema: "{{ 'netsuite_integrations_tests_sqlw' if target.name == 'databricks-sql' else 'netsuite' }}"
   # +schema: "netsuite_{{ var('directed_schema','dev') }}"  ## To be used for validation tests
 
 vars:
