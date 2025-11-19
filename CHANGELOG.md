@@ -1,3 +1,9 @@
+# dbt_netsuite v1.2.1
+[PR #186](https://github.com/fivetran/dbt_netsuite/pull/186) includes the following updates:
+
+## Quickstart Update
+- Adds `netsuite2__entity_subsidiary_relationships` to the `public_models` section of the `quickstart.yml`, so it is available to run in Quickstart for Fivetran customers.
+
 # dbt_netsuite v1.2.0
 
 [PR #185](https://github.com/fivetran/dbt_netsuite/pull/185) includes the following updates:

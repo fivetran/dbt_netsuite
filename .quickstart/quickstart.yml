@@ -53,6 +53,7 @@ public_models: [
   "netsuite2__balance_sheet",
   "netsuite2__income_statement",
   "netsuite2__transaction_details",
+  "netsuite2__entity_subsidiary_relationships",
   "netsuite__balance_sheet",
   "netsuite__income_statement",
   "netsuite__transaction_details"
