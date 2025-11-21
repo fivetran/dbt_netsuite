@@ -1,3 +1,12 @@
+# dbt_netsuite v1.3.0
+[PR #187](https://github.com/fivetran/dbt_netsuite/pull/187) includes the following updates:
+
+## Features
+- Updates the retained earnings rollforward logic in `netsuite2__balance_sheet` to use each transaction’s `to_subsidiary` fiscal calendar rather than the root subsidiary’s calendar. This may change balance sheet values for multi-calendar NetSuite environments.
+
+## Contributors
+- [@jmongerlyra](https://github.com/jmongerlyra) ([PR #183](https://github.com/fivetran/dbt_netsuite/pull/183))
+
 # dbt_netsuite v1.2.1
 [PR #186](https://github.com/fivetran/dbt_netsuite/pull/186) includes the following updates:
 
