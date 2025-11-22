@@ -28,7 +28,7 @@ final as (
         _fivetran_synced,
         accountingperiod as accounting_period_id,
         fiscalcalendar as fiscal_calendar_id,
-        fullname as full_name,
+        fullname as accounting_period_full_name,
         parent as parent_id
     from fields
     where not coalesce(_fivetran_deleted, false)

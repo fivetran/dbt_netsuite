@@ -7,9 +7,7 @@
     {"name": "accountingperiod", "datatype": dbt.type_int()},
     {"name": "date_deleted", "datatype": dbt.type_timestamp()},
     {"name": "fiscalcalendar", "datatype": dbt.type_int()},
-    {"name": "parent", "datatype": dbt.type_int()},
-    {"name": "fullname", "datatype": dbt.type_string()},
-    {"name": "year", "datatype": dbt.type_int()}
+    {"name": "parent", "datatype": dbt.type_int()}
 ] %}
 
 {{ return(columns) }}
@@ -25,8 +23,7 @@
     {"name": "accountingperiod", "datatype": dbt.type_int()},
     {"name": "fiscalcalendar", "datatype": dbt.type_int()},
     {"name": "parent", "datatype": dbt.type_int()},
-    {"name": "fullname", "datatype": dbt.type_string()},
-    {"name": "year", "datatype": dbt.type_int()}
+    {"name": "fullname", "datatype": dbt.type_string()}
 ] %}
 
 {{ return(columns) }}

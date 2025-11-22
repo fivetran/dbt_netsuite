@@ -168,7 +168,7 @@ transaction_details as (
     {{ netsuite.persist_pass_through_columns(transaction_lines_pass_through_columns, identifier='transaction_lines') }},
 
     accounting_periods.ending_at as accounting_period_ending,
-    accounting_periods.full_name as accounting_period_full_name,
+    accounting_periods.accounting_period_full_name,
     accounting_periods.name as accounting_period_name,
     accounting_periods.accounting_period_id as accounting_period_id,
     accounting_periods.is_adjustment as is_accounting_period_adjustment,

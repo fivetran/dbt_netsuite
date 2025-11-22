@@ -82,6 +82,8 @@ models:
         description: "{{ doc('accounting_period_id') }}"
       - name: fiscal_calendar_id
         description: "{{ doc('fiscal_calendar_id') }}"
+      - name: accounting_period_full_name
+        description: The full name or display name of the accounting period within the fiscal calendar.
       - name: parent_id
         description: Reference to the parent fiscal calendar accounting period.
 

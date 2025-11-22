@@ -1,8 +1,20 @@
 # dbt_netsuite v1.3.0
 [PR #187](https://github.com/fivetran/dbt_netsuite/pull/187) includes the following updates:
 
-## Features
-- Updates the retained earnings rollforward logic in `netsuite2__balance_sheet` to use each transaction’s `to_subsidiary` fiscal calendar rather than the root subsidiary’s calendar. This may change balance sheet values for multi-calendar NetSuite environments.
+## Schema/Data Change
+**2 total changes • 2 possible breaking changes**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | --- | --- | ----- |
+| [netsuite2__balance_sheet](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__balance_sheet) | New column | | `accounting_period_full_name` | Adds the full name field from the accounting period fiscal calendar source table, providing descriptive period names like "FY2023 : Q1 2023". |
+| [stg_netsuite2__accounting_period_fiscal_cal](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.stg_netsuite2__accounting_period_fiscal_cal) | New column | | `accounting_period_full_name` | Adds the full name field from the accounting period fiscal calendar source table, providing descriptive period names like "FY2023 : Q1 2023". |
+
+## Feature Update
+- Updates the retained earnings rollforward logic in `netsuite2__balance_sheet` to use each transaction's `to_subsidiary` fiscal calendar rather than the root subsidiary's calendar. This may change balance sheet values for multi-calendar NetSuite environments.
+
+## Under the Hood
+- Adds `full_name` column to the `get_accountingperiodfiscalcalendars_columns` macro to support the new staging model field.
+- Updatwas integration test seed data to include sample `full_name` values for testing the new functionality.
 
 ## Contributors
 - [@jmongerlyra](https://github.com/jmongerlyra) ([PR #183](https://github.com/fivetran/dbt_netsuite/pull/183))

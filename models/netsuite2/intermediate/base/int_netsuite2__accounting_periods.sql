@@ -22,7 +22,7 @@ joined as (
     select
         accounting_periods.*,
         accounting_period_fiscal_calendars.fiscal_calendar_id,
-        accounting_period_fiscal_calendars.full_name,
+        accounting_period_fiscal_calendars.accounting_period_full_name,
         fiscal_calendar.fiscal_month
     from accounting_periods
 
@@ -66,6 +66,7 @@ final as (
     select
         accounting_periods.*,
         accounting_period_fiscal_calendars.fiscal_calendar_id,
+        accounting_period_fiscal_calendars.accounting_period_full_name,
         cast({{ dbt.date_trunc('year', 'accounting_periods.starting_at') }} as date) as fiscal_year_trunc
     from accounting_periods
 

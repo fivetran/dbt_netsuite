@@ -88,6 +88,8 @@ sources:
             description: "{{ doc('accounting_period_id') }}"
           - name: fiscalcalendar
             description: "{{ doc('fiscal_calendar_id') }}"
+          - name: fullname
+            description: The full name or display name of the accounting period within the fiscal calendar.
           - name: parent
             description: Reference to the parent fiscal calendar accounting period.
 

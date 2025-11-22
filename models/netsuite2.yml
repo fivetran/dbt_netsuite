@@ -67,6 +67,9 @@ models:
       description: End date of the accounting period
     - name: accounting_period_name
       description: Name of the accounting period.
+    - name: accounting_period_full_name
+      description: |
+        The full name or display name of the accounting period within the fiscal calendar, providing descriptive period names like 'FY2023 : Q1 2023'.
     - name: is_accounting_period_adjustment
       description: Boolean field, indicating whether or not the selecting accounting period is an adjustment period.
     - name: is_accounting_period_closed
@@ -143,6 +146,9 @@ models:
       description: End date of the accounting period.
     - name: accounting_period_name
       description: Name of the accounting period.
+    - name: accounting_period_full_name
+      description: |
+        The full name or display name of the accounting period within the fiscal calendar, providing descriptive period names like 'FY2023 : Q1 2023'.
     - name: is_accounting_period_adjustment
       description: Boolean field, indicating whether or not the selected accounting period is an adjustment period.
     - name: is_accounting_period_closed
@@ -252,6 +258,9 @@ models:
       description: The unique identifier of the accounting period.
     - name: accounting_period_name
       description: Name of the accounting period.
+    - name: accounting_period_full_name
+      description: |
+        The full name or display name of the accounting period within the fiscal calendar, providing descriptive period names like 'FY2023 : Q1 2023'.
     - name: is_accounting_period_adjustment
       description: Boolean field, indicating whether or not the selecting accounting period is an adjustment period.
     - name: is_accounting_period_closed
