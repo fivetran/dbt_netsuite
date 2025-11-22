@@ -54,7 +54,7 @@ currencies as (
     from {{ ref('stg_netsuite2__currencies') }}
 ),
 
-{% if not using_to_subsidiary %}
+{% if not using_to_subsidiary_and_exchange_rate %}
 primary_subsidiary_calendar as (
     select 
         fiscal_calendar_id, 
@@ -222,7 +222,25 @@ balance_sheet as (
         on to_subsidiaries.subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
         and to_subsidiaries.source_relation = transactions_with_converted_amounts.source_relation
 
+    left join accounting_periods as reporting_accounting_periods 
+        on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+        and reporting_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
+        and reporting_accounting_periods.fiscal_calendar_id = to_subsidiaries.fiscal_calendar_id
+
+    left join accounting_periods as transaction_accounting_periods
+        on transaction_accounting_periods.accounting_period_id = transactions_with_converted_amounts.transaction_accounting_period_id
+        and transaction_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
+        and transaction_accounting_periods.fiscal_calendar_id = to_subsidiaries.fiscal_calendar_id
+
     {% else %}
+    left join accounting_periods as reporting_accounting_periods
+        on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+        and reporting_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
+
+    left join accounting_periods as transaction_accounting_periods
+        on transaction_accounting_periods.accounting_period_id = transactions_with_converted_amounts.transaction_accounting_period_id
+        and transaction_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
+
     join primary_subsidiary_calendar 
         on reporting_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
         and reporting_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
@@ -230,22 +248,6 @@ balance_sheet as (
         and transaction_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
         and transaction_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
     {% endif %}
-
-    left join accounting_periods as reporting_accounting_periods 
-        on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
-        and reporting_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
-
-        {% if using_to_subsidiary_and_exchange_rate %}
-        and reporting_accounting_periods.fiscal_calendar_id = to_subsidiaries.fiscal_calendar_id
-        {% endif %}
-
-    left join accounting_periods as transaction_accounting_periods
-        on transaction_accounting_periods.accounting_period_id = transactions_with_converted_amounts.transaction_accounting_period_id
-        and transaction_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
-
-        {% if using_to_subsidiary_and_exchange_rate %}
-        and transaction_accounting_periods.fiscal_calendar_id = to_subsidiaries.fiscal_calendar_id
-        {% endif %}
 
     left join currencies subsidiaries_currencies
         on subsidiaries_currencies.currency_id = subsidiaries.currency_id
@@ -346,30 +348,20 @@ balance_sheet as (
         on to_subsidiaries.subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
         and to_subsidiaries.source_relation = transactions_with_converted_amounts.source_relation
 
+    left join accounting_periods as reporting_accounting_periods 
+        on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+        and reporting_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
+        and reporting_accounting_periods.fiscal_calendar_id = to_subsidiaries.fiscal_calendar_id
+
     {% else %}
-    join primary_subsidiary_calendar
-        on reporting_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
-        and reporting_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
-
-        and transaction_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
-        and transaction_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
-    {% endif %}
-
     left join accounting_periods as reporting_accounting_periods
         on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
         and reporting_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
 
-        {% if using_to_subsidiary_and_exchange_rate %}
-        and reporting_accounting_periods.fiscal_calendar_id = to_subsidiaries.fiscal_calendar_id
-        {% endif %}
-
-    left join accounting_periods as transaction_accounting_periods
-        on transaction_accounting_periods.accounting_period_id = transactions_with_converted_amounts.transaction_accounting_period_id
-        and transaction_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
-
-        {% if using_to_subsidiary_and_exchange_rate %}
-        and transaction_accounting_periods.fiscal_calendar_id = to_subsidiaries.fiscal_calendar_id
-        {% endif %}
+    join primary_subsidiary_calendar 
+        on reporting_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
+        and reporting_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
+    {% endif %}
 
     left join currencies subsidiaries_currencies
         on subsidiaries_currencies.currency_id = subsidiaries.currency_id
