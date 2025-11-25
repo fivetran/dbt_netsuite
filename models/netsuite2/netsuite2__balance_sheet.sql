@@ -1,6 +1,5 @@
 {%- set multibook_accounting_enabled = var('netsuite2__multibook_accounting_enabled', false) -%}
-{%- set using_to_subsidiary = var('netsuite2__using_to_subsidiary', false) -%}
-{%- set using_exchange_rate = var('netsuite2__using_exchange_rate', true) -%}
+{%- set using_to_subsidiary_and_exchange_rate = (var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true)) -%}
 {%- set balance_sheet_transaction_detail_columns = var('balance_sheet_transaction_detail_columns', []) -%}
 {%- set accounts_pass_through_columns = var('accounts_pass_through_columns', []) -%}
 {%- set lookback_window = var('lookback_window', 3) -%}
@@ -55,16 +54,6 @@ currencies as (
     from {{ ref('stg_netsuite2__currencies') }}
 ),
 
-{% if not using_to_subsidiary_and_exchange_rate %}
-primary_subsidiary_calendar as (
-    select 
-        fiscal_calendar_id, 
-        source_relation 
-    from subsidiaries 
-    where parent_id is null
-),
-{% endif %}
-
 balance_sheet as ( 
     select
         transactions_with_converted_amounts.source_relation,
@@ -81,7 +70,7 @@ balance_sheet as (
         transactions_with_converted_amounts.accounting_book_name,
         {% endif %}
         
-        {% if using_to_subsidiary and using_exchange_rate %}
+        {% if using_to_subsidiary_and_exchange_rate %}
         transactions_with_converted_amounts.to_subsidiary_id,
         transactions_with_converted_amounts.to_subsidiary_name,
         transactions_with_converted_amounts.to_subsidiary_currency_symbol,
@@ -205,7 +194,7 @@ balance_sheet as (
         and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
         {% endif %}
 
-        {% if using_to_subsidiary and using_exchange_rate %}
+        {% if using_to_subsidiary_and_exchange_rate %}
         and transaction_details.to_subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
         {% endif %}
     {% endif %}
@@ -218,37 +207,21 @@ balance_sheet as (
         on subsidiaries.subsidiary_id = transactions_with_converted_amounts.subsidiary_id
         and subsidiaries.source_relation = transactions_with_converted_amounts.source_relation
 
-    {% if using_to_subsidiary and using_exchange_rate %}
+    {% if using_to_subsidiary_and_exchange_rate %}
     left join subsidiaries as to_subsidiaries
         on to_subsidiaries.subsidiary_id = coalesce(transactions_with_converted_amounts.to_subsidiary_id, subsidiaries.subsidiary_id)
         and to_subsidiaries.source_relation = transactions_with_converted_amounts.source_relation
+    {% endif %}
 
     left join accounting_periods as reporting_accounting_periods 
         on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
         and reporting_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
-        and reporting_accounting_periods.fiscal_calendar_id = to_subsidiaries.fiscal_calendar_id
+        and reporting_accounting_periods.fiscal_calendar_id = {{ 'to_subsidiaries' if using_to_subsidiary_and_exchange_rate else 'subsidiaries' }}.fiscal_calendar_id
 
     left join accounting_periods as transaction_accounting_periods
         on transaction_accounting_periods.accounting_period_id = transactions_with_converted_amounts.transaction_accounting_period_id
         and transaction_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
-        and transaction_accounting_periods.fiscal_calendar_id = to_subsidiaries.fiscal_calendar_id
-
-    {% else %}
-    left join accounting_periods as reporting_accounting_periods
-        on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
-        and reporting_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
-
-    left join accounting_periods as transaction_accounting_periods
-        on transaction_accounting_periods.accounting_period_id = transactions_with_converted_amounts.transaction_accounting_period_id
-        and transaction_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
-
-    join primary_subsidiary_calendar 
-        on reporting_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
-        and reporting_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
-
-        and transaction_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
-        and transaction_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
-    {% endif %}
+        and transaction_accounting_periods.fiscal_calendar_id = {{ 'to_subsidiaries' if using_to_subsidiary_and_exchange_rate else 'subsidiaries' }}.fiscal_calendar_id
 
     left join currencies subsidiaries_currencies
         on subsidiaries_currencies.currency_id = subsidiaries.currency_id
@@ -274,7 +247,7 @@ balance_sheet as (
         transactions_with_converted_amounts.accounting_book_name,
         {% endif %}
 
-        {% if using_to_subsidiary and using_exchange_rate %}
+        {% if using_to_subsidiary_and_exchange_rate %}
         transactions_with_converted_amounts.to_subsidiary_id,
         transactions_with_converted_amounts.to_subsidiary_name,
         transactions_with_converted_amounts.to_subsidiary_currency_symbol,
@@ -331,7 +304,7 @@ balance_sheet as (
         and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
         {% endif %}
 
-        {% if using_to_subsidiary and using_exchange_rate %}
+        {% if using_to_subsidiary_and_exchange_rate %}
         and transaction_details.to_subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
         {% endif %}
     {% endif %}
@@ -344,25 +317,16 @@ balance_sheet as (
         on subsidiaries.subsidiary_id = transactions_with_converted_amounts.subsidiary_id
         and subsidiaries.source_relation = transactions_with_converted_amounts.source_relation
 
-    {% if using_to_subsidiary and using_exchange_rate %}
+    {% if using_to_subsidiary_and_exchange_rate %}
     left join subsidiaries as to_subsidiaries
         on to_subsidiaries.subsidiary_id = coalesce(transactions_with_converted_amounts.to_subsidiary_id, subsidiaries.subsidiary_id)
         and to_subsidiaries.source_relation = transactions_with_converted_amounts.source_relation
+    {% endif %}
 
     left join accounting_periods as reporting_accounting_periods 
         on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
         and reporting_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
-        and reporting_accounting_periods.fiscal_calendar_id = to_subsidiaries.fiscal_calendar_id
-
-    {% else %}
-    left join accounting_periods as reporting_accounting_periods
-        on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
-        and reporting_accounting_periods.source_relation = transactions_with_converted_amounts.source_relation
-
-    join primary_subsidiary_calendar 
-        on reporting_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
-        and reporting_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
-    {% endif %}
+        and reporting_accounting_periods.fiscal_calendar_id = {{ 'to_subsidiaries' if using_to_subsidiary_and_exchange_rate else 'subsidiaries' }}.fiscal_calendar_id
 
     left join currencies subsidiaries_currencies
         on subsidiaries_currencies.currency_id = subsidiaries.currency_id
@@ -374,7 +338,7 @@ balance_sheet as (
 
     surrogate_key as ( 
     {% set surrogate_key_fields = ['source_relation', 'transaction_line_id', 'transaction_id', 'accounting_period_id', 'account_name', 'account_id'] %}
-    {% do surrogate_key_fields.append('to_subsidiary_id') if using_to_subsidiary and using_exchange_rate %}
+    {% do surrogate_key_fields.append('to_subsidiary_id') if using_to_subsidiary_and_exchange_rate %}
     {% do surrogate_key_fields.append('accounting_book_id') if multibook_accounting_enabled %}
 
     select 
