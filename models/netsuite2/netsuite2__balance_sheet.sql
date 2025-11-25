@@ -1,5 +1,6 @@
 {%- set multibook_accounting_enabled = var('netsuite2__multibook_accounting_enabled', false) -%}
-{%- set using_to_subsidiary_and_exchange_rate = var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true) -%}
+{%- set using_to_subsidiary = var('netsuite2__using_to_subsidiary', false) -%}
+{%- set using_exchange_rate = var('netsuite2__using_exchange_rate', true) -%}
 {%- set balance_sheet_transaction_detail_columns = var('balance_sheet_transaction_detail_columns', []) -%}
 {%- set accounts_pass_through_columns = var('accounts_pass_through_columns', []) -%}
 {%- set lookback_window = var('lookback_window', 3) -%}
@@ -80,7 +81,7 @@ balance_sheet as (
         transactions_with_converted_amounts.accounting_book_name,
         {% endif %}
         
-        {% if using_to_subsidiary_and_exchange_rate %}
+        {% if using_to_subsidiary and using_exchange_rate %}
         transactions_with_converted_amounts.to_subsidiary_id,
         transactions_with_converted_amounts.to_subsidiary_name,
         transactions_with_converted_amounts.to_subsidiary_currency_symbol,
@@ -204,7 +205,7 @@ balance_sheet as (
         and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
         {% endif %}
 
-        {% if using_to_subsidiary_and_exchange_rate %}
+        {% if using_to_subsidiary and using_exchange_rate %}
         and transaction_details.to_subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
         {% endif %}
     {% endif %}
@@ -217,9 +218,9 @@ balance_sheet as (
         on subsidiaries.subsidiary_id = transactions_with_converted_amounts.subsidiary_id
         and subsidiaries.source_relation = transactions_with_converted_amounts.source_relation
 
-    {% if using_to_subsidiary_and_exchange_rate %}
+    {% if using_to_subsidiary and using_exchange_rate %}
     left join subsidiaries as to_subsidiaries
-        on to_subsidiaries.subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
+        on to_subsidiaries.subsidiary_id = coalesce(transactions_with_converted_amounts.to_subsidiary_id, subsidiaries.subsidiary_id)
         and to_subsidiaries.source_relation = transactions_with_converted_amounts.source_relation
 
     left join accounting_periods as reporting_accounting_periods 
@@ -273,7 +274,7 @@ balance_sheet as (
         transactions_with_converted_amounts.accounting_book_name,
         {% endif %}
 
-        {% if using_to_subsidiary_and_exchange_rate %}
+        {% if using_to_subsidiary and using_exchange_rate %}
         transactions_with_converted_amounts.to_subsidiary_id,
         transactions_with_converted_amounts.to_subsidiary_name,
         transactions_with_converted_amounts.to_subsidiary_currency_symbol,
@@ -330,7 +331,7 @@ balance_sheet as (
         and transaction_details.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
         {% endif %}
 
-        {% if using_to_subsidiary_and_exchange_rate %}
+        {% if using_to_subsidiary and using_exchange_rate %}
         and transaction_details.to_subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
         {% endif %}
     {% endif %}
@@ -343,9 +344,9 @@ balance_sheet as (
         on subsidiaries.subsidiary_id = transactions_with_converted_amounts.subsidiary_id
         and subsidiaries.source_relation = transactions_with_converted_amounts.source_relation
 
-    {% if using_to_subsidiary_and_exchange_rate %}
+    {% if using_to_subsidiary and using_exchange_rate %}
     left join subsidiaries as to_subsidiaries
-        on to_subsidiaries.subsidiary_id = transactions_with_converted_amounts.to_subsidiary_id
+        on to_subsidiaries.subsidiary_id = coalesce(transactions_with_converted_amounts.to_subsidiary_id, subsidiaries.subsidiary_id)
         and to_subsidiaries.source_relation = transactions_with_converted_amounts.source_relation
 
     left join accounting_periods as reporting_accounting_periods 
