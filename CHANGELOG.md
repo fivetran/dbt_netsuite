@@ -1,3 +1,10 @@
+# dbt_netsuite v1.3.0
+
+[PR #188](https://github.com/fivetran/dbt_netsuite/pull/188) includes the following updates:
+
+## Features
+  - Increases the required dbt version upper limit to v3.0.0
+
 # dbt_netsuite v1.2.1
 [PR #186](https://github.com/fivetran/dbt_netsuite/pull/186) includes the following updates:
 
