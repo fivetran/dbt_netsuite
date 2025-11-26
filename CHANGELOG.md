@@ -1,4 +1,5 @@
 # dbt_netsuite v1.3.0
+
 [PR #187](https://github.com/fivetran/dbt_netsuite/pull/187) includes the following updates:
 
 ## Schema/Data Change
@@ -10,6 +11,7 @@
 
 ## Feature Update
 - When `netsuite2__using_to_subsidiary` is enabled, `netsuite2__balance_sheet` applies each transaction’s `to_subsidiary` fiscal calendar. If `to_subsidiary` is `null`, the model falls back to the fiscal calendar of the transaction’s `subsidiary_id`.
+- Increases the required dbt version upper limit to v3.0.0
 
 ## Under the Hood
 - Adds `full_name` column to the `get_accountingperiodfiscalcalendars_columns` macro to support the new staging model field.
