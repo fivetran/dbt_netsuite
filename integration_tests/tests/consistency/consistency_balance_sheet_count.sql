@@ -8,7 +8,6 @@ with prod as (
         case when account_id is null then -999999 else account_id end as account_id,
         count(*) as total_balance_sheet_prod_rows
     from {{ target.schema }}_netsuite_prod.netsuite2__balance_sheet
-    where date_trunc(accounting_period_ending, month) < date_trunc(current_date(), month) - 1 
     group by 1
 ),
 
@@ -17,7 +16,6 @@ dev as (
         case when account_id is null then -999999 else account_id end as account_id,
         count(*) as total_balance_sheet_dev_rows
     from {{ target.schema }}_netsuite_dev.netsuite2__balance_sheet
-    where date_trunc(accounting_period_ending, month) < date_trunc(current_date(), month) - 1 
     group by 1
 ),
 
