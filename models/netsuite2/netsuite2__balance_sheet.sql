@@ -227,8 +227,9 @@ balance_sheet as (
         on subsidiaries_currencies.currency_id = subsidiaries.currency_id
         and subsidiaries_currencies.source_relation = subsidiaries.source_relation
 
-    where accounts.is_balancesheet 
-        or transactions_with_converted_amounts.is_income_statement
+    where (accounts.is_balancesheet 
+        or transactions_with_converted_amounts.is_income_statement)
+        and transactions_with_converted_amounts.reporting_accounting_period_id is not null
 
     union all
 
@@ -332,8 +333,9 @@ balance_sheet as (
         on subsidiaries_currencies.currency_id = subsidiaries.currency_id
         and subsidiaries_currencies.source_relation = subsidiaries.source_relation
 
-    where accounts.is_balancesheet
-        or transactions_with_converted_amounts.is_income_statement
+    where (accounts.is_balancesheet
+        or transactions_with_converted_amounts.is_income_statement)
+        and transactions_with_converted_amounts.reporting_accounting_period_id is not null
     ),
 
     surrogate_key as ( 
