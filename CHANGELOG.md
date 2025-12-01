@@ -1,3 +1,26 @@
+# dbt_netsuite v1.3.0
+
+[PR #187](https://github.com/fivetran/dbt_netsuite/pull/187) includes the following updates:
+
+## Schema/Data Change
+**2 total changes • 2 possible breaking changes**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | --- | --- | ----- |
+| [netsuite2__balance_sheet](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__balance_sheet)<br>[netsuite2__income_statement](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__income_statement)<br>[netsuite2__transaction_details](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netstuite2__transaction_details)<br>[stg_netsuite2__accounting_period_fiscal_cal](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.stg_netsuite2__accounting_period_fiscal_cal)  | New column | | `accounting_period_full_name` | Adds the full name field from the accounting period fiscal calendar source table, providing descriptive period names like "FY2023 : Q1 2023". |
+
+## Feature Update
+- When `netsuite2__using_to_subsidiary` is enabled, `netsuite2__balance_sheet` applies each transaction’s `to_subsidiary` fiscal calendar. If `to_subsidiary` is `null`, the model falls back to the fiscal calendar of the transaction’s `subsidiary_id`.
+- Increases the required dbt version upper limit to v3.0.0
+
+## Under the Hood
+- Adds `full_name` column to the `get_accountingperiodfiscalcalendars_columns` macro to support the new staging model field.
+- Updates integration test seed data to include sample `full_name` values for testing the new functionality.
+- In `netsuite2__balance_sheet`, combines variables `netsuite2__using_to_subsidiary` and `netsuite2__using_exchange_rate` into `using_to_subsidiary_and_exchange_rate` to simplify configuration.
+
+## Contributors
+- [@jmongerlyra](https://github.com/jmongerlyra) ([PR #183](https://github.com/fivetran/dbt_netsuite/pull/183))
+
 # dbt_netsuite v1.2.1
 [PR #186](https://github.com/fivetran/dbt_netsuite/pull/186) includes the following updates:
 
