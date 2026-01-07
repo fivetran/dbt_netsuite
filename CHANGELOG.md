@@ -1,6 +1,6 @@
 # dbt_netsuite v1.4.0-a1
 
-[PR #XXX](https://github.com/fivetran/dbt_netsuite/pull/XXX) includes the following updates:
+[PR #189](https://github.com/fivetran/dbt_netsuite/pull/189) includes the following updates:
 
 ## Schema/Data Change
 **2 total changes • 2 possible breaking changes**
