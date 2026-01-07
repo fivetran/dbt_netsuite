@@ -2,6 +2,7 @@
 {%- set using_to_subsidiary = var('netsuite2__using_to_subsidiary', false) -%}
 {%- set using_exchange_rate = var('netsuite2__using_exchange_rate', true) -%}
 {%- set using_vendor_categories = var('netsuite2__using_vendor_categories', true) -%}
+{%- set using_incremental = var('netsuite2__using_incremental', false) -%}
 {%- set accounts_pass_through_columns = var('accounts_pass_through_columns', []) -%}
 {%- set departments_pass_through_columns = var('departments_pass_through_columns', []) -%}
 {%- set locations_pass_through_columns = var('locations_pass_through_columns', []) -%}
@@ -13,10 +14,9 @@
 {{
     config(
         enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
-        materialized='table' if target.type in ('bigquery', 'databricks', 'spark') else 'incremental',
+        materialized='incremental' if using_incremental else 'table',
         partition_by = {'field': 'transaction_line_fivetran_synced_date', 'data_type': 'date', 'granularity': 'month'}
             if target.type not in ['spark', 'databricks'] else ['transaction_line_fivetran_synced_date'],
-        cluster_by = ['transaction_id'],
         unique_key='transaction_details_id',
         incremental_strategy = 'merge' if target.type in ('bigquery', 'databricks', 'spark') else 'delete+insert',
         file_format='delta'
@@ -314,9 +314,7 @@ transaction_details as (
     on transactions_with_converted_amounts.transaction_line_id = transaction_lines.transaction_line_id
       and transactions_with_converted_amounts.transaction_id = transaction_lines.transaction_id
       and transactions_with_converted_amounts.source_relation = transaction_lines.source_relation
-
       and transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
-      and transactions_with_converted_amounts.source_relation = transactions_with_converted_amounts.source_relation
 
       {% if multibook_accounting_enabled %}
       and transactions_with_converted_amounts.accounting_book_id = transaction_lines.accounting_book_id

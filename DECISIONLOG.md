@@ -24,11 +24,10 @@ models:
     netsuite2:
       intermediate:
         +materialized: [table or view]
+```
 
 ## Incremental Strategy Selection
 
-For incremental models, we have chosen the `delete+insert` strategy for PostgreSQL, Redshift, and Snowflake destinations.
+For the Netsuite2 end models (`netsuite2__balance_sheet`, `netsuite2__income_statement`, `netsuite2__transaction_details`), incremental materialization is disabled by default to avoid unexpected warehouse costs and build times. Users can opt-in to incremental materialization by setting `netsuite2__using_incremental: true`. For instructions on how to enable incremental materialization, see the [README](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#enabling-incremental-materialization-netsuite2-only).
 
-For Bigquery and Databricks, we have turned off incremental strategy by default since we did not want to cause unexpected warehouse costs for users. If you choose to enable the incremental materialization for these destinations, we have set it up to use the `merge` strategy. For instructions on how to enable the incremental strategy, see the [README](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#adding-incremental-materialization-for-bigquery-and-databricks).
-
-These strategies were selected since transaction records can be updated retroactively, and `merge` and `delete+insert` work well since they rely on a unique id to identify records to update or replace. 
+When enabled, we use the `merge` strategy for Bigquery, Databricks, and Spark destinations, and the `delete+insert` strategy for PostgreSQL, Redshift, and Snowflake destinations.
