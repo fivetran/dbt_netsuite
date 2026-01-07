@@ -3,18 +3,18 @@
 [PR #189](https://github.com/fivetran/dbt_netsuite/pull/189) includes the following updates:
 
 ## Schema/Data Change
-**2 total changes • 2 possible breaking changes**
+**3 total changes • 2 possible breaking changes**
 
 | Data Model(s) | Change type | Old | New | Notes |
 | ------------- | ----------- | --- | --- | ----- |
 | [netsuite2__balance_sheet](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__balance_sheet)<br>[netsuite2__income_statement](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__income_statement)<br>[netsuite2__transaction_details](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__transaction_details) | Materialization | Incremental (PostgreSQL, Redshift, Snowflake)<br>Table (Bigquery, Databricks, Spark) | Table (all warehouses by default) | **Breaking change**: PostgreSQL, Redshift, and Snowflake users will see materialization change from incremental to table by default. To restore incremental materialization, set `netsuite2__using_incremental: true`. This change provides consistent default behavior across all warehouse platforms and gives users explicit control over incremental materialization. |
 | [netsuite2__balance_sheet](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__balance_sheet)<br>[netsuite2__income_statement](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__income_statement)<br>[netsuite2__transaction_details](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__transaction_details) | Configuration | `cluster_by: ['transaction_id']` | No clustering | **Breaking change**: Removes `cluster_by` configuration to improve model build performance. Clustering overhead on high-cardinality keys was causing performance degradation. Partitioning by `_fivetran_synced_date` provides sufficient query optimization. |
+| [int_netsuite2__tran_with_converted_amounts](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.int_netsuite2__tran_with_converted_amounts) | Materialization | Ephemeral (all warehouses) | Table (all warehouses except BigQuery) | Materializes as a table for PostgreSQL, Redshift, Snowflake, Databricks, and Spark with partitioning by `_fivetran_synced_date`. BigQuery remains ephemeral. This update is intended to improve overall build performance. |
 
 ## Feature Update
 - Introduces `netsuite2__using_incremental` variable to provide simplified control over incremental materialization for Netsuite2 end models. Users can now enable incremental materialization with a single variable instead of configuring each model individually. When enabled, uses `merge` strategy for Bigquery, Databricks, and Spark, and `delete+insert` strategy for PostgreSQL, Redshift, and Snowflake. See the [README](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#enabling-incremental-materialization-netsuite2-only) for configuration details.
 
 ## Under the Hood
-- Materializes `int_netsuite2__tran_with_converted_amounts` as a table (ephemeral for BigQuery) with partitioning by `_fivetran_synced_date`. This intermediate model is referenced by all three end models, and materializing it improves downstream build performance for non BigQuery warehouses.
 - Removes redundant join condition `and transactions_with_converted_amounts.source_relation = transactions_with_converted_amounts.source_relation` in `netsuite2__transaction_details` for improved code clarity.
 - Updates integration test seed data with current date values and additional test records.
 
