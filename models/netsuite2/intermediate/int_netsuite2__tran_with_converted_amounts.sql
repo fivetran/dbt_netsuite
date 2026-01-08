@@ -4,10 +4,7 @@
 
 {{
   config(
-    enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
-    materialized='ephemeral' if target.type == 'bigquery' else 'table',
-    partition_by = {'field': '_fivetran_synced_date', 'data_type': 'date', 'granularity': 'month'}
-      if target.type not in ['spark', 'databricks', 'bigquery'] else ['_fivetran_synced_date']
+    enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')
   )
 }}
 

@@ -1,3 +1,12 @@
+# dbt_netsuite v1.4.0-a2
+
+## Schema/Data Change
+**1 total change • 1 possible breaking change**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | --- | --- | ----- |
+| [int_netsuite2__tran_with_converted_amounts](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.int_netsuite2__tran_with_converted_amounts) | Materialization | Table (all warehouses except BigQuery)<br>Ephemeral (BigQuery) | Ephemeral (all warehouses) | **Breaking change**: Reverts the materialization change from v1.4.0-a1. The model now uses ephemeral materialization for all warehouse platforms, simplifying configuration and reducing storage overhead. Removes warehouse-specific materialization logic and partitioning configuration. |
+
 # dbt_netsuite v1.4.0-a1
 
 [PR #189](https://github.com/fivetran/dbt_netsuite/pull/189) includes the following updates:
