@@ -1,6 +1,7 @@
 {%- set multibook_accounting_enabled = var('netsuite2__multibook_accounting_enabled', false) -%}
 {%- set using_to_subsidiary = var('netsuite2__using_to_subsidiary', false) -%}
 {%- set using_exchange_rate = var('netsuite2__using_exchange_rate', true) -%}
+{%- set using_incremental = var('netsuite2__using_incremental', false) -%}
 {%- set income_statement_transaction_detail_columns = var('income_statement_transaction_detail_columns', []) -%}
 {%- set accounts_pass_through_columns = var('accounts_pass_through_columns', []) -%}
 {%- set classes_pass_through_columns = var('classes_pass_through_columns', []) -%}
@@ -10,10 +11,9 @@
 {{
     config(
         enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
-        materialized='table' if target.type in ('bigquery', 'databricks', 'spark') else 'incremental',
+        materialized='incremental' if using_incremental else 'table',
         partition_by = {'field': '_fivetran_synced_date', 'data_type': 'date', 'granularity': 'month'}
             if target.type not in ['spark', 'databricks'] else ['_fivetran_synced_date'],
-        cluster_by = ['transaction_id'],
         unique_key='income_statement_id',
         incremental_strategy = 'merge' if target.type in ('bigquery', 'databricks', 'spark') else 'delete+insert',
         file_format='delta'

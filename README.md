@@ -120,7 +120,7 @@ Include the following netsuite package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/netsuite
-    version: [">=1.3.0", "<1.4.0"]
+    version: "1.4.0-a2"
 ```
 ### Step 3: Define Netsuite.com or Netsuite2 Source
 As of April 2022 Fivetran released a new Netsuite connector version which leverages the Netsuite2 endpoint opposed to the original Netsuite.com endpoint. This package is designed to run for either or, not both. By default the `netsuite_data_model` variable for this package is set to the original `netsuite` value which runs the netsuite.com version of the package. If you would like to run the package on Netsuite2 data, you may adjust the `netsuite_data_model` variable to run the `netsuite2` version of the package.
@@ -340,8 +340,23 @@ vars:
 #### Override the data models variable
 This package is designed to run **either** the Netsuite.com or Netsuite2 data models. However, for documentation purposes, an additional variable `netsuite_data_model_override` was created to allow for both data model types to be run at the same time by setting the variable value to `netsuite`. This is only to ensure the [dbt docs](https://fivetran.github.io/dbt_netsuite/) (which is hosted on this repository) is generated for both model types. While this variable is provided, we recommend you do not adjust the variable and instead change the `netsuite_data_model` variable to fit your configuration needs.
 
+#### Enabling incremental materialization (Netsuite2 only)
+Since pricing and runtime priorities vary by customer, by default we materialize the below models as tables. For more information on this decision, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy-selection) of the DECISIONLOG.
+
+If you wish to enable incremental materializations for the following models, you can set the `netsuite2__using_incremental` variable to `true` in your `dbt_project.yml` file:
+- `netsuite2__balance_sheet`
+- `netsuite2__income_statement`
+- `netsuite2__transaction_details`
+
+When enabled, the models use the `merge` strategy for Bigquery, Databricks, and Spark, and the `delete+insert` strategy for PostgreSQL, Redshift, and Snowflake.
+
+```yml
+vars:
+  netsuite:
+    netsuite2__using_incremental: true # False by default. Materializes the above models as incremental instead of table.
+```
 #### Lookback Window
-Records from the source can sometimes arrive late. Since several of the models in this package are incremental, by default we look back 3 days from the `_fivetran_synced_date` of transaction records to ensure late arrivals are captured and avoiding the need for frequent full refreshes. While the frequency can be reduced, we still recommend running `dbt --full-refresh` periodically to maintain data quality of the models.
+Records from the source can sometimes arrive late. If leveraging the incremental logic for the end models (disabled by default), we look back 3 days from the `_fivetran_synced_date` of transaction records to ensure late arrivals are captured and avoiding the need for frequent full refreshes. While the frequency can be reduced, if using the incremental strategy we recommend running `dbt --full-refresh` periodically to maintain data quality of the models.
 
 To change the default lookback window, add the following variable to your `dbt_project.yml` file:
 
@@ -349,22 +364,6 @@ To change the default lookback window, add the following variable to your `dbt_p
 vars:
   netsuite:
     lookback_window: number_of_days # default is 3
-```
-
-#### Adding incremental materialization for Bigquery and Databricks
-Since pricing and runtime priorities vary by customer, by default we chose to materialize the below models as tables instead of an incremental materialization for Bigquery and Databricks. For more information on this decision, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy) of the DECISIONLOG.
-
-If you wish to enable incremental materializations leveraging the `merge` strategy, you can add the below materialization settings to your `dbt_project.yml` file. You only need to add lines for the specific model materializations you wish to change.
-```yml
-models:
-  netsuite:
-    netsuite2:
-      netsuite2__income_statement:
-        +materialized: incremental # default is table for Bigquery and Databricks
-      netsuite2__transaction_details:
-        +materialized: incremental # default is table for Bigquery and Databricks
-      netsuite2__balance_sheet:
-        +materialized: incremental # default is table for Bigquery and Databricks
 ```
 </details>
 
