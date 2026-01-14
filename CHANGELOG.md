@@ -1,3 +1,15 @@
+# dbt_netsuite v1.4.0
+
+[PR #190](https://github.com/fivetran/dbt_netsuite/pull/190) includes the following updates:
+
+## Documentation
+- Updates README with standardized Fivetran formatting
+
+## Under the Hood
+- In the `.quickstart.yml` file:
+  - Adds `table_variables` for relevant sources to prevent missing sources from blocking downstream Quickstart models.
+  - Adds `supported_vars` for Quickstart UI customization,
+
 # dbt_netsuite v1.3.0
 
 [PR #187](https://github.com/fivetran/dbt_netsuite/pull/187) includes the following updates:
