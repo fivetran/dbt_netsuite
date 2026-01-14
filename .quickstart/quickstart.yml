@@ -62,37 +62,37 @@ public_models: [
 supported_vars:
   accounts_pass_through_columns:
     type: dictionary
-    description: "Addtional `ACCOUNT` columns to include in `netsuite2__transaction_details`, `netsuite2__balance_sheet`, and `netsuite2__income_statement`"
+    description: "Additional `ACCOUNT` columns to include in `netsuite2__transaction_details`, `netsuite2__balance_sheet`, and `netsuite2__income_statement`"
     display_name: "Additional Account Columns"
 
   classes_pass_through_columns:
     type: dictionary
-    description: "Addtional `CLASSIFICATION` columns to include in `netsuite2__income_statement`"
+    description: "Additional `CLASSIFICATION` columns to include in `netsuite2__income_statement`"
     display_name: "Additional Class Columns"
 
   departments_pass_through_columns:
     type: dictionary
-    description: "Addtional `DEPARTMENT` columns to include in `netsuite2__transaction_details` and `netsuite2__income_statement`"
+    description: "Additional `DEPARTMENT` columns to include in `netsuite2__transaction_details` and `netsuite2__income_statement`"
     display_name: "Additional Department Columns"
 
   transactions_pass_through_columns:
     type: dictionary
-    description: "Addtional `TRANSACTION` columns to include in `netsuite2__transaction_details`"
+    description: "Additional `TRANSACTION` columns to include in `netsuite2__transaction_details`"
     display_name: "Additional Transaction Columns"
 
   transaction_lines_pass_through_columns:
     type: dictionary
-    description: "Addtional `TRANSACTION_LINE` columns to include in `netsuite2__transaction_details`"
+    description: "Additional `TRANSACTION_LINE` columns to include in `netsuite2__transaction_details`"
     display_name: "Additional Transaction Line Columns"
 
   locations_pass_through_columns:
     type: dictionary
-    description: "Addtional `LOCATION` columns to include in `netsuite2__transaction_details`"
+    description: "Additional `LOCATION` columns to include in `netsuite2__transaction_details`"
     display_name: "Additional Location Columns"
 
   subsidiaries_pass_through_columns:
     type: dictionary
-    description: "Addtional `SUBSIDIARY` columns to include in `netsuite2__transaction_details`"
+    description: "Additional `SUBSIDIARY` columns to include in `netsuite2__transaction_details`"
     display_name: "Additional Subsidiary Columns"
 
   balance_sheet_transaction_detail_columns:
