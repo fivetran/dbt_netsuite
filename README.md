@@ -22,8 +22,8 @@ This dbt package transforms data from Fivetran's Netsuite connector into analyti
 
 - Number of materialized models¹: 92
 - Connector documentation
-  - [Netsuite connector documentation](https://fivetran.com/docs/connectors/applications/netsuite)
-  - [Netsuite ERD](https://fivetran.com/docs/connectors/applications/netsuite#schemainformation)
+  - [Netsuite connector documentation](https://fivetran.com/docs/connectors/applications/netsuite-suiteanalytics#netsuitesuiteanalytics)
+  - [Netsuite ERD](https://fivetran.com/docs/connectors/applications/netsuite-suiteanalytics#schemainformation)
 - dbt package documentation
   - [GitHub repository](https://github.com/fivetran/dbt_netsuite)
   - [dbt Docs](https://fivetran.github.io/dbt_netsuite/#!/overview)
