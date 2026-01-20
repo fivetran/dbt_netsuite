@@ -58,3 +58,56 @@ public_models: [
   "netsuite__income_statement",
   "netsuite__transaction_details"
 ]
+
+supported_vars:
+  accounts_pass_through_columns:
+    type: dictionary
+    description: "Additional `ACCOUNT` columns to include in `netsuite2__transaction_details`, `netsuite2__balance_sheet`, and `netsuite2__income_statement`"
+    display_name: "Additional Account Columns"
+
+  classes_pass_through_columns:
+    type: dictionary
+    description: "Additional `CLASSIFICATION` columns to include in `netsuite2__income_statement`"
+    display_name: "Additional Class Columns"
+
+  departments_pass_through_columns:
+    type: dictionary
+    description: "Additional `DEPARTMENT` columns to include in `netsuite2__transaction_details` and `netsuite2__income_statement`"
+    display_name: "Additional Department Columns"
+
+  transactions_pass_through_columns:
+    type: dictionary
+    description: "Additional `TRANSACTION` columns to include in `netsuite2__transaction_details`"
+    display_name: "Additional Transaction Columns"
+
+  transaction_lines_pass_through_columns:
+    type: dictionary
+    description: "Additional `TRANSACTION_LINE` columns to include in `netsuite2__transaction_details`"
+    display_name: "Additional Transaction Line Columns"
+
+  locations_pass_through_columns:
+    type: dictionary
+    description: "Additional `LOCATION` columns to include in `netsuite2__transaction_details`"
+    display_name: "Additional Location Columns"
+
+  subsidiaries_pass_through_columns:
+    type: dictionary
+    description: "Additional `SUBSIDIARY` columns to include in `netsuite2__transaction_details`"
+    display_name: "Additional Subsidiary Columns"
+
+  balance_sheet_transaction_detail_columns:
+    type: list
+    description: "Additional columns from `netsuite2__transaction_details` to include in `netsuite2__balance_sheet`"
+    display_name: "Balance Sheet Transaction Detail Columns"
+
+  income_statement_transaction_detail_columns:
+    type: list
+    description: "Additional columns from `netsuite2__transaction_details` to include in `netsuite2__income_statement`"
+    display_name: "Income Statement Transaction Detail Columns"
+
+  lookback_window:
+    type: integer
+    value: 3
+    description: "Number of days into the past that the models will look back to capture late-arriving events on incremental runs"
+    display_name: "Incremental Run Lookback Window (Days)"
+
