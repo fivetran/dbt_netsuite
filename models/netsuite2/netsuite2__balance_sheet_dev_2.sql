@@ -8,7 +8,7 @@
 {{
     config(
         enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
-        materialized='table' if target.type in ('bigquery', 'databricks', 'spark') and var('netsuite__enable_incremenal', False) else 'incremental',
+        materialized='table' if target.type in ('bigquery', 'databricks', 'spark') and not var('netsuite__enable_incremenal', False) else 'incremental',
         partition_by = {'field': '_fivetran_synced_date', 'data_type': 'date', 'granularity': 'month'}
             if target.type not in ['spark', 'databricks'] else ['_fivetran_synced_date'],       
         cluster_by = ['transaction_id'] if transaction_level else ['account_id', 'accounting_period_id'],
@@ -20,11 +20,11 @@
 
 with transactions_with_converted_amounts_init as (
     select * 
-    from {{ ref('int_netsuite2__tran_with_converted_amounts_joins') }}
+    from {{ ref('int_netsuite2__tran_with_converted_amounts_dev_2') }}
 
     where (is_account_balancesheet or is_income_statement) and reporting_accounting_period_id is not null
 
-    {% if is_incremental() and var('netsuite__enable_incremenal', False) %}
+    {% if is_incremental() %}
     and _fivetran_synced_date >= {{ netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=lookback_window) }}
     {% endif %}
 ), 
@@ -36,6 +36,7 @@ transactions_with_converted_amounts as (
 ),
 
 {% else %}
+-- We're rolling up past the transaction level
 transactions_with_converted_amounts as (
     select 
         source_relation,
@@ -54,11 +55,8 @@ transactions_with_converted_amounts as (
         special_account_type_id,
         reporting_accounting_period_id,
         transaction_accounting_period_id,
-
-        account_general_rate_type,
-        {# converted_amount_using_transaction_accounting_period,
-        converted_amount_using_reporting_month,
-        unconverted_amount, #}
+        account_general_rate_type
+        {{ netsuite.persist_pass_through_columns(accounts_pass_through_columns, identifier='accounts') }},
 
         {% if multibook_accounting_enabled %}
         accounting_book_id, 
@@ -76,7 +74,12 @@ transactions_with_converted_amounts as (
         sum(unconverted_amount) as unconverted_amount
 
     from transactions_with_converted_amounts_init
-    {{ dbt_utils.group_by(n=17 + (2 if multibook_accounting_enabled else 0) + (3 if using_to_subsidiary_and_exchange_rate else 0)) }}
+
+    {% set pass_through_column_count = accounts_pass_through_columns|length + (balance_sheet_transaction_detail_columns|length if transaction_level else 0) %}
+    {% set variable_column_count = (2 if multibook_accounting_enabled else 0) + (3 if using_to_subsidiary_and_exchange_rate else 0) %}
+
+    {{ dbt_utils.group_by(n=17 + pass_through_column_count + variable_column_count) }}
+
 ),
 
 {% endif %}
@@ -104,7 +107,7 @@ currencies as (
     from {{ ref('stg_netsuite2__currencies') }}
 ),
 
-join_time as (
+balance_sheet_join as (
 
     select 
         transactions_with_converted_amounts.*,
@@ -312,10 +315,9 @@ balance_sheet as (
         else 0
             end) as transaction_amount
 
-    from join_time
+    from balance_sheet_join
 
-        -- TODO: incorporate passthrough columns into group by
-    {{ dbt_utils.group_by(n=24 + (2 if transaction_level else 0) + (2 if multibook_accounting_enabled else 0) + (3 if using_to_subsidiary_and_exchange_rate else 0)) }}
+    {{ dbt_utils.group_by(n=24 + pass_through_column_count + variable_column_count + (2 if transaction_level else 0)) }}
 
     union all
 
@@ -367,7 +369,7 @@ balance_sheet as (
             null as {{ field.alias if field.alias else field.name }},
         {% endfor %}
         {% endif %}
-        
+
         16 as balance_sheet_sort_helper,
 
         --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
@@ -384,9 +386,9 @@ balance_sheet as (
 
         sum(unconverted_amount) as transaction_amount
 
-    from join_time
+    from balance_sheet_join
 
-    {{ dbt_utils.group_by(n=24 + (2 if transaction_level else 0 )+ (2 if multibook_accounting_enabled else 0) + (3 if using_to_subsidiary_and_exchange_rate else 0)) }}
+    {{ dbt_utils.group_by(n=24 + pass_through_column_count + variable_column_count + (2 if transaction_level else 0)) }}
 ),
 
 surrogate_key as ( 

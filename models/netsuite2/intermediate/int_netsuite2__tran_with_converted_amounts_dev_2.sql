@@ -1,16 +1,17 @@
 {%- set using_exchange_rate = var('netsuite2__using_exchange_rate', true) -%}
 {%- set multibook_accounting_enabled = var('netsuite2__multibook_accounting_enabled', false) -%}
 {%- set using_to_subsidiary = var('netsuite2__using_to_subsidiary', false) -%}
+{%- set accounts_pass_through_columns = var('accounts_pass_through_columns', []) -%}
 
 {{
   config(
-    enabled=false and var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')
+    enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')
   )
 }}
 
 with transaction_lines_w_accounting_period as (
   select * 
-  from {{ ref('int_netsuite2__tran_lines_w_accounting_period') }}
+  from {{ ref('int_netsuite2__tran_lines_w_accounting_period_dev_2') }}
 ), 
 
 {% if using_exchange_rate %}
