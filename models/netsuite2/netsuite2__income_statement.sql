@@ -162,15 +162,6 @@ income_statement as (
         
     from transactions_with_converted_amounts
 
-    {# join transaction_lines as transaction_lines
-        on transaction_lines.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
-            and transaction_lines.transaction_id = transactions_with_converted_amounts.transaction_id
-            and transaction_lines.source_relation = transactions_with_converted_amounts.source_relation
-
-            {% if multibook_accounting_enabled %}
-            and transaction_lines.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
-            {% endif %} #}
-
     left join departments
         on departments.department_id = transactions_with_converted_amounts.department_id
         and departments.source_relation = transactions_with_converted_amounts.source_relation
@@ -220,17 +211,15 @@ income_statement as (
         and reporting_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
 
     {% set pass_through_column_count = accounts_pass_through_columns|length + departments_pass_through_columns|length + classes_pass_through_columns|length + (income_statement_transaction_detail_columns|length if transaction_level else 0) %}
-    {% set variable_column_count = (2 if multibook_accounting_enabled else 0) + (3 if using_to_subsidiary_and_exchange_rate else 0) %}
+    {% set variable_column_count = (2 if multibook_accounting_enabled else 0) + (3 if using_to_subsidiary and using_exchange_rate else 0) %}
 
-    {{ dbt_utils.group_by(n=27 + pass_through_column_count+ variable_column_count + (2 if transaction_level else 0)) }}
+    {{ dbt_utils.group_by(n=27 + pass_through_column_count + variable_column_count + (2 if transaction_level else 0)) }}
 ),
 
 surrogate_key as ( 
-    {% set surrogate_key_fields = ['source_relation', 'accounting_period_id', 'account_name'] %}
+    {% set surrogate_key_fields = ['source_relation', 'transaction_line_id', 'transaction_id', 'accounting_period_id', 'account_name'] if transaction_level else ['source_relation', 'accounting_period_id', 'account_name'] %}
     {% do surrogate_key_fields.append('to_subsidiary_id') if using_to_subsidiary and using_exchange_rate %}
     {% do surrogate_key_fields.append('accounting_book_id') if multibook_accounting_enabled %}
-    {% do surrogate_key_fields.append('transaction_line_id') if transaction_level %}
-    {% do surrogate_key_fields.append('transaction_id') if transaction_level %}
 
     select 
         *,

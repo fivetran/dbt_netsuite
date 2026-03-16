@@ -58,7 +58,9 @@ transactions_with_converted_amounts as (
         special_account_type_id,
         reporting_accounting_period_id,
         transaction_accounting_period_id,
-        account_general_rate_type
+        account_general_rate_type,
+        retained_earnings_account_number,
+        cumulative_translation_account_number
         {{ netsuite.persist_pass_through_columns(accounts_pass_through_columns, identifier='accounts') }},
 
         {% if multibook_accounting_enabled %}
@@ -78,7 +80,7 @@ transactions_with_converted_amounts as (
 
     from transactions_with_converted_amounts_init
 
-    {{ dbt_utils.group_by(n=17 + pass_through_column_count + variable_column_count) }}
+    {{ dbt_utils.group_by(n=19 + pass_through_column_count + variable_column_count) }}
 
 ),
 
@@ -117,9 +119,7 @@ balance_sheet_join as (
         subsidiaries_currencies.symbol as subsidiary_currency_symbol,
 
         reporting_accounting_periods.accounting_period_id as accounting_period_id,
-        reporting_accounting_periods.starting_at as accounting_period_starting,
         reporting_accounting_periods.ending_at as accounting_period_ending,
-        reporting_accounting_periods.closed_at as accounting_period_closing,
         reporting_accounting_periods.accounting_period_full_name,
         reporting_accounting_periods.name as accounting_period_name,
         reporting_accounting_periods.is_adjustment as is_accounting_period_adjustment,
@@ -208,9 +208,7 @@ balance_sheet as (
         {% endif %}
 
         accounting_period_id,
-        accounting_period_starting,
         accounting_period_ending,
-        accounting_period_closing,
         accounting_period_full_name,
         accounting_period_name,
         is_accounting_period_adjustment,
@@ -253,7 +251,7 @@ balance_sheet as (
         else account_id
             end as account_id,
         case
-        when not is_account_balancesheet and lower(special_account_type_id) = 'retearnings' then account_number 
+        when not is_account_balancesheet then retained_earnings_account_number 
         else account_number
             end as account_number,
         case
@@ -317,7 +315,7 @@ balance_sheet as (
 
     from balance_sheet_join
     
-    {{ dbt_utils.group_by(n=24 + pass_through_column_count + variable_column_count + (2 if transaction_level else 0)) }}
+    {{ dbt_utils.group_by(n=22 + pass_through_column_count + variable_column_count + (2 if transaction_level else 0)) }}
 
     union all
 
@@ -347,9 +345,7 @@ balance_sheet as (
         {% endif %}
         
         accounting_period_id,
-        accounting_period_starting,
         accounting_period_ending,
-        accounting_period_closing,
         accounting_period_full_name,
         accounting_period_name,
         is_accounting_period_adjustment,
@@ -360,7 +356,7 @@ balance_sheet as (
         'Cumulative Translation Adjustment' as account_type_name,
         'cumulative_translation_adjustment' as account_type_id,
         cast(null as {{ dbt.type_int() }}) as account_id,
-        case when lower(special_account_type_id) = 'cumultransadj' then account_number end as account_number,
+        cumulative_translation_account_number as account_number,
         false as is_account_intercompany,
         false as is_account_leftside,
 
@@ -388,13 +384,11 @@ balance_sheet as (
 
     from balance_sheet_join
 
-    {{ dbt_utils.group_by(n=24 + pass_through_column_count + variable_column_count + (2 if transaction_level else 0)) }}
+    {{ dbt_utils.group_by(n=22 + pass_through_column_count + variable_column_count + (2 if transaction_level else 0)) }}
 ),
 
 surrogate_key as ( 
-{% set surrogate_key_fields = ['source_relation', 'accounting_period_id', 'account_name', 'account_id'] %}
-{% do surrogate_key_fields.append('transaction_line_id') if transaction_level %}
-{% do surrogate_key_fields.append('transaction_id') if transaction_level %}
+{% set surrogate_key_fields = ['source_relation', 'transaction_line_id', 'transaction_id', 'accounting_period_id', 'account_name', 'account_id'] if transaction_level else ['source_relation', 'accounting_period_id', 'account_name', 'account_id'] %}
 {% do surrogate_key_fields.append('to_subsidiary_id') if using_to_subsidiary_and_exchange_rate %}
 {% do surrogate_key_fields.append('accounting_book_id') if multibook_accounting_enabled %}
 

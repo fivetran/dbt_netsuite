@@ -31,6 +31,42 @@ accounts as (
   from {{ ref('int_netsuite2__accounts') }}
 ),
 
+retained_earnings_accounts as (
+  select
+    source_relation,
+    account_number
+  from (
+    select
+        source_relation,
+        account_number,
+        row_number() over (
+            partition by source_relation
+            order by account_id
+        ) as rn
+    from accounts
+    where lower(special_account_type_id) = 'retearnings'
+  )
+  where rn = 1
+),
+
+cumulative_translation_accounts as (
+  select
+      source_relation,
+      account_number
+  from (
+      select
+          source_relation,
+          account_number,
+          row_number() over (
+              partition by source_relation
+              order by account_id
+          ) as rn
+      from accounts
+      where lower(special_account_type_id) = 'cumultransadj'
+  )
+  where rn = 1
+),
+
 transactions_in_every_calculation_period_w_exchange_rates as (
   select
     transaction_lines_w_accounting_period.*,
@@ -117,7 +153,10 @@ transactions_with_converted_amounts as (
     accounts.account_number,
     accounts.is_eliminate as is_account_eliminate,
     accounts.is_leftside as is_account_leftside,
-    accounts.general_rate_type as account_general_rate_type
+    accounts.general_rate_type as account_general_rate_type,
+    retained_earnings_accounts.account_number as retained_earnings_account_number,
+    cumulative_translation_accounts.account_number  as cumulative_translation_account_number
+    
     {{ netsuite.persist_pass_through_columns(accounts_pass_through_columns, identifier='accounts') }}
 
   from transactions_in_every_calculation_period_w_exchange_rates
@@ -125,6 +164,11 @@ transactions_with_converted_amounts as (
   left join accounts
     on accounts.account_id = transactions_in_every_calculation_period_w_exchange_rates.account_id
     and accounts.source_relation = transactions_in_every_calculation_period_w_exchange_rates.source_relation 
+  
+  left join retained_earnings_accounts
+    on retained_earnings_accounts.source_relation = transactions_in_every_calculation_period_w_exchange_rates.source_relation
+  left join cumulative_translation_accounts
+    on cumulative_translation_accounts.source_relation = transactions_in_every_calculation_period_w_exchange_rates.source_relation
 ),
 
 surrogate_key as ( 
