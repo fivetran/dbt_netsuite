@@ -359,7 +359,7 @@ balance_sheet as (
         'Cumulative Translation Adjustment' as account_display_name,
         'Cumulative Translation Adjustment' as account_type_name,
         'cumulative_translation_adjustment' as account_type_id,
-        null as account_id,
+        cast(null as {{ dbt.type_int() }}) as account_id,
         case when lower(special_account_type_id) = 'cumultransadj' then account_number end as account_number,
         false as is_account_intercompany,
         false as is_account_leftside,
