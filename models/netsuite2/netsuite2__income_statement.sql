@@ -15,7 +15,7 @@
         materialized='incremental' if using_incremental else 'table',
         partition_by = {'field': '_fivetran_synced_date', 'data_type': 'date', 'granularity': 'month'}
             if target.type not in ['spark', 'databricks'] else ['_fivetran_synced_date'],
-        cluster_by = ['transaction_id'] if var('netsuite__enable_incremenal', False) else ['account_id', 'accounting_period_id'],
+        cluster_by = ['transaction_id'] if transaction_level else ['account_id', 'accounting_period_id'],
         unique_key='income_statement_id',
         incremental_strategy = 'merge' if target.type in ('bigquery', 'databricks', 'spark') else 'delete+insert',
         file_format='delta'

@@ -40,12 +40,12 @@ retained_earnings_accounts as (
         source_relation,
         account_number,
         row_number() over (
-            partition by source_relation
+            {{ netsuite.partition_by_source_relation(has_other_partitions='no') }}
             order by account_id
         ) as rn
     from accounts
     where lower(special_account_type_id) = 'retearnings'
-  )
+  ) ordered
   where rn = 1
 ),
 
@@ -58,12 +58,12 @@ cumulative_translation_accounts as (
           source_relation,
           account_number,
           row_number() over (
-              partition by source_relation
+              {{ netsuite.partition_by_source_relation(has_other_partitions='no') }}
               order by account_id
           ) as rn
       from accounts
       where lower(special_account_type_id) = 'cumultransadj'
-  )
+  ) ordered
   where rn = 1
 ),
 
@@ -156,7 +156,7 @@ transactions_with_converted_amounts as (
     accounts.general_rate_type as account_general_rate_type,
     retained_earnings_accounts.account_number as retained_earnings_account_number,
     cumulative_translation_accounts.account_number  as cumulative_translation_account_number
-    
+
     {{ netsuite.persist_pass_through_columns(accounts_pass_through_columns, identifier='accounts') }}
 
   from transactions_in_every_calculation_period_w_exchange_rates

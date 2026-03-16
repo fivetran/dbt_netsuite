@@ -61,7 +61,7 @@ transactions_with_converted_amounts as (
         account_general_rate_type,
         retained_earnings_account_number,
         cumulative_translation_account_number
-        {{ netsuite.persist_pass_through_columns(accounts_pass_through_columns, identifier='accounts') }},
+        {{ netsuite.persist_pass_through_columns(accounts_pass_through_columns) }},
 
         {% if multibook_accounting_enabled %}
         accounting_book_id, 
@@ -112,7 +112,7 @@ currencies as (
 balance_sheet_join as (
 
     select 
-        transactions_with_converted_amounts.*,
+        transactions_with_converted_amounts.*, -- contains account pass through columns
         subsidiaries.full_name as subsidiary_full_name,
         subsidiaries.name as subsidiary_name,
 
@@ -129,8 +129,6 @@ balance_sheet_join as (
         reporting_accounting_periods.fiscal_calendar_id as reporting_fiscal_calendar_id,
         transaction_accounting_periods.fiscal_year_trunc as transaction_fiscal_year_trunc,
         transaction_accounting_periods.fiscal_calendar_id as transaction_fiscal_calendar_id
-
-        {{ netsuite.persist_pass_through_columns(accounts_pass_through_columns, identifier='accounts') }}
 
     from transactions_with_converted_amounts
 
@@ -173,12 +171,6 @@ balance_sheet_join as (
     left join currencies subsidiaries_currencies
         on subsidiaries_currencies.currency_id = subsidiaries.currency_id
         and subsidiaries_currencies.source_relation = subsidiaries.source_relation
-
-    {% if accounts_pass_through_columns != [] %}
-    left join accounts
-        on accounts.account_id = transactions_with_converted_amounts.account_id
-        and accounts.source_relation = transactions_with_converted_amounts.source_relation
-    {% endif %}
 ),
 
 balance_sheet as ( 
