@@ -6,14 +6,16 @@
 {%- set classes_pass_through_columns = var('classes_pass_through_columns', []) -%}
 {%- set departments_pass_through_columns = var('departments_pass_through_columns', []) -%}
 {%- set lookback_window = var('lookback_window', 3) -%}
+{%- set transaction_level = var('netsuite2__income_statement_transaction_level', True) -%}
+{%- set using_incremental = var('netsuite2__using_incremental', false) -%}
 
 {{
     config(
         enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
-        materialized='table' if target.type in ('bigquery', 'databricks', 'spark') and var('netsuite__enable_incremenal', False) else 'incremental',
+        materialized='incremental' if using_incremental else 'table',
         partition_by = {'field': '_fivetran_synced_date', 'data_type': 'date', 'granularity': 'month'}
             if target.type not in ['spark', 'databricks'] else ['_fivetran_synced_date'],
-        cluster_by = ['transaction_id'],
+        cluster_by = ['transaction_id'] if var('netsuite__enable_incremenal', False) else ['account_id', 'accounting_period_id'],
         unique_key='income_statement_id',
         incremental_strategy = 'merge' if target.type in ('bigquery', 'databricks', 'spark') else 'delete+insert',
         file_format='delta'
@@ -23,14 +25,17 @@
 with transactions_with_converted_amounts as (
     select * 
     from {{ ref('int_netsuite2__tran_with_converted_amounts') }}
+    
+    where transaction_accounting_period_id = reporting_accounting_period_id
+        and is_income_statement 
 
     {% if is_incremental() %}
-    where _fivetran_synced_date >= {{ netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=lookback_window)  }}
+        and _fivetran_synced_date >= {{ netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=lookback_window)  }}
     {% endif %}
 ), 
 
 --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
-{% if income_statement_transaction_detail_columns != [] %}
+{% if income_statement_transaction_detail_columns != [] and transaction_level %}
 transaction_details as (
     select * 
     from {{ ref('netsuite2__transaction_details') }}
@@ -55,11 +60,6 @@ subsidiaries as (
 currencies as (
     select *
     from {{ ref('stg_netsuite2__currencies') }}
-),
-
-transaction_lines as (
-    select * 
-    from {{ ref('int_netsuite2__transaction_lines') }}
 ),
 
 classes as (
@@ -88,8 +88,10 @@ primary_subsidiary_calendar as (
 income_statement as (
     select
         transactions_with_converted_amounts.source_relation,
+        {% if transaction_level %}
         transactions_with_converted_amounts.transaction_id,
         transactions_with_converted_amounts.transaction_line_id,
+        {% endif %}
         transactions_with_converted_amounts._fivetran_synced_date,
 
         {% if multibook_accounting_enabled %}
@@ -148,42 +150,42 @@ income_statement as (
             end as income_statement_sort_helper
 
         --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
-        {% if income_statement_transaction_detail_columns != [] %}
+        {% if income_statement_transaction_detail_columns != [] and transaction_level %}
 
         , transaction_details.{{ income_statement_transaction_detail_columns | join (", transaction_details.") }}
 
         {% endif %}
 
-        , -converted_amount_using_transaction_accounting_period as converted_amount,
+        , -sum(converted_amount_using_transaction_accounting_period) as converted_amount,
 
-        -unconverted_amount as transaction_amount
+        -sum(unconverted_amount) as transaction_amount
         
     from transactions_with_converted_amounts
 
-    join transaction_lines as transaction_lines
+    {# join transaction_lines as transaction_lines
         on transaction_lines.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
             and transaction_lines.transaction_id = transactions_with_converted_amounts.transaction_id
             and transaction_lines.source_relation = transactions_with_converted_amounts.source_relation
 
             {% if multibook_accounting_enabled %}
             and transaction_lines.accounting_book_id = transactions_with_converted_amounts.accounting_book_id
-            {% endif %}
+            {% endif %} #}
 
     left join departments
-        on departments.department_id = transaction_lines.department_id
-        and departments.source_relation = transaction_lines.source_relation
+        on departments.department_id = transactions_with_converted_amounts.department_id
+        and departments.source_relation = transactions_with_converted_amounts.source_relation
     
     left join accounts
         on accounts.account_id = transactions_with_converted_amounts.account_id
         and accounts.source_relation = transactions_with_converted_amounts.source_relation
 
     left join locations
-        on locations.location_id = transaction_lines.location_id
-        and locations.source_relation = transaction_lines.source_relation
+        on locations.location_id = transactions_with_converted_amounts.location_id
+        and locations.source_relation = transactions_with_converted_amounts.source_relation
 
     left join classes
-        on classes.class_id = transaction_lines.class_id
-        and classes.source_relation = transaction_lines.source_relation
+        on classes.class_id = transactions_with_converted_amounts.class_id
+        and classes.source_relation = transactions_with_converted_amounts.source_relation
 
     left join accounting_periods as reporting_accounting_periods
         on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
@@ -198,7 +200,7 @@ income_statement as (
         and subsidiaries_currencies.source_relation = subsidiaries.source_relation
 
     --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
-    {% if income_statement_transaction_detail_columns != [] %}
+    {% if income_statement_transaction_detail_columns != [] and transaction_level %}
     join transaction_details
         on transaction_details.transaction_id = transactions_with_converted_amounts.transaction_id
         and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
@@ -217,14 +219,18 @@ income_statement as (
         on reporting_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
         and reporting_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
 
-    where transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
-        and transactions_with_converted_amounts.is_income_statement
+    {% set pass_through_column_count = accounts_pass_through_columns|length + departments_pass_through_columns|length + classes_pass_through_columns|length + (income_statement_transaction_detail_columns|length if transaction_level else 0) %}
+    {% set variable_column_count = (2 if multibook_accounting_enabled else 0) + (3 if using_to_subsidiary_and_exchange_rate else 0) %}
+
+    {{ dbt_utils.group_by(n=27 + pass_through_column_count+ variable_column_count + (2 if transaction_level else 0)) }}
 ),
 
 surrogate_key as ( 
-    {% set surrogate_key_fields = ['source_relation', 'transaction_line_id', 'transaction_id', 'accounting_period_id', 'account_name'] %}
+    {% set surrogate_key_fields = ['source_relation', 'accounting_period_id', 'account_name'] %}
     {% do surrogate_key_fields.append('to_subsidiary_id') if using_to_subsidiary and using_exchange_rate %}
     {% do surrogate_key_fields.append('accounting_book_id') if multibook_accounting_enabled %}
+    {% do surrogate_key_fields.append('transaction_line_id') if transaction_level %}
+    {% do surrogate_key_fields.append('transaction_id') if transaction_level %}
 
     select 
         *,

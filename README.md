@@ -126,7 +126,7 @@ Include the following netsuite package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/netsuite
-    version: [">=1.4.0", "<1.5.0"]
+    version: 1.5.0-a1
 ```
 
 #### Databricks dispatch configuration
@@ -237,7 +237,7 @@ vars:
 
 #### Enable additional features
 
-#### Multi-Book (Netsuite2 only)
+##### Multi-Book (Netsuite2 only)
 To include `accounting_book_id` and `accounting_book_name` columns in the end models, set the below variable to `true` in your `dbt_project.yml`. This feature is disabled by default.
 > **Note**: The Netsuite dbt package currently only supports disabling of the source tables listed above. Please create an issue to request additional tables and/or [features](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/bridgehead_N233872.html) to exclude.
 >Notes:
@@ -251,7 +251,7 @@ vars:
 
 **IMPORTANT**: If you are using multi-book accounting, this variable must be set to true, or you see test failures in your data. 
 
-#### To Subsidiary (Netsuite2 only)
+##### To Subsidiary (Netsuite2 only)
 To include `to_subsidiary_id` and `to_subsidiary_name` columns in the end models, set the below variable to `true` in your `dbt_project.yml`. This feature is disabled by default. You also need to be using exchange rates, which is enabled by default.
 
 >Notes:
@@ -262,6 +262,17 @@ To include `to_subsidiary_id` and `to_subsidiary_name` columns in the end models
 ```yml
 vars:
     netsuite2__using_to_subsidiary: true # False by default.
+```
+
+#### Transaction-Level Balance Sheet and Income Statement (Netsuite2 only)
+By default, `netsuite2__balance_sheet` and `netsuite2__income_statement` output one row per transaction line, including `transaction_id` and `transaction_line_id` columns. To roll up to the account and accounting period level instead, set the respective variable to `false` in your `dbt_project.yml`.
+
+> **Note**: When set to `false`, any columns passed via `balance_sheet_transaction_detail_columns` or `income_statement_transaction_detail_columns` are ignored, since those require transaction-level granularity.
+
+```yml
+vars:
+    netsuite2__balance_sheet_transaction_level: false # True by default. Set to false to roll up to account/period level in netsuite2__balance_sheet.
+    netsuite2__income_statement_transaction_level: false # True by default. Set to false to roll up to account/period level in netsuite2__income_statement.
 ```
 
 #### Passing Through Additional Fields
@@ -323,6 +334,33 @@ vars:
     income_statement_transaction_detail_columns: ['is_account_intercompany','location_name']
 ```
 
+#### Enabling incremental materialization (Netsuite2 only)
+Since pricing and runtime priorities vary by customer, and retroactively modified transactions can introduce potential data drift, by default we materialize the below models as tables. For more information on this decision, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy-selection) of the DECISIONLOG.
+
+If you wish to enable incremental materializations for the following models, you can set the `netsuite2__using_incremental` variable to `true` in your `dbt_project.yml` file:
+- `netsuite2__balance_sheet`
+- `netsuite2__income_statement`
+- `netsuite2__transaction_details`
+
+When enabled, the models use the `merge` strategy for Bigquery, Databricks, and Spark, and the `delete+insert` strategy for PostgreSQL, Redshift, and Snowflake.
+
+```yml
+vars:
+  netsuite:
+    netsuite2__using_incremental: true # False by default. Materializes the above models as incremental instead of table.
+```
+
+##### Lookback Window
+Records from the source can sometimes arrive late. If leveraging the incremental logic for the end models (disabled by default), we look back 3 days from the `_fivetran_synced_date` of transaction records to ensure late arrivals are captured and avoiding the need for frequent full refreshes. While the frequency can be reduced, if using the incremental strategy we recommend running `dbt --full-refresh` periodically to maintain data quality of the models.
+
+To change the default lookback window, add the following variable to your `dbt_project.yml` file:
+
+```yml
+vars:
+  netsuite:
+    lookback_window: number_of_days # default is 3
+```
+
 #### Change the build schema
 By default, this package builds the Netsuite staging models within a schema titled (`<target_schema>` + `_netsuite_source`) and your Netsuite modeling models within a schema titled (`<target_schema>` + `_netsuite`) in your destination. If this is not where you would like your Netsuite data to be written to, add the following configuration to your root `dbt_project.yml` file:
 
@@ -355,32 +393,6 @@ vars:
 #### Override the data models variable
 This package is designed to run **either** the Netsuite.com or Netsuite2 data models. However, for documentation purposes, an additional variable `netsuite_data_model_override` was created to allow for both data model types to be run at the same time by setting the variable value to `netsuite`. This is only to ensure the [dbt docs](https://fivetran.github.io/dbt_netsuite/) (which is hosted on this repository) is generated for both model types. While this variable is provided, we recommend you do not adjust the variable and instead change the `netsuite_data_model` variable to fit your configuration needs.
 
-#### Lookback Window
-Records from the source can sometimes arrive late. Since several of the models in this package are incremental, by default we look back 3 days from the `_fivetran_synced_date` of transaction records to ensure late arrivals are captured and avoiding the need for frequent full refreshes. While the frequency can be reduced, we still recommend running `dbt --full-refresh` periodically to maintain data quality of the models.
-
-To change the default lookback window, add the following variable to your `dbt_project.yml` file:
-
-```yml
-vars:
-  netsuite:
-    lookback_window: number_of_days # default is 3
-```
-
-#### Adding incremental materialization for Bigquery and Databricks
-Since pricing and runtime priorities vary by customer, by default we chose to materialize the below models as tables instead of an incremental materialization for Bigquery and Databricks. For more information on this decision, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy) of the DECISIONLOG.
-
-If you wish to enable incremental materializations leveraging the `merge` strategy, you can add the below materialization settings to your `dbt_project.yml` file. You only need to add lines for the specific model materializations you wish to change.
-```yml
-models:
-  netsuite:
-    netsuite2:
-      netsuite2__income_statement:
-        +materialized: incremental # default is table for Bigquery and Databricks
-      netsuite2__transaction_details:
-        +materialized: incremental # default is table for Bigquery and Databricks
-      netsuite2__balance_sheet:
-        +materialized: incremental # default is table for Bigquery and Databricks
-```
 </details>
 
 ### (Optional) Produce Analytics-Ready Reports with Streamlit App (Bigquery and Snowflake users only)

@@ -1,6 +1,7 @@
 {%- set using_exchange_rate = var('netsuite2__using_exchange_rate', true) -%}
 {%- set multibook_accounting_enabled = var('netsuite2__multibook_accounting_enabled', false) -%}
 {%- set using_to_subsidiary = var('netsuite2__using_to_subsidiary', false) -%}
+{%- set accounts_pass_through_columns = var('accounts_pass_through_columns', []) -%}
 
 {{
   config(
@@ -106,7 +107,19 @@ transactions_with_converted_amounts as (
       when lower(accounts.account_type_id) in ('equity', 'retained_earnings', 'net_income') then 'Equity'
       when lower(accounts.account_type_id) in ('nonposting', 'stat') then 'Other'
       else null 
-        end as account_category
+        end as account_category,
+    accounts.is_balancesheet as is_account_balancesheet,
+    accounts.name as account_name,
+    accounts.display_name as account_display_name,
+    accounts.type_name as account_type_name,
+    accounts.special_account_type_id,
+    accounts.account_type_id,
+    accounts.account_number,
+    accounts.is_eliminate as is_account_eliminate,
+    accounts.is_leftside as is_account_leftside,
+    accounts.general_rate_type as account_general_rate_type
+    {{ netsuite.persist_pass_through_columns(accounts_pass_through_columns, identifier='accounts') }}
+
   from transactions_in_every_calculation_period_w_exchange_rates
 
   left join accounts

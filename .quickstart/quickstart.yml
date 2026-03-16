@@ -60,6 +60,30 @@ public_models: [
 ]
 
 supported_vars:
+  netsuite2__balance_sheet_transaction_level:
+    type: boolean
+    value: true
+    description: "Output the `netsuite2__balance_sheet` model at the transaction line grain"
+    display_name: "Balance Sheet Transaction Level Granularity"
+
+  netsuite2__income_statement_transaction_level:
+    type: boolean
+    value: true
+    description: "Output the `netsuite2__income_statement` model at the transaction line grain"
+    display_name: "Income Statement Transaction Level Granularity"
+
+  netsuite2__using_incremental:
+    type: boolean
+    value: false
+    description: "Run models incrementally instead of rebuilding them from scratch on each run. Periodic full refreshes are recommended to maintain data integrity."
+    display_name: "Run Models as Incremental"
+
+  lookback_window:
+    type: integer
+    value: 3
+    description: "(If applicable) Number of days into the past that the models will look back to capture late-arriving events on incremental runs"
+    display_name: "Incremental Run Lookback Window (Days)"
+    
   accounts_pass_through_columns:
     type: dictionary
     description: "Additional `ACCOUNT` columns to include in `netsuite2__transaction_details`, `netsuite2__balance_sheet`, and `netsuite2__income_statement`"
@@ -104,10 +128,3 @@ supported_vars:
     type: list
     description: "Additional columns from `netsuite2__transaction_details` to include in `netsuite2__income_statement`"
     display_name: "Income Statement Transaction Detail Columns"
-
-  lookback_window:
-    type: integer
-    value: 3
-    description: "Number of days into the past that the models will look back to capture late-arriving events on incremental runs"
-    display_name: "Incremental Run Lookback Window (Days)"
-

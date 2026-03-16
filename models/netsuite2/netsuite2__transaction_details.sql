@@ -8,11 +8,12 @@
 {%- set subsidiaries_pass_through_columns = var('subsidiaries_pass_through_columns', []) -%}
 {%- set transactions_pass_through_columns = var('transactions_pass_through_columns', []) -%}
 {%- set transaction_lines_pass_through_columns = var('transaction_lines_pass_through_columns', []) -%}
+{%- set using_incremental = var('netsuite2__using_incremental', false) -%}
 
 {{
     config(
         enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
-        materialized='table' if target.type in ('bigquery', 'databricks', 'spark') and not var('netsuite__enable_incremenal', False) else 'incremental',
+        materialized='incremental' if using_incremental else 'table',
         partition_by = {'field': 'transaction_line_fivetran_synced_date', 'data_type': 'date', 'granularity': 'month'}
             if target.type not in ['spark', 'databricks'] else ['transaction_line_fivetran_synced_date'],
         cluster_by = ['transaction_id'],
