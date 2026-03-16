@@ -5,6 +5,8 @@
 {%- set lookback_window = var('lookback_window', 3) -%}
 {%- set transaction_level = var('netsuite2__balance_sheet_transaction_level', True) -%}
 {%- set using_incremental = var('netsuite2__using_incremental', false) -%}
+{% set pass_through_column_count = accounts_pass_through_columns|length + (balance_sheet_transaction_detail_columns|length if transaction_level else 0) %}
+{% set variable_column_count = (2 if multibook_accounting_enabled else 0) + (3 if using_to_subsidiary_and_exchange_rate else 0) %}
 
 {{
     config(
@@ -75,9 +77,6 @@ transactions_with_converted_amounts as (
         sum(unconverted_amount) as unconverted_amount
 
     from transactions_with_converted_amounts_init
-
-    {% set pass_through_column_count = accounts_pass_through_columns|length + (balance_sheet_transaction_detail_columns|length if transaction_level else 0) %}
-    {% set variable_column_count = (2 if multibook_accounting_enabled else 0) + (3 if using_to_subsidiary_and_exchange_rate else 0) %}
 
     {{ dbt_utils.group_by(n=17 + pass_through_column_count + variable_column_count) }}
 
@@ -317,7 +316,7 @@ balance_sheet as (
             end) as transaction_amount
 
     from balance_sheet_join
-
+    
     {{ dbt_utils.group_by(n=24 + pass_through_column_count + variable_column_count + (2 if transaction_level else 0)) }}
 
     union all
