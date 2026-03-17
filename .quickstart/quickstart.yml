@@ -72,18 +72,30 @@ supported_vars:
     description: "Output the `netsuite2__income_statement` model at the transaction line grain"
     display_name: "Income Statement Transaction Level Granularity"
 
-  netsuite2__using_incremental:
+  netsuite2__balance_sheet_use_incremental:
     type: boolean
     value: false
-    description: "Run models incrementally instead of rebuilding them from scratch on each run. Periodic full refreshes are recommended to maintain data integrity."
-    display_name: "Run Models as Incremental"
+    description: "Run `netsuite2__balance_sheet` incrementally instead of rebuilding from scratch on each run. Periodic full refreshes are recommended to maintain data integrity."
+    display_name: "Run Balance Sheet as Incremental"
+
+  netsuite2__income_statement_use_incremental:
+    type: boolean
+    value: false
+    description: "Run `netsuite2__income_statement` incrementally instead of rebuilding from scratch on each run. Periodic full refreshes are recommended to maintain data integrity."
+    display_name: "Run Income Statement as Incremental"
+
+  netsuite2__transaction_details_use_incremental:
+    type: boolean
+    value: false
+    description: "Run `netsuite2__transaction_details` incrementally instead of rebuilding from scratch on each run. Periodic full refreshes are recommended to maintain data integrity."
+    display_name: "Run Transaction Details as Incremental"
 
   lookback_window:
     type: integer
     value: 3
     description: "(If applicable) Number of days into the past that the models will look back to capture late-arriving events on incremental runs"
     display_name: "Incremental Run Lookback Window (Days)"
-    
+
   accounts_pass_through_columns:
     type: dictionary
     description: "Additional `ACCOUNT` columns to include in `netsuite2__transaction_details`, `netsuite2__balance_sheet`, and `netsuite2__income_statement`"

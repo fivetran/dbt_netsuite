@@ -9,7 +9,7 @@
 {%- set transactions_pass_through_columns = var('transactions_pass_through_columns', []) -%}
 {%- set transaction_lines_pass_through_columns = var('transaction_lines_pass_through_columns', []) -%}
 {%- set lookback_window = var('lookback_window', 3) -%}
-{%- set using_incremental = var('netsuite2__using_incremental', false) -%}
+{%- set using_incremental = var('netsuite2__transaction_details_use_incremental', false) -%}
 
 {{
     config(

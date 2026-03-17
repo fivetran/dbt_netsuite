@@ -7,7 +7,7 @@
 {%- set departments_pass_through_columns = var('departments_pass_through_columns', []) -%}
 {%- set lookback_window = var('lookback_window', 3) -%}
 {%- set transaction_level = var('netsuite2__income_statement_transaction_level', True) -%}
-{%- set using_incremental = var('netsuite2__using_incremental', false) -%}
+{%- set using_incremental = var('netsuite2__income_statement_use_incremental', false) -%}
 
 {{
     config(

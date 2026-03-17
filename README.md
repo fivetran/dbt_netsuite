@@ -335,20 +335,18 @@ vars:
 ```
 
 #### Enabling incremental materialization (Netsuite2 only)
-Since pricing and runtime priorities vary by customer, and retroactively modified transactions can introduce potential data drift, by default we materialize the below models as tables. For more information on this decision, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy-selection) of the DECISIONLOG.
+Since pricing and runtime priorities vary by customer, and retroactively modified transactions can introduce potential data drift, by default we materialize the Netsuite2 end models as tables. For more information on this decision, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy-selection) of the DECISIONLOG.
 
-If you wish to enable incremental materializations for the following models, you can set the `netsuite2__using_incremental` variable to `true` in your `dbt_project.yml` file:
-- `netsuite2__balance_sheet`
-- `netsuite2__income_statement`
-- `netsuite2__transaction_details`
-
-When enabled, the models use the `merge` strategy for Bigquery, Databricks, and Spark, and the `delete+insert` strategy for PostgreSQL, Redshift, and Snowflake.
+You can enable incremental materialization per model using the following variables. When enabled, a model uses the `merge` strategy for BigQuery, Databricks, and Spark, and the `delete+insert` strategy for PostgreSQL, Redshift, and Snowflake.
 
 ```yml
 vars:
   netsuite:
-    netsuite2__using_incremental: true # False by default. Materializes the above models as incremental instead of table.
+    netsuite2__balance_sheet_use_incremental: true # False by default. Materializes netsuite2__balance_sheet as incremental instead of table.
+    netsuite2__income_statement_use_incremental: true # False by default. Materializes netsuite2__income_statement as incremental instead of table.
+    netsuite2__transaction_details_use_incremental: true # False by default. Materializes netsuite2__transaction_details as incremental instead of table.
 ```
+
 
 ##### Lookback Window
 Records from the source can sometimes arrive late. If leveraging the incremental logic for the end models (disabled by default), we look back 3 days from the `_fivetran_synced_date` of transaction records to ensure late arrivals are captured and avoiding the need for frequent full refreshes. While the frequency can be reduced, if using the incremental strategy we recommend running `dbt --full-refresh` periodically to maintain data quality of the models.

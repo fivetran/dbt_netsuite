@@ -4,7 +4,7 @@
 {%- set accounts_pass_through_columns = var('accounts_pass_through_columns', []) -%}
 {%- set lookback_window = var('lookback_window', 3) -%}
 {%- set transaction_level = var('netsuite2__balance_sheet_transaction_level', True) -%}
-{%- set using_incremental = var('netsuite2__using_incremental', false) -%}
+{%- set using_incremental = var('netsuite2__balance_sheet_use_incremental', false) -%}
 {% set pass_through_column_count = accounts_pass_through_columns|length + (balance_sheet_transaction_detail_columns|length if transaction_level else 0) %}
 {% set variable_column_count = (2 if multibook_accounting_enabled else 0) + (3 if using_to_subsidiary_and_exchange_rate else 0) %}
 

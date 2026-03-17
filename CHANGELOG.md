@@ -3,29 +3,26 @@
 [PR #193](https://github.com/fivetran/dbt_netsuite/pull/193) includes the following updates:
 
 ## Schema/Data Change
-**1 total change • 1 possible breaking change**
+**3 total changes • 3 possible breaking changes**
 
 | Data Model(s) | Change type | Old | New | Notes |
 | ------------- | ----------- | --- | --- | ----- |
-| [netsuite2__balance_sheet](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__balance_sheet)<br>[netsuite2__income_statement](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__income_statement)<br>[netsuite2__transaction_details](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netstuite2__transaction_details) | Default Materialization | Incremental | Table | Can still be run incrementally by setting the `netsuite2__using_incremental` variable to `true`. |
+| [netsuite2__balance_sheet](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__balance_sheet) | Default Materialization | Incremental | Table | Can still be run incrementally by setting the `netsuite2__balance_sheet_use_incremental` variable to `true`. |
+| [netsuite2__income_statement](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__income_statement) | Default Materialization | Incremental | Table | Can still be run incrementally by setting the `netsuite2__income_statement_use_incremental` variable to `true`. |
+| [netsuite2__transaction_details](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netstuite2__transaction_details) | Default Materialization | Incremental | Table | Can still be run incrementally by setting the `netsuite2__transaction_details_use_incremental` variable to `true`. |
 
 ## Feature Update
-- Adds `netsuite2__balance_sheet_transaction_level` and `netsuite2__income_statement_transaction_level` variables (Netsuite2 only). Both default to `true`, preserving one row per transaction line with `transaction_id` and `transaction_line_id` in the output. Set either to `false` to roll up results to the account and accounting period level.
-  - When set to `false`, any columns passed via `balance_sheet_transaction_detail_columns` or `income_statement_transaction_detail_columns` are ignored.
+- Adds the option to aggregate the `netsuite2__balance_sheet` and `netsuite2__income_statement` past transactions and to the account and accounting period grain.
+  - To do so, set the following variable(s) to `false`. Both default to `true`, preserving one row per transaction line with `transaction_id` and `transaction_line_id` in the output:
 ```yml
 vars:
     netsuite2__balance_sheet_transaction_level: false # True by default. Set to false to roll up to account/period level in netsuite2__balance_sheet.
     netsuite2__income_statement_transaction_level: false # True by default. Set to false to roll up to account/period level in netsuite2__income_statement.
 ```
-- Introduces the `netsuite2__using_incremental` variable to allow for the incremental materialization of `netsuite2__balance_sheet`, `netsuite2__income_statement`, and `netsuite2__transaction_details`. It is `false` by default, and these models are built from scratch each run.
-```yml
-vars:
-    netsuite2__using_incremental: true # False by default. Materializes the above models as incremental instead of table.
-```
+> Note: When set to `false`, any columns passed via `balance_sheet_transaction_detail_columns` or `income_statement_transaction_detail_columns` are ignored.
 
 ## Under the Hood
-- Moves account fields (`is_balancesheet`, `name`, `display_name`, `type_name`, `special_account_type_id`, `account_type_id`, `account_number`, `is_eliminate`, `is_leftside`, `general_rate_type`) into `int_netsuite2__tran_with_converted_amounts` to eliminate a redundant join in `netsuite2__balance_sheet` and reduce query runtime.
-- Adds `department_id`, `location_id`, and `class_id` to `int_netsuite2__tran_lines_w_accounting_period` to eliminate a redundant join in `netsuite2__income_statement` and reduce query runtime.
+- Adds `paritition_by_source_relation()` macro to avoid constant expression errors in Redshift.
 
 # dbt_netsuite v1.4.0
 
