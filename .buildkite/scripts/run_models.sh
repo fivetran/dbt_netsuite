@@ -22,11 +22,11 @@ if [ "$db" = "databricks-sql" ]; then
 dbt seed --vars '{netsuite_schema: netsuite_integrations_tests_sqlw}' --target "$db" --full-refresh
 dbt source freshness --vars '{netsuite_schema: netsuite_integrations_tests_sqlw}' --target "$db" || echo "...Only verifying freshness runs…"
 dbt compile --vars '{netsuite_schema: netsuite_integrations_tests_sqlw}' --target "$db"
-dbt run --vars '{netsuite_schema: netsuite_integrations_tests_sqlw, netsuite2__using_incremental: true}' --target "$db" --full-refresh
-dbt run --vars '{netsuite_schema: netsuite_integrations_tests_sqlw, netsuite2__using_incremental: true}' --target "$db"
+dbt run --vars '{netsuite_schema: netsuite_integrations_tests_sqlw, netsuite2__balance_sheet_use_incremental: true, netsuite2__income_statement_use_incremental: true, netsuite2__transaction_details_use_incremental: true}' --target "$db" --full-refresh
+dbt run --vars '{netsuite_schema: netsuite_integrations_tests_sqlw, netsuite2__balance_sheet_use_incremental: true, netsuite2__income_statement_use_incremental: true, netsuite2__transaction_details_use_incremental: true}' --target "$db"
 dbt test --vars '{netsuite_schema: netsuite_integrations_tests_sqlw}' --target "$db"
 dbt run --vars '{netsuite_schema: netsuite_integrations_tests_sqlw, netsuite2__balance_sheet_transaction_level: false, netsuite2__using_to_subsidiary: true, netsuite2__multibook_accounting_enabled: true, netsuite2__using_exchange_rate: false, netsuite2__using_vendor_categories: false, netsuite2__using_jobs: false, netsuite2__using_employees: false, netsuite2__fiscal_calendar_enabled: true}' --target "$db" --full-refresh
-dbt run --vars '{netsuite_schema: netsuite_integrations_tests_sqlw, netsuite2__balance_sheet_transaction_level: false, netsuite2__using_to_subsidiary: true, netsuite2__multibook_accounting_enabled: true, netsuite2__using_exchange_rate: false, netsuite2__using_vendor_categories: false, netsuite2__using_jobs: false, netsuite2__using_employees: false, netsuite2__fiscal_calendar_enabled: true}' --target "$db"
+dbt run --vars '{netsuite_schema: netsuite_integrations_tests_sqlw, netsuite2__income_statement_transaction_level: false, netsuite2__using_to_subsidiary: true, netsuite2__multibook_accounting_enabled: true, netsuite2__using_exchange_rate: false, netsuite2__using_vendor_categories: false, netsuite2__using_jobs: false, netsuite2__using_employees: false, netsuite2__fiscal_calendar_enabled: true}' --target "$db"
 dbt test --vars '{netsuite_schema: netsuite_integrations_tests_sqlw}' --target "$db"
 # Removed extra tests for SQL warehouse for efficiency
 
@@ -35,15 +35,15 @@ else
 dbt seed --target "$db" --full-refresh
 dbt source freshness --target "$db" || echo "...Only verifying freshness runs…"
 dbt compile --target "$db"
-dbt run --target "$db" --full-refresh
-dbt run --target "$db"
+dbt run --target "$db" --vars '{netsuite2__balance_sheet_use_incremental: true, netsuite2__income_statement_use_incremental: true, netsuite2__transaction_details_use_incremental: true}' --full-refresh
+dbt run --target "$db" --vars '{netsuite2__balance_sheet_use_incremental: true, netsuite2__income_statement_use_incremental: true, netsuite2__transaction_details_use_incremental: true}'
 dbt test --target "$db"
 dbt run --vars '{netsuite2__using_to_subsidiary: true, netsuite2__multibook_accounting_enabled: true, netsuite2__using_exchange_rate: false, netsuite2__using_vendor_categories: false, netsuite2__using_jobs: false, netsuite2__using_employees: false, netsuite2__fiscal_calendar_enabled: true}' --target "$db" --full-refresh
 dbt run --vars '{netsuite2__using_to_subsidiary: true, netsuite2__multibook_accounting_enabled: true, netsuite2__using_exchange_rate: false, netsuite2__using_vendor_categories: false, netsuite2__using_jobs: false, netsuite2__using_employees: false, netsuite2__fiscal_calendar_enabled: true}' --target "$db"
 dbt test --target "$db"
-dbt run --vars '{netsuite2__using_to_subsidiary: true, netsuite2__using_exchange_rate: true, netsuite2__using_vendor_subsidiary_relationships: false}' --target "$db" --full-refresh
+dbt run --vars '{netsuite2__using_to_subsidiary: true, netsuite2__using_exchange_rate: true, netsuite2__balance_sheet_transaction_level: false, netsuite2__using_vendor_subsidiary_relationships: false}' --target "$db" --full-refresh
 dbt test --target "$db"
-dbt run --vars '{netsuite2__using_customer_subsidiary_relationships: false, netsuite2__using_vendor_subsidiary_relationships: false}' --target "$db" --full-refresh
+dbt run --vars '{netsuite2__using_customer_subsidiary_relationships: false, netsuite2__income_statement_transaction_level: false, netsuite2__using_vendor_subsidiary_relationships: false}' --target "$db" --full-refresh
 dbt test --target "$db"
 fi
 

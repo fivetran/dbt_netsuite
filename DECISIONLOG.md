@@ -28,6 +28,6 @@ models:
 
 ## Incremental Strategy Selection
 
-For the Netsuite2 end models (`netsuite2__balance_sheet`, `netsuite2__income_statement`, `netsuite2__transaction_details`), incremental materialization is disabled by default to avoid potential data drift from modified transactions and unexpected warehouse costs and build times. Users can opt-in to incremental materialization by setting `netsuite2__using_incremental: true`. For instructions on how to enable incremental materialization, see the [README](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#enabling-incremental-materialization-netsuite2-only).
+For the Netsuite2 end models (`netsuite2__balance_sheet`, `netsuite2__income_statement`, `netsuite2__transaction_details`), incremental materialization is disabled by default to avoid potential data drift from modified transactions and unexpected warehouse costs and build times. Users can opt-in to incremental materialization per model using the `netsuite2__balance_sheet_use_incremental`, `netsuite2__income_statement_use_incremental`, and `netsuite2__transaction_details_use_incremental` variables. For instructions on how to enable incremental materialization, see the [README](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#enabling-incremental-materialization-netsuite2-only).
 
 When enabled, we use the `merge` strategy for Bigquery, Databricks, and Spark destinations, and the `delete+insert` strategy for PostgreSQL, Redshift, and Snowflake destinations.

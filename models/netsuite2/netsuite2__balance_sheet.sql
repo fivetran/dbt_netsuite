@@ -130,6 +130,11 @@ balance_sheet_join as (
         transaction_accounting_periods.fiscal_year_trunc as transaction_fiscal_year_trunc,
         transaction_accounting_periods.fiscal_calendar_id as transaction_fiscal_calendar_id
 
+        --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.
+        {% if balance_sheet_transaction_detail_columns != [] and transaction_level %}
+        , transaction_details.{{ balance_sheet_transaction_detail_columns | join(", transaction_details.") }}
+        {% endif %}
+
     from transactions_with_converted_amounts
 
     --Below is only used if balance sheet transaction detail columns are specified dbt_project.yml file.

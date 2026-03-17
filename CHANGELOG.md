@@ -9,7 +9,7 @@
 | ------------- | ----------- | --- | --- | ----- |
 | [netsuite2__balance_sheet](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__balance_sheet) | Default Materialization | Incremental | Table | Can still be run incrementally by setting the `netsuite2__balance_sheet_use_incremental` variable to `true`. |
 | [netsuite2__income_statement](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__income_statement) | Default Materialization | Incremental | Table | Can still be run incrementally by setting the `netsuite2__income_statement_use_incremental` variable to `true`. |
-| [netsuite2__transaction_details](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netstuite2__transaction_details) | Default Materialization | Incremental | Table | Can still be run incrementally by setting the `netsuite2__transaction_details_use_incremental` variable to `true`. |
+| [netsuite2__transaction_details](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__transaction_details) | Default Materialization | Incremental | Table | Can still be run incrementally by setting the `netsuite2__transaction_details_use_incremental` variable to `true`. |
 
 ## Feature Update
 - Adds the option to aggregate the `netsuite2__balance_sheet` and `netsuite2__income_statement` past transactions and to the account and accounting period grain.
@@ -22,7 +22,7 @@ vars:
 > Note: When set to `false`, any columns passed via `balance_sheet_transaction_detail_columns` or `income_statement_transaction_detail_columns` are ignored.
 
 ## Under the Hood
-- Adds `paritition_by_source_relation()` macro to avoid constant expression errors in Redshift.
+- Adds `partition_by_source_relation()` macro to avoid constant expression errors in Redshift.
 
 # dbt_netsuite v1.4.0
 
@@ -44,7 +44,7 @@ vars:
 
 | Data Model(s) | Change type | Old | New | Notes |
 | ------------- | ----------- | --- | --- | ----- |
-| [netsuite2__balance_sheet](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__balance_sheet)<br>[netsuite2__income_statement](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__income_statement)<br>[netsuite2__transaction_details](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netstuite2__transaction_details)<br>[stg_netsuite2__accounting_period_fiscal_cal](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.stg_netsuite2__accounting_period_fiscal_cal)  | New column | | `accounting_period_full_name` | Adds the full name field from the accounting period fiscal calendar source table, providing descriptive period names like "FY2023 : Q1 2023". |
+| [netsuite2__balance_sheet](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__balance_sheet)<br>[netsuite2__income_statement](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__income_statement)<br>[netsuite2__transaction_details](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__transaction_details)<br>[stg_netsuite2__accounting_period_fiscal_cal](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.stg_netsuite2__accounting_period_fiscal_cal)  | New column | | `accounting_period_full_name` | Adds the full name field from the accounting period fiscal calendar source table, providing descriptive period names like "FY2023 : Q1 2023". |
 
 ## Feature Update
 - When `netsuite2__using_to_subsidiary` is enabled, `netsuite2__balance_sheet` applies each transaction’s `to_subsidiary` fiscal calendar. If `to_subsidiary` is `null`, the model falls back to the fiscal calendar of the transaction’s `subsidiary_id`.
