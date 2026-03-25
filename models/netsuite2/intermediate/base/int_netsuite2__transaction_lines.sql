@@ -1,4 +1,4 @@
-{%- set multibook_accounting_enabled = var('netsuite2__multibook_accounting_enabled', false) -%}
+{%- set multibook_accounting_enabled = var('netsuite2__multibook_accounting_enabled', false) or var('netsuite2__multibook_accounting_enabled_v2', false) -%}
 
 {{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
 

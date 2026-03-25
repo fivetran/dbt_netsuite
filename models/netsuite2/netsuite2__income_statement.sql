@@ -1,4 +1,4 @@
-{%- set multibook_accounting_enabled = var('netsuite2__multibook_accounting_enabled', false) -%}
+{%- set multibook_accounting_enabled = var('netsuite2__multibook_accounting_enabled', false) or var('netsuite2__multibook_accounting_enabled_v2', false) -%}
 {%- set using_to_subsidiary = var('netsuite2__using_to_subsidiary', false) -%}
 {%- set using_exchange_rate = var('netsuite2__using_exchange_rate', true) -%}
 {%- set income_statement_transaction_detail_columns = var('income_statement_transaction_detail_columns', []) -%}

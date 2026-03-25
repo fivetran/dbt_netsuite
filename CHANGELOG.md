@@ -1,3 +1,19 @@
+# dbt_netsuite v1.5.0-a1
+
+## Schema/Data Change (--full-refresh required after upgrading for affected connections)
+**4 total changes • 4 possible breaking changes**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | --- | --- | ----- |
+| [netsuite2__transaction_details](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__transaction_details)<br>[netsuite2__balance_sheet](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__balance_sheet)<br>[netsuite2__income_statement](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__income_statement) | Data change | Values sourced from `accountingBook` | Values sourced from `AccountingBook` | Applies only to Quickstart connections where the connector now syncs the `AccountingBook` (PascalCase) table. |
+| [netsuite2__transaction_details](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__transaction_details) | Data change | `transaction_details_id` | `transaction_details_id` | Applies only to Quickstart connections where the connector now syncs the `AccountingBook` (PascalCase) table. Surrogate key value changes for affected connections as `accounting_book_id` is now populated from the `AccountingBook` table. A full refresh is required. |
+| [netsuite2__balance_sheet](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__balance_sheet) | Data change | `balance_sheet_id` | `balance_sheet_id` | Applies only to Quickstart connections where the connector now syncs the `AccountingBook` (PascalCase) table. Surrogate key value could change for affected connections as `accounting_book_id` is now populated from the `AccountingBook` table. A full refresh is required. |
+| [netsuite2__income_statement](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__income_statement) | Data change | `income_statement_id` | `income_statement_id` | Applies only to Quickstart connections where the connector now syncs the `AccountingBook` (PascalCase) table. Surrogate key value could changes for affected connections as `accounting_book_id` is now populated from the `AccountingBook` table. A full refresh is required. |
+
+## Under the Hood
+- Adds `netsuite2__multibook_accounting_enabled_v2` table variable to `quickstart.yml` to detect customers syncing the `AccountingBook` table name instead of `accountingBook`.
+- Updates all models that read `netsuite2__multibook_accounting_enabled` to also evaluate `netsuite2__multibook_accounting_enabled_v2`, ensuring multibook logic runs correctly for both connection variants during the connector migration period.
+
 # dbt_netsuite v1.4.0
 
 [PR #190](https://github.com/fivetran/dbt_netsuite/pull/190) includes the following updates:

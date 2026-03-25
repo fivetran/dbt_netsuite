@@ -1,4 +1,4 @@
-{%- set multibook_accounting_enabled = var('netsuite2__multibook_accounting_enabled', false) -%}
+{%- set multibook_accounting_enabled = var('netsuite2__multibook_accounting_enabled', false) or var('netsuite2__multibook_accounting_enabled_v2', false) -%}
 {%- set using_to_subsidiary_and_exchange_rate = (var('netsuite2__using_to_subsidiary', false) and var('netsuite2__using_exchange_rate', true)) -%}
 {%- set balance_sheet_transaction_detail_columns = var('balance_sheet_transaction_detail_columns', []) -%}
 {%- set accounts_pass_through_columns = var('accounts_pass_through_columns', []) -%}

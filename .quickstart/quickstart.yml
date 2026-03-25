@@ -10,6 +10,9 @@ table_variables:
   netsuite2__multibook_accounting_enabled:
     - accountingBook
     - AccountingBookSubsidiaries
+  netsuite2__multibook_accounting_enabled_v2:
+    - AccountingBook
+    - AccountingBookSubsidiaries
 
   # Source
   netsuite2__using_account_types:
