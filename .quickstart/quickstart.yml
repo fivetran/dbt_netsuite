@@ -60,31 +60,31 @@ public_models: [
 ]
 
 supported_vars:
-  netsuite2__balance_sheet_transaction_level:
+  netsuite2__aggregate_balance_sheet:
     type: boolean
     value: true
-    description: "Output the `netsuite2__balance_sheet` model at the transaction line grain"
-    display_name: "Balance Sheet Transaction Level Granularity"
+    description: "Aggregate the `netsuite2__balance_sheet` model to the account level by period. Otherwise, the model will be at the transaction line grain."
+    display_name: "Aggregate Balance Sheet"
 
-  netsuite2__income_statement_transaction_level:
+  netsuite2__aggregate_income_statement:
     type: boolean
     value: true
-    description: "Output the `netsuite2__income_statement` model at the transaction line grain"
-    display_name: "Income Statement Transaction Level Granularity"
+    description: "Aggregate the `netsuite2__income_statement` model to the account level by period. Otherwise, the model will be at the transaction line grain."
+    display_name: "Aggregate Income Statement"
 
-  netsuite2__balance_sheet_use_incremental:
+  netsuite2__enable_incremental_balance_sheet:
     type: boolean
     value: false
     description: "Run `netsuite2__balance_sheet` incrementally instead of rebuilding from scratch on each run. Periodic full refreshes are recommended to maintain data integrity."
     display_name: "Run Balance Sheet as Incremental"
 
-  netsuite2__income_statement_use_incremental:
+  netsuite2__enable_incremental_income_statement:
     type: boolean
     value: false
     description: "Run `netsuite2__income_statement` incrementally instead of rebuilding from scratch on each run. Periodic full refreshes are recommended to maintain data integrity."
     display_name: "Run Income Statement as Incremental"
 
-  netsuite2__transaction_details_use_incremental:
+  netsuite2__enable_incremental_transaction_details:
     type: boolean
     value: false
     description: "Run `netsuite2__transaction_details` incrementally instead of rebuilding from scratch on each run. Periodic full refreshes are recommended to maintain data integrity."

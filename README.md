@@ -264,15 +264,15 @@ vars:
     netsuite2__using_to_subsidiary: true # False by default.
 ```
 
-#### Transaction-Level Balance Sheet and Income Statement (Netsuite2 only)
-By default, `netsuite2__balance_sheet` and `netsuite2__income_statement` output one row per transaction line, including `transaction_id` and `transaction_line_id` columns. To roll up to the account and accounting period level instead, set the respective variable to `false` in your `dbt_project.yml`.
+#### Transaction-Level vs Aggregated Balance Sheet and Income Statement (Netsuite2 only)
+By default, `netsuite2__balance_sheet` and `netsuite2__income_statement` will be aggregated to the account and accounting period level. To instead output one row per transaction line (and include the `transaction_id` and `transaction_line_id` columns), set the respective variable to `true` in your `dbt_project.yml`.
 
-> **Note**: When set to `false`, any columns passed via `balance_sheet_transaction_detail_columns` or `income_statement_transaction_detail_columns` are ignored, since those require transaction-level granularity.
+> **Note**: When set to `true`, any columns passed via `balance_sheet_transaction_detail_columns` or `income_statement_transaction_detail_columns` are ignored, since those require transaction-level granularity.
 
 ```yml
 vars:
-    netsuite2__balance_sheet_transaction_level: false # True by default. Set to false to roll up to account/period level in netsuite2__balance_sheet.
-    netsuite2__income_statement_transaction_level: false # True by default. Set to false to roll up to account/period level in netsuite2__income_statement.
+    netsuite2__aggregate_balance_sheet: False # True by default. Set to false to keep netsuite2__balance_sheet at the transaction line grain
+    netsuite2__aggregate_income_statement: False # True by default. Set to false to keep netsuite2__income_statement at the transaction line grain
 ```
 
 #### Passing Through Additional Fields
@@ -337,16 +337,17 @@ vars:
 #### Enabling incremental materialization (Netsuite2 only)
 Since pricing and runtime priorities vary by customer, and retroactively modified transactions can introduce potential data drift, by default we materialize the Netsuite2 end models as tables. For more information on this decision, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy-selection) of the DECISIONLOG.
 
-You can enable incremental materialization per model using the following variables. When enabled, a model uses the `merge` strategy for BigQuery, Databricks, and Spark, and the `delete+insert` strategy for PostgreSQL, Redshift, and Snowflake.
+You can enable incremental materialization per model using the following variables. When enabled, a model uses the `merge` strategy for BigQuery, Databricks, and Spark, and the `delete+insert` strategy for PostgreSQL, Redshift, and Snowflake. 
+
+The models **must** be set at the transaction line grain in order to be run incrementally.
 
 ```yml
 vars:
   netsuite:
-    netsuite2__balance_sheet_use_incremental: true # False by default. Materializes netsuite2__balance_sheet as incremental instead of table.
-    netsuite2__income_statement_use_incremental: true # False by default. Materializes netsuite2__income_statement as incremental instead of table.
-    netsuite2__transaction_details_use_incremental: true # False by default. Materializes netsuite2__transaction_details as incremental instead of table.
+    netsuite2__enable_incremental_balance_sheet: true # False by default. Materializes netsuite2__balance_sheet as incremental instead of table. Requires netsuite2__aggregate_balance_sheet to be False
+    netsuite2__enable_incremental_income_statement: true # False by default. Materializes netsuite2__income_statement as incremental instead of table. Requires netsuite2__aggregate_income_statement to be False
+    netsuite2__enable_incremental_transaction_details: true # False by default. Materializes netsuite2__transaction_details as incremental instead of table.
 ```
-
 
 ##### Lookback Window
 Records from the source can sometimes arrive late. If leveraging the incremental logic for the end models (disabled by default), we look back 3 days from the `_fivetran_synced_date` of transaction records to ensure late arrivals are captured and avoiding the need for frequent full refreshes. While the frequency can be reduced, if using the incremental strategy we recommend running `dbt --full-refresh` periodically to maintain data quality of the models.

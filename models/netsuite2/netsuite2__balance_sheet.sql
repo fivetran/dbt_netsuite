@@ -3,8 +3,10 @@
 {%- set balance_sheet_transaction_detail_columns = var('balance_sheet_transaction_detail_columns', []) -%}
 {%- set accounts_pass_through_columns = var('accounts_pass_through_columns', []) -%}
 {%- set lookback_window = var('lookback_window', 3) -%}
-{%- set transaction_level = var('netsuite2__balance_sheet_transaction_level', True) -%}
-{%- set using_incremental = var('netsuite2__balance_sheet_use_incremental', false) -%}
+{%- set transaction_level = not var('netsuite2__aggregate_balance_sheet', true) -%}
+{# Incremental materialization can only be turned on when not aggregating #}
+{%- set using_incremental = var('netsuite2__enable_incremental_balance_sheet', false) and transaction_level -%}
+
 {% set pass_through_column_count = accounts_pass_through_columns|length + (balance_sheet_transaction_detail_columns|length if transaction_level else 0) %}
 {% set variable_column_count = (2 if multibook_accounting_enabled else 0) + (3 if using_to_subsidiary_and_exchange_rate else 0) %}
 
@@ -12,8 +14,10 @@
     config(
         enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
         materialized='incremental' if using_incremental else 'table',
-        partition_by = {'field': '_fivetran_synced_date', 'data_type': 'date', 'granularity': 'month'}
-            if target.type not in ['spark', 'databricks'] else ['_fivetran_synced_date'],       
+        partition_by = ({'field': '_fivetran_synced_date', 'data_type': 'date', 'granularity': 'month'}
+            if target.type not in ['spark', 'databricks'] else ['_fivetran_synced_date']) if transaction_level 
+            else ({'field': 'accounting_period_ending', 'data_type': 'date', 'granularity': 'month'}
+                if target.type not in ['spark', 'databricks'] else ['accounting_period_ending']),       
         cluster_by = ['transaction_id'] if transaction_level else ['account_id', 'accounting_period_id'],
         unique_key='balance_sheet_id',
         incremental_strategy = 'merge' if target.type in ('bigquery', 'databricks', 'spark') else 'delete+insert',
@@ -44,7 +48,6 @@ transactions_with_converted_amounts as (
     select 
         source_relation,
         subsidiary_id,
-        _fivetran_synced_date,
         account_category,
         account_name,
         account_display_name,
@@ -80,7 +83,7 @@ transactions_with_converted_amounts as (
 
     from transactions_with_converted_amounts_init
 
-    {{ dbt_utils.group_by(n=19 + pass_through_column_count + variable_column_count) }}
+    {{ dbt_utils.group_by(n=18 + pass_through_column_count + variable_column_count) }}
 
 ),
 
@@ -185,10 +188,10 @@ balance_sheet as (
         {% if transaction_level %}
         transaction_id,
         transaction_line_id,
+        _fivetran_synced_date,
         {% endif %}
 
         subsidiary_id,
-        _fivetran_synced_date,
         subsidiary_full_name,
         subsidiary_name,
         subsidiary_currency_symbol,
@@ -312,7 +315,7 @@ balance_sheet as (
 
     from balance_sheet_join
     
-    {{ dbt_utils.group_by(n=22 + pass_through_column_count + variable_column_count + (2 if transaction_level else 0)) }}
+    {{ dbt_utils.group_by(n=21 + pass_through_column_count + variable_column_count + (3 if transaction_level else 0)) }}
 
     union all
 
@@ -322,10 +325,10 @@ balance_sheet as (
         {% if transaction_level %}
         transaction_id,
         transaction_line_id,
+        _fivetran_synced_date,
         {% endif %}
 
         subsidiary_id,
-        _fivetran_synced_date,
         subsidiary_full_name,
         subsidiary_name,
         subsidiary_currency_symbol,
@@ -381,7 +384,7 @@ balance_sheet as (
 
     from balance_sheet_join
 
-    {{ dbt_utils.group_by(n=22 + pass_through_column_count + variable_column_count + (2 if transaction_level else 0)) }}
+    {{ dbt_utils.group_by(n=21 + pass_through_column_count + variable_column_count + (3 if transaction_level else 0)) }}
 ),
 
 surrogate_key as ( 

@@ -6,15 +6,18 @@
 {%- set classes_pass_through_columns = var('classes_pass_through_columns', []) -%}
 {%- set departments_pass_through_columns = var('departments_pass_through_columns', []) -%}
 {%- set lookback_window = var('lookback_window', 3) -%}
-{%- set transaction_level = var('netsuite2__income_statement_transaction_level', True) -%}
-{%- set using_incremental = var('netsuite2__income_statement_use_incremental', false) -%}
+{%- set transaction_level = not var('netsuite2__aggregate_income_statement', true) -%}
+{# Incremental materialization can only be turned on when not aggregating #}
+{%- set using_incremental = var('netsuite2__enable_incremental_income_statement', false) and transaction_level -%}
 
 {{
     config(
         enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
         materialized='incremental' if using_incremental else 'table',
-        partition_by = {'field': '_fivetran_synced_date', 'data_type': 'date', 'granularity': 'month'}
-            if target.type not in ['spark', 'databricks'] else ['_fivetran_synced_date'],
+        partition_by = ({'field': '_fivetran_synced_date', 'data_type': 'date', 'granularity': 'month'}
+            if target.type not in ['spark', 'databricks'] else ['_fivetran_synced_date']) if transaction_level 
+            else ({'field': 'accounting_period_ending', 'data_type': 'date', 'granularity': 'month'}
+                if target.type not in ['spark', 'databricks'] else ['accounting_period_ending']),
         cluster_by = ['transaction_id'] if transaction_level else ['account_id', 'accounting_period_id'],
         unique_key='income_statement_id',
         incremental_strategy = 'merge' if target.type in ('bigquery', 'databricks', 'spark') else 'delete+insert',
@@ -91,8 +94,8 @@ income_statement as (
         {% if transaction_level %}
         transactions_with_converted_amounts.transaction_id,
         transactions_with_converted_amounts.transaction_line_id,
-        {% endif %}
         transactions_with_converted_amounts._fivetran_synced_date,
+        {% endif %}
 
         {% if multibook_accounting_enabled %}
         transactions_with_converted_amounts.accounting_book_id,
@@ -213,7 +216,7 @@ income_statement as (
     {% set pass_through_column_count = accounts_pass_through_columns|length + departments_pass_through_columns|length + classes_pass_through_columns|length + (income_statement_transaction_detail_columns|length if transaction_level else 0) %}
     {% set variable_column_count = (2 if multibook_accounting_enabled else 0) + (3 if using_to_subsidiary and using_exchange_rate else 0) %}
 
-    {{ dbt_utils.group_by(n=27 + pass_through_column_count + variable_column_count + (2 if transaction_level else 0)) }}
+    {{ dbt_utils.group_by(n=26 + pass_through_column_count + variable_column_count + (3 if transaction_level else 0)) }}
 ),
 
 surrogate_key as ( 

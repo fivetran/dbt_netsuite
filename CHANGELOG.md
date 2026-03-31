@@ -1,3 +1,7 @@
+# dbt_netsuite v1.5.0
+
+[PR #193](https://github.com/fivetran/dbt_netsuite/pull/193) includes the following updates:
+
 # dbt_netsuite v1.5.0-a1
 
 [PR #193](https://github.com/fivetran/dbt_netsuite/pull/193) includes the following updates:
