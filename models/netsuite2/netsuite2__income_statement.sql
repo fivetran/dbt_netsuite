@@ -6,9 +6,9 @@
 {%- set classes_pass_through_columns = var('classes_pass_through_columns', []) -%}
 {%- set departments_pass_through_columns = var('departments_pass_through_columns', []) -%}
 {%- set lookback_window = var('lookback_window', 3) -%}
-{%- set transaction_level = not var('netsuite2__aggregate_income_statement', true) -%}
+{%- set transaction_level = not var('netsuite2__aggregate_income_statement', false) -%}
 {# Incremental materialization can only be turned on when not aggregating #}
-{%- set using_incremental = var('netsuite2__enable_incremental_income_statement', false) and transaction_level -%}
+{%- set using_incremental = target.type not in ('bigquery', 'databricks', 'spark') and transaction_level -%}
 
 {{
     config(

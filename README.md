@@ -264,17 +264,6 @@ vars:
     netsuite2__using_to_subsidiary: true # False by default.
 ```
 
-#### Transaction-Level vs Aggregated Balance Sheet and Income Statement (Netsuite2 only)
-By default, `netsuite2__balance_sheet` and `netsuite2__income_statement` will be aggregated to the account and accounting period level. To instead output one row per transaction line (and include the `transaction_id` and `transaction_line_id` columns), set the respective variable to `true` in your `dbt_project.yml`.
-
-> **Note**: When set to `true`, any columns passed via `balance_sheet_transaction_detail_columns` or `income_statement_transaction_detail_columns` are ignored, since those require transaction-level granularity.
-
-```yml
-vars:
-    netsuite2__aggregate_balance_sheet: False # True by default. Set to false to keep netsuite2__balance_sheet at the transaction line grain
-    netsuite2__aggregate_income_statement: False # True by default. Set to false to keep netsuite2__income_statement at the transaction line grain
-```
-
 #### Passing Through Additional Fields
 This package includes all source columns defined in the macros folder. To add additional columns to this package, do so by adding our pass-through column variables to your `dbt_project.yml` file:
 
@@ -334,23 +323,38 @@ vars:
     income_statement_transaction_detail_columns: ['is_account_intercompany','location_name']
 ```
 
-#### Enabling incremental materialization (Netsuite2 only)
-Since pricing and runtime priorities vary by customer, and retroactively modified transactions can introduce potential data drift, by default we materialize the Netsuite2 end models as tables. For more information on this decision, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy-selection) of the DECISIONLOG.
-
-You can enable incremental materialization per model using the following variables. When enabled, a model uses the `merge` strategy for BigQuery, Databricks, and Spark, and the `delete+insert` strategy for PostgreSQL, Redshift, and Snowflake. 
-
-The models **must** be set at the transaction line grain in order to be run incrementally.
+#### Transaction-Level vs Aggregated Balance Sheet and Income Statement (Netsuite2 only)
+By default, `netsuite2__balance_sheet` and `netsuite2__income_statement` output one row per transaction line and include the `transaction_id` and `transaction_line_id` columns. To instead aggregate to the account and accounting period level, set the respective variable to `true` in your `dbt_project.yml`. 
 
 ```yml
 vars:
+    netsuite2__aggregate_balance_sheet: true # False by default. Set to true to roll up netsuite2__balance_sheet to the account/period grain
+    netsuite2__aggregate_income_statement: true # False by default. Set to true to roll up netsuite2__income_statement to the account/period grain
+```
+
+**Limitations:**
+* When aggregated, `netsuite2__balance_sheet` and `netsuite2__income_statement` will materialize as tables rather than incrementally.
+* Any columns passed via `balance_sheet_transaction_detail_columns` or `income_statement_transaction_detail_columns` are ignored, since those require transaction-level granularity.
+
+
+#### Adding incremental materialization for Bigquery and Databricks
+Since pricing and runtime priorities vary by customer, by default we chose to materialize the below models as tables instead of an incremental materialization for Bigquery and Databricks. For more information on this decision, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy) of the DECISIONLOG.
+
+If you wish to enable incremental materializations leveraging the `merge` strategy, you can add the below materialization settings to your `dbt_project.yml` file. You only need to add lines for the specific model materializations you wish to change.
+```yml
+models:
   netsuite:
-    netsuite2__enable_incremental_balance_sheet: true # False by default. Materializes netsuite2__balance_sheet as incremental instead of table. Requires netsuite2__aggregate_balance_sheet to be False
-    netsuite2__enable_incremental_income_statement: true # False by default. Materializes netsuite2__income_statement as incremental instead of table. Requires netsuite2__aggregate_income_statement to be False
-    netsuite2__enable_incremental_transaction_details: true # False by default. Materializes netsuite2__transaction_details as incremental instead of table.
+    netsuite2:
+      netsuite2__income_statement:
+        +materialized: incremental # default is table for Bigquery and Databricks
+      netsuite2__transaction_details:
+        +materialized: incremental # default is table for Bigquery and Databricks
+      netsuite2__balance_sheet:
+        +materialized: incremental # default is table for Bigquery and Databricks
 ```
 
 ##### Lookback Window
-Records from the source can sometimes arrive late. If leveraging the incremental logic for the end models (disabled by default), we look back 3 days from the `_fivetran_synced_date` of transaction records to ensure late arrivals are captured and avoiding the need for frequent full refreshes. While the frequency can be reduced, if using the incremental strategy we recommend running `dbt --full-refresh` periodically to maintain data quality of the models.
+Records from the source can sometimes arrive late. On incremental runs, we look back 3 days from the `_fivetran_synced_date` of transaction records to capture late arrivals and reduce the need for frequent full refreshes. We recommend running `dbt --full-refresh` periodically to maintain data quality.
 
 To change the default lookback window, add the following variable to your `dbt_project.yml` file:
 

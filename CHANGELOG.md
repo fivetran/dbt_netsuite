@@ -1,6 +1,14 @@
-# dbt_netsuite v1.5.0
+# dbt_netsuite v1.4.1
 
 [PR #193](https://github.com/fivetran/dbt_netsuite/pull/193) includes the following updates:
+
+## Feature Update
+- Adds new variables to roll the `netsuite2__balance_sheet` and `netsuite2__income_statement` models up to the account and accounting period grain (and subsidiary and accounting book if those features are enabled). By default, these models will continue to output data at the transaction line level:
+  - `netsuite2__aggregate_balance_sheet` (default: `false`): Set to `true` to roll `netsuite2__balance_sheet` up to the account and accounting period grain. When aggregated, `balance_sheet_transaction_detail_columns` pass-through columns are **ignored** and the model will be run as a **table** instead of incrementally.
+  - `netsuite2__aggregate_income_statement` (default: `false`): Set to `true` to roll `netsuite2__income_statement` up to the account and accounting period grain. When aggregated, `income_statement_transaction_detail_columns` pass-through columns are **ignored** and the model will be run as a **table** instead of incrementally.
+
+## Under the Hood
+- Adds `partition_by_source_relation()` macro to avoid constant expression errors in Redshift.
 
 # dbt_netsuite v1.5.0-a1
 

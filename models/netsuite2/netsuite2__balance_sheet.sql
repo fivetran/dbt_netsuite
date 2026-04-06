@@ -3,9 +3,10 @@
 {%- set balance_sheet_transaction_detail_columns = var('balance_sheet_transaction_detail_columns', []) -%}
 {%- set accounts_pass_through_columns = var('accounts_pass_through_columns', []) -%}
 {%- set lookback_window = var('lookback_window', 3) -%}
-{%- set transaction_level = not var('netsuite2__aggregate_balance_sheet', true) -%}
-{# Incremental materialization can only be turned on when not aggregating #}
-{%- set using_incremental = var('netsuite2__enable_incremental_balance_sheet', false) and transaction_level -%}
+{%- set transaction_level = not var('netsuite2__aggregate_balance_sheet', false) -%}
+
+{# Incremental materialization can only be turned on when not aggregating. False by default for BQ and Databricks #}
+{%- set using_incremental = target.type not in ('bigquery', 'databricks', 'spark') and transaction_level -%}
 
 {% set pass_through_column_count = accounts_pass_through_columns|length + (balance_sheet_transaction_detail_columns|length if transaction_level else 0) %}
 {% set variable_column_count = (2 if multibook_accounting_enabled else 0) + (3 if using_to_subsidiary_and_exchange_rate else 0) %}
