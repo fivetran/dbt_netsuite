@@ -9,3 +9,4 @@ id,_fivetran_deleted,_fivetran_active,_fivetran_synced,entity,isprimarysub,subsi
 8,FALSE,TRUE,2022-05-27 13:17:39,1408,FALSE,4
 9,FALSE,TRUE,2022-05-27 13:17:39,1409,FALSE,2
 10,FALSE,TRUE,2022-05-27 13:17:39,1388,FALSE,2
+10,FALSE,FALSE,2022-05-26 13:17:39,1388,FALSE,2

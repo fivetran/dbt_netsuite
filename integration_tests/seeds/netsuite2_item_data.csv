@@ -2,3 +2,4 @@ _fivetran_synced,_fivetran_active,id,fullname,itemtype,description,department,cl
 2022-05-27 13:00:58,TRUE,640,This,Payment,Deposit,,11,,3,,,,6,,
 2022-05-27 13:00:58,TRUE,976,That,Subtotal,Sub-Total,,,,3,,,,,,
 2022-05-27 13:00:58,TRUE,628,Those,DwnLdItem,How To Optimize Performance Guide,,,,3,,,,55,,
+2022-05-26 13:00:58,FALSE,628,Those,DwnLdItem,How To Optimize Performance Guide,,,,3,,,,55,,
