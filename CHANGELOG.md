@@ -1,3 +1,33 @@
+# dbt_netsuite v1.5.0
+
+[PR #XXX](https://github.com/fivetran/dbt_netsuite/pull/XXX) includes the following updates:
+
+## Feature Update
+- Adds support for Fivetran's [history mode](https://fivetran.com/docs/core-concepts/sync-modes/history-mode) across the following Netsuite2 staging models. When history mode is enabled in your Fivetran connector, the staging models now filter on `_fivetran_active` to include only current, active records. Users without history mode enabled are unaffected — `_fivetran_active` defaults to `true` when the column is absent.
+  - `stg_netsuite2__accounting_books`
+  - `stg_netsuite2__accounting_periods`
+  - `stg_netsuite2__accounts`
+  - `stg_netsuite2__currencies`
+  - `stg_netsuite2__customer_subsidiary_relationships`
+  - `stg_netsuite2__customers`
+  - `stg_netsuite2__departments`
+  - `stg_netsuite2__employees`
+  - `stg_netsuite2__entities`
+  - `stg_netsuite2__entity_address`
+  - `stg_netsuite2__items`
+  - `stg_netsuite2__jobs`
+  - `stg_netsuite2__location_main_address`
+  - `stg_netsuite2__locations`
+  - `stg_netsuite2__subsidiaries`
+  - `stg_netsuite2__transactions`
+  - `stg_netsuite2__vendor_categories`
+  - `stg_netsuite2__vendor_subsidiary_relationships`
+  - `stg_netsuite2__vendors`
+
+## Under the Hood
+- Adds `_fivetran_active` to the `get_netsuite2_*_columns()` macros and `src_netsuite2.yml` source definitions for all 19 affected tables.
+- Documents `_fivetran_active` in `models/docs.md`.
+
 # dbt_netsuite v1.4.0
 
 [PR #190](https://github.com/fivetran/dbt_netsuite/pull/190) includes the following updates:

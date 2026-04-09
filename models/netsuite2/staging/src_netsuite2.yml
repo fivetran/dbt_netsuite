@@ -53,6 +53,8 @@ sources:
         config:
           enabled: "{{ var('netsuite2__multibook_accounting_enabled', true) }}"
         columns:
+          - name: _fivetran_active
+            description: "{{ doc('_fivetran_active') }}"
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
           - name: id
@@ -120,6 +122,8 @@ sources:
         identifier: "{{ var('netsuite2_accounting_period_identifier', 'accountingperiod') }}"
         description: "{{ doc('account_periods_table') }}"
         columns:
+          - name: _fivetran_active
+            description: "{{ doc('_fivetran_active') }}"
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
           - name: id
@@ -155,6 +159,8 @@ sources:
         identifier: "{{ var('netsuite2_account_identifier', 'account') }}"
         description: "{{ doc('accounts_table') }}"
         columns:
+          - name: _fivetran_active
+            description: "{{ doc('_fivetran_active') }}"
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
           - name: id
@@ -250,6 +256,8 @@ sources:
         identifier: "{{ var('netsuite2_currency_identifier', 'currency') }}"
         description: "{{ doc('currencies_table') }}"
         columns:
+          - name: _fivetran_active
+            description: "{{ doc('_fivetran_active') }}"
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
           - name: id
@@ -263,6 +271,8 @@ sources:
         identifier: "{{ var('netsuite2_customer_identifier', 'customer') }}"
         description: "{{ doc('customers_table') }}"
         columns:
+          - name: _fivetran_active
+            description: "{{ doc('_fivetran_active') }}"
           - name: id
             description: "{{ doc('customer_id') }}"
           - name: entityid
@@ -302,6 +312,8 @@ sources:
         config:
           enabled: "{{ var('netsuite2__using_customer_subsidiary_relationships', true) }}"
         columns:
+          - name: _fivetran_active
+            description: "{{ doc('_fivetran_active') }}"
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
           - name: id
@@ -321,6 +333,8 @@ sources:
         identifier: "{{ var('netsuite2_department_identifier', 'department') }}"
         description: "{{ doc('departments_table') }}"
         columns:
+          - name: _fivetran_active
+            description: "{{ doc('_fivetran_active') }}"
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
           - name: id
@@ -344,6 +358,8 @@ sources:
         config:
           enabled: "{{ var('netsuite2__using_employees', true) }}"
         columns:
+          - name: _fivetran_active
+            description: "{{ doc('_fivetran_active') }}"
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
           - name: id
@@ -379,6 +395,8 @@ sources:
         identifier: "{{ var('netsuite2_entity_identifier', 'entity') }}"
         description: "{{ doc('entities_table') }}"
         columns:
+          - name: _fivetran_active
+            description: "{{ doc('_fivetran_active') }}"
           - name: id
             description: Th "{{ doc('entity_id') }}"e unique identifier of the entity.
           - name: contact
@@ -404,6 +422,8 @@ sources:
         identifier: "{{ var('netsuite2_entity_address_identifier', 'entityaddress') }}"
         description: "{{ doc('entity_address_table') }}"
         columns:
+          - name: _fivetran_active
+            description: "{{ doc('_fivetran_active') }}"
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
           - name: addr1
@@ -431,6 +451,8 @@ sources:
         identifier: "{{ var('netsuite2_item_identifier', 'item') }}"
         description: "{{ doc('items_table') }}"
         columns:
+          - name: _fivetran_active
+            description: "{{ doc('_fivetran_active') }}"
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
           - name: id
@@ -474,6 +496,8 @@ sources:
         config:
           enabled: "{{ var('netsuite2__using_jobs', true) }}"
         columns:
+          - name: _fivetran_active
+            description: "{{ doc('_fivetran_active') }}"
           - name: id
             description: The unique identifier of the job.
           - name: externalid
@@ -493,6 +517,8 @@ sources:
         identifier: "{{ var('netsuite2_location_main_address_identifier', 'locationmainaddress') }}"
         description: "{{ doc('location_main_address_table') }}"
         columns:
+          - name: _fivetran_active
+            description: "{{ doc('_fivetran_active') }}"
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
           - name: addr1
@@ -520,6 +546,8 @@ sources:
         identifier: "{{ var('netsuite2_location_identifier', 'location') }}"
         description: "{{ doc('locations_table') }}"
         columns:
+          - name: _fivetran_active
+            description: "{{ doc('_fivetran_active') }}"
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
           - name: id
@@ -556,6 +584,8 @@ sources:
         identifier: "{{ var('netsuite2_subsidiary_identifier', 'subsidiary') }}"
         description: "{{ doc('subsidiaries_table') }}"
         columns:
+          - name: _fivetran_active
+            description: "{{ doc('_fivetran_active') }}"
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
           - name: id
@@ -657,6 +687,8 @@ sources:
         identifier: "{{ var('netsuite2_transaction_identifier', 'transaction') }}"
         description: "{{ doc('transaction_table') }}"
         columns:
+          - name: _fivetran_active
+            description: "{{ doc('_fivetran_active') }}"
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
           - name: id
@@ -702,6 +734,8 @@ sources:
         config:
           enabled: "{{ var('netsuite2__using_vendor_categories', true) }}"
         columns:
+          - name: _fivetran_active
+            description: "{{ doc('_fivetran_active') }}"
           - name: id
             description: "{{ doc('vendor_category_id') }}"
           - name: name
@@ -713,6 +747,8 @@ sources:
         identifier: "{{ var('netsuite2_vendor_identifier', 'vendor') }}"
         description: "{{ doc('vendor_table') }}"
         columns:
+          - name: _fivetran_active
+            description: "{{ doc('_fivetran_active') }}"
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
           - name: id
@@ -734,6 +770,8 @@ sources:
         config:
           enabled: "{{ var('netsuite2__using_vendor_subsidiary_relationships', true) }}"
         columns:
+          - name: _fivetran_active
+            description: "{{ doc('_fivetran_active') }}"
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
           - name: id
