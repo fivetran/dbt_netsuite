@@ -1,6 +1,6 @@
 # dbt_netsuite v1.5.0
 
-[PR #XXX](https://github.com/fivetran/dbt_netsuite/pull/XXX) includes the following updates:
+[PR #195](https://github.com/fivetran/dbt_netsuite/pull/195) includes the following updates:
 
 ## Feature Update
 - Adds support for Fivetran's [history mode](https://fivetran.com/docs/core-concepts/sync-modes/history-mode) across the following Netsuite2 staging models. When history mode is enabled in your Fivetran connector, the staging models now filter on `_fivetran_active` to include only current, active records. Users without history mode enabled are unaffected — `_fivetran_active` defaults to `true` when the column is absent.
