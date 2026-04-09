@@ -55,8 +55,16 @@ models:
     columns:
     - name: transaction_id
       description: Netsuite internal transaction ID.
+      tests:
+        - not_null:
+            config:
+              enabled: "{{ not var('netsuite2__aggregate_balance_sheet', false) }}"
     - name: transaction_line_id
       description: Netsuite internal transaction line ID.
+      tests:
+        - not_null:
+            config:
+              enabled: "{{ not var('netsuite2__aggregate_balance_sheet', false) }}"
     - name: accounting_period_id
       description: The unique identifier of the accounting period.
     - name: accounting_period_ending
@@ -130,8 +138,16 @@ models:
     columns:
     - name: transaction_id
       description: Netsuite internal transaction ID.
+      tests:
+        - not_null:
+            config:
+              enabled: "{{ not var('netsuite2__aggregate_balance_sheet', false) }}"
     - name: transaction_line_id
       description: Netsuite internal transaction line ID.
+      tests:
+        - not_null:
+            config:
+              enabled: "{{ not var('netsuite2__aggregate_balance_sheet', false) }}"
     - name: accounting_period_id
       description: The unique identifier of the accounting period.
     - name: accounting_period_ending
