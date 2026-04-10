@@ -4,10 +4,10 @@
 {%- set accounts_pass_through_columns = var('accounts_pass_through_columns', []) -%}
 {%- set lookback_window = var('lookback_window', 3) -%}
 {%- set transaction_level = not var('netsuite2__aggregate_balance_sheet', false) -%}
-{{ log ('Transaction level: ' ~ transaction_level, info=true) }}
+
 {# Incremental materialization can only be turned on when not aggregating. False by default for BQ and Databricks #}
 {%- set using_incremental = transaction_level and target.type not in ('bigquery', 'databricks', 'spark') -%}
-{{ log ('Using incremental: ' ~ using_incremental, info=true) }}
+
 {% set pass_through_column_count = accounts_pass_through_columns|length + (balance_sheet_transaction_detail_columns|length if transaction_level else 0) %}
 {% set variable_column_count = (2 if multibook_accounting_enabled else 0) + (3 if using_to_subsidiary_and_exchange_rate else 0) %}
 
@@ -18,9 +18,11 @@
         partition_by = (
             ['_fivetran_synced_date'] if transaction_level else ['accounting_period_ending']
         ) if target.type in ['spark', 'databricks'] else (
-            {'field': '_fivetran_synced_date', 'data_type': 'date', 'granularity': 'month'}
-            if transaction_level
-            else {'field': 'accounting_period_ending', 'data_type': 'date', 'granularity': 'month'}
+            (
+                {'field': '_fivetran_synced_date', 'data_type': 'date', 'granularity': 'month'}
+                if transaction_level
+                else {'field': 'accounting_period_ending', 'data_type': 'date', 'granularity': 'month'}
+            ) if target.type == 'bigquery' else none
         ),
         cluster_by = ['transaction_id'] if transaction_level else ['account_id', 'accounting_period_id'],
         unique_key='balance_sheet_id',

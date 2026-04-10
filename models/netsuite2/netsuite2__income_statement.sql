@@ -17,9 +17,11 @@
         partition_by = (
             ['_fivetran_synced_date'] if transaction_level else ['accounting_period_ending']
         ) if target.type in ['spark', 'databricks'] else (
-            {'field': '_fivetran_synced_date', 'data_type': 'date', 'granularity': 'month'}
-            if transaction_level
-            else {'field': 'accounting_period_ending', 'data_type': 'date', 'granularity': 'month'}
+            (
+                {'field': '_fivetran_synced_date', 'data_type': 'date', 'granularity': 'month'}
+                if transaction_level
+                else {'field': 'accounting_period_ending', 'data_type': 'date', 'granularity': 'month'}
+            ) if target.type == 'bigquery' else none
         ),
         cluster_by = ['transaction_id'] if transaction_level else ['account_id', 'accounting_period_id'],
         unique_key='income_statement_id',
