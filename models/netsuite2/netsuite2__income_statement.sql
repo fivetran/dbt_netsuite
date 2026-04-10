@@ -25,6 +25,9 @@
     )
 }}
 
+{{ log('Using transaction level: ' ~ transaction_level) }}
+{{ log('Using incremental: ' ~ using_incremental) }}
+
 with transactions_with_converted_amounts as (
     select * 
     from {{ ref('int_netsuite2__tran_with_converted_amounts') }}
@@ -32,8 +35,12 @@ with transactions_with_converted_amounts as (
     where transaction_accounting_period_id = reporting_accounting_period_id
         and is_income_statement 
 
-    {% if is_incremental() and using_incremental %}
-        and _fivetran_synced_date >= {{ netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=lookback_window)  }}
+    {% if is_incremental() %}
+        {% if transaction_level %}
+            and _fivetran_synced_date >= {{ netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=lookback_window) }}
+        {% else %}
+            and accounting_period_ending >= {{ netsuite.netsuite_lookback(from_date='max(accounting_period_ending)', datepart='day', interval=lookback_window) }}
+        {% endif %}
     {% endif %}
 ), 
 
