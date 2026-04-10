@@ -24,7 +24,7 @@ dbt source freshness --vars '{netsuite_schema: netsuite_integrations_tests_sqlw}
 dbt compile --vars '{netsuite_schema: netsuite_integrations_tests_sqlw}' --target "$db"
 dbt run --vars '{netsuite_schema: netsuite_integrations_tests_sqlw, netsuite2__aggregate_balance_sheet: true, netsuite2__aggregate_income_statement}' --target "$db" --full-refresh
 dbt run --vars '{netsuite_schema: netsuite_integrations_tests_sqlw, netsuite2__aggregate_balance_sheet: true, netsuite2__aggregate_income_statement}' --target "$db"
-dbt test --vars '{netsuite_schema: netsuite_integrations_tests_sqlw}' --target "$db"
+dbt test --vars '{netsuite_schema: netsuite_integrations_tests_sqlw}' --target "$db" --vars '{netsuite2__aggregate_balance_sheet: true, netsuite2__aggregate_income_statement: true}'
 dbt run --vars '{netsuite_schema: netsuite_integrations_tests_sqlw, netsuite2__using_to_subsidiary: true, netsuite2__multibook_accounting_enabled: true, netsuite2__using_exchange_rate: false, netsuite2__using_vendor_categories: false, netsuite2__using_jobs: false, netsuite2__using_employees: false, netsuite2__fiscal_calendar_enabled: true}' --target "$db" --full-refresh
 dbt run --vars '{netsuite_schema: netsuite_integrations_tests_sqlw, netsuite2__using_to_subsidiary: true, netsuite2__multibook_accounting_enabled: true, netsuite2__using_exchange_rate: false, netsuite2__using_vendor_categories: false, netsuite2__using_jobs: false, netsuite2__using_employees: false, netsuite2__fiscal_calendar_enabled: true}' --target "$db"
 dbt test --vars '{netsuite_schema: netsuite_integrations_tests_sqlw}' --target "$db"
@@ -37,7 +37,7 @@ dbt source freshness --target "$db" || echo "...Only verifying freshness runs…
 dbt compile --target "$db"
 dbt run --target "$db" --vars '{netsuite2__aggregate_balance_sheet: true, netsuite2__aggregate_income_statement: true}' --full-refresh
 dbt run --target "$db" --vars '{netsuite2__aggregate_balance_sheet: true, netsuite2__aggregate_income_statement: true}'
-dbt test --target "$db"
+dbt test --target "$db" --vars '{netsuite2__aggregate_balance_sheet: true, netsuite2__aggregate_income_statement: true}'
 dbt run --vars '{netsuite2__using_to_subsidiary: true, netsuite2__multibook_accounting_enabled: true, netsuite2__using_exchange_rate: false, netsuite2__using_vendor_categories: false, netsuite2__using_jobs: false, netsuite2__using_employees: false, netsuite2__fiscal_calendar_enabled: true}' --target "$db" --full-refresh
 dbt run --vars '{netsuite2__using_to_subsidiary: true, netsuite2__multibook_accounting_enabled: true, netsuite2__using_exchange_rate: false, netsuite2__using_vendor_categories: false, netsuite2__using_jobs: false, netsuite2__using_employees: false, netsuite2__fiscal_calendar_enabled: true}' --target "$db"
 dbt test --target "$db"
