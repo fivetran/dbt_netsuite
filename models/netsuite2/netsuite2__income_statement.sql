@@ -6,23 +6,18 @@
 {%- set classes_pass_through_columns = var('classes_pass_through_columns', []) -%}
 {%- set departments_pass_through_columns = var('departments_pass_through_columns', []) -%}
 {%- set lookback_window = var('lookback_window', 3) -%}
+
 {%- set transaction_level = not var('netsuite2__aggregate_income_statement', false) -%}
 {# Incremental materialization can only be turned on when not aggregating #}
 {%- set using_incremental = target.type not in ('bigquery', 'databricks', 'spark') and transaction_level -%}
+{% set partition_by_field = '_fivetran_synced_date' if transaction_level else 'accounting_period_ending' %}
 
 {{
     config(
         enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
         materialized='incremental' if using_incremental else 'table',
-        partition_by = (
-            ['_fivetran_synced_date'] if transaction_level else ['accounting_period_ending']
-        ) if target.type in ['spark', 'databricks'] else (
-            (
-                {'field': '_fivetran_synced_date', 'data_type': 'date', 'granularity': 'month'}
-                if transaction_level
-                else {'field': 'accounting_period_ending', 'data_type': 'date', 'granularity': 'month'}
-            ) if target.type == 'bigquery' else none
-        ),
+        partition_by = {'field': partition_by_field, 'data_type': 'date', 'granularity': 'month'}
+            if target.type not in ['spark', 'databricks'] else [partition_by_field],
         cluster_by = ['transaction_id'] if transaction_level else ['account_id', 'accounting_period_id'],
         unique_key='income_statement_id',
         incremental_strategy = 'merge' if target.type in ('bigquery', 'databricks', 'spark') else 'delete+insert',
@@ -37,7 +32,7 @@ with transactions_with_converted_amounts as (
     where transaction_accounting_period_id = reporting_accounting_period_id
         and is_income_statement 
 
-    {% if is_incremental() %}
+    {% if is_incremental() and using_incremental %}
         and _fivetran_synced_date >= {{ netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=lookback_window)  }}
     {% endif %}
 ), 
