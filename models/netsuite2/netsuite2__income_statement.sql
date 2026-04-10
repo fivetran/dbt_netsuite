@@ -25,9 +25,6 @@
     )
 }}
 
-{{ log('Using transaction level: ' ~ transaction_level, info=true) }}
-{{ log('Using incremental: ' ~ using_incremental, info=true) }}
-
 with transactions_with_converted_amounts as (
     select * 
     from {{ ref('int_netsuite2__tran_with_converted_amounts') }}

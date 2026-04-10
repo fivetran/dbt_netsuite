@@ -21,7 +21,7 @@ dbt deps
 if [ "$db" = "databricks-sql" ]; then
 dbt seed --vars '{netsuite_schema: netsuite_integrations_tests_sqlw}' --target "$db" --full-refresh
 dbt source freshness --vars '{netsuite_schema: netsuite_integrations_tests_sqlw}' --target "$db" || echo "...Only verifying freshness runs…"
-dbt compile --vars '{netsuite_schema: netsuite_integrations_tests_sqlw, netsuite2__aggregate_balance_sheet: true, netsuite2__aggregate_income_statement}' --target "$db"
+dbt compile --vars '{netsuite_schema: netsuite_integrations_tests_sqlw}' --target "$db" --full-refresh
 dbt run --vars '{netsuite_schema: netsuite_integrations_tests_sqlw, netsuite2__aggregate_balance_sheet: true, netsuite2__aggregate_income_statement}' --target "$db" --full-refresh
 dbt run --vars '{netsuite_schema: netsuite_integrations_tests_sqlw, netsuite2__aggregate_balance_sheet: true, netsuite2__aggregate_income_statement}' --target "$db"
 dbt test --vars '{netsuite_schema: netsuite_integrations_tests_sqlw}' --target "$db" --vars '{netsuite2__aggregate_balance_sheet: true, netsuite2__aggregate_income_statement: true}'
@@ -34,7 +34,7 @@ else
 
 dbt seed --target "$db" --full-refresh
 dbt source freshness --target "$db" || echo "...Only verifying freshness runs…"
-dbt compile --target "$db" --vars '{netsuite2__aggregate_balance_sheet: true, netsuite2__aggregate_income_statement: true}'
+dbt compile --target "$db" --full-refresh
 dbt run --target "$db" --vars '{netsuite2__aggregate_balance_sheet: true, netsuite2__aggregate_income_statement: true}' --full-refresh
 dbt run --target "$db" --vars '{netsuite2__aggregate_balance_sheet: true, netsuite2__aggregate_income_statement: true}'
 dbt test --target "$db" --vars '{netsuite2__aggregate_balance_sheet: true, netsuite2__aggregate_income_statement: true}'
