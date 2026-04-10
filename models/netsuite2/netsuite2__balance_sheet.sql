@@ -38,7 +38,11 @@ with transactions_with_converted_amounts_init as (
     where (is_account_balancesheet or is_income_statement) and reporting_accounting_period_id is not null
 
     {% if is_incremental() %}
-    and _fivetran_synced_date >= {{ netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=lookback_window) }}
+        {% if transaction_level %}
+            and _fivetran_synced_date >= {{ netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=lookback_window) }}
+        {% else %}
+            and accounting_period_ending >= {{ netsuite.netsuite_lookback(from_date='max(accounting_period_ending)', datepart='day', interval=lookback_window) }}
+        {% endif %}
     {% endif %}
 ), 
 
