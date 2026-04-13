@@ -1,3 +1,25 @@
+# dbt_netsuite v1.5.0
+
+[PR #193](https://github.com/fivetran/dbt_netsuite/pull/193) includes the following updates:
+
+## Feature Update
+- Adds new variables to aggregate the `netsuite2__balance_sheet` and `netsuite2__income_statement` models past the transaction grain. By default, these models will continue to output data at the transaction line level.
+  - `netsuite2__aggregate_balance_sheet` (default: `false`) When set to `true`:
+    - `netsuite2__balance_sheet` outputs data at the account + accounting_period + subsidiary + account_category grain.
+    - The primary key (`balance_sheet_id`) is hashed on (`accounting_period_id`, `account_name`, `account_id`, `subsidiary_id`, `account_category`, `source_relation`), plus `to_subsidiary_id` and `accounting_book_id` if included.
+    - `balance_sheet_transaction_detail_columns` pass-through columns are **ignored**.
+    - `netsuite2__balance_sheet` is run as a **table** instead of incrementally.
+  - `netsuite2__aggregate_income_statement` (default: `false`) When set to `true`:
+    - `netsuite2__income_statement` outputs data at the account + accounting_period + department + location + class grain.
+    - The primary key (`income_statement_id`) is hashed on (`accounting_period_id`, `account_name`, `subsidiary_id`, `department_id`, `location_id`, `class_id`, `source_relation`), plus `to_subsidiary_id` and `accounting_book_id` if included.
+    - `income_statement_transaction_detail_columns` pass-through columns are **ignored**.
+    - `netsuite2__income_statement` is run as a **table** instead of incrementally.
+
+## Under the Hood
+- Adds `partition_by_source_relation()` macro to avoid constant expression errors in Redshift.
+- Limits the current accounting period from consistency data validation tests.
+- Consolidates duplicative joins in `netsuite2__balance_sheet`
+
 # dbt_netsuite v1.5.0-a2
 
 [PR #193](https://github.com/fivetran/dbt_netsuite/pull/193) includes the following updates:

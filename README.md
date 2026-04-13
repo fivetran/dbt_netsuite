@@ -126,7 +126,7 @@ Include the following netsuite package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/netsuite
-    version: 1.5.0-a2
+    version: [">=1.5.0", "<1.6.0"]
 ```
 
 #### Databricks dispatch configuration
@@ -324,12 +324,12 @@ vars:
 ```
 
 #### Transaction-Level vs Aggregated Balance Sheet and Income Statement (Netsuite2 only)
-By default, `netsuite2__balance_sheet` and `netsuite2__income_statement` output one row per transaction line and include the `transaction_id` and `transaction_line_id` columns. To instead aggregate to the account and accounting period level, set the respective variable to `true` in your `dbt_project.yml`. 
+By default, `netsuite2__balance_sheet` and `netsuite2__income_statement` output one row per transaction line and include the `transaction_id` and `transaction_line_id` columns. To instead aggregate past transactions, set the respective variable to `true` in your `dbt_project.yml`. 
 
 ```yml
 vars:
-    netsuite2__aggregate_balance_sheet: true # False by default. Set to true to roll up netsuite2__balance_sheet to the account/period grain
-    netsuite2__aggregate_income_statement: true # False by default. Set to true to roll up netsuite2__income_statement to the account/period grain
+    netsuite2__aggregate_balance_sheet: true # False by default. Set to true to roll up netsuite2__balance_sheet to the account/period/subsidiary grain
+    netsuite2__aggregate_income_statement: true # False by default. Set to true to roll up netsuite2__income_statement to the account/period/department/location/class grain
 ```
 
 **Limitations:**
