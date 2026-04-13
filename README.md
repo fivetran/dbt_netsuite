@@ -324,7 +324,7 @@ vars:
 ```
 
 #### Transaction-Level vs Aggregated Balance Sheet and Income Statement (Netsuite2 only)
-By default, `netsuite2__balance_sheet` and `netsuite2__income_statement` output one row per transaction line and include the `transaction_id` and `transaction_line_id` columns. To instead aggregate past transactions, set the respective variable to `true` in your `dbt_project.yml`. 
+By default, `netsuite2__balance_sheet` and `netsuite2__income_statement` output one row per transaction line and include the `transaction_id` and `transaction_line_id` columns. To instead aggregate past transactions, set the respective variable to `true` in your `dbt_project.yml`.
 
 ```yml
 vars:
