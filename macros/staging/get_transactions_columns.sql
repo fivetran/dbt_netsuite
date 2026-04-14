@@ -47,7 +47,8 @@
     {"name": "isreversal", "datatype": dbt.type_string()},
     {"name": "reversal", "datatype": dbt.type_int()},
     {"name": "reversaldate", "datatype": dbt.type_timestamp()},
-    {"name": "reversaldefer", "datatype": dbt.type_string()}, 
+    {"name": "reversaldefer", "datatype": dbt.type_string()},
+    {"name": "_fivetran_active", "datatype": dbt.type_boolean()},
     {"name": "_fivetran_deleted", "datatype": "boolean"}
 ] %}
 

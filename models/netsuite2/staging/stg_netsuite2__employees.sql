@@ -47,7 +47,8 @@ final as (
         currency as currency_id,
         isinactive = 'T' as is_inactive
     from fields
+    where coalesce(_fivetran_active, true)
 )
 
-select * 
+select *
 from final

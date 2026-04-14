@@ -36,6 +36,7 @@ final as (
         _fivetran_synced
     from fields
     where not coalesce(_fivetran_deleted, false)
+        and coalesce(_fivetran_active, true)
 )
 
 select *
