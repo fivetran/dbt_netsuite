@@ -1,7 +1,7 @@
 {# Adapted from dbt_utils.union_relations() #}
 
 {%- macro netsuite_union_relations(relations, aliases=none, column_override=none, include=[], exclude=[], source_column_name='_dbt_source_relation', where=none) -%}
-    {{ return(adapter.dispatch('netsuite_union_relations', 'zendesk')(relations, aliases, column_override, include, exclude, source_column_name, where)) }}
+    {{ return(adapter.dispatch('netsuite_union_relations', 'netsuite')(relations, aliases, column_override, include, exclude, source_column_name, where)) }}
 {% endmacro %}
 
 {%- macro default__netsuite_union_relations(relations, aliases=none, column_override=none, include=[], exclude=[], source_column_name='_dbt_source_relation', where=none) -%}
