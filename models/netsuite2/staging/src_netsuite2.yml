@@ -398,7 +398,7 @@ sources:
           - name: _fivetran_active
             description: "{{ doc('_fivetran_active') }}"
           - name: id
-            description: Th "{{ doc('entity_id') }}"e unique identifier of the entity.
+            description: "{{ doc('entity_id') }}"
           - name: contact
             description: The unique identifier of the contact associated with the entity.
           - name: customer
