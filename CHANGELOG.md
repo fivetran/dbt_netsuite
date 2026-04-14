@@ -1,8 +1,8 @@
 # dbt_netsuite v1.4.1
 
-[PR #197](https://github.com/fivetran/dbt_netsuite/pull/197) includes the following updates:
+[PR #197](https://github.com/fivetran/dbt_netsuite/pull/197) includes the following update:
 
-## Bug Fixes
+## Bug Fix
 - Fixes the `adapter.dispatch()` call in the `netsuite_union_relations` macro, which was incorrectly dispatching to the `zendesk` namespace instead of `netsuite`.
 
 # dbt_netsuite v1.4.0
