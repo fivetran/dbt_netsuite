@@ -63,7 +63,7 @@ supported_vars:
   netsuite2__aggregate_balance_sheet:
     type: boolean
     value: false
-    description: "Aggregate the `netsuite2__balance_sheet` model to the account and subsidiary level by period. Otherwise, the model will be at the transaction line grain."
+    description: "Aggregate the `netsuite2__balance_sheet` model to the account, account category, and subsidiary level by period. Otherwise, the model will be at the transaction line grain."
     display_name: "Aggregate Balance Sheet"
 
   netsuite2__aggregate_income_statement:

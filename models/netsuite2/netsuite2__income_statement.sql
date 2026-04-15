@@ -11,6 +11,8 @@
 {# Incremental materialization can only be turned on when not aggregating #}
 {%- set using_incremental = target.type not in ('bigquery', 'databricks', 'spark') and transaction_level -%}
 {% set partition_by_field = '_fivetran_synced_date' if transaction_level else 'accounting_period_ending' %}
+{% set pass_through_column_count = accounts_pass_through_columns|length + departments_pass_through_columns|length + classes_pass_through_columns|length + (income_statement_transaction_detail_columns|length if transaction_level else 0) %}
+{% set variable_column_count = (2 if multibook_accounting_enabled else 0) + (3 if using_to_subsidiary and using_exchange_rate else 0) %}
 
 {{
     config(
@@ -25,7 +27,7 @@
     )
 }}
 
-with transactions_with_converted_amounts as (
+with transactions_with_converted_amounts_init as (
     select * 
     from {{ ref('int_netsuite2__tran_with_converted_amounts') }}
     
@@ -40,6 +42,44 @@ with transactions_with_converted_amounts as (
         {% endif %}
     {% endif %}
 ), 
+
+{% if transaction_level %}
+transactions_with_converted_amounts as (
+    select * 
+    from transactions_with_converted_amounts_init
+),
+
+{% else %}
+transactions_with_converted_amounts as (
+    select 
+        source_relation,
+        subsidiary_id,
+        reporting_accounting_period_id,
+        account_id,
+        department_id,
+        location_id,
+        class_id,
+        account_category,
+
+        {% if multibook_accounting_enabled %}
+        accounting_book_id,
+        accounting_book_name,
+        {% endif %}
+
+        {% if using_to_subsidiary and using_exchange_rate %}
+        to_subsidiary_id,
+        to_subsidiary_name,
+        to_subsidiary_currency_symbol,
+        {% endif %}
+
+        sum(converted_amount_using_transaction_accounting_period) as converted_amount_using_transaction_accounting_period,
+        sum(unconverted_amount) as unconverted_amount
+
+    from transactions_with_converted_amounts_init
+
+    {{ dbt_utils.group_by(n=8 + variable_column_count) }}
+),
+{% endif %}
 
 --Below is only used if income statement transaction detail columns are specified dbt_project.yml file.
 {% if income_statement_transaction_detail_columns != [] and transaction_level %}
@@ -217,15 +257,12 @@ income_statement as (
         on reporting_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
         and reporting_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
 
-    {% set pass_through_column_count = accounts_pass_through_columns|length + departments_pass_through_columns|length + classes_pass_through_columns|length + (income_statement_transaction_detail_columns|length if transaction_level else 0) %}
-    {% set variable_column_count = (2 if multibook_accounting_enabled else 0) + (3 if using_to_subsidiary and using_exchange_rate else 0) %}
-
     {{ dbt_utils.group_by(n=26 + pass_through_column_count + variable_column_count + (3 if transaction_level else 0)) }}
 ),
 
 surrogate_key as ( 
     {% set surrogate_key_fields = ['source_relation', 'transaction_line_id', 'transaction_id', 'accounting_period_id', 'account_name'] if transaction_level 
-        else ['source_relation', 'accounting_period_id', 'account_name', 'subsidiary_id', 'department_id', 'location_id', 'class_id'] %}
+        else ['source_relation', 'accounting_period_id', 'account_name', 'account_id', 'subsidiary_id', 'department_id', 'location_id', 'class_id'] %}
     {% do surrogate_key_fields.append('to_subsidiary_id') if using_to_subsidiary and using_exchange_rate %}
     {% do surrogate_key_fields.append('accounting_book_id') if multibook_accounting_enabled %}
 

@@ -33,3 +33,9 @@ For incremental models, we have chosen the `delete+insert` strategy for PostgreS
 For Bigquery and Databricks, we have turned off incremental strategy by default since we did not want to cause unexpected warehouse costs for users. If you choose to enable the incremental materialization for these destinations, we have set it up to use the `merge` strategy. For instructions on how to enable the incremental strategy, see the [README](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#adding-incremental-materialization-for-bigquery-and-databricks).
 
 These strategies were selected since transaction records can be updated retroactively, and `merge` and `delete+insert` work well since they rely on a unique id to identify records to update or replace.
+
+## Aggregating Balance Sheet and Income Statement
+
+By default, the `netsuite2__balance_sheet` and `netsuite2__income_statement` models output data at the transaction-line grain. This allows you to drill down to individual transactions. However, this may produce large data volumes and make full refresh runs cumbersome. Routine full refreshes are highly encouraged in order to avoid data drift due to retroactively deleted/updated transactions.
+
+We have therefore added the option to aggregate `netsuite2__balance_sheet` and `netsuite2__income_statement` past transactions. Because this substantially reduces the data volume, these models are run as normal tables (i.e. not incrementally) when aggregated. See the [README](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#transaction-level-vs-aggregated-balance-sheet-and-income-statement-netsuite2-only) fore more details on how to configure.
