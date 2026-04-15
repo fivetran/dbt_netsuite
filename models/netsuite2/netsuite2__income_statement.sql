@@ -53,13 +53,21 @@ transactions_with_converted_amounts as (
 transactions_with_converted_amounts as (
     select 
         source_relation,
+        account_id,
+        account_name,
+        account_display_name,
+        account_type_name,
+        account_type_id,
+        account_number,
+        account_category
+
+        {{ netsuite.persist_pass_through_columns(accounts_pass_through_columns) }},
+
         subsidiary_id,
         reporting_accounting_period_id,
-        account_id,
         department_id,
         location_id,
         class_id,
-        account_category,
 
         {% if multibook_accounting_enabled %}
         accounting_book_id,
@@ -77,7 +85,7 @@ transactions_with_converted_amounts as (
 
     from transactions_with_converted_amounts_init
 
-    {{ dbt_utils.group_by(n=8 + variable_column_count) }}
+    {{ dbt_utils.group_by(n=13 + variable_column_count + accounts_pass_through_columns|length) }}
 ),
 {% endif %}
 
@@ -158,12 +166,12 @@ income_statement as (
         reporting_accounting_periods.name as accounting_period_name,
         reporting_accounting_periods.is_adjustment as is_accounting_period_adjustment,
         reporting_accounting_periods.is_closed as is_accounting_period_closed,
-        accounts.name as account_name,
-        accounts.display_name as account_display_name,
-        accounts.type_name as account_type_name,
-        accounts.account_type_id,
-        accounts.account_id as account_id,
-        accounts.account_number,
+        transactions_with_converted_amounts.account_name,
+        transactions_with_converted_amounts.account_display_name,
+        transactions_with_converted_amounts.account_type_name,
+        transactions_with_converted_amounts.account_type_id,
+        transactions_with_converted_amounts.account_id,
+        transactions_with_converted_amounts.account_number,
         subsidiaries.subsidiary_id,
         subsidiaries.full_name as subsidiary_full_name,
         subsidiaries.name as subsidiary_name,
@@ -171,8 +179,7 @@ income_statement as (
 
         --The below script allows for accounts table pass through columns.
         {{ netsuite.persist_pass_through_columns(accounts_pass_through_columns, identifier='accounts') }},
-
-        {{ dbt.concat(['accounts.account_number',"'-'", 'accounts.name']) }} as account_number_and_name,
+        {{ dbt.concat(['transactions_with_converted_amounts.account_number',"'-'", 'transactions_with_converted_amounts.account_name']) }} as account_number_and_name,
         classes.class_id,
         classes.full_name as class_full_name
 
@@ -188,11 +195,11 @@ income_statement as (
         {{ netsuite.persist_pass_through_columns(departments_pass_through_columns, identifier='departments') }},
 
         transactions_with_converted_amounts.account_category as account_category,
-        case when lower(accounts.account_type_id) = 'income' then 1
-            when lower(accounts.account_type_id) = 'cogs' then 2
-            when lower(accounts.account_type_id) = 'expense' then 3
-            when lower(accounts.account_type_id) = 'othincome' then 4
-            when lower(accounts.account_type_id) = 'othexpense' then 5
+        case when lower(transactions_with_converted_amounts.account_type_id) = 'income' then 1
+            when lower(transactions_with_converted_amounts.account_type_id) = 'cogs' then 2
+            when lower(transactions_with_converted_amounts.account_type_id) = 'expense' then 3
+            when lower(transactions_with_converted_amounts.account_type_id) = 'othincome' then 4
+            when lower(transactions_with_converted_amounts.account_type_id) = 'othexpense' then 5
             else null
             end as income_statement_sort_helper
 
@@ -213,9 +220,9 @@ income_statement as (
         on departments.department_id = transactions_with_converted_amounts.department_id
         and departments.source_relation = transactions_with_converted_amounts.source_relation
     
-    left join accounts
+    {# left join accounts
         on accounts.account_id = transactions_with_converted_amounts.account_id
-        and accounts.source_relation = transactions_with_converted_amounts.source_relation
+        and accounts.source_relation = transactions_with_converted_amounts.source_relation #}
 
     left join locations
         on locations.location_id = transactions_with_converted_amounts.location_id
