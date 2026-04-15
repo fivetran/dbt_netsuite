@@ -249,10 +249,10 @@ balance_sheet as (
         when lower(special_account_type_id) in ('cta-e', 'cumultransadj') then 'cumulative_translation_adjustment'
         else account_type_id
             end as account_type_id,
-        case
+        cast(case
         when not is_account_balancesheet then null
         else account_id
-            end as account_id,
+            end as {{ dbt.type_int() }}) as account_id,
         case
         when not is_account_balancesheet then retained_earnings_account_number 
         else account_number

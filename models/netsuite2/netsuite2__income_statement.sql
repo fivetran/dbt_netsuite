@@ -178,6 +178,9 @@ income_statement as (
         subsidiaries.name as subsidiary_name,
         subsidiaries_currencies.symbol as subsidiary_currency_symbol
 
+        --The below script allows for accounts table pass through columns.
+        {{ netsuite.persist_pass_through_columns(accounts_pass_through_columns, identifier='transactions_with_converted_amounts') }},
+
         {{ dbt.concat(['transactions_with_converted_amounts.account_number',"'-'", 'transactions_with_converted_amounts.account_name']) }} as account_number_and_name,
         classes.class_id,
         classes.full_name as class_full_name
