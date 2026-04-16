@@ -50,9 +50,9 @@ final as (
         --The below macro adds the fields defined within your accounts_pass_through_columns variable into the staging model
         {{ netsuite.fill_pass_through_columns(var('accounts_pass_through_columns', [])) }}
 
-        
     from fields
+    where coalesce(_fivetran_active, true)
 )
 
-select * 
+select *
 from final

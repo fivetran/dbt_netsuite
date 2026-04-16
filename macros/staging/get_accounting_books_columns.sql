@@ -31,6 +31,7 @@
 {% macro get_netsuite2_accounting_books_columns() %}
 
 {% set columns = [
+    {"name": "_fivetran_active", "datatype": dbt.type_boolean()},
     {"name": "_fivetran_deleted", "datatype": "boolean"},
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
     {"name": "basebook", "datatype": dbt.type_int()},

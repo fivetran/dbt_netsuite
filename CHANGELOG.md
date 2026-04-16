@@ -1,9 +1,9 @@
 # dbt_netsuite v1.5.0
 
-[PR #193](https://github.com/fivetran/dbt_netsuite/pull/193) includes the following updates:
+This release includes the following updates:
 
 ## Feature Update
-- Adds new variables to aggregate the `netsuite2__balance_sheet` and `netsuite2__income_statement` models past the transaction grain. By default, these models will continue to output data at the transaction line level.
+- Adds new variables to aggregate the `netsuite2__balance_sheet` and `netsuite2__income_statement` models past the transaction grain. By default, these models will continue to output data at the transaction line level. ([PR #193](https://github.com/fivetran/dbt_netsuite/pull/193))
   - `netsuite2__aggregate_balance_sheet` (default: `false`) When set to `true`:
     - `netsuite2__balance_sheet` outputs data at the account + accounting_period + subsidiary + account_category grain.
     - The primary key (`balance_sheet_id`) is hashed on (`accounting_period_id`, `account_name`, `account_id`, `subsidiary_id`, `account_category`, `source_relation`), plus `to_subsidiary_id` and `accounting_book_id` if included.
@@ -14,12 +14,35 @@
     - The primary key (`income_statement_id`) is hashed on (`accounting_period_id`, `account_name`, `subsidiary_id`, `department_id`, `location_id`, `class_id`, `source_relation`), plus `to_subsidiary_id` and `accounting_book_id` if included.
     - `income_statement_transaction_detail_columns` pass-through columns are **ignored**.
     - `netsuite2__income_statement` is run as a **table** instead of incrementally.
+- Adds support for Fivetran's [history mode](https://fivetran.com/docs/core-concepts/sync-modes/history-mode) for the Netsuite2 source tables that currently support it ([PR #195](https://github.com/fivetran/dbt_netsuite/pull/195)). When history mode is enabled in your Fivetran connector, the staging models below now filter on `_fivetran_active` to include only current, active records. Users without history mode enabled are unaffected, while users with history mode will see a drop in records (**full refresh recommended**):
+  - `stg_netsuite2__accounting_books`
+  - `stg_netsuite2__accounting_periods`
+  - `stg_netsuite2__accounts`
+  - `stg_netsuite2__currencies`
+  - `stg_netsuite2__customer_subsidiary_relationships`
+  - `stg_netsuite2__customers`
+  - `stg_netsuite2__departments`
+  - `stg_netsuite2__employees`
+  - `stg_netsuite2__entities`
+  - `stg_netsuite2__entity_address`
+  - `stg_netsuite2__items`
+  - `stg_netsuite2__jobs`
+  - `stg_netsuite2__location_main_address`
+  - `stg_netsuite2__locations`
+  - `stg_netsuite2__subsidiaries`
+  - `stg_netsuite2__transactions`
+  - `stg_netsuite2__vendor_categories`
+  - `stg_netsuite2__vendor_subsidiary_relationships`
+  - `stg_netsuite2__vendors`
+> Only currently active records are included, while inactive records are filtered out. Please open a [Feature Request](https://github.com/fivetran/dbt_netsuite/issues/new?template=feature-request.yml) if you would like historical records to be persisted.
 
 ## Under the Hood
 - Adds `partition_by_source_relation()` macro to avoid constant expression errors in Redshift.
 - Limits the current accounting period from consistency data validation tests.
 - Consolidates duplicative joins in `netsuite2__balance_sheet`
-
+- Adds `_fivetran_active` to the `get_netsuite2_*_columns()` macros and `src_netsuite2.yml` source definitions for all 19 affected tables.
+- Documents `_fivetran_active` in `models/docs.md`.
+- 
 # dbt_netsuite v1.5.0-a2
 
 [PR #193](https://github.com/fivetran/dbt_netsuite/pull/193) includes the following updates:

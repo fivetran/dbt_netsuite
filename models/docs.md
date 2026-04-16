@@ -69,6 +69,8 @@
 
 {% docs _fivetran_deleted %} Timestamp of when a record was deleted. {% enddocs %}
 
+{% docs _fivetran_active %} Boolean indicating whether the record is active in Fivetran's history mode. Only present when History Mode is enabled for the table. {% enddocs %}
+
 {% docs vendor_id %} The unique identifier of the vendor. {% enddocs %}
 
 {% docs alt_name %} Name of the person or company. {% enddocs %}
