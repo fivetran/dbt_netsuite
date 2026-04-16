@@ -81,6 +81,13 @@ vars:
 ## Under the Hood
 - Adds `partition_by_source_relation()` macro to avoid constant expression errors in Redshift.
 
+# dbt_netsuite v1.4.1
+
+[PR #197](https://github.com/fivetran/dbt_netsuite/pull/197) includes the following update:
+
+## Bug Fix
+- Fixes the `adapter.dispatch()` call in the `netsuite_union_relations` macro, which was incorrectly dispatching to the `zendesk` namespace instead of `netsuite`.
+
 # dbt_netsuite v1.4.0
 
 [PR #190](https://github.com/fivetran/dbt_netsuite/pull/190) includes the following updates:
