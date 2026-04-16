@@ -29,6 +29,13 @@
 - Adds `_fivetran_active` to the `get_netsuite2_*_columns()` macros and `src_netsuite2.yml` source definitions for all 19 affected tables.
 - Documents `_fivetran_active` in `models/docs.md`.
 
+# dbt_netsuite v1.4.1
+
+[PR #197](https://github.com/fivetran/dbt_netsuite/pull/197) includes the following update:
+
+## Bug Fix
+- Fixes the `adapter.dispatch()` call in the `netsuite_union_relations` macro, which was incorrectly dispatching to the `zendesk` namespace instead of `netsuite`.
+
 # dbt_netsuite v1.4.0
 
 [PR #190](https://github.com/fivetran/dbt_netsuite/pull/190) includes the following updates:
