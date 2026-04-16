@@ -42,7 +42,7 @@ This release includes the following updates:
 - Consolidates duplicative joins in `netsuite2__balance_sheet`
 - Adds `_fivetran_active` to the `get_netsuite2_*_columns()` macros and `src_netsuite2.yml` source definitions for all 19 affected tables.
 - Documents `_fivetran_active` in `models/docs.md`.
-- 
+
 # dbt_netsuite v1.5.0-a2
 
 [PR #193](https://github.com/fivetran/dbt_netsuite/pull/193) includes the following updates:

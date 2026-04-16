@@ -52,13 +52,13 @@ models:
       The Cumulative Translation Adjustment total, which in most cases does not have transactions associated with it, is calculated manually.
     columns:
     - name: transaction_id
-      description: Netsuite internal transaction ID.
+      description: Netsuite internal transaction ID. Not present when `netsuite2__aggregate_balance_sheet` is True.
       tests:
         - not_null:
             config:
               enabled: "{{ not var('netsuite2__aggregate_balance_sheet', false) }}"
     - name: transaction_line_id
-      description: Netsuite internal transaction line ID.
+      description: Netsuite internal transaction line ID. Not present when `netsuite2__aggregate_balance_sheet` is True.
       tests:
         - not_null:
             config:
@@ -122,9 +122,9 @@ models:
           - unique
           - not_null
     - name: _fivetran_synced_date
-      description: _fivetran_synced formatted as a date for incremental logic use.
+      description: _fivetran_synced formatted as a date for incremental logic use. Not present when `netsuite2__aggregate_balance_sheet` is True.
     - name: transaction_amount
-      description: Total amount of the transaction line.
+      description: Total amount of the transaction line, or the sum of aggregated transaction line amounts if `netsuite2__aggregate_balance_sheet` is True.
     - name: subsidiary_currency_symbol
       description: Currency of the subsidiary.
     - name: source_relation
@@ -137,13 +137,13 @@ models:
       Joins account, subsidiary, department, and location information for enhanced reporting. 
     columns:
     - name: transaction_id
-      description: Netsuite internal transaction ID.
+      description: Netsuite internal transaction ID. Not present when `netsuite2__aggregate_income_statement` is True.
       tests:
         - not_null:
             config:
               enabled: "{{ not var('netsuite2__aggregate_income_statement', false) }}"
     - name: transaction_line_id
-      description: Netsuite internal transaction line ID.
+      description: Netsuite internal transaction line ID. Not present when `netsuite2__aggregate_income_statement` is True.
       tests:
         - not_null:
             config:
@@ -218,9 +218,9 @@ models:
           - unique
           - not_null
     - name: _fivetran_synced_date
-      description: _fivetran_synced formatted as a date for incremental logic use.
+      description: _fivetran_synced formatted as a date for incremental logic use. Not present when `netsuite2__aggregate_income_statement` is True.
     - name: transaction_amount
-      description: Total amount of the transaction line.
+      description: Total amount of the transaction line, or the sum of aggregated transaction line amounts if `netsuite2__aggregate_income_statement` is True.
     - name: subsidiary_currency_symbol
       description: Currency of the subsidiary.
     - name: source_relation
