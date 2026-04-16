@@ -324,14 +324,14 @@ vars:
 ```
 
 #### Transaction-Level vs Aggregated Balance Sheet and Income Statement (Netsuite2 only)
-By default, `netsuite2__balance_sheet` and `netsuite2__income_statement` output one row per transaction line and include the `transaction_id` and `transaction_line_id` columns. Depending on your dataset, this may be a large volume data, making full refresh runs cumbersome. Routine full refreshes are highly encouraged due to potential data drift caused by retroactively deleted and/or updated transactions.
+By default, `netsuite2__balance_sheet` and `netsuite2__income_statement` output one row per transaction line and include the `transaction_id` and `transaction_line_id` columns. Depending on your dataset, this may be a large volume of data, making full refresh runs cumbersome. Routine full refreshes are highly encouraged due to potential data drift caused by retroactively deleted and/or updated transactions.
 
 To reduce runtime and/or compute, you may aggregate these models past transactions by setting their respective variables to `true` in your `dbt_project.yml`:
 
 ```yml
 vars:
     netsuite2__aggregate_balance_sheet: true # False by default. Set to true to roll up netsuite2__balance_sheet to the account/period/subsidiary/account_category grain
-    netsuite2__aggregate_income_statement: true # False by default. Set to true to roll up netsuite2__income_statement to the account/period/department/location/class grain
+    netsuite2__aggregate_income_statement: true # False by default. Set to true to roll up netsuite2__income_statement to the account/period/subsidiary/department/location/class grain
 ```
 
 **Limitations:**
