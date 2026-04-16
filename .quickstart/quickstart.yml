@@ -60,6 +60,24 @@ public_models: [
 ]
 
 supported_vars:
+  netsuite2__aggregate_balance_sheet:
+    type: boolean
+    value: false
+    description: "Aggregate the `netsuite2__balance_sheet` model to the account, account category, and subsidiary level by period. Otherwise, the model will be at the transaction line grain."
+    display_name: "Aggregate Balance Sheet"
+
+  netsuite2__aggregate_income_statement:
+    type: boolean
+    value: false
+    description: "Aggregate the `netsuite2__income_statement` model to the account, subsidiary, class, department, and location level by period. Otherwise, the model will be at the transaction line grain."
+    display_name: "Aggregate Income Statement"
+
+  lookback_window:
+    type: integer
+    value: 3
+    description: "(If applicable) Number of days into the past that the models will look back to capture late-arriving events on incremental runs"
+    display_name: "Incremental Run Lookback Window (Days)"
+
   accounts_pass_through_columns:
     type: dictionary
     description: "Additional `ACCOUNT` columns to include in `netsuite2__transaction_details`, `netsuite2__balance_sheet`, and `netsuite2__income_statement`"
@@ -104,10 +122,3 @@ supported_vars:
     type: list
     description: "Additional columns from `netsuite2__transaction_details` to include in `netsuite2__income_statement`"
     display_name: "Income Statement Transaction Detail Columns"
-
-  lookback_window:
-    type: integer
-    value: 3
-    description: "Number of days into the past that the models will look back to capture late-arriving events on incremental runs"
-    display_name: "Incremental Run Lookback Window (Days)"
-

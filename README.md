@@ -33,8 +33,8 @@ By default, this package materializes the following final tables:
 
 | Table | Description |
 | :---- | :---- |
-| [netsuite2__balance_sheet](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__balance_sheet) | Creates all transaction lines necessary to generate a balance sheet with proper currency conversion for the parent subsidiary. Non-balance sheet transactions are categorized as Retained Earnings or Net Income, with manual calculation of Cumulative Translation Adjustment.<br></br>**Example Analytics Questions:**<ul><li>What is our current cash position and working capital across subsidiaries?</li><li>How has our debt-to-equity ratio changed over the past year?</li><li>How have retained earnings and total equity evolved across accounting periods?</li></ul> |
-| [netsuite2__income_statement](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__income_statement) | Provides all transaction lines needed for income statement generation with currency conversion and department, class, and location details for enhanced reporting capabilities.<br></br>**Example Analytics Questions:**<ul><li>What is our gross margin by product line, department, or location?</li><li>How has operating income changed quarter over quarter?</li><li>Which expense categories are growing the fastest this period?</li></ul> |
+| [netsuite2__balance_sheet](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__balance_sheet) | All transaction lines necessary to generate a balance sheet with proper currency conversion for the parent subsidiary. The model categorizes non-balance sheet transactions as Retained Earnings or Net Income, with manual calculation of Cumulative Translation Adjustment. Outputs data aggregated beyond transactions when `netsuite2__aggregate_balance_sheet` is set to `true`.<br></br>**Example Analytics Questions:**<ul><li>What is our current cash position and working capital across subsidiaries?</li><li>How has our debt-to-equity ratio changed over the past year?</li><li>How have retained earnings and total equity evolved across accounting periods?</li></ul> |
+| [netsuite2__income_statement](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__income_statement) | All transaction lines needed for income statement generation with currency conversion and department, class, and location details. Outputs data aggregated beyond transactions when `netsuite2__aggregate_income_statement` is set to `true`.<br></br>**Example Analytics Questions:**<ul><li>What is our gross margin by product line, department, or location?</li><li>How has operating income changed quarter over quarter?</li><li>Which expense categories are growing the fastest this period?</li></ul> |
 | [netsuite2__transaction_details](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__transaction_details) | Comprehensive transaction-level view combining transaction lines with detailed context including accounting period, account, subsidiary, customer, vendor, location, item, and department information.<br></br>**Example Analytics Questions:**<ul><li>Which customers or vendors generate the highest transaction volumes?</li><li>What are the most common transaction types by subsidiary or department?</li><li>Which accounts show the largest transaction fluctuations month over month?</li></ul> |
 | [netsuite2__entity_subsidiary_relationships](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__entity_subsidiary_relationships) | Unified view of customer and vendor relationships across subsidiaries, showing which entities operate in which subsidiaries with primary subsidiary designations and currency details.<br></br>**Example Analytics Questions:**<ul><li>Which customers operate across multiple subsidiaries?</li><li>What currencies are most commonly used by our entities?</li><li>Which subsidiaries have the most vendor relationships?</li></ul> |
 
@@ -237,7 +237,7 @@ vars:
 
 #### Enable additional features
 
-#### Multi-Book (Netsuite2 only)
+##### Multi-Book (Netsuite2 only)
 To include `accounting_book_id` and `accounting_book_name` columns in the end models, set the below variable to `true` in your `dbt_project.yml`. This feature is disabled by default.
 > **Note**: The Netsuite dbt package currently only supports disabling of the source tables listed above. Please create an issue to request additional tables and/or [features](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/bridgehead_N233872.html) to exclude.
 >Notes:
@@ -251,7 +251,7 @@ vars:
 
 **IMPORTANT**: If you are using multi-book accounting, this variable must be set to true, or you see test failures in your data. 
 
-#### To Subsidiary (Netsuite2 only)
+##### To Subsidiary (Netsuite2 only)
 To include `to_subsidiary_id` and `to_subsidiary_name` columns in the end models, set the below variable to `true` in your `dbt_project.yml`. This feature is disabled by default. You also need to be using exchange rates, which is enabled by default.
 
 >Notes:
@@ -323,6 +323,49 @@ vars:
     income_statement_transaction_detail_columns: ['is_account_intercompany','location_name']
 ```
 
+#### Transaction-Level vs Aggregated Balance Sheet and Income Statement (Netsuite2 only)
+By default, `netsuite2__balance_sheet` and `netsuite2__income_statement` output one row per transaction line and include the `transaction_id` and `transaction_line_id` columns. Depending on your dataset, this may be a large volume of data, making full refresh runs cumbersome. Routine full refreshes are highly encouraged due to potential data drift caused by retroactively deleted and/or updated transactions.
+
+To reduce runtime and/or compute, you may aggregate these models past transactions by setting their respective variables to `true` in your `dbt_project.yml`:
+
+```yml
+vars:
+    netsuite2__aggregate_balance_sheet: true # False by default. Set to true to roll up netsuite2__balance_sheet to the account/period/subsidiary/account_category grain
+    netsuite2__aggregate_income_statement: true # False by default. Set to true to roll up netsuite2__income_statement to the account/period/subsidiary/department/location/class grain
+```
+
+**Limitations:**
+* When aggregated, `netsuite2__balance_sheet` and `netsuite2__income_statement` will materialize as tables rather than incrementally.
+* Any columns passed via `balance_sheet_transaction_detail_columns` or `income_statement_transaction_detail_columns` are ignored, since those require transaction-level granularity.
+
+
+#### Adding incremental materialization for Bigquery and Databricks
+Since pricing and runtime priorities vary by customer, by default we chose to materialize the below models as tables instead of an incremental materialization for Bigquery and Databricks. For more information on this decision, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy) of the DECISIONLOG.
+
+If you wish to enable incremental materializations leveraging the `merge` strategy, you can add the below materialization settings to your `dbt_project.yml` file. You only need to add lines for the specific model materializations you wish to change.
+```yml
+models:
+  netsuite:
+    netsuite2:
+      netsuite2__income_statement:
+        +materialized: incremental # default is table for Bigquery and Databricks
+      netsuite2__transaction_details:
+        +materialized: incremental # default is table for Bigquery and Databricks
+      netsuite2__balance_sheet:
+        +materialized: incremental # default is table for Bigquery and Databricks
+```
+
+##### Lookback Window
+Records from the source can sometimes arrive late. On incremental runs, we look back 3 days from the `_fivetran_synced_date` of transaction records to capture late arrivals and reduce the need for frequent full refreshes. We recommend running `dbt --full-refresh` periodically to maintain data quality.
+
+To change the default lookback window, add the following variable to your `dbt_project.yml` file:
+
+```yml
+vars:
+  netsuite:
+    lookback_window: number_of_days # default is 3
+```
+
 #### Change the build schema
 By default, this package builds the Netsuite staging models within a schema titled (`<target_schema>` + `_netsuite_source`) and your Netsuite modeling models within a schema titled (`<target_schema>` + `_netsuite`) in your destination. If this is not where you would like your Netsuite data to be written to, add the following configuration to your root `dbt_project.yml` file:
 
@@ -355,32 +398,6 @@ vars:
 #### Override the data models variable
 This package is designed to run **either** the Netsuite.com or Netsuite2 data models. However, for documentation purposes, an additional variable `netsuite_data_model_override` was created to allow for both data model types to be run at the same time by setting the variable value to `netsuite`. This is only to ensure the [dbt docs](https://fivetran.github.io/dbt_netsuite/) (which is hosted on this repository) is generated for both model types. While this variable is provided, we recommend you do not adjust the variable and instead change the `netsuite_data_model` variable to fit your configuration needs.
 
-#### Lookback Window
-Records from the source can sometimes arrive late. Since several of the models in this package are incremental, by default we look back 3 days from the `_fivetran_synced_date` of transaction records to ensure late arrivals are captured and avoiding the need for frequent full refreshes. While the frequency can be reduced, we still recommend running `dbt --full-refresh` periodically to maintain data quality of the models.
-
-To change the default lookback window, add the following variable to your `dbt_project.yml` file:
-
-```yml
-vars:
-  netsuite:
-    lookback_window: number_of_days # default is 3
-```
-
-#### Adding incremental materialization for Bigquery and Databricks
-Since pricing and runtime priorities vary by customer, by default we chose to materialize the below models as tables instead of an incremental materialization for Bigquery and Databricks. For more information on this decision, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy) of the DECISIONLOG.
-
-If you wish to enable incremental materializations leveraging the `merge` strategy, you can add the below materialization settings to your `dbt_project.yml` file. You only need to add lines for the specific model materializations you wish to change.
-```yml
-models:
-  netsuite:
-    netsuite2:
-      netsuite2__income_statement:
-        +materialized: incremental # default is table for Bigquery and Databricks
-      netsuite2__transaction_details:
-        +materialized: incremental # default is table for Bigquery and Databricks
-      netsuite2__balance_sheet:
-        +materialized: incremental # default is table for Bigquery and Databricks
-```
 </details>
 
 ### (Optional) Produce Analytics-Ready Reports with Streamlit App (Bigquery and Snowflake users only)
