@@ -3,7 +3,7 @@
 This release includes the following updates:
 
 ## Feature Update
-- Adds new variables to aggregate the `netsuite2__balance_sheet` and `netsuite2__income_statement` models past the transaction grain. By default, these models will continue to output data at the transaction line level. ([PR #193](https://github.com/fivetran/dbt_netsuite/pull/193))
+- Adds new variables to aggregate the `netsuite2__balance_sheet` and `netsuite2__income_statement` models, removing transactions and transaction lines from their granularity. By default, these models will continue to output data at the transaction line level. ([PR #193](https://github.com/fivetran/dbt_netsuite/pull/193))
   - `netsuite2__aggregate_balance_sheet` (default: `false`) When set to `true`:
     - `netsuite2__balance_sheet` outputs data at the account + accounting_period + subsidiary + account_category grain.
     - The primary key (`balance_sheet_id`) is hashed on (`accounting_period_id`, `account_name`, `account_id`, `subsidiary_id`, `account_category`, `source_relation`), plus `to_subsidiary_id` and `accounting_book_id` if included.
@@ -69,7 +69,7 @@ This release includes the following updates:
 | [netsuite2__transaction_details](https://fivetran.github.io/dbt_netsuite/#!/model/model.netsuite.netsuite2__transaction_details) | Default Materialization | Incremental | Table | Can still be run incrementally by setting the `netsuite2__transaction_details_use_incremental` variable to `true`. |
 
 ## Feature Update
-- Adds the option to aggregate the `netsuite2__balance_sheet` and `netsuite2__income_statement` past transactions and to the account and accounting period grain.
+- Adds the option to aggregate the `netsuite2__balance_sheet` and `netsuite2__income_statement` models, removing transactions and transaction lines from their granularity.
   - To do so, set the following variable(s) to `false`. Both default to `true`, preserving one row per transaction line with `transaction_id` and `transaction_line_id` in the output:
 ```yml
 vars:

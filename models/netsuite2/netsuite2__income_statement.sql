@@ -50,6 +50,7 @@ transactions_with_converted_amounts as (
 ),
 
 {% else %}
+-- Aggregating: Removes transactions and transaction lines from the model's granularity
 transactions_with_converted_amounts as (
     select 
         source_relation,
