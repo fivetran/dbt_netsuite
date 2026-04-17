@@ -43,7 +43,8 @@ final as (
         twosteprevenueallocation as is_two_step_revenue_allocation
     from fields
     where not coalesce(_fivetran_deleted, false)
+        and coalesce(_fivetran_active, true)
 )
 
-select * 
+select *
 from final
