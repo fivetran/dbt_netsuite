@@ -46,7 +46,7 @@ transactions_with_converted_amounts as (
 ),
 
 {% else %}
--- We're rolling up past the transaction level
+-- Aggregating: Removes transactions and transaction lines from the model's granularity
 transactions_with_converted_amounts as (
     select 
         source_relation,
