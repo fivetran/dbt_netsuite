@@ -37,7 +37,8 @@ final as (
 
     from fields
     where not coalesce(_fivetran_deleted, false)
+        and coalesce(_fivetran_active, true)
 )
 
-select * 
+select *
 from final

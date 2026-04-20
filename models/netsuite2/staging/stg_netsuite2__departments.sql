@@ -37,7 +37,8 @@ final as (
         {{ netsuite.fill_pass_through_columns(var('departments_pass_through_columns', [])) }}
 
     from fields
+    where coalesce(_fivetran_active, true)
 )
 
-select * 
+select *
 from final

@@ -21,6 +21,7 @@
 {% macro get_netsuite2_customers_columns() %}
 
 {% set columns = [
+    {"name": "_fivetran_active", "datatype": dbt.type_boolean()},
     {"name": "_fivetran_deleted", "datatype": "boolean"},
     {"name": "id", "datatype": dbt.type_int()},
     {"name": "entityid", "datatype": dbt.type_string()},

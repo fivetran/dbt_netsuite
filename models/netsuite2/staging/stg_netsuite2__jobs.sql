@@ -40,6 +40,7 @@ final as (
         defaultshippingaddress as shipping_address_id,
         parent as parent_id
     from fields
+    where coalesce(_fivetran_active, true)
 )
 
 select *

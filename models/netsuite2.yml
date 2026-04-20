@@ -46,21 +46,23 @@ models:
 
   - name: netsuite2__balance_sheet
     description: >
-      The balance sheet query uses the transactions_with_converted_amount
-      transformation to recreate all lines necessary for the balance sheet.
-      Transactions that are not balance sheet transactions are categorized as
-      either Retained Earnings or Net Income.  The Cumulative Translation
-      Adjustment total, which in most cases does not have transactions
-      associated with it, is calculated manually in the second part of the query.
+      If `netsuite2__aggregate_balance_sheet` is False, recreates all transaction lines necessary for the balance sheet. 
+      If `netsuite2__aggregate_balance_sheet` is True, aggregates to the account, account category, and subsidiary level by period.
+      Transactions that are not balance sheet transactions are categorized as either Retained Earnings or Net Income. 
+      The Cumulative Translation Adjustment total, which in most cases does not have transactions associated with it, is calculated manually.
     columns:
     - name: transaction_id
-      description: Netsuite internal transaction ID.
+      description: Netsuite internal transaction ID. Not present when `netsuite2__aggregate_balance_sheet` is True.
       tests:
-        - not_null
+        - not_null:
+            config:
+              enabled: "{{ not var('netsuite2__aggregate_balance_sheet', false) }}"
     - name: transaction_line_id
-      description: Netsuite internal transaction line ID.
+      description: Netsuite internal transaction line ID. Not present when `netsuite2__aggregate_balance_sheet` is True.
       tests:
-        - not_null
+        - not_null:
+            config:
+              enabled: "{{ not var('netsuite2__aggregate_balance_sheet', false) }}"
     - name: accounting_period_id
       description: The unique identifier of the accounting period.
     - name: accounting_period_ending
@@ -113,14 +115,16 @@ models:
     - name: to_subsidiary_currency_symbol
       description: Currency symbol for the consolidated exchange rate.
     - name: balance_sheet_id
-      description: Surrogate key hashed on `source_relation`, `transaction_line_id`, `transaction_id`, `accounting_period_id`, `account_name`, and `account_id`. Adds `to_subsidiary_id` if using subsidiaries and `accounting_book_id` if using multibook accounting. 
+      description: >
+        Surrogate key hashed on `source_relation`, `accounting_period_id`, `account_name`, and `account_id`; if `netsuite2__aggregate_balance_sheet` is False, also `transaction_line_id` and `transaction_id`;
+        if `netsuite2__aggregate_balance_sheet` is True, also `subsidiary_id` and `account_category`. Adds `to_subsidiary_id` if using subsidiaries and `accounting_book_id` if using multibook accounting.
       tests:
           - unique
           - not_null
     - name: _fivetran_synced_date
-      description: _fivetran_synced formatted as a date for incremental logic use.
+      description: _fivetran_synced formatted as a date for incremental logic use. Not present when `netsuite2__aggregate_balance_sheet` is True.
     - name: transaction_amount
-      description: Total amount of the transaction line.
+      description: Total amount of the transaction line, or the sum of aggregated transaction line amounts if `netsuite2__aggregate_balance_sheet` is True.
     - name: subsidiary_currency_symbol
       description: Currency of the subsidiary.
     - name: source_relation
@@ -128,18 +132,22 @@ models:
 
   - name: netsuite2__income_statement
     description: >
-      The income statement query uses the transactions_with_converted_amount transformation 
-      to recreate all lines necessary for the income statement.  It also joins in class, 
-      department and location information for enhanced reporting. 
+      If `netsuite2__aggregate_income_statement` is False, recreates all transaction lines necessary for the income statement. 
+      If `netsuite2__aggregate_income_statement` is True, aggregates to the account, subsidiary, class, department, and location level by period.
+      Joins account, subsidiary, department, and location information for enhanced reporting. 
     columns:
     - name: transaction_id
-      description: Netsuite internal transaction ID.
+      description: Netsuite internal transaction ID. Not present when `netsuite2__aggregate_income_statement` is True.
       tests:
-        - not_null
+        - not_null:
+            config:
+              enabled: "{{ not var('netsuite2__aggregate_income_statement', false) }}"
     - name: transaction_line_id
-      description: Netsuite internal transaction line ID.
+      description: Netsuite internal transaction line ID. Not present when `netsuite2__aggregate_income_statement` is True.
       tests:
-        - not_null
+        - not_null:
+            config:
+              enabled: "{{ not var('netsuite2__aggregate_income_statement', false) }}"
     - name: accounting_period_id
       description: The unique identifier of the accounting period.
     - name: accounting_period_ending
@@ -202,14 +210,17 @@ models:
     - name: to_subsidiary_currency_symbol
       description: Currency symbol for the consolidated exchange rate.
     - name: income_statement_id
-      description: Surrogate key hashed on `source_relation`, `transaction_line_id`, `transaction_id`, `accounting_period_id`, and `account_name`. Adds `to_subsidiary_id` if using subsidiaries and `accounting_book_id` if using multibook accounting. 
+      description: >
+        Surrogate key hashed on `source_relation`, `accounting_period_id`, `account_name`; if `netsuite2__aggregate_income_statement` is False, also `transaction_line_id` and `transaction_id`;
+        if `netsuite2__aggregate_income_statement` is True, also `account_id`, `subsidiary_id`, `class_id`, `department_id`, and `location_id`.
+        Adds `to_subsidiary_id` if using subsidiaries and `accounting_book_id` if using multibook accounting.
       tests:
           - unique
           - not_null
     - name: _fivetran_synced_date
-      description: _fivetran_synced formatted as a date for incremental logic use.
+      description: _fivetran_synced formatted as a date for incremental logic use. Not present when `netsuite2__aggregate_income_statement` is True.
     - name: transaction_amount
-      description: Total amount of the transaction line.
+      description: Total amount of the transaction line, or the sum of aggregated transaction line amounts if `netsuite2__aggregate_income_statement` is True.
     - name: subsidiary_currency_symbol
       description: Currency of the subsidiary.
     - name: source_relation

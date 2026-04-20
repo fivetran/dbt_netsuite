@@ -37,6 +37,7 @@
 {% macro get_netsuite2_employee_columns() %}
 
 {% set columns = [
+    {"name": "_fivetran_active", "datatype": dbt.type_boolean()},
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
     {"name": "approvallimit", "datatype": dbt.type_float()},
     {"name": "currency", "datatype": dbt.type_int()},
