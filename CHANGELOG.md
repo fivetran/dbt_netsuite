@@ -1,7 +1,7 @@
 # dbt_netsuite v1.5.1
 
 ## Bug Fix
-- Resolves potential data type mismatches in `netsuite2__balance_sheet`, which could occur if the **Additional Account Columns** (`accounts_pass_through_columns`) variable was configured at all.
+- Fixes a run error in `netsuite2__balance_sheet` that can occur when the **Additional Account Columns** (`accounts_pass_through_columns`) variable is configured.
 
 # dbt_netsuite v1.5.0
 
