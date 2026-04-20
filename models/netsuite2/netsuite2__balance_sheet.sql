@@ -361,13 +361,9 @@ balance_sheet as (
         cast(null as {{ dbt.type_int() }}) as account_id,
         cumulative_translation_account_number as account_number,
         false as is_account_intercompany,
-        false as is_account_leftside,
-
-        {% if accounts_pass_through_columns != [] %}
-        {% for field in accounts_pass_through_columns %}
-            null as {{ field.alias if field.alias else field.name }},
-        {% endfor %}
-        {% endif %}
+        false as is_account_leftside
+        
+        {{ netsuite.null_cast_pass_through_columns(accounts_pass_through_columns, ref('stg_netsuite2__accounts')) }},
 
         16 as balance_sheet_sort_helper,
 
