@@ -1,7 +1,7 @@
 # dbt_netsuite v1.5.1
 
 ## Bug Fix
-- Avoids unioning mismatched datatypes in `netsuite2__balance_sheet`.
+- Avoids unioning mismatched datatypes in `netsuite2__balance_sheet` if **Additional Account Columns** (`accounts_pass_through_columns`) are configured.
 
 # dbt_netsuite v1.5.0
 
