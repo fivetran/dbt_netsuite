@@ -1,3 +1,8 @@
+# dbt_netsuite v1.5.1
+
+## Bug Fix
+- Avoids unioning mismatched datatypes in `netsuite2__balance_sheet`.
+
 # dbt_netsuite v1.5.0
 
 This release includes the following updates:
