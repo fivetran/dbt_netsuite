@@ -1,3 +1,9 @@
+# dbt_netsuite v1.5.1
+[PR #199](https://github.com/fivetran/dbt_netsuite/pull/199) includes the following updates:
+
+## Bug Fix
+- Fixes a run error in `netsuite2__balance_sheet` that can occur when the **Additional Account Columns** (`accounts_pass_through_columns`) variable is configured.
+
 # dbt_netsuite v1.5.0
 
 This release includes the following updates:
