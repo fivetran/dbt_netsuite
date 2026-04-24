@@ -32,9 +32,11 @@ final as (
         isperson = 'T' as is_person,
         contact as contact_id,
         customer as customer_id,
+        datecreated as date_created,
         employee as employee_id,
         project as job_id,
-        vendor as vendor_id
+        vendor as vendor_id,
+        _fivetran_deleted
 
         --The below macro adds the fields defined within your entities_pass_through_columns variable into the staging model
         {{ netsuite.fill_pass_through_columns(var('entities_pass_through_columns', [])) }}

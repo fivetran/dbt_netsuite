@@ -6,6 +6,7 @@
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
     {"name": "contact", "datatype": dbt.type_int()},
     {"name": "customer", "datatype": dbt.type_int()}, 
+    {"name": "datecreated", "datatype": dbt.type_timestamp()},
     {"name": "employee", "datatype": dbt.type_int()},
     {"name": "entitytitle", "datatype": dbt.type_string()},
     {"name": "id", "datatype": dbt.type_int()},

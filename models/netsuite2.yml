@@ -384,6 +384,8 @@ models:
       description: Original transaction line amount, without sign adjustments. Reflects the raw amount entered in the source system.
     - name: transaction_line_amount_raw
       description: Original net amount of the transaction line, without sign adjustments. Matches the amount entered in the transaction currency.
+    - name: amount_linked
+      description: The amount of the transaction line that has been applied against another transaction (e.g. a payment applied to an invoice).
     - name: accounting_book_id
       description: The unique identifier of the accounting book.
     - name: accounting_book_name

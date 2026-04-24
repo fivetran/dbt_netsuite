@@ -34,6 +34,7 @@
     {"name": "account", "datatype": dbt.type_int()},
     {"name": "accountingbook", "datatype": dbt.type_int()},
     {"name": "amount", "datatype": dbt.type_float()},
+    {"name": "amountlinked", "datatype": dbt.type_float()},
     {"name": "amountpaid", "datatype": dbt.type_float()},
     {"name": "amountunpaid", "datatype": dbt.type_float()},
     {"name": "credit", "datatype": dbt.type_float()},

@@ -417,6 +417,10 @@ sources:
             description: The entity type (Contact, CustJob, Job, etc).
           - name: vendor
             description: The unique identifier of the vendor associated with the entity.
+          - name: datecreated
+            description: The date and time when the entity record was created.
+          - name: _fivetran_deleted
+            description: "{{ doc('_fivetran_deleted') }}"
 
       - name: entity_address
         identifier: "{{ var('netsuite2_entity_address_identifier', 'entityaddress') }}"
@@ -637,6 +641,8 @@ sources:
             description: Total amount paid.
           - name: amountunpaid
             description: Total amount unpaid.
+          - name: amountlinked
+            description: Total amount linked to other transaction lines.
 
       - name: transaction_line
         identifier: "{{ var('netsuite2_transaction_line_identifier', 'transactionline') }}"

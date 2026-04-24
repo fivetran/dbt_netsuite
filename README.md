@@ -126,7 +126,7 @@ Include the following netsuite package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/netsuite
-    version: [">=1.5.0", "<1.6.0"]
+    version: [">=1.6.0", "<1.7.0"]
 ```
 
 #### Databricks dispatch configuration
@@ -274,6 +274,11 @@ vars:
           alias: "custom_field"
     classes_pass_through_columns: # Included in income_statement models
         - name: "this_field"
+    customers_pass_through_columns: # Included in transaction_details models
+        - name: "customer_custom_field"
+          alias: "customer_field"
+    items_pass_through_columns: # Included in transaction_details models
+        - name: "items_custom_field"
     departments_pass_through_columns: # Included in income_statement and transaction_details models
         - name: "unique_string_field"
           alias: "field_id"
@@ -289,9 +294,6 @@ vars:
     subsidiaries_pass_through_columns: # Included in transaction_details models
         - name: "sub_field"
           alias: "subsidiary_field"
-    customers_pass_through_columns: # Not included in end models; only in stg customer models
-        - name: "customer_custom_field"
-          alias: "customer_field"
     consolidated_exchange_rates_pass_through_columns: # Not included in end models; only in stg consolidated_exchange_rates models
         - name: "consolidate_this_field"
     entities_pass_through_columns: # Not included in end models; only in stg entities model
@@ -303,8 +305,6 @@ vars:
     vendors_pass_through_columns: # Not included in end models; only in stg vendors models
         - name: "vendors_custom_field"
           alias: "vendors_field"
-    items_pass_through_columns: # Not included in end models; only in stg items models
-        - name: "items_custom_field"
     nexuses_pass_through_columns: # Not included in end models; only in stg items models
         - name: "items_custom_field"
 ```

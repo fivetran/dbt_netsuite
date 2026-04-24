@@ -382,6 +382,8 @@ models:
         description: The unique identifier of the contact associated with the entity.
       - name: customer_id
         description: "{{ doc('customer_id') }}"
+      - name: date_created
+        description: The date and time the entity record was created in NetSuite.
       - name: employee_id
         description: The unique identifier of the employee associated with the entity.
       - name: entity_name
@@ -398,7 +400,11 @@ models:
         description: "{{ doc('vendor_id') }}"
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
-
+      - name: _fivetran_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+      - name: date_created
+        description: The date and time when the entity record was created in NetSuite.
+        
   - name: stg_netsuite2__entity_address
     description: "{{ doc('entity_address_table') }}"
     columns:
@@ -590,6 +596,8 @@ models:
           - not_null
       - name: amount
         description: The amount of the transaction line.
+      - name: amount_linked
+        description: The amount of the transaction line that has been applied against another transaction (e.g. a payment applied to an invoice).
       - name: net_amount
         description: The net amount of the transaction line.
       - name: accounting_book_id

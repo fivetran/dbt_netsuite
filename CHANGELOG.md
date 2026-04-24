@@ -1,3 +1,19 @@
+# dbt_netsuite v1.5.2
+[PR #200](https://github.com/fivetran/dbt_netsuite/pull/200) includes the following updates:
+
+## Schema/Data Change (--full-refresh required after upgrading)
+**2 total changes • 0 possible breaking changes**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | --- | --- | ----- |
+| `stg_netsuite2__transaction_accounting_lines`, `netsuite2__transaction_details` | New field | N/A | `amount_linked` | The amount of the transaction line applied against another transaction (e.g. a payment applied to an invoice). Sourced from `amountlinked` in the `transactionaccountingline` table. |
+| `stg_netsuite2__entities` | New field | N/A | `date_created` | The date and time the entity record was created in NetSuite. Sourced from `datecreated` in the `entity` table. |
+
+## Feature Updates
+- Adds the **Additional Customer Columns** variable to Quickstart. This adds custom columns to the `netsuite2__transaction_details` and `stg_netsuite__customers` models.
+- Adds the **Additional Item Columns** variable to Quickstart. This adds custom columns to the `netsuite2__transaction_details` and `stg_netsuite__items` models.
+- Deleted vendors included
+
 # dbt_netsuite v1.5.1
 [PR #199](https://github.com/fivetran/dbt_netsuite/pull/199) includes the following updates:
 

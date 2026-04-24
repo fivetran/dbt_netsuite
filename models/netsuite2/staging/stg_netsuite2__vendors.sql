@@ -37,8 +37,7 @@ final as (
         {{ netsuite.fill_pass_through_columns(var('vendors_pass_through_columns', [])) }}
 
     from fields
-    where not coalesce(_fivetran_deleted, false)
-        and coalesce(_fivetran_active, true)
+    where coalesce(_fivetran_active, true)
 )
 
 select *

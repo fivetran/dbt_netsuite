@@ -3,6 +3,7 @@
 {%- set using_exchange_rate = var('netsuite2__using_exchange_rate', true) -%}
 {%- set using_vendor_categories = var('netsuite2__using_vendor_categories', true) -%}
 {%- set accounts_pass_through_columns = var('accounts_pass_through_columns', []) -%}
+{%- set customers_pass_through_columns = var('customers_pass_through_columns', []) -%}
 {%- set departments_pass_through_columns = var('departments_pass_through_columns', []) -%}
 {%- set locations_pass_through_columns = var('locations_pass_through_columns', []) -%}
 {%- set subsidiaries_pass_through_columns = var('subsidiaries_pass_through_columns', []) -%}
@@ -228,12 +229,27 @@ transaction_details as (
       when lower(transactions.transaction_type) in ('custinvc', 'custcred') then customers__transactions.customer_external_id
       else customers__transaction_lines.customer_external_id
         end as customer_external_id,
+
+    {% if customers_pass_through_columns != [] %}
+      {% for col in customers_pass_through_columns%}
+
+        case 
+            when lower(transactions.transaction_type) in ('custinvc', 'custcred') then customers__transactions.{{ col.alias if col.alias else col.name }}
+            else customers__transaction_lines.{{ col.alias if col.alias else col.name }}
+              end as {{ col.alias if col.alias else col.name }},
+      {% endfor %}
+    {% endif %}
+
     classes.class_id,
     classes.full_name as class_full_name,
     transaction_lines.item_id,
     items.name as item_name,
     items.type_name as item_type_name,
     items.sales_description,
+
+    -- The below script allows for items table pass through columns.
+    {{ netsuite.persist_pass_through_columns(items_pass_through_columns, identifier='items') }},
+    
     locations.location_id,
     locations.name as location_name,
     locations.city as location_city,
@@ -303,7 +319,8 @@ transaction_details as (
 
     transactions_with_converted_amounts.converted_amount_using_transaction_accounting_period as converted_amount_raw,
     transaction_lines.amount as transaction_amount_raw,
-    transaction_lines.netamount as transaction_line_amount_raw
+    transaction_lines.netamount as transaction_line_amount_raw,
+    transaction_lines.amount_linked
   from transaction_lines
 
   join transactions
