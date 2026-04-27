@@ -1,4 +1,4 @@
-# dbt_netsuite v1.6.0
+# dbt_netsuite v1.6.0-a1
 [PR #200](https://github.com/fivetran/dbt_netsuite/pull/200) includes the following updates:
 
 ## Schema/Data Change (--full-refresh required after upgrading)
