@@ -1,9 +1,6 @@
 # dbt_netsuite v1.6.0
 [PR #200](https://github.com/fivetran/dbt_netsuite/pull/200) includes the following updates:
 
-## Feature Update
-- Adds **Additional Customer Columns** (`customers_pass_through_columns`) and **Additional Item Columns** (`items_pass_through_columns`) to Quickstart, persisting chosen custom columns from the `CUSTOMER` AND `ITEM` source tables. These fields are brought into `netsuite2__transaction_details`.
-
 ## Schema/Data Change (--full-refresh required after upgrading)
 **1 total change • 0 possible breaking changes**
 
@@ -18,12 +15,15 @@
 | Data Model(s) | Change type | Old | New | Notes |
 | ------------- | ----------- | --- | --- | ----- |
 | `stg_netsuite2__customers` | New fields |  | `is_inactive`, `comments`, `url`, `created_at` | Additional customer attributes now available in the staging model. Sourced from `isinactive`, `comments`, `url`, and `datecreated` in the `CUSTOMER` table. Remove from `customers_pass_through_columns` if currently included. |
-| `stg_netsuite2__entities` | New field |  | `date_created` | The date and time the entity record was created in NetSuite (originally `datecreated`). Remove from `entities_pass_through_columns` if currently included. |
+| `stg_netsuite2__entities` | New field |  | `date_created`, `_fivetran_deleted` | Remove from `entities_pass_through_columns` if currently included. |
 | `stg_netsuite2__transaction_lines` | New field | | `_fivetran_deleted` |  |
 | `stg_netsuite2__transactions` | New field | | `_fivetran_deleted` | Soft-deleted records are still filtered out. |
 
 </details>
 <br>
+
+## Feature Update
+- Adds **Additional Customer Columns** (`customers_pass_through_columns`) and **Additional Item Columns** (`items_pass_through_columns`) to Quickstart, persisting chosen custom columns from the `CUSTOMER` AND `ITEM` source tables. These fields are brought into `netsuite2__transaction_details`.
 
 # dbt_netsuite v1.5.1
 [PR #199](https://github.com/fivetran/dbt_netsuite/pull/199) includes the following updates:

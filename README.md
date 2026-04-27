@@ -272,40 +272,40 @@ vars:
     accounts_pass_through_columns: # Included in all end models
         - name: "new_custom_field"
           alias: "custom_field"
-    classes_pass_through_columns: # Included in income_statement models
+    classes_pass_through_columns: # Included in income_statement model
         - name: "this_field"
-    customers_pass_through_columns: # Included in transaction_details models
+    customers_pass_through_columns: # Included in transaction_details model
         - name: "customer_custom_field"
           alias: "customer_field"
-    items_pass_through_columns: # Included in transaction_details models
+    items_pass_through_columns: # Included in transaction_details model
         - name: "items_custom_field"
     departments_pass_through_columns: # Included in income_statement and transaction_details models
         - name: "unique_string_field"
           alias: "field_id"
           transform_sql: "cast(field_id as string)"
-    transactions_pass_through_columns: # Included in transaction_details models
+    transactions_pass_through_columns: # Included in transaction_details model
         - name: "that_field"
-    transaction_lines_pass_through_columns: # Included in transaction_details models
+    transaction_lines_pass_through_columns: # Included in transaction_details model
         - name: "other_id"
           alias: "another_id"
           transform_sql: "cast(another_id as int64)"
-    locations_pass_through_columns: # Included in transaction_details models
+    locations_pass_through_columns: # Included in transaction_details model
         - name: "location_custom_field"
-    subsidiaries_pass_through_columns: # Included in transaction_details models
+    subsidiaries_pass_through_columns: # Included in transaction_details model
         - name: "sub_field"
           alias: "subsidiary_field"
-    consolidated_exchange_rates_pass_through_columns: # Not included in end models; only in stg consolidated_exchange_rates models
+    consolidated_exchange_rates_pass_through_columns: # Not included in end models; only in stg consolidated_exchange_rates model
         - name: "consolidate_this_field"
     entities_pass_through_columns: # Not included in end models; only in stg entities model
         - name: "entity_custom_field"
           alias: "entity_field"
-    accounting_periods_pass_through_columns: # Not included in end models; only in stg accounting_periods models
+    accounting_periods_pass_through_columns: # Not included in end models; only in stg accounting_periods model
         - name: "custom_field"
           transform_sql: "cast(custom_field as string)"
-    vendors_pass_through_columns: # Not included in end models; only in stg vendors models
+    vendors_pass_through_columns: # Not included in end models; only in stg vendors model
         - name: "vendors_custom_field"
           alias: "vendors_field"
-    nexuses_pass_through_columns: # Not included in end models; only in stg items models
+    nexuses_pass_through_columns: # Not included in end models; only in stg nexuses model
         - name: "items_custom_field"
 ```
 
