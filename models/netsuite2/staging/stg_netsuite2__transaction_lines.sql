@@ -43,7 +43,8 @@ final as (
         mainline = 'T' as is_main_line,
         taxline = 'T' as is_tax_line,
         eliminate = 'T' as is_eliminate,
-        netamount
+        netamount,
+        _fivetran_deleted
 
         --The below macro adds the fields defined within your transaction_lines_pass_through_columns variable into the staging model
         {{ netsuite.fill_pass_through_columns(var('transaction_lines_pass_through_columns', [])) }}

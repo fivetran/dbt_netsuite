@@ -284,6 +284,8 @@ models:
         description: Reference to the parent customer.
       - name: is_person
         description: Boolean indicating if the customer is an individual person.
+      - name: is_inactive
+        description: Boolean indicating if the customer record is inactive.
       - name: alt_name
         description: "{{ doc('alt_name') }}"
       - name: company_name
@@ -296,6 +298,10 @@ models:
         description: Customers email address.
       - name: phone_number
         description: Phone number of the customer.
+      - name: comments
+        description: Internal comments or notes on the customer record.
+      - name: url
+        description: Website URL associated with the customer.
       - name: default_billing_address_id
         description: Reference to the associated billing address.
       - name: default_shipping_address_id
@@ -306,6 +312,8 @@ models:
         description: "{{ doc('currency_id') }}"
       - name: date_first_order_at
         description: Date of when the first order was created.
+      - name: created_at
+        description: "{{ doc('created_at') }}"
 
   - name: stg_netsuite2__departments
     description: "{{ doc('departments_table') }}"
@@ -402,9 +410,7 @@ models:
         description: "{{ doc('_fivetran_synced') }}"
       - name: _fivetran_deleted
         description: "{{ doc('_fivetran_deleted') }}"
-      - name: date_created
-        description: The date and time when the entity record was created in NetSuite.
-        
+
   - name: stg_netsuite2__entity_address
     description: "{{ doc('entity_address_table') }}"
     columns:
@@ -670,6 +676,8 @@ models:
         description: Boolean indicating if the transaction line is eliminated.
       - name: netamount
         description: Net amount of transaction line.
+      - name: _fivetran_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
 
   - name: stg_netsuite2__transactions
     description: "{{ doc('transaction_table') }}"
@@ -728,6 +736,8 @@ models:
         description: The tax point date for the transaction.
       - name: is_tax_point_date_override
         description: Boolean indicating if the tax point date has been overridden for this transaction.
+      - name: _fivetran_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
 
   - name: stg_netsuite2__vendor_categories
     description: "{{ doc('vendor_categories_table') }}"

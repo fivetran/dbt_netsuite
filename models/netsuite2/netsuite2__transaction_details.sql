@@ -245,7 +245,7 @@ transaction_details as (
     transaction_lines.item_id,
     items.name as item_name,
     items.type_name as item_type_name,
-    items.sales_description,
+    items.sales_description
 
     -- The below script allows for items table pass through columns.
     {{ netsuite.persist_pass_through_columns(items_pass_through_columns, identifier='items') }},

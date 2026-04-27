@@ -28,17 +28,21 @@
     {"name": "externalid", "datatype": dbt.type_string()},
     {"name": "parent", "datatype": dbt.type_int()},
     {"name": "isperson", "datatype": dbt.type_string()},
+    {"name": "isinactive", "datatype": dbt.type_string()},
     {"name": "altname", "datatype": dbt.type_string()},
     {"name": "companyname", "datatype": dbt.type_string()},
     {"name": "firstname", "datatype": dbt.type_string()},
     {"name": "lastname", "datatype": dbt.type_string()},
     {"name": "email", "datatype": dbt.type_string()},
     {"name": "phone", "datatype": dbt.type_string()},
+    {"name": "comments", "datatype": dbt.type_string()},
+    {"name": "url", "datatype": dbt.type_string()},
     {"name": "defaultbillingaddress", "datatype": dbt.type_int()},
     {"name": "defaultshippingaddress", "datatype": dbt.type_int()},
     {"name": "receivablesaccount", "datatype": dbt.type_int()},
     {"name": "currency", "datatype": dbt.type_int()},
-    {"name": "firstorderdate", "datatype": dbt.type_timestamp()}
+    {"name": "firstorderdate", "datatype": dbt.type_timestamp()},
+    {"name": "datecreated", "datatype": dbt.type_timestamp()}
 ] %}
 
 {{ fivetran_utils.add_pass_through_columns(columns, var('customers_pass_through_columns')) }}

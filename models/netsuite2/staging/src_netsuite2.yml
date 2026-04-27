@@ -283,6 +283,8 @@ sources:
             description: Reference to the parent customer.
           - name: isperson
             description: Boolean indicating if the customer is an individual person. Represented as "T" or "F" for true and false respectively.
+          - name: isinactive
+            description: Boolean indicating if the customer record is inactive. Represented as "T" or "F" for true and false respectively.
           - name: companyname
             description: "{{ doc('company_name') }}"
           - name: firstname
@@ -293,6 +295,10 @@ sources:
             description: Customers email address.
           - name: phone
             description: Phone number of the customer.
+          - name: comments
+            description: Internal comments or notes on the customer record.
+          - name: url
+            description: Website URL associated with the customer.
           - name: defaultbillingaddress
             description: Reference to the associated billing address.
           - name: defaultshippingaddress
@@ -303,8 +309,12 @@ sources:
             description: "{{ doc('currency_id') }}"
           - name: firstorderdate
             description: Timestamp of when the first order was created.
+          - name: datecreated
+            description: The date and time when the customer record was created.
           - name: altname
             description: "{{ doc('alt_name') }}"
+          - name: _fivetran_deleted
+            description: "{{ doc('_fivetran_deleted') }}"
 
       - name: customer_subsidiary_relationship
         identifier: "{{ var('netsuite2_customer_subsidiary_relationship_identifier', 'customersubsidiaryrelationship') }}"
@@ -688,6 +698,8 @@ sources:
             description: Boolean indicating if the transaction line is eliminated. Represented as "T" or "F" for true and false respectively.
           - name: netamount
             description: Net amount of transaction line.
+          - name: _fivetran_deleted
+            description: "{{ doc('_fivetran_deleted') }}"
 
       - name: transaction
         identifier: "{{ var('netsuite2_transaction_identifier', 'transaction') }}"
@@ -733,6 +745,8 @@ sources:
             description: If the transaction is a reversal, date of the reversal entry.
           - name: reversaldefer
             description: Boolean indicating if the transaction is a reversal and if it's been deferred.
+          - name: _fivetran_deleted
+            description: "{{ doc('_fivetran_deleted') }}"
 
       - name: vendor_category
         identifier: "{{ var('netsuite2_vendor_category_identifier', 'vendorcategory') }}"
