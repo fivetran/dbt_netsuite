@@ -15,8 +15,8 @@
 
 | Data Model(s) | Change type | Old | New | Notes |
 | ------------- | ----------- | --- | --- | ----- |
-| `stg_netsuite2__customers` | New fields |  | `is_inactive`, `comments`, `url`, `created_at` | Additional customer attributes now available in the staging model. Remove from `customers_pass_through_columns` if currently included. |
-| `stg_netsuite2__entities` | New fields |  | `date_created`, `_fivetran_deleted` | Remove from `entities_pass_through_columns` if currently included. |
+| `stg_netsuite2__customers` | New fields |  | `is_inactive`, `comments`, `url`, `created_at` | **Breaking Change:** Remove from `customers_pass_through_columns` if currently included. |
+| `stg_netsuite2__entities` | New fields |  | `date_created`, `_fivetran_deleted` | **Breaking Change:** Remove from `entities_pass_through_columns` if currently included. |
 | `stg_netsuite2__transaction_accounting_lines` | New field |  | `amount_linked` |  |
 | `stg_netsuite2__transaction_lines` | New field | | `_fivetran_deleted` |  |
 | `stg_netsuite2__transactions` | New field | | `_fivetran_deleted` | Soft-deleted records are still filtered out. |
