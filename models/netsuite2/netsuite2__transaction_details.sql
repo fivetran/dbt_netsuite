@@ -4,6 +4,7 @@
 {%- set using_vendor_categories = var('netsuite2__using_vendor_categories', true) -%}
 {%- set accounts_pass_through_columns = var('accounts_pass_through_columns', []) -%}
 {%- set customers_pass_through_columns = var('customers_pass_through_columns', []) -%}
+{%- set items_pass_through_columns = var('items_pass_through_columns', []) -%}
 {%- set departments_pass_through_columns = var('departments_pass_through_columns', []) -%}
 {%- set locations_pass_through_columns = var('locations_pass_through_columns', []) -%}
 {%- set subsidiaries_pass_through_columns = var('subsidiaries_pass_through_columns', []) -%}
