@@ -1,3 +1,20 @@
+# dbt_netsuite v1.6.0
+[PR #200](https://github.com/fivetran/dbt_netsuite/pull/200) includes the following updates:
+
+## Schema/Data Changes (--full-refresh required after upgrading)
+**5 total changes • 2 possible breaking changes**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | --- | --- | ----- |
+| `netsuite2__transaction_details`<br>`netsuite2__entity_subsidiary_relationships` | Filter on `VENDOR` data | Soft-deleted records excluded | Soft-deleted records included |  |
+| `netsuite2__transaction_details`<br>`stg_netsuite2__transaction_accounting_lines` | New field |  | `amount_linked` | The amount applied against another transaction (e.g. a payment applied to an invoice).  |
+| `stg_netsuite2__customers` | New fields |  | `is_inactive`, `comments`, `url`, `created_at` | **Breaking Change (dbt Core):** Remove from `customers_pass_through_columns` if currently included. |
+| `stg_netsuite2__entities` | New fields |  | `date_created`, `_fivetran_deleted` | **Breaking Change (dbt Core):** Remove from `entities_pass_through_columns` if currently included. |
+| `stg_netsuite2__transaction_lines`<br>`stg_netsuite2__transactions` | New field | | `_fivetran_deleted` | Soft-deleted `TRANSACTION` records are still filtered out. |
+
+## Feature Update
+- Adds **Additional Customer Columns** (`customers_pass_through_columns` [in dbt Core](https://github.com/fivetran/dbt_netsuite#passing-through-additional-fields)) and **Additional Item Columns** (`items_pass_through_columns` [in dbt Core](https://github.com/fivetran/dbt_netsuite#passing-through-additional-fields)) to Quickstart, persisting chosen custom columns from the `CUSTOMER` and `ITEM` source tables. These fields are brought into `netsuite2__transaction_details`.
+
 # dbt_netsuite v1.6.0-a1
 [PR #200](https://github.com/fivetran/dbt_netsuite/pull/200) includes the following updates:
 
