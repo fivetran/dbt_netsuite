@@ -313,7 +313,7 @@ models:
       - name: date_first_order_at
         description: Date of when the first order was created.
       - name: created_at
-        description: "{{ doc('created_at') }}"
+        description: Date when the record was created.
 
   - name: stg_netsuite2__departments
     description: "{{ doc('departments_table') }}"
