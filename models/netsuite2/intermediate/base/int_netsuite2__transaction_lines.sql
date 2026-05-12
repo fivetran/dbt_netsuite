@@ -35,6 +35,7 @@ joined as (
         
         transaction_accounting_lines.exchange_rate,
         transaction_accounting_lines.amount,
+        transaction_accounting_lines.amount_linked,
         transaction_accounting_lines.credit_amount,
         transaction_accounting_lines.debit_amount,
         transaction_accounting_lines.paid_amount,
@@ -46,7 +47,7 @@ joined as (
         on transaction_lines.transaction_line_id = transaction_accounting_lines.transaction_line_id
         and transaction_lines.transaction_id = transaction_accounting_lines.transaction_id
         and transaction_lines.source_relation = transaction_accounting_lines.source_relation
-        
+
     {% if multibook_accounting_enabled %}
     left join accounting_books
         on accounting_books.accounting_book_id = transaction_accounting_lines.accounting_book_id
@@ -61,6 +62,7 @@ joined as (
         accounting_books.accounting_book_name,
         transaction_accounting_lines.exchange_rate,
         transaction_accounting_lines.amount,
+        transaction_accounting_lines.amount_linked,
         transaction_accounting_lines.credit_amount,
         transaction_accounting_lines.debit_amount,
         transaction_accounting_lines.paid_amount,

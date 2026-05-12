@@ -33,6 +33,7 @@ final as (
         posting = 'T' as is_posting,
         exchangerate as exchange_rate,
         amount,
+        amountlinked as amount_linked,
         credit as credit_amount,
         debit as debit_amount,
         netamount as net_amount,

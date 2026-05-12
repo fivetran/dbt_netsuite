@@ -48,7 +48,8 @@ final as (
         isreversal = 'T' as is_reversal,
         reversal as reversal_transaction_id,
         cast(reversaldate as date) as reversal_date,
-        reversaldefer = 'T' as is_reversal_defer
+        reversaldefer = 'T' as is_reversal_defer,
+        _fivetran_deleted
 
         --The below macro adds the fields defined within your transactions_pass_through_columns variable into the staging model
         {{ netsuite.fill_pass_through_columns(var('transactions_pass_through_columns', [])) }}

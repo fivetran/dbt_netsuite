@@ -29,17 +29,21 @@ final as (
         externalid as customer_external_id,
         parent as parent_id,
         isperson = 'T' as is_person,
+        isinactive = 'T' as is_inactive,
         altname as alt_name,
         companyname as company_name,
         firstname as first_name,
         lastname as last_name,
         email as email_address,
         phone as phone_number,
+        comments,
+        url,
         defaultbillingaddress as default_billing_address_id,
         defaultshippingaddress as default_shipping_address_id,
         receivablesaccount as receivables_account_id,
         currency as currency_id,
-        cast(firstorderdate as date) as date_first_order_at
+        cast(firstorderdate as date) as date_first_order_at,
+        cast(datecreated as date) as created_at
 
         --The below macro adds the fields defined within your customers_pass_through_columns variable into the staging model
         {{ netsuite.fill_pass_through_columns(var('customers_pass_through_columns', [])) }}
