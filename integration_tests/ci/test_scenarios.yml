@@ -40,11 +40,11 @@ test_scenarios:
       netsuite2__using_exchange_rate: true
       netsuite2__using_vendor_subsidiary_relationships: false
     include_incremental: false
-    warehouses: ["bigquery", "redshift", "postgres", "snowflake"]
+    warehouses: ["bigquery", "redshift", "postgres", "snowflake", "databricks"] # Removed extra tests for SQL warehouse for efficiency
 
   - name: "subsidiary relationships disabled"
     vars:
       netsuite2__using_customer_subsidiary_relationships: false
       netsuite2__using_vendor_subsidiary_relationships: false
     include_incremental: false
-    warehouses: ["bigquery", "redshift", "postgres", "snowflake"]
+    warehouses: ["bigquery", "redshift", "postgres", "snowflake", "databricks"] # Removed extra tests for SQL warehouse for efficiency
