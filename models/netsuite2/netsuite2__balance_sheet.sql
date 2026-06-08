@@ -3,10 +3,11 @@
 {%- set balance_sheet_transaction_detail_columns = var('balance_sheet_transaction_detail_columns', []) -%}
 {%- set accounts_pass_through_columns = var('accounts_pass_through_columns', []) -%}
 {%- set lookback_window = var('lookback_window', 3) -%}
+{% set include_deletes = var('netsuite2__include_deleted_transactions', false) %}
 
 {%- set transaction_level = not var('netsuite2__aggregate_balance_sheet', false) -%}
 {# Incremental materialization can only be turned on when not aggregating. False by default for BQ and Databricks #}
-{%- set using_incremental = transaction_level and target.type not in ('bigquery', 'databricks', 'spark') -%}
+{%- set using_incremental = transaction_level and target.type not in ('bigquery', 'databricks', 'spark', 'redshift') -%}
 {% set partition_by_field = '_fivetran_synced_date' if transaction_level else 'accounting_period_ending' %}
 {% set pass_through_column_count = accounts_pass_through_columns|length + (balance_sheet_transaction_detail_columns|length if transaction_level else 0) %}
 {% set variable_column_count = (2 if multibook_accounting_enabled else 0) + (3 if using_to_subsidiary_and_exchange_rate else 0) %}
@@ -43,6 +44,10 @@ with transactions_with_converted_amounts_init as (
 transactions_with_converted_amounts as (
     select * 
     from transactions_with_converted_amounts_init
+
+    {% if not include_deletes %}
+        where not coalesce(is_transaction_deleted, false)
+    {% endif %}
 ),
 
 {% else %}
@@ -85,6 +90,9 @@ transactions_with_converted_amounts as (
         sum(unconverted_amount) as unconverted_amount
 
     from transactions_with_converted_amounts_init
+
+    {# Never include deleted transactions in aggregated version #}
+    where not coalesce(is_transaction_deleted, false)
 
     {{ dbt_utils.group_by(n=18 + pass_through_column_count + variable_column_count) }}
 
@@ -192,6 +200,10 @@ balance_sheet as (
         transaction_id,
         transaction_line_id,
         _fivetran_synced_date,
+            {% if include_deletes %}
+            {# Deleted transactions are included, so we want to flag them #}
+            is_transaction_deleted,
+            {% endif %}
         {% endif %}
 
         subsidiary_id,
@@ -318,7 +330,7 @@ balance_sheet as (
 
     from balance_sheet_join
     
-    {{ dbt_utils.group_by(n=21 + pass_through_column_count + variable_column_count + (3 if transaction_level else 0)) }}
+    {{ dbt_utils.group_by(n=21 + pass_through_column_count + variable_column_count + (3 if transaction_level else 0) + (1 if transaction_level and include_deletes else 0)) }}
 
     union all
 
@@ -329,6 +341,10 @@ balance_sheet as (
         transaction_id,
         transaction_line_id,
         _fivetran_synced_date,
+            {% if include_deletes %}
+            {# Deleted transactions are included, so we want to flag them #}
+            is_transaction_deleted,
+            {% endif %}
         {% endif %}
 
         subsidiary_id,
@@ -383,7 +399,7 @@ balance_sheet as (
 
     from balance_sheet_join
 
-    {{ dbt_utils.group_by(n=21 + pass_through_column_count + variable_column_count + (3 if transaction_level else 0)) }}
+    {{ dbt_utils.group_by(n=21 + pass_through_column_count + variable_column_count + (3 if transaction_level else 0) + (1 if transaction_level and include_deletes else 0)) }}
 ),
 
 surrogate_key as ( 

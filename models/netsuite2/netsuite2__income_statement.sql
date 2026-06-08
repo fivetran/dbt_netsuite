@@ -6,10 +6,11 @@
 {%- set classes_pass_through_columns = var('classes_pass_through_columns', []) -%}
 {%- set departments_pass_through_columns = var('departments_pass_through_columns', []) -%}
 {%- set lookback_window = var('lookback_window', 3) -%}
+{% set include_deletes = var('netsuite2__include_deleted_transactions', false) %}
 
 {%- set transaction_level = not var('netsuite2__aggregate_income_statement', false) -%}
 {# Incremental materialization can only be turned on when not aggregating #}
-{%- set using_incremental = target.type not in ('bigquery', 'databricks', 'spark') and transaction_level -%}
+{%- set using_incremental = target.type not in ('bigquery', 'databricks', 'spark', 'redshift') and transaction_level -%}
 {% set partition_by_field = '_fivetran_synced_date' if transaction_level else 'accounting_period_ending' %}
 {% set pass_through_column_count = accounts_pass_through_columns|length + departments_pass_through_columns|length + classes_pass_through_columns|length + (income_statement_transaction_detail_columns|length if transaction_level else 0) %}
 {% set variable_column_count = (2 if multibook_accounting_enabled else 0) + (3 if using_to_subsidiary and using_exchange_rate else 0) %}
@@ -47,6 +48,10 @@ with transactions_with_converted_amounts_init as (
 transactions_with_converted_amounts as (
     select * 
     from transactions_with_converted_amounts_init
+
+    {% if filter_deletes %}
+        where not coalesce(is_transaction_deleted, false)
+    {% endif %}
 ),
 
 {% else %}
@@ -86,6 +91,9 @@ transactions_with_converted_amounts as (
         sum(unconverted_amount) as unconverted_amount
 
     from transactions_with_converted_amounts_init
+
+    {# Never include deleted transactions in aggregated version #}
+    where not coalesce(is_transaction_deleted, false)
 
     {{ dbt_utils.group_by(n=13 + variable_column_count + accounts_pass_through_columns|length) }}
 ),
@@ -145,10 +153,15 @@ primary_subsidiary_calendar as (
 income_statement as (
     select
         transactions_with_converted_amounts.source_relation,
+
         {% if transaction_level %}
         transactions_with_converted_amounts.transaction_id,
         transactions_with_converted_amounts.transaction_line_id,
         transactions_with_converted_amounts._fivetran_synced_date,
+            {% if include_deletes %}
+            {# Deleted transactions are included, so we want to flag them #}
+            transactions_with_converted_amounts.is_transaction_deleted,
+            {% endif %}
         {% endif %}
 
         {% if multibook_accounting_enabled %}
@@ -263,7 +276,7 @@ income_statement as (
         on reporting_accounting_periods.fiscal_calendar_id = primary_subsidiary_calendar.fiscal_calendar_id
         and reporting_accounting_periods.source_relation = primary_subsidiary_calendar.source_relation
 
-    {{ dbt_utils.group_by(n=26 + pass_through_column_count + variable_column_count + (3 if transaction_level else 0)) }}
+    {{ dbt_utils.group_by(n=26 + pass_through_column_count + variable_column_count + (3 if transaction_level else 0) + (1 if transaction_level and include_deletes else 0)) }}
 ),
 
 surrogate_key as ( 

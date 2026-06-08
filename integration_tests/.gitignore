@@ -4,3 +4,4 @@ dbt_packages/
 env/
 logs/
 package-lock.yml
+dbt_internal_packages/

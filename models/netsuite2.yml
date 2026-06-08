@@ -439,6 +439,8 @@ models:
       description: Alternative name of the vendor.
     - name: source_relation
       description: "{{ doc('source_relation') }}"
+    - name: is_transaction_deleted
+      description: Boolean indicating if the transaction has been deleted. Present only if including deleted transactions.
 
   - name: netsuite2__entity_subsidiary_relationships
     description: >
