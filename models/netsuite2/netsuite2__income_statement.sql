@@ -49,7 +49,7 @@ transactions_with_converted_amounts as (
     select * 
     from transactions_with_converted_amounts_init
 
-    {% if filter_deletes %}
+    {% if not include_deletes %}
         where not coalesce(is_transaction_deleted, false)
     {% endif %}
 ),
