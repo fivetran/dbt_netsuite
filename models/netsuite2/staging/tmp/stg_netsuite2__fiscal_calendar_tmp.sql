@@ -8,7 +8,7 @@
 }}
 
 {{
-    netsuite.netsuite_union_connections(
+    fivetran_utils.union_connections(
         connection_dictionary=var('netsuite2_sources'),
         single_source_name='netsuite2',
         single_table_name='fiscal_calendar',

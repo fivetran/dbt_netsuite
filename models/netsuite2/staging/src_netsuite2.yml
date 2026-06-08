@@ -7,7 +7,7 @@ sources:
     loader: fivetran
     config:
       loaded_at_field: _fivetran_synced
-      enabled: "{{ var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2') }}"
+      enabled: "{{ var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2') and var('netsuite2_sources', []) == [] }}"
       freshness:
         warn_after: { count: 24, period: hour }
         error_after: { count: 48, period: hour }
@@ -34,7 +34,7 @@ sources:
         identifier: "{{ var('netsuite2_accounting_book_subsidiaries_identifier', 'accountingbooksubsidiaries') }}"
         description: "{{ doc('accounting_book_subsidiaries_table') }}"
         config:
-          enabled: "{{ var('netsuite2__multibook_accounting_enabled', true) }}"
+          enabled: "{{ var('netsuite2__multibook_accounting_enabled', true) and var('netsuite2_sources', []) == [] }}"
         columns:
           - name: _fivetran_id
             description: "{{ doc('_fivetran_id') }}"
@@ -51,7 +51,7 @@ sources:
         identifier: "{{ var('netsuite2_accounting_book_identifier', 'accountingbook') }}"
         description: "{{ doc('accounting_books_table') }}"
         config:
-          enabled: "{{ var('netsuite2__multibook_accounting_enabled', true) }}"
+          enabled: "{{ var('netsuite2__multibook_accounting_enabled', true) and var('netsuite2_sources', []) == [] }}"
         columns:
           - name: _fivetran_active
             description: "{{ doc('_fivetran_active') }}"
@@ -99,7 +99,7 @@ sources:
         identifier: "{{ var('netsuite2_fiscal_calendar_identifier', 'fiscalcalendar') }}"
         description: Table containing a list of fiscal calendars, their names, and starting fiscal months. Used to determine fiscal year boundaries.
         config:
-          enabled: "{{ var('netsuite2__fiscal_calendar_enabled', false) }}"
+          enabled: "{{ var('netsuite2__fiscal_calendar_enabled', false) and var('netsuite2_sources', []) == [] }}"
         columns:
           - name: id
             description: Internal identifier for the fiscal calendar record.
@@ -229,7 +229,7 @@ sources:
         identifier: "{{ var('netsuite2_consolidated_exchange_rate_identifier', 'consolidatedexchangerate') }}"
         description: "{{ doc('consolidated_exchange_rates_table') }}"
         config:
-          enabled: "{{ var('netsuite2__using_exchange_rate', true) }}"
+          enabled: "{{ var('netsuite2__using_exchange_rate', true) and var('netsuite2_sources', []) == [] }}"
         columns:
           - name: id
             description:  unique identifier for the consolidated exchange rate.
@@ -320,7 +320,7 @@ sources:
         identifier: "{{ var('netsuite2_customer_subsidiary_relationship_identifier', 'customersubsidiaryrelationship') }}"
         description: "{{ doc('customer_subsidiary_relationship_table') }}"
         config:
-          enabled: "{{ var('netsuite2__using_customer_subsidiary_relationships', true) }}"
+          enabled: "{{ var('netsuite2__using_customer_subsidiary_relationships', true) and var('netsuite2_sources', []) == [] }}"
         columns:
           - name: _fivetran_active
             description: "{{ doc('_fivetran_active') }}"
@@ -366,7 +366,7 @@ sources:
         identifier: "{{ var('netsuite2_employee_identifier', 'employee') }}"
         description: "{{ doc('employee_table') }}"
         config:
-          enabled: "{{ var('netsuite2__using_employees', true) }}"
+          enabled: "{{ var('netsuite2__using_employees', true) and var('netsuite2_sources', []) == [] }}"
         columns:
           - name: _fivetran_active
             description: "{{ doc('_fivetran_active') }}"
@@ -508,7 +508,7 @@ sources:
         identifier: "{{ var('netsuite2_job_identifier', 'job') }}"
         description: "{{ doc('jobs_table') }}"
         config:
-          enabled: "{{ var('netsuite2__using_jobs', true) }}"
+          enabled: "{{ var('netsuite2__using_jobs', true) and var('netsuite2_sources', []) == [] }}"
         columns:
           - name: _fivetran_active
             description: "{{ doc('_fivetran_active') }}"
@@ -752,7 +752,7 @@ sources:
         identifier: "{{ var('netsuite2_vendor_category_identifier', 'vendorcategory') }}"
         description: "{{ doc('vendor_categories_table') }}"
         config:
-          enabled: "{{ var('netsuite2__using_vendor_categories', true) }}"
+          enabled: "{{ var('netsuite2__using_vendor_categories', true) and var('netsuite2_sources', []) == [] }}"
         columns:
           - name: _fivetran_active
             description: "{{ doc('_fivetran_active') }}"
@@ -788,7 +788,7 @@ sources:
         identifier: "{{ var('netsuite2_vendor_subsidiary_relationship_identifier', 'vendorsubsidiaryrelationship') }}"
         description: "{{ doc('vendor_subsidiary_relationship_table') }}"
         config:
-          enabled: "{{ var('netsuite2__using_vendor_subsidiary_relationships', true) }}"
+          enabled: "{{ var('netsuite2__using_vendor_subsidiary_relationships', true) and var('netsuite2_sources', []) == [] }}"
         columns:
           - name: _fivetran_active
             description: "{{ doc('_fivetran_active') }}"
@@ -806,4 +806,3 @@ sources:
             description: "{{ doc('currency_id') }}"
           - name: _fivetran_deleted
             description: "{{ doc('_fivetran_deleted') }}"
-

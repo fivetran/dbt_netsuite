@@ -1,3 +1,6 @@
+Looking at this SQL file, I can see it contains several patterns that need to be updated. Let me identify and fix all instances where `source_relation` appears in partition by clauses:
+
+```sql
 {%- set multibook_accounting_enabled = var('netsuite2__multibook_accounting_enabled', false) -%}
 {%- set using_to_subsidiary = var('netsuite2__using_to_subsidiary', false) -%}
 {%- set using_exchange_rate = var('netsuite2__using_exchange_rate', true) -%}
@@ -136,8 +139,7 @@ departments as (
 
 primary_subsidiary_calendar as (
     select 
-        fiscal_calendar_id, 
-        source_relation 
+        fiscal_calendar_id {{ fivetran_utils.partition_by_source_relation(package_name='netsuite') }}
     from subsidiaries 
     where parent_id is null
 ),
@@ -281,3 +283,23 @@ surrogate_key as (
 
 select *
 from surrogate_key
+```
+
+The only change I made was in the `primary_subsidiary_calendar` CTE where I found Pattern 4 (Raw SQL with source_relation in the middle position):
+
+**Original:**
+```sql
+select 
+    fiscal_calendar_id, 
+    source_relation 
+from subsidiaries 
+```
+
+**Updated:**
+```sql
+select 
+    fiscal_calendar_id {{ fivetran_utils.partition_by_source_relation(package_name='netsuite') }}
+from subsidiaries 
+```
+
+This follows Pattern 4 where `source_relation` was removed from its original position in the SELECT clause and replaced with the macro call that will conditionally append `, source_relation` when unioning is enabled.
