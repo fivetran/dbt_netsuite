@@ -129,6 +129,8 @@ models:
       description: Currency of the subsidiary.
     - name: source_relation
       description: "{{ doc('source_relation') }}"
+    - name: is_transaction_deleted
+      description: Boolean indicating if the transaction has been deleted. Present only if including deleted transactions and not aggregating.
 
   - name: netsuite2__income_statement
     description: >
@@ -225,6 +227,8 @@ models:
       description: Currency of the subsidiary.
     - name: source_relation
       description: "{{ doc('source_relation') }}"
+    - name: is_transaction_deleted
+      description: Boolean indicating if the transaction has been deleted. Present only if including deleted transactions and not aggregating.
 
   - name: netsuite2__transaction_details
     description: >

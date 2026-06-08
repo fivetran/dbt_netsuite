@@ -17,10 +17,16 @@ test_scenarios:
     vars: {}
     include_incremental: false
 
-  - name: "aggregated statements"
+  - name: "aggregated statements + include deleted transactions"
     vars:
       netsuite2__aggregate_balance_sheet: true
       netsuite2__aggregate_income_statement: true
+      netsuite2__include_deleted_transactions: true
+    include_incremental: true
+
+  - name: "include deleted transactions everywhere"
+    vars:
+      netsuite2__include_deleted_transactions: true
     include_incremental: true
 
   - name: "subsidiary multibook fiscal"

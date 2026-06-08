@@ -354,7 +354,7 @@ models:
         +materialized: incremental # default is table for Bigquery, Redshift, and Databricks
 ```
 
-##### Lookback Window
+#### Lookback Window
 Records from the source can sometimes arrive late. On incremental runs, we look back 3 days from the `_fivetran_synced_date` of transaction records to capture late arrivals and reduce the need for frequent full refreshes. We recommend running `dbt --full-refresh` periodically to maintain data quality.
 
 To change the default lookback window, add the following variable to your `dbt_project.yml` file:
@@ -365,7 +365,7 @@ vars:
     lookback_window: number_of_days # default is 3
 ```
 
-##### Include Deleted Transactions (Netsuite2 only)
+#### Include Deleted Transactions (Netsuite2 only)
 By default, soft-deleted transaction records are excluded from `stg_netsuite2__transactions` and all downstream output models. However, if you are running end models incrementally, deleted transactions may produce data drift and require periodic full refresh runs to be accurately represented in your results.
 
 To avoid this sort of data drift, you may opt to include soft-deleted transactions and filter them out in downstream queries.
@@ -377,7 +377,8 @@ vars:
     netsuite2__include_deleted_transactions: true # False by default. Set to true to include soft-deleted transaction records.
 ```
 
-> Note: The `netsuite2__balance_sheet` and `netsuite2__income_statement` models will NOT include deleted records when [aggregated](https://github.com/fivetran/dbt_netsuite/tree/main#transaction-level-vs-aggregated-balance-sheet-and-income-statement-netsuite2-only), regardless of the value of `netsuite2__include_deleted_transactions`.
+**Limitations:**
+* The `netsuite2__balance_sheet` and `netsuite2__income_statement` models will NOT include deleted records when [aggregated](https://github.com/fivetran/dbt_netsuite/tree/main#transaction-level-vs-aggregated-balance-sheet-and-income-statement-netsuite2-only), regardless of the value of `netsuite2__include_deleted_transactions`.
 
 #### Change the build schema
 By default, this package builds the Netsuite staging models within a schema titled (`<target_schema>` + `_netsuite_source`) and your Netsuite modeling models within a schema titled (`<target_schema>` + `_netsuite`) in your destination. If this is not where you would like your Netsuite data to be written to, add the following configuration to your root `dbt_project.yml` file:
