@@ -8,16 +8,22 @@ with prod as (
         1 as join_key,
         count(*) as total_income_statement_prod_rows
     from {{ target.schema }}_netsuite_prod.netsuite2__income_statement
-    where date_trunc(accounting_period_ending, month) < date_trunc(current_date(), month) - 1 
+    where date_trunc(accounting_period_ending, month) < date_trunc(current_date(), month) - 1
+        {# {% if var('netsuite2__include_deleted_transactions', false) and not var('netsuite2__aggregate_income_statement', false) %}
+        and not is_transaction_deleted
+        {% endif %} #}
     group by 1
 ),
 
 dev as (
-    select 
+    select
         1 as join_key,
         count(*) as total_income_statement_dev_rows
     from {{ target.schema }}_netsuite_dev.netsuite2__income_statement
-    where date_trunc(accounting_period_ending, month) < date_trunc(current_date(), month) - 1 
+    where date_trunc(accounting_period_ending, month) < date_trunc(current_date(), month) - 1
+        {% if var('netsuite2__include_deleted_transactions', false) and not var('netsuite2__aggregate_income_statement', false) %}
+        and not is_transaction_deleted
+        {% endif %}
     group by 1
 ),
 

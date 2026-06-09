@@ -6,11 +6,17 @@
 with prod as (
     select {{ dbt_utils.star(from=ref('netsuite2__transaction_details'), except=var('netsuite_consistency_exclude_columns', '[]')) }}
     from {{ target.schema }}_netsuite_prod.netsuite2__transaction_details
+    {# {% if var('netsuite2__include_deleted_transactions', false) %}
+    where not is_transaction_deleted
+    {% endif %} #}
 ),
 
 dev as (
     select {{ dbt_utils.star(from=ref('netsuite2__transaction_details'), except=var('netsuite_consistency_exclude_columns', '[]')) }}
     from {{ target.schema }}_netsuite_dev.netsuite2__transaction_details
+    {% if var('netsuite2__include_deleted_transactions', false) %}
+    where not is_transaction_deleted
+    {% endif %}
 ),
 
 prod_not_in_dev as (

@@ -4,18 +4,24 @@
 ) }}
 
 with prod as (
-    select 
+    select
         1 as join_key,
         count(*) as total_transaction_detail_prod_rows
     from {{ target.schema }}_netsuite_prod.netsuite2__transaction_details
+    {# {% if var('netsuite2__include_deleted_transactions', false) %}
+    where not is_transaction_deleted
+    {% endif %} #}
     group by 1
 ),
 
 dev as (
-    select 
+    select
         1 as join_key,
         count(*) as total_transaction_detail_dev_rows
     from {{ target.schema }}_netsuite_dev.netsuite2__transaction_details
+    {% if var('netsuite2__include_deleted_transactions', false) %}
+    where not is_transaction_deleted
+    {% endif %}
     group by 1
 ),
 

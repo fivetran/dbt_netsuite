@@ -44,6 +44,6 @@ We have therefore added the option to aggregate `netsuite2__balance_sheet` and `
 
 By default, deleted transactions are filtered out of `stg_netsuite2__transactions` and all downstream models. However, if the end models are being run incrementally and a transaction is retroactively deleted, the associated record will not be updated to reflect the deletion of the transaction, as the transaction is not included in the incremental window. Periodic full refreshes are therefore required to eradicate data drift due to deleted transactions.
 
-We have therefore added the option to persist deleted transactions so that they will be updated without the need for a full refresh. These transactions will have to be filtered out in downstream queries using the `is_transaction_deleted` field (only present when including deleted transactions). See the README for more details on how to configure.
+We have therefore added the option to persist deleted transactions so that they will be updated without the need for a full refresh. These transactions will have to be filtered out in downstream queries using the `is_transaction_deleted` field (only present when including deleted transactions). See the [README](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#include-deleted-transactions-netsuite2-only) for more details on how to configure.
 
 NOTE: If `netsuite2__balance_sheet` and/or `netsuite2__income_statement` are aggregated, deleted records will NOT be included in those models (they will be present in `netsuite2__transaction_details` however).
