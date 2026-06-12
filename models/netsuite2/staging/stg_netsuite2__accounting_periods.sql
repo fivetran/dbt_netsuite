@@ -17,7 +17,7 @@ fields as (
             )
         }}
 
-        {{ fivetran_utils.apply_source_relation(package_name='netsuite') }}
+        {{ fivetran_utils.apply_source_relation(package_name='netsuite2') }}
     from base
 ),
 
