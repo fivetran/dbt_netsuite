@@ -61,6 +61,7 @@ service-account.json
 .cache/
 *.temp
 *.tmp
+worktrees/
 
 # Virtual environments
 .conda/
