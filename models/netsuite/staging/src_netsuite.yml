@@ -7,7 +7,7 @@ sources:
     loader: fivetran
     config:
       loaded_at_field: _fivetran_synced
-      enabled: "{{ var('netsuite_data_model', 'netsuite') == 'netsuite' and var('netsuite_sources', []) == [] }}"
+      enabled: "{{ var('netsuite_data_model', 'netsuite') == 'netsuite' }}"
       freshness:
         warn_after: {count: 24, period: hour}
         error_after: {count: 48, period: hour}
