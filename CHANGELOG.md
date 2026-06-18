@@ -1,5 +1,5 @@
 # dbt_netsuite v1.6.1
-[PR #204](https://github.com/fivetran/dbt_netsuite/pull/204) includes the following updates:
+[PR #204](https://github.com/fivetran/dbt_netsuite/pull/204) includes the following update:
 
 ## Bug Fix
 - Fixes a Snowflake runtime error in `netsuite2__transaction_details` caused by timestamp datatype mismatches.
