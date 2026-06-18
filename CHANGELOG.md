@@ -1,5 +1,5 @@
 # dbt_netsuite v1.6.1
-[PR #202](https://github.com/fivetran/dbt_netsuite/pull/202) includes the following updates:
+[PR #204](https://github.com/fivetran/dbt_netsuite/pull/204) includes the following updates:
 
 ## Bug Fix
 - Fixes a Snowflake runtime error in `netsuite2__transaction_details` caused by a `TIMESTAMP_TZ` vs `TIMESTAMP_NTZ` type mismatch on `vendor_create_date`.
