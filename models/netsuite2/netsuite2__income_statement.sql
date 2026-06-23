@@ -144,8 +144,8 @@ departments as (
 
 primary_subsidiary_calendar as (
     select 
-        fiscal_calendar_id, 
-        source_relation 
+        fiscal_calendar_id,
+        source_relation
     from subsidiaries 
     where parent_id is null
 ),

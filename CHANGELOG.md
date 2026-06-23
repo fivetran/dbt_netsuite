@@ -6,6 +6,20 @@
 - Adds support for including deleted records in end models so as to avoid data drift on incremental runs.
 - End models are now run as non-incremental tables by default for Redshift.
 
+# dbt_netsuite v1.7.0
+
+[PR #203](https://github.com/fivetran/dbt_netsuite/pull/203) includes the following updates:
+
+## Under the Hood
+- Migrates the `union_connections`, `apply_source_relation`, and `partition_by_source_relation` macros to the `dbt_fivetran_utils` package.
+- Adds the `fivetran_using_source_casing` variable for case-sensitive destination support. When enabled, downstream transformations respect source casing to ensure consistent results. See the [Additional Configurations](https://github.com/fivetran/dbt_netsuite/#source-casing-for-case-sensitive-destinations) section of the README for details.
+
+# dbt_netsuite v1.6.1
+[PR #204](https://github.com/fivetran/dbt_netsuite/pull/204) includes the following update:
+
+## Bug Fix
+- Fixes a Snowflake runtime error in `netsuite2__transaction_details` caused by timestamp datatype mismatches.
+
 # dbt_netsuite v1.6.0
 [PR #200](https://github.com/fivetran/dbt_netsuite/pull/200) includes the following updates:
 

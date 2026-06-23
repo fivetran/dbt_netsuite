@@ -54,3 +54,9 @@ test_scenarios:
       netsuite2__using_vendor_subsidiary_relationships: false
     include_incremental: false
     warehouses: ["bigquery", "redshift", "postgres", "snowflake", "databricks"] # Removed extra tests for SQL warehouse for efficiency
+
+  - name: "MDLS"
+    vars:
+      fivetran_using_source_casing: true
+    include_incremental: false
+    include_dbt_seed: true

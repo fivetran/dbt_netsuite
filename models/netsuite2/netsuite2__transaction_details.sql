@@ -287,7 +287,7 @@ transaction_details as (
       when lower(transactions.transaction_type) in ('vendbill', 'vendcred') then vendors__transactions.company_name
       else vendors__transaction_lines.company_name
         end as vendor_name,
-    case 
+    case
       when lower(transactions.transaction_type) in ('vendbill', 'vendcred') then vendors__transactions.create_date_at
       else vendors__transaction_lines.create_date_at
         end as vendor_create_date,

@@ -40,7 +40,7 @@ retained_earnings_accounts as (
         source_relation,
         account_number,
         row_number() over (
-            {{ netsuite.partition_by_source_relation(has_other_partitions='no') }}
+            {{ fivetran_utils.partition_by_source_relation(package_name='netsuite', has_other_partitions='no') }}
             order by account_id
         ) as rn
     from accounts
@@ -58,7 +58,7 @@ cumulative_translation_accounts as (
           source_relation,
           account_number,
           row_number() over (
-              {{ netsuite.partition_by_source_relation(has_other_partitions='no') }}
+              {{ fivetran_utils.partition_by_source_relation(package_name='netsuite', has_other_partitions='no') }}
               order by account_id
           ) as rn
       from accounts

@@ -17,7 +17,7 @@ fields as (
             )
         }}
 
-        {{ netsuite.apply_source_relation() }}
+        {{ fivetran_utils.apply_source_relation(package_name='netsuite2') }}
     from base
 ),
 
@@ -30,7 +30,7 @@ final as (
         entityid as entity_id,
         altname as alt_name,
         companyname as company_name,
-        datecreated as create_date_at,
+        cast(datecreated as {{ dbt.type_timestamp() }}) as create_date_at,
         category as vendor_category_id
 
         --The below macro adds the fields defined within your vendors_pass_through_columns variable into the staging model

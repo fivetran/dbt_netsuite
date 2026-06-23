@@ -148,18 +148,18 @@ vars:
 
 ### Define database and schema variables
 #### Option A: Single connection
-By default, this package runs using your destination and the `netsuite` schema. If this is not where your Netsuite data is (for example, if your netsuite schema is named `netsuite_fivetran`), add the following configuration to your root `dbt_project.yml` file:
+By default, this package runs using your destination and the `netsuite` schema. If this is not where your Netsuite data is (for example, if your Netsuite schema is named `netsuite_fivetran`), add the following configuration to your root `dbt_project.yml` file:
 
 ```yml
 vars:
     netsuite_database: your_destination_name
-    netsuite_schema: your_schema_name 
+    netsuite_schema: your_schema_name
 ```
 
-### Option B: Union multiple connections (Netsuite2 only)
-If you have multiple Netsuite connections in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. For each source table, the package will union all of the data together and pass the unioned table into the transformations. The `source_relation` column in each model indicates the origin of each record.
+#### Option B: Union multiple connections (Netsuite2 only)
+If you have multiple Netsuite2 connections in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. For each source table, the package will union all of the data together and pass the unioned table into the transformations. The `source_relation` column in each model indicates the origin of each record.
 
-To use this functionality, you will need to set the netsuite2_sources variable in your root dbt_project.yml file:
+To use this functionality, you will need to set the `netsuite2_sources` variable in your root `dbt_project.yml` file:
 
 ```yml
 # dbt_project.yml
@@ -175,39 +175,9 @@ vars:
       name: connection_2_source_name
 ```
 
-##### Recommended: Incorporate unioned sources into DAG
-> *If you are running the package through [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/transformations/dbt#transformationsfordbtcore), the below step is necessary in order to synchronize model runs with your Netsuite connections. Alternatively, you may choose to run the package through Fivetran [Quickstart](https://fivetran.com/docs/transformations/quickstart), which would create separate sets of models for each Netsuite source rather than one set of unioned models.*
+#### Optional: Incorporate unioned sources into DAG
 
-By default, this package defines one single-connection source, called `netsuite2`, which will be disabled if you are unioning multiple connections. This means that your DAG will not include your Netsuite2 sources, though the package will run successfully.
-
-To properly incorporate all of your Netsuite connections into your project's DAG:
-1. Define each of your sources in a `.yml` file in your project. Utilize the following template for the `source`-level configurations, and, **most importantly**, copy and paste the table and column-level definitions from the package's `src_netsuite2.yml` [file](https://github.com/fivetran/dbt_netsuite/blob/main/models/netsuite2/staging/src_netsuite2.yml).
-
-```yml
-# a .yml file in your root project
-sources:
-  - name: <name> # ex: Should match name in netsuite_sources
-    schema: <schema_name>
-    database: <database_name>
-    loader: fivetran
-    loaded_at_field: _fivetran_synced
-
-    freshness: # feel free to adjust to your liking
-      warn_after: {count: 72, period: hour}
-      error_after: {count: 168, period: hour}
-
-    tables: # copy and paste from netsuite/models/staging/src_netsuite2.yml - see https://support.atlassian.com/bitbucket-cloud/docs/yaml-anchors/ for how to use anchors to only do so once
-```
-
-> **Note**: If there are source tables you do not have (see [Disable models for non existent sources](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#disable-models-for-non-existent-sources-netsuite2-only)), you may still include them, as long as you have set the right variables to `False`. Otherwise, you may remove them from your source definition.
-
-2. Set the `has_defined_sources` variable (scoped to the `netsuite` package) to `True`, like such:
-```yml
-# dbt_project.yml
-vars:
-  netsuite:
-    has_defined_sources: true
-```
+If you use [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/transformations/dbt#transformationsfordbtcore) and are unioning multiple Netsuite connections, you can define your sources in a property `.yml` file, [using this as a template](https://github.com/fivetran/dbt_netsuite/blob/main/models/netsuite2/staging/src_netsuite.yml). Set the variable `has_defined_sources: true` under the Netsuite namespace in your `dbt_project.yml`. Otherwise, your Netsuite connections won't appear in your DAG. See the `union_connections` macro [documentation](https://github.com/fivetran/dbt_fivetran_utils/tree/releases/v0.4.latest#optional-union-connections-defined-sources-configuration) for full configuration details.
 
 ### Disable models for non-existent sources (Netsuite2 only)
 
@@ -407,6 +377,14 @@ vars:
 
     # For all Netsuite2 source tables
     netsuite2_<default_source_table_name>_identifier: your_table_name 
+```
+
+#### Source casing for case-sensitive destinations
+By default, the package applies case-insensitive comparisons when resolving `source_relation` values. If your destination is case-sensitive and you want downstream transformations to respect the exact casing of your source database and schema names, set the following variable: 
+
+```yml
+vars:
+    fivetran_using_source_casing: true
 ```
 
 #### Override the data models variable
