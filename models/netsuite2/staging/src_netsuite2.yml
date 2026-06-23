@@ -135,7 +135,7 @@ sources:
           - name: startdate
             description: Timestamp of when the accounting period starts.
           - name: enddate
-            description: Timestamp if when the accounting period ends.
+            description: Timestamp of when the accounting period ends.
           - name: closedondate
             description: Timestamp of when the accounting period is closed.
           - name: isquarter
@@ -166,7 +166,7 @@ sources:
           - name: id
             description: The unique identifier associated with the account.
           - name: externalid
-            description: Reference to the external account,
+            description: Reference to the external account.
           - name: parent
             description: Reference to the parent account.
           - name: acctnumber
@@ -232,7 +232,7 @@ sources:
           enabled: "{{ var('netsuite2__using_exchange_rate', true) and var('netsuite2_sources', []) == [] }}"
         columns:
           - name: id
-            description:  unique identifier for the consolidated exchange rate.
+            description: The unique identifier for the consolidated exchange rate.
           - name: postingperiod
             description: "{{ doc('accounting_period_id') }}"
           - name: fromcurrency
@@ -519,7 +519,7 @@ sources:
           - name: customer
             description: The unique identifier of the customer associated with the job.
           - name: entityid
-            description: Reference the the entity.
+            description: Reference to the entity.
           - name: defaultbillingaddress
             description: Default billing address.
           - name: defaultshippingaddress

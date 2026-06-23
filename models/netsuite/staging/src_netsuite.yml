@@ -104,7 +104,7 @@ sources:
           - name: from_subsidiary_id
             description: The subsidiary id which the consolidated exchange rate is from.
           - name: to_subsidiary_id
-            description: THe subsidiary id which the consolidated exchange rate is for.
+            description: The subsidiary id which the consolidated exchange rate is for.
           - name: _fivetran_deleted
             description: Boolean created by Fivetran to indicate whether the record has been deleted.
       
