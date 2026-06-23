@@ -7,8 +7,7 @@ models:
   +persist_docs:
     relation: true
     columns: "{{ false if target.type in ('databricks') else true }}"
-  +schema: "{{ 'netsuite_integrations_tests_sqlw' if target.name == 'databricks-sql' else 'netsuite' }}"
-  # +schema: "netsuite_{{ var('directed_schema','dev') }}"  ## To be used for validation tests
+  +schema: "netsuite_{{ var('directed_schema','dev') }}"
 
 vars:
   netsuite_schema: netsuite_integrations_tests

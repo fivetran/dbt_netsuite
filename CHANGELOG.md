@@ -6,6 +6,12 @@
 - Migrates the `union_connections`, `apply_source_relation`, and `partition_by_source_relation` macros to the `dbt_fivetran_utils` package.
 - Adds the `fivetran_using_source_casing` variable for case-sensitive destination support. When enabled, downstream transformations respect source casing to ensure consistent results. See the [Additional Configurations](https://github.com/fivetran/dbt_netsuite/#source-casing-for-case-sensitive-destinations) section of the README for details.
 
+# dbt_netsuite v1.6.1
+[PR #204](https://github.com/fivetran/dbt_netsuite/pull/204) includes the following update:
+
+## Bug Fix
+- Fixes a Snowflake runtime error in `netsuite2__transaction_details` caused by timestamp datatype mismatches.
+
 # dbt_netsuite v1.6.0
 [PR #200](https://github.com/fivetran/dbt_netsuite/pull/200) includes the following updates:
 
