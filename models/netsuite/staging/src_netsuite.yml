@@ -1,4 +1,3 @@
- 
 version: 2
 
 sources:
@@ -316,4 +315,3 @@ sources:
             description: The timestamp of the date the vendor was created.
           - name: _fivetran_deleted
             description: Boolean created by Fivetran to indicate whether the record has been deleted.
-    

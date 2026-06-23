@@ -1,6 +1,6 @@
 config-version: 2
 name: 'netsuite'
-version: '1.6.1'
+version: '1.7.0'
 require-dbt-version: [">=1.3.0", "<3.0.0"]
 
 models:
@@ -84,4 +84,3 @@ vars:
     vendors_pass_through_columns: []
     items_pass_through_columns: []
     entities_pass_through_columns: []
-    netsuite2_sources: []
