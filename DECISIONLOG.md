@@ -30,7 +30,7 @@ models:
 
 For incremental models, we have chosen the `delete+insert` strategy for PostgreSQL, Redshift, and Snowflake destinations.
 
-For Bigquery and Databricks, we have turned off incremental strategy by default since we did not want to cause unexpected warehouse costs for users. If you choose to enable the incremental materialization for these destinations, we have set it up to use the `merge` strategy. For instructions on how to enable the incremental strategy, see the [README](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#adding-incremental-materialization-for-bigquery-and-databricks).
+For Bigquery, Redshift, and Databricks, we have turned off incremental strategy by default since we did not want to cause unexpected warehouse costs for users. If you choose to enable the incremental materialization for these destinations, we have set it up to use the `merge` strategy for BigQuery and Databricks and `delete+insert` for Redshift. For instructions on how to enable the incremental strategy, see the [README](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#adding-incremental-materialization-for-bigquery-redshift-and-databricks).
 
 These strategies were selected since transaction records can be updated retroactively, and `merge` and `delete+insert` work well since they rely on a unique id to identify records to update or replace.
 
@@ -39,3 +39,11 @@ These strategies were selected since transaction records can be updated retroact
 By default, the `netsuite2__balance_sheet` and `netsuite2__income_statement` models output data at the transaction-line grain. This allows you to drill down to individual transactions. However, this may produce large data volumes and make full refresh runs cumbersome. Routine full refreshes are highly encouraged in order to avoid data drift due to retroactively deleted/updated transactions.
 
 We have therefore added the option to aggregate `netsuite2__balance_sheet` and `netsuite2__income_statement`, removing transactions and transaction lines from the models' granularity. Because this substantially reduces the data volume, these models are run as normal tables (i.e. not incrementally) when aggregated. See the [README](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#transaction-level-vs-aggregated-balance-sheet-and-income-statement-netsuite2-only) for more details on how to configure.
+
+## Including Deleted Transactions
+
+By default, deleted transactions are filtered out of `stg_netsuite2__transactions` and all downstream models. However, if the end models are being run incrementally and a transaction is retroactively deleted, the associated record will not be updated to reflect the deletion of the transaction, as the transaction is not included in the incremental window. Periodic full refreshes are therefore required to eradicate data drift due to deleted transactions.
+
+We have therefore added the option to persist deleted transactions so that they will be updated without the need for a full refresh. These transactions will have to be filtered out in downstream queries using the `is_transaction_deleted` field (only present when including deleted transactions). See the [README](https://github.com/fivetran/dbt_netsuite?tab=readme-ov-file#include-deleted-transactions-netsuite2-only) for more details on how to configure.
+
+NOTE: If `netsuite2__balance_sheet` and/or `netsuite2__income_statement` are aggregated, deleted records will NOT be included in those models (they will be present in `netsuite2__transaction_details` however).

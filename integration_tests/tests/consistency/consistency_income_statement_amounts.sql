@@ -9,15 +9,21 @@ with prod as (
         sum(converted_amount) as prod_converted_amount 
     from {{ target.schema }}_netsuite_prod.netsuite2__income_statement
     where cast(accounting_period_ending as date) < current_date - 1
+        {# {% if var('netsuite2__include_deleted_transactions', false) and not var('netsuite2__aggregate_income_statement', false) %}
+        and not is_transaction_deleted
+        {% endif %} #}
     group by 1
 ),
 
 dev as (
-    select 
+    select
         accounting_period_id,
-        sum(converted_amount) as dev_converted_amount 
+        sum(converted_amount) as dev_converted_amount
     from {{ target.schema }}_netsuite_dev.netsuite2__income_statement
     where cast(accounting_period_ending as date) < current_date - 1
+        {% if var('netsuite2__include_deleted_transactions', false) and not var('netsuite2__aggregate_income_statement', false) %}
+        and not is_transaction_deleted
+        {% endif %}
     group by 1
 ),
 

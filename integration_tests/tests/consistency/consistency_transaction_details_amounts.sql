@@ -11,17 +11,23 @@ with prod as (
         sum(transaction_amount) as prod_transaction_amount
     from {{ target.schema }}_netsuite_prod.netsuite2__transaction_details
     where cast(transaction_date as date) < current_date - 1
+        {# {% if var('netsuite2__include_deleted_transactions', false) %}
+        and not is_transaction_deleted
+        {% endif %} #}
     group by 1
 ),
 
 dev as (
-    select 
+    select
         cast(transaction_date as date) as date_day,
         count(*) as dev_row_count,
         sum(converted_amount) as dev_converted_amount,
         sum(transaction_amount) as dev_transaction_amount
     from {{ target.schema }}_netsuite_dev.netsuite2__transaction_details
     where cast(transaction_date as date) < current_date - 1
+        {% if var('netsuite2__include_deleted_transactions', false) %}
+        and not is_transaction_deleted
+        {% endif %}
     group by 1
 ),
 

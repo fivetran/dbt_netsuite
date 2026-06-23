@@ -1,3 +1,11 @@
+# dbt_netsuite v2.0.0-a1
+
+[PR #202](https://github.com/fivetran/dbt_netsuite/pull/202) includes the following updates:
+
+## Feature Update
+- Adds support for including deleted records in end models so as to avoid data drift on incremental runs.
+- End models are now run as non-incremental tables by default for Redshift.
+
 # dbt_netsuite v1.7.0
 
 [PR #203](https://github.com/fivetran/dbt_netsuite/pull/203) includes the following updates:

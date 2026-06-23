@@ -11,11 +11,12 @@
 {%- set transactions_pass_through_columns = var('transactions_pass_through_columns', []) -%}
 {%- set transaction_lines_pass_through_columns = var('transaction_lines_pass_through_columns', []) -%}
 {%- set lookback_window = var('lookback_window', 3) -%}
+{% set include_deletes = var('netsuite2__include_deleted_transactions', false) %}
 
 {{
     config(
         enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2'),
-        materialized='table' if target.type in ('bigquery', 'databricks', 'spark') else 'incremental',
+        materialized='table' if target.type in ('bigquery', 'databricks', 'spark', 'redshift') else 'incremental',
         partition_by = {'field': 'transaction_line_fivetran_synced_date', 'data_type': 'date', 'granularity': 'month'}
             if target.type not in ['spark', 'databricks'] else ['transaction_line_fivetran_synced_date'],
         cluster_by = ['transaction_id'],
@@ -119,7 +120,11 @@ primary_subsidiary_calendar as (
 
 transaction_details as (
   select
-
+    {% if include_deletes %}
+    {# Deleted transactions are included, so we want to flag them #}
+    transactions._fivetran_deleted as is_transaction_deleted,
+    {% endif %}
+    
     {% if multibook_accounting_enabled %}
     transaction_lines.accounting_book_id,
     transaction_lines.accounting_book_name,

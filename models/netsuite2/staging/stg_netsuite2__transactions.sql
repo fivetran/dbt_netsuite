@@ -49,16 +49,17 @@ final as (
         reversal as reversal_transaction_id,
         cast(reversaldate as date) as reversal_date,
         reversaldefer = 'T' as is_reversal_defer,
-        _fivetran_deleted
+        coalesce(_fivetran_deleted, false) as _fivetran_deleted
 
         --The below macro adds the fields defined within your transactions_pass_through_columns variable into the staging model
         {{ netsuite.fill_pass_through_columns(var('transactions_pass_through_columns', [])) }}
 
     from fields
-    where not coalesce(_fivetran_deleted, false)
-        and coalesce(_fivetran_active, true)
+    where coalesce(_fivetran_active, true)
 )
 
 select *
 from final
-
+{% if not var('netsuite2__include_deleted_transactions', false) %}
+    where not _fivetran_deleted
+{% endif %}

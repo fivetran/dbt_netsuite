@@ -126,7 +126,7 @@ Include the following netsuite package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/netsuite
-    version: [">=1.7.0", "<1.8.0"]
+    version: 2.0.0-a1
 ```
 
 #### Databricks dispatch configuration
@@ -308,23 +308,23 @@ vars:
 * When aggregated, `netsuite2__balance_sheet` and `netsuite2__income_statement` will materialize as tables rather than incrementally.
 * Any columns passed via `balance_sheet_transaction_detail_columns` or `income_statement_transaction_detail_columns` are ignored, since those require transaction-level granularity.
 
-#### Adding incremental materialization for Bigquery and Databricks
-Since pricing and runtime priorities vary by customer, by default we chose to materialize the below models as tables instead of an incremental materialization for Bigquery and Databricks. For more information on this decision, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy) of the DECISIONLOG.
+#### Adding incremental materialization for Bigquery, Redshift, and Databricks
+Since pricing and runtime priorities vary by customer, by default we chose to materialize the below models as tables instead of an incremental materialization for Bigquery, Redshift, and Databricks. For more information on this decision, see the [Incremental Strategy section](https://github.com/fivetran/dbt_netsuite/blob/main/DECISIONLOG.md#incremental-strategy) of the DECISIONLOG.
 
-If you wish to enable incremental materializations leveraging the `merge` strategy, you can add the below materialization settings to your `dbt_project.yml` file. You only need to add lines for the specific model materializations you wish to change.
+If you wish to enable incremental materializations (`merge` strategy for BigQuery and Databricks, `delete+insert` for Redshift), you can add the below materialization settings to your `dbt_project.yml` file. You only need to add lines for the specific model materializations you wish to change.
 ```yml
 models:
   netsuite:
     netsuite2:
       netsuite2__income_statement:
-        +materialized: incremental # default is table for Bigquery and Databricks
+        +materialized: incremental # default is table for Bigquery, Redshift, and Databricks
       netsuite2__transaction_details:
-        +materialized: incremental # default is table for Bigquery and Databricks
+        +materialized: incremental # default is table for Bigquery, Redshift, and Databricks
       netsuite2__balance_sheet:
-        +materialized: incremental # default is table for Bigquery and Databricks
+        +materialized: incremental # default is table for Bigquery, Redshift, and Databricks
 ```
 
-##### Lookback Window
+#### Lookback Window
 Records from the source can sometimes arrive late. On incremental runs, we look back 3 days from the `_fivetran_synced_date` of transaction records to capture late arrivals and reduce the need for frequent full refreshes. We recommend running `dbt --full-refresh` periodically to maintain data quality.
 
 To change the default lookback window, add the following variable to your `dbt_project.yml` file:
@@ -334,6 +334,21 @@ vars:
   netsuite:
     lookback_window: number_of_days # default is 3
 ```
+
+#### Include Deleted Transactions (Netsuite2 only)
+By default, soft-deleted transaction records are excluded from `stg_netsuite2__transactions` and all downstream output models. However, if you are running end models incrementally, deleted transactions may produce data drift and require periodic full refresh runs to be accurately represented in your results.
+
+To avoid this sort of data drift, you may opt to include soft-deleted transactions and filter them out in downstream queries.
+
+To include soft-deleted transactions in your results, set the below variable to `true` in your `dbt_project.yml`. Deleted records can be filtered out on the `is_transaction_deleted` field.
+
+```yml
+vars:
+    netsuite2__include_deleted_transactions: true # False by default. Set to true to include soft-deleted transaction records.
+```
+
+**Limitations:**
+* The `netsuite2__balance_sheet` and `netsuite2__income_statement` models will NOT include deleted records when [aggregated](https://github.com/fivetran/dbt_netsuite/tree/main#transaction-level-vs-aggregated-balance-sheet-and-income-statement-netsuite2-only), regardless of the value of `netsuite2__include_deleted_transactions`.
 
 #### Change the build schema
 By default, this package builds the Netsuite staging models within a schema titled (`<target_schema>` + `_netsuite_source`) and your Netsuite modeling models within a schema titled (`<target_schema>` + `_netsuite`) in your destination. If this is not where you would like your Netsuite data to be written to, add the following configuration to your root `dbt_project.yml` file:

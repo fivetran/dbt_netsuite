@@ -73,9 +73,9 @@ models:
       description: |
         The full name or display name of the accounting period within the fiscal calendar, providing descriptive period names like 'FY2023 : Q1 2023'.
     - name: is_accounting_period_adjustment
-      description: Boolean field, indicating whether or not the selecting accounting period is an adjustment period.
+      description: Boolean field, indicating whether or not the selected accounting period is an adjustment period.
     - name: is_accounting_period_closed
-      description: Boolean field, indicating whether or not the selecting accounting period is closed.
+      description: Boolean field, indicating whether or not the selected accounting period is closed.
     - name: account_category
       description: Category of the account.  Options include Asset, Liability, Equity, Expense or Income.
     - name: account_name
@@ -129,6 +129,8 @@ models:
       description: Currency of the subsidiary.
     - name: source_relation
       description: "{{ doc('source_relation') }}"
+    - name: is_transaction_deleted
+      description: Boolean indicating if the transaction has been deleted. Present only if including deleted transactions and not aggregating.
 
   - name: netsuite2__income_statement
     description: >
@@ -225,6 +227,8 @@ models:
       description: Currency of the subsidiary.
     - name: source_relation
       description: "{{ doc('source_relation') }}"
+    - name: is_transaction_deleted
+      description: Boolean indicating if the transaction has been deleted. Present only if including deleted transactions and not aggregating.
 
   - name: netsuite2__transaction_details
     description: >
@@ -273,9 +277,9 @@ models:
       description: |
         The full name or display name of the accounting period within the fiscal calendar, providing descriptive period names like 'FY2023 : Q1 2023'.
     - name: is_accounting_period_adjustment
-      description: Boolean field, indicating whether or not the selecting accounting period is an adjustment period.
+      description: Boolean field, indicating whether or not the selected accounting period is an adjustment period.
     - name: is_accounting_period_closed
-      description: Boolean field, indicating whether or not the selecting accounting period is closed.
+      description: Boolean field, indicating whether or not the selected accounting period is closed.
     - name: account_name
       description: Name of the account.
     - name: account_type_name
@@ -412,7 +416,7 @@ models:
     - name: is_main_line
       description: Boolean indicating if the transaction line is a main line entry.
     - name: is_tax_line
-      description: Boolean indicating if the transaction line is a tax line..
+      description: Boolean indicating if the transaction line is a tax line.
     - name: item_id
       description: "{{ doc('item_id') }}"
     - name: transaction_number
@@ -439,6 +443,8 @@ models:
       description: Alternative name of the vendor.
     - name: source_relation
       description: "{{ doc('source_relation') }}"
+    - name: is_transaction_deleted
+      description: Boolean indicating if the transaction has been deleted. Present only if including deleted transactions.
 
   - name: netsuite2__entity_subsidiary_relationships
     description: >

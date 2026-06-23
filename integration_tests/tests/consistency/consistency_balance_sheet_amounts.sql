@@ -9,17 +9,23 @@ with prod as (
         date_trunc(accounting_period_ending, month) as prod_account_period_month,
         sum(converted_amount) as prod_converted_amount 
     from {{ target.schema }}_netsuite_prod.netsuite2__balance_sheet
-    where date_trunc(accounting_period_ending, month) < date_trunc(current_date(), month) - 1 
+    where date_trunc(accounting_period_ending, month) < date_trunc(current_date(), month) - 1
+        {# {% if var('netsuite2__include_deleted_transactions', false) and not var('netsuite2__aggregate_balance_sheet', false) %}
+        and not is_transaction_deleted
+        {% endif %} #}
     group by 1, 2
 ),
 
 dev as (
-    select 
+    select
         case when account_id is null then -999999 else account_id end as account_id,
         date_trunc(accounting_period_ending, month) as dev_account_period_month,
-        sum(converted_amount) as dev_converted_amount 
+        sum(converted_amount) as dev_converted_amount
     from {{ target.schema }}_netsuite_dev.netsuite2__balance_sheet
-    where date_trunc(accounting_period_ending, month) < date_trunc(current_date(), month) - 1 
+    where date_trunc(accounting_period_ending, month) < date_trunc(current_date(), month) - 1
+        {% if var('netsuite2__include_deleted_transactions', false) and not var('netsuite2__aggregate_balance_sheet', false) %}
+        and not is_transaction_deleted
+        {% endif %}
     group by 1, 2
 ),
 
