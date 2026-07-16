@@ -29,11 +29,11 @@ final as (
         id as account_type_id,
         balancesheet = 'T' as is_balancesheet,
         {%- if target.type == 'bigquery' -%}
-        `left` 
+        `left`
         {%- elif target.type == 'snowflake' -%}
         "LEFT"
-        {%- elif target.type in ('redshift', 'postgres') -%}
-        "left" 
+        {%- elif target.type in ('redshift', 'postgres', 'duckdb') -%}
+        "left"
         {%- else -%}
         left
         {%- endif -%} = 'T' as is_leftside,
