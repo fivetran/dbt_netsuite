@@ -1,3 +1,11 @@
+# dbt_netsuite v1.7.1
+
+[PR #208](https://github.com/fivetran/dbt_netsuite/pull/208) includes the following updates:
+
+## Feature Updates
+- Adds DuckDB as a supported destination.
+
+
 # dbt_netsuite v1.7.0
 
 [PR #203](https://github.com/fivetran/dbt_netsuite/pull/203) includes the following updates:
