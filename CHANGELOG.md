@@ -4,6 +4,13 @@
 - Fixes null conversion amounts for top-level subsidiaries missing a self-conversion exchange rate; rate now defaults to 1. Updates `converted_amount` values in `netsuite2__transaction_details`, `netsuite2__income_statement`, and `netsuite2__balance_sheet`.
 
 > **Note**: A `--full-refresh` is recommended after upgrading.
+# dbt_netsuite v1.7.1
+
+[PR #208](https://github.com/fivetran/dbt_netsuite/pull/208) includes the following updates:
+
+## Feature Updates
+- Adds DuckDB as a supported destination.
+
 
 # dbt_netsuite v1.7.0
 

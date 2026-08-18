@@ -69,7 +69,7 @@ vars:
 seeds:
   +docs:
     show: False
-  +quote_columns: "{{ target.type in ('redshift','postgres') or var('fivetran_using_source_casing', false) }}"
+  +quote_columns: "{{ target.type in ('redshift','postgres','duckdb') or var('fivetran_using_source_casing', false) }}"
   netsuite_integration_tests:
     netsuite_accounting_periods_data:
       +column_types:

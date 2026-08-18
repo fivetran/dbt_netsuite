@@ -21,3 +21,7 @@
 {% macro databricks__date_from_parts(year, month, day) %}
     make_date({{ year }}, lpad({{ month }}, 2, '0'), lpad({{ day }}, 2, '0'))
 {% endmacro %}
+
+{% macro duckdb__date_from_parts(year, month, day) %}
+    make_date({{ year }}, {{ month }}, {{ day }})
+{% endmacro %}
