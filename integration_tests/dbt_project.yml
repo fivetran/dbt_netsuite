@@ -1,5 +1,5 @@
 name: 'netsuite_integration_tests'
-version: '1.7.0'
+version: '1.7.1'
 profile: 'integration_tests'
 config-version: 2
 
@@ -69,7 +69,7 @@ vars:
 seeds:
   +docs:
     show: False
-  +quote_columns: "{{ target.type in ('redshift','postgres') or var('fivetran_using_source_casing', false) }}"
+  +quote_columns: "{{ target.type in ('redshift','postgres','duckdb') or var('fivetran_using_source_casing', false) }}"
   netsuite_integration_tests:
     netsuite_accounting_periods_data:
       +column_types:
