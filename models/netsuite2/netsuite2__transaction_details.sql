@@ -10,6 +10,7 @@
 {%- set subsidiaries_pass_through_columns = var('subsidiaries_pass_through_columns', []) -%}
 {%- set transactions_pass_through_columns = var('transactions_pass_through_columns', []) -%}
 {%- set transaction_lines_pass_through_columns = var('transaction_lines_pass_through_columns', []) -%}
+{%- set transaction_accounting_lines_pass_through_columns = var('transaction_accounting_lines_pass_through_columns', []) -%}
 {%- set lookback_window = var('lookback_window', 3) -%}
 
 {{
@@ -166,8 +167,12 @@ transaction_details as (
     {{ netsuite.persist_pass_through_columns(transactions_pass_through_columns, identifier='transactions') }}
 
     --The below script allows for transaction lines table pass through columns.
-    
-    {{ netsuite.persist_pass_through_columns(transaction_lines_pass_through_columns, identifier='transaction_lines') }},
+
+    {{ netsuite.persist_pass_through_columns(transaction_lines_pass_through_columns, identifier='transaction_lines') }}
+
+    --The below script allows for transaction accounting lines table pass through columns.
+
+    {{ netsuite.persist_pass_through_columns(transaction_accounting_lines_pass_through_columns, identifier='transaction_lines') }},
 
     accounting_periods.ending_at as accounting_period_ending,
     accounting_periods.accounting_period_full_name,

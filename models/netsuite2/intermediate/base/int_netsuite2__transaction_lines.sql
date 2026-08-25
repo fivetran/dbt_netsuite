@@ -1,4 +1,5 @@
 {%- set multibook_accounting_enabled = var('netsuite2__multibook_accounting_enabled', false) -%}
+{%- set transaction_accounting_lines_pass_through_columns = var('transaction_accounting_lines_pass_through_columns', []) -%}
 
 {{ config(enabled=var('netsuite_data_model', 'netsuite') == var('netsuite_data_model_override','netsuite2')) }}
 
@@ -42,6 +43,8 @@ joined as (
         transaction_accounting_lines.unpaid_amount,
         transaction_accounting_lines.is_posting
 
+        {{ netsuite.persist_pass_through_columns(transaction_accounting_lines_pass_through_columns, identifier='transaction_accounting_lines') }}
+
     from transaction_lines
     left join transaction_accounting_lines
         on transaction_lines.transaction_line_id = transaction_accounting_lines.transaction_line_id
@@ -68,6 +71,8 @@ joined as (
         transaction_accounting_lines.paid_amount,
         transaction_accounting_lines.unpaid_amount,
         transaction_accounting_lines.is_posting
+
+        {{ netsuite.persist_pass_through_columns(transaction_accounting_lines_pass_through_columns, identifier='transaction_accounting_lines') }}
 
     from transaction_lines
     left join transaction_accounting_lines

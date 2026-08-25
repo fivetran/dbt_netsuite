@@ -126,7 +126,7 @@ Include the following netsuite package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/netsuite
-    version: [">=1.7.0", "<1.8.0"]
+    version: [">=1.8.0", "<1.9.0"]
 ```
 
 #### Databricks dispatch configuration
@@ -259,6 +259,8 @@ vars:
         - name: "other_id"
           alias: "another_id"
           transform_sql: "cast(another_id as int64)"
+    transaction_accounting_lines_pass_through_columns: # Included in transaction_details model
+        - name: "accounting_custom_field"
     locations_pass_through_columns: # Included in transaction_details model
         - name: "location_custom_field"
     subsidiaries_pass_through_columns: # Included in transaction_details model

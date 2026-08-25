@@ -39,6 +39,9 @@ final as (
         netamount as net_amount,
         amountpaid as paid_amount,
         amountunpaid as unpaid_amount
+
+        {{ netsuite.fill_pass_through_columns(var('transaction_accounting_lines_pass_through_columns', [])) }}
+
     from fields
 )
 
