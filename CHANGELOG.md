@@ -1,4 +1,4 @@
-# dbt_netsuite v1.7.2
+# dbt_netsuite v1.8.0
 
 [PR #210](https://github.com/fivetran/dbt_netsuite/pull/210) includes the following updates:
 
