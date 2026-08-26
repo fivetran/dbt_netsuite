@@ -27,9 +27,19 @@ transaction_and_reporting_periods as (
 ), 
 
 accounts as (
-  select * 
+  select *
   from {{ ref('int_netsuite2__accounts') }}
 ),
+
+{% if using_exchange_rate %}
+subsidiaries as (
+  select
+    subsidiary_id,
+    source_relation,
+    parent_id
+  from {{ ref('stg_netsuite2__subsidiaries') }}
+),
+{% endif %}
 
 retained_earnings_accounts as (
   select
@@ -73,8 +83,8 @@ transactions_in_every_calculation_period_w_exchange_rates as (
     transaction_and_reporting_periods.reporting_accounting_period_id
     
     {% if using_exchange_rate %}
-    , exchange_reporting_period.exchange_rate as exchange_rate_reporting_period
-    , exchange_transaction_period.exchange_rate as exchange_rate_transaction_period
+    , coalesce(exchange_reporting_period.exchange_rate, case when subsidiaries.parent_id is null then 1 end) as exchange_rate_reporting_period
+    , coalesce(exchange_transaction_period.exchange_rate, case when subsidiaries.parent_id is null then 1 end) as exchange_rate_transaction_period
     {% endif %}
 
     {% if using_to_subsidiary and using_exchange_rate %}
@@ -90,6 +100,10 @@ transactions_in_every_calculation_period_w_exchange_rates as (
       and transaction_and_reporting_periods.source_relation = transaction_lines_w_accounting_period.source_relation 
 
   {% if using_exchange_rate %}
+  left join subsidiaries
+    on subsidiaries.subsidiary_id = transaction_lines_w_accounting_period.subsidiary_id
+    and subsidiaries.source_relation = transaction_lines_w_accounting_period.source_relation
+
   left join accountxperiod_exchange_rate_map as exchange_reporting_period
     on exchange_reporting_period.accounting_period_id = transaction_and_reporting_periods.reporting_accounting_period_id
       and exchange_reporting_period.source_relation = transaction_and_reporting_periods.source_relation
