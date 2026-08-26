@@ -123,6 +123,11 @@ supported_vars:
     description: "Additional `TRANSACTION_LINE` columns to include in `netsuite2__transaction_details`"
     display_name: "Additional Transaction Line Columns"
 
+  transaction_accounting_lines_pass_through_columns:
+    type: dictionary
+    description: "Additional `TRANSACTION_ACCOUNTING_LINE` columns to include in `netsuite2__transaction_details`"
+    display_name: "Additional Transaction Accounting Line Columns"
+
   balance_sheet_transaction_detail_columns:
     type: list
     description: "Additional columns from `netsuite2__transaction_details` to include in `netsuite2__balance_sheet`"

@@ -1,9 +1,20 @@
+# dbt_netsuite v1.8.0
+
+[PR #210](https://github.com/fivetran/dbt_netsuite/pull/210) includes the following updates:
+
+## Feature Update
+- Adds the `transaction_accounting_lines_pass_through_columns` variable, persisting chosen custom columns from the `TRANSACTION_ACCOUNTING_LINE` source table. These fields are brought into `netsuite2__transaction_details`. For more details, refer to the [Passing Through Additional Fields](README.md#passing-through-additional-fields) section of the README.
+
+## Bug Fix
+- Avoids fanout in `netsuite2__transaction_details` when multi-book accounting is disabled.
+
 # dbt_netsuite v1.8.0-a1
 
 ## Bug Fix
 - Fixes null conversion amounts for top-level subsidiaries missing a self-conversion exchange rate; rate now defaults to 1. Updates `converted_amount` values in `netsuite2__transaction_details`, `netsuite2__income_statement`, and `netsuite2__balance_sheet`.
 
 > **Note**: A `--full-refresh` is recommended after upgrading.
+
 # dbt_netsuite v1.7.1
 
 [PR #208](https://github.com/fivetran/dbt_netsuite/pull/208) includes the following updates:
