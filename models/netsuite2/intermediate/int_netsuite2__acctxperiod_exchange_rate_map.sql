@@ -79,7 +79,7 @@ period_exchange_rate_map as ( -- exchange rates used, by accounting period, to c
   {% endif %}
   
   {% if not multibook_accounting_enabled %}
-  left join primary_accounting_book
+  join primary_accounting_book
     on consolidated_exchange_rates.accounting_book_id = primary_accounting_book.accounting_book_id
     and consolidated_exchange_rates.source_relation = primary_accounting_book.source_relation
   {% endif %}

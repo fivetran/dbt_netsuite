@@ -6,7 +6,7 @@
 - Adds the `transaction_accounting_lines_pass_through_columns` variable, persisting chosen custom columns from the `TRANSACTION_ACCOUNTING_LINE` source table. These fields are brought into `netsuite2__transaction_details`. For more details, refer to the [Passing Through Additional Fields](README.md#passing-through-additional-fields) section of the README.
 
 ## Bug Fix
-- Resolves duplicates in `netsuite2__transaction_details` when multi-book accounting is disabled.
+- Avoids fanout in `netsuite2__transaction_details` when multi-book accounting is disabled.
 
 # dbt_netsuite v1.7.1
 
