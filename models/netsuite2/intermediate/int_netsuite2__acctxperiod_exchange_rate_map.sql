@@ -13,13 +13,6 @@ accounting_books as (
     select * 
     from {{ ref('stg_netsuite2__accounting_books') }}
 ),
-
-{% else %}
-primary_accounting_book as (
-    select accounting_book_id, source_relation
-    from {{ ref('stg_netsuite2__accounting_books') }}
-    where is_primary
-),
 {% endif %}
 
 subsidiaries as (
@@ -76,12 +69,6 @@ period_exchange_rate_map as ( -- exchange rates used, by accounting period, to c
   join primary_subsidiaries
     on consolidated_exchange_rates.to_subsidiary_id = primary_subsidiaries.subsidiary_id
     and consolidated_exchange_rates.source_relation = primary_subsidiaries.source_relation
-  {% endif %}
-  
-  {% if not multibook_accounting_enabled %}
-  join primary_accounting_book
-    on consolidated_exchange_rates.accounting_book_id = primary_accounting_book.accounting_book_id
-    and consolidated_exchange_rates.source_relation = primary_accounting_book.source_relation
   {% endif %}
 ), 
 
