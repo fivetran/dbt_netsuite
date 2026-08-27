@@ -99,7 +99,6 @@ To use this dbt package, you must have at least one Fivetran **Netsuite** (netsu
 - **Not required but recommended**:
   - accounttype
   - accountingbook
-  - accountingbooksubsidiary
   - accountingperiodfiscalcalendar
   - accountingbook
   - classification
