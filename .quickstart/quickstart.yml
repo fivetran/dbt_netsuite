@@ -9,7 +9,6 @@ table_variables:
     - FiscalCalendar
   netsuite2__multibook_accounting_enabled:
     - accountingBook
-    - AccountingBookSubsidiaries
 
   # Source
   netsuite2__using_account_types:

@@ -2,6 +2,13 @@
 
 [PR #210](https://github.com/fivetran/dbt_netsuite/pull/210) includes the following updates:
 
+## Schema/Data Change
+**1 total change • 1 possible breaking change**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | --- | --- | ----- |
+| `stg_netsuite2__accounting_book_subsidiaries`<br>`stg_netsuite2__accounting_book_subsidiaries_tmp` | Removed model | | |  |
+
 ## Feature Update
 - Adds the `transaction_accounting_lines_pass_through_columns` variable, persisting chosen custom columns from the `TRANSACTION_ACCOUNTING_LINE` source table. These fields are brought into `netsuite2__transaction_details`. For more details, refer to the [Passing Through Additional Fields](README.md#passing-through-additional-fields) section of the README.
 

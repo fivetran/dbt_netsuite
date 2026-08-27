@@ -50,8 +50,6 @@
 
 {% docs vendor_categories_table %} A table containing categories and how they map to vendors. {% enddocs %}
 
-{% docs accounting_book_subsidiaries_table %} A table containing the various account books and the respective subsidiaries. {% enddocs %}
-
 {% docs accounting_period_fiscal_calendars_table %} A table containing the accounting fiscal calendar periods. {% enddocs %}
 
 {% docs account_types_table %} A table containing the various account types within Netsuite. {% enddocs %}

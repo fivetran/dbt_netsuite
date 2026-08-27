@@ -40,7 +40,6 @@ vars:
     netsuite2_account_identifier: "netsuite2_account_data"
     netsuite2_account_type_identifier: "netsuite2_account_type_data"
     netsuite2_accounting_book_identifier: "netsuite2_accounting_book_data"
-    netsuite2_accounting_book_subsidiaries_identifier: "netsuite2_accounting_book_sub_data"
     netsuite2_accounting_period_fiscal_calendars_identifier: "netsuite2_accounting_period_fiscal_cal_data"
     netsuite2_accounting_period_identifier: "netsuite2_accounting_period_data"
     netsuite2_classification_identifier: "netsuite2_classification_data"

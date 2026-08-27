@@ -21,24 +21,6 @@ models:
       - name: type_name
         description: The name of the account type.
 
-  - name: stg_netsuite2__accounting_book_subsidiaries
-    description: "{{ doc('accounting_book_subsidiaries_table') }}"
-    columns:
-      - name: source_relation
-        description: "{{ doc('source_relation') }}"
-      - name: _fivetran_id
-        description: "{{ doc('_fivetran_id') }}"
-        tests: 
-          - not_null
-      - name: _fivetran_synced
-        description: "{{ doc('_fivetran_synced') }}"
-      - name: accounting_book_id
-        description: "{{ doc('accounting_book_id') }}"
-      - name: status
-        description: The status of the accounting book subsidiary.
-      - name: subsidiary_id
-        description: "{{ doc('subsidiary_id') }}"
-
   - name: stg_netsuite2__accounting_books
     description: "{{ doc('accounting_books_table') }}"
     columns:

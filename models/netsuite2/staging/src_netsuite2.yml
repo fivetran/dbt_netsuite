@@ -30,23 +30,6 @@ sources:
           - name: longname
             description: The name of the account type.
 
-      - name: accounting_book_subsidiaries
-        identifier: "{{ var('netsuite2_accounting_book_subsidiaries_identifier', 'accountingbooksubsidiaries') }}"
-        description: "{{ doc('accounting_book_subsidiaries_table') }}"
-        config:
-          enabled: "{{ var('netsuite2__multibook_accounting_enabled', true) and var('netsuite2_sources', []) == [] }}"
-        columns:
-          - name: _fivetran_id
-            description: "{{ doc('_fivetran_id') }}"
-          - name: _fivetran_synced
-            description: "{{ doc('_fivetran_synced') }}"
-          - name: accountingbook
-            description: "{{ doc('accounting_book_id') }}"
-          - name: status
-            description: The status of the accounting book subsidiary.
-          - name: subsidiary
-            description: "{{ doc('subsidiary_id') }}"
-
       - name: accounting_book
         identifier: "{{ var('netsuite2_accounting_book_identifier', 'accountingbook') }}"
         description: "{{ doc('accounting_books_table') }}"
