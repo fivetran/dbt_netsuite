@@ -46,6 +46,8 @@
     {"name": "transactionline", "datatype": dbt.type_int()}
 ] %}
 
+{{ fivetran_utils.add_pass_through_columns(columns, var('transaction_accounting_lines_pass_through_columns')) }}
+
 {{ return(columns) }}
 
 {% endmacro %}

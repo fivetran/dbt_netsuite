@@ -5,7 +5,7 @@ This dbt package transforms data from Fivetran's Netsuite connector into analyti
 
 ## Resources
 
-- Number of materialized models¹: 92
+- Number of materialized models¹: 58 (Netsuite2)
 - Connector documentation
   - [Netsuite connector documentation](https://fivetran.com/docs/connectors/applications/netsuite-suiteanalytics#netsuitesuiteanalytics)
   - [Netsuite ERD](https://fivetran.com/docs/connectors/applications/netsuite-suiteanalytics#schemainformation)
@@ -99,7 +99,6 @@ To use this dbt package, you must have at least one Fivetran **Netsuite** (netsu
 - **Not required but recommended**:
   - accounttype
   - accountingbook
-  - accountingbooksubsidiary
   - accountingperiodfiscalcalendar
   - accountingbook
   - classification
@@ -126,7 +125,7 @@ Include the following netsuite package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/netsuite
-    version: [">=1.7.0", "<1.8.0"]
+    version: [">=1.8.0", "<1.9.0"]
 ```
 
 #### Databricks dispatch configuration
@@ -188,7 +187,7 @@ Your Netsuite connection may not sync every table that this package expects. If 
 vars:
     # Features
     netsuite2__fiscal_calendar_enabled: true # False by default. Enable `fiscalcalendar` if you have a fiscal year starting on a month different than January.
-    netsuite2__multibook_accounting_enabled: true # False by default. Disable `accountingbooksubsidiary` and `accountingbook` if you are not using the Multi-Book Accounting feature
+    netsuite2__multibook_accounting_enabled: true # False by default. Disable `accountingbook` if you are not using the Multi-Book Accounting feature
 
     # Sources
     netsuite2__using_employees: false # True by default. Disable `employee` if you don't use employees.
@@ -259,6 +258,8 @@ vars:
         - name: "other_id"
           alias: "another_id"
           transform_sql: "cast(another_id as int64)"
+    transaction_accounting_lines_pass_through_columns: # Included in transaction_details model
+        - name: "accounting_custom_field"
     locations_pass_through_columns: # Included in transaction_details model
         - name: "location_custom_field"
     subsidiaries_pass_through_columns: # Included in transaction_details model
