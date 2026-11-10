@@ -14,7 +14,7 @@
 # To keep the repo in a clean state from issues that aren't relevant anymore
 
 # **when?**
-# Once a day
+# Once a day, or manually from the Actions tab (workflow_dispatch)
 
 # Copied and modified from:
 # https://github.com/dbt-labs/actions/blob/0d1ad12fa839c4c179954a96040c587ee1c358b0/.github/workflows/stale-bot-matrix.yml
@@ -23,6 +23,7 @@ name: "Close stale issues"
 on:
   schedule:
     - cron: "30 1 * * *"
+  workflow_dispatch:
 
 permissions:
   issues: write
