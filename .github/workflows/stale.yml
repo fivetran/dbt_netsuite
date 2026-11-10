@@ -16,10 +16,8 @@
 # **when?**
 # Once a day
 
-# Adapted from dbt-labs/actions `stale-bot-matrix.yml`, which sets
-# `days-before-close: -1` (never close). It is inlined here, calling
-# `actions/stale` directly, so that this repo can close stale issues and
-# so that the days, messages and labels can be customized.
+# Copied and modified from:
+# https://github.com/dbt-labs/actions/blob/0d1ad12fa839c4c179954a96040c587ee1c358b0/.github/workflows/stale-bot-matrix.yml
 
 name: "Close stale issues"
 on:
