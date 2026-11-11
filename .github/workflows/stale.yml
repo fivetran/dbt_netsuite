@@ -7,10 +7,6 @@ on:
   schedule:
     - cron: "30 1 * * *"
   workflow_dispatch:
-  # TEMP: lets us test from this branch. Remove before merging.
-  push:
-    branches:
-      - feature/stale-issues-workflow
 
 permissions:
   actions: write
