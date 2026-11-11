@@ -15,5 +15,4 @@ permissions:
 
 jobs:
   stale:
-    # TEMP: switch back to @main once dbt_package_automations#50 merges
-    uses: fivetran/dbt_package_automations/.github/workflows/stale-bot.yml@feature/stale-bot-workflow
+    uses: fivetran/dbt_package_automations/.github/workflows/stale-bot.yml@main
