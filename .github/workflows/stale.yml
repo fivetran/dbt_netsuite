@@ -1,59 +1,23 @@
-# **what?**
-# For issues that have been open for awhile without activity, label them
-# as stale with a warning that they will be closed out. If anyone comments
-# (or otherwise updates the issue, e.g. changes a label) to keep the issue
-# open, the stale label is automatically removed and it stays open.
-# Otherwise, it is closed DAYS_BEFORE_CLOSE days after being labeled stale.
-
-# Stale rules:
-# - Issues with no activity for 180 days (6 months) are labeled `status:stale`
-# - Issues labeled `status:in_progress` or `status:in_review` are never marked stale
-# - Pull requests are not touched
-
-# **why?**
-# To keep the repo in a clean state from issues that aren't relevant anymore
-
-# **when?**
-# Once a day, or manually from the Actions tab (workflow_dispatch)
-
-# Copied and modified from:
-# https://github.com/dbt-labs/actions/blob/0d1ad12fa839c4c179954a96040c587ee1c358b0/.github/workflows/stale-bot-matrix.yml
+# Labels issues and PRs with no activity as stale, then closes them if nobody responds.
+# All the logic and messages live in the central workflow:
+# https://github.com/fivetran/dbt_package_automations/blob/main/.github/workflows/stale-bot.yml
 
 name: "Close stale issues"
 on:
   schedule:
     - cron: "30 1 * * *"
   workflow_dispatch:
+  # TEMP: lets us test from this branch. Remove before merging.
+  push:
+    branches:
+      - feature/stale-issues-workflow
 
 permissions:
+  actions: write
   issues: write
   pull-requests: write
 
-env:
-  # Customize these as needed
-  DAYS_BEFORE_STALE: 180
-  DAYS_BEFORE_CLOSE: 7
-  STALE_LABEL: "status:stale"
-  EXEMPT_LABELS: "status:in_progress,status:in_review"
-  STALE_ISSUE_MSG: "This issue has been marked as Stale because it has been open for 180 days with no activity. If you would like the issue to remain open, please comment on the issue or else it will be closed in 7 days."
-  CLOSE_ISSUE_MSG: "Although we are closing this issue as stale, it's not gone forever. Issues can be reopened if there is renewed community interest. Just add a comment to notify the maintainers."
-  CLOSE_ISSUE_REASON: "not_planned"
-
 jobs:
   stale:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/stale@5bef64f19d7facfb25b37b414482c7164d639639  # actions/stale@v9
-        with:
-          stale-issue-label: ${{ env.STALE_LABEL }}
-          stale-issue-message: ${{ env.STALE_ISSUE_MSG }}
-          close-issue-message: ${{ env.CLOSE_ISSUE_MSG }}
-          close-issue-reason: ${{ env.CLOSE_ISSUE_REASON }}
-          days-before-issue-stale: ${{ fromJSON(env.DAYS_BEFORE_STALE) }}
-          days-before-issue-close: ${{ fromJSON(env.DAYS_BEFORE_CLOSE) }}
-          exempt-issue-labels: ${{ env.EXEMPT_LABELS }}
-          # Leave pull requests alone
-          days-before-pr-stale: -1
-          days-before-pr-close: -1
-          # Default is 30, which is slow to work through a backlog of old issues
-          operations-per-run: 200
+    # TEMP: switch back to @main once dbt_package_automations#50 merges
+    uses: fivetran/dbt_package_automations/.github/workflows/stale-bot.yml@feature/stale-bot-workflow
