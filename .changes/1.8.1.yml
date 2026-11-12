@@ -1,0 +1,5 @@
+version: 1.8.1
+under_the_hood:
+- description: Replaces the package's `netsuite_lookback` macro with `fivetran_utils.lookback`, which uses the
+    same logic. Output doesn't change.
+date: '2026-11-12'

@@ -36,9 +36,9 @@ with transactions_with_converted_amounts_init as (
 
     {% if is_incremental() %}
         {% if transaction_level %}
-            and _fivetran_synced_date >= {{ netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=lookback_window) }}
+            and _fivetran_synced_date >= {{ fivetran_utils.lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=lookback_window) }}
         {% else %}
-            and accounting_period_ending >= {{ netsuite.netsuite_lookback(from_date='max(accounting_period_ending)', datepart='day', interval=lookback_window) }}
+            and accounting_period_ending >= {{ fivetran_utils.lookback(from_date='max(accounting_period_ending)', datepart='day', interval=lookback_window) }}
         {% endif %}
     {% endif %}
 ), 

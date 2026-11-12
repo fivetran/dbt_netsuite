@@ -34,7 +34,7 @@ with transaction_lines as (
     from {{ ref('int_netsuite2__transaction_lines') }}
 
     {% if is_incremental() %}
-    where cast(_fivetran_synced as date) >= {{ netsuite.netsuite_lookback(from_date='max(transaction_line_fivetran_synced_date)', datepart='day', interval=lookback_window) }}
+    where cast(_fivetran_synced as date) >= {{ fivetran_utils.lookback(from_date='max(transaction_line_fivetran_synced_date)', datepart='day', interval=lookback_window) }}
     {% endif %}
 ),
 
