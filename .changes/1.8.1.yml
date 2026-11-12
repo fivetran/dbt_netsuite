@@ -1,4 +1,5 @@
 version: 1.8.1
+pr_number: 217
 under_the_hood:
 - description: Replaces the package's `netsuite_lookback` macro with `fivetran_utils.lookback`, which uses the
     same logic. Output doesn't change.
