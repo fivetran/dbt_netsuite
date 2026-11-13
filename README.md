@@ -125,7 +125,7 @@ Include the following netsuite package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/netsuite
-    version: [">=1.9.0", "<1.10.0"]
+    version: [">=1.10.0", "<1.11.0"]
 ```
 
 #### Databricks dispatch configuration
