@@ -3,6 +3,12 @@ version: 2
 models:
   - name: stg_netsuite2__account_types
     description: "{{ doc('account_types_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - account_type_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -23,6 +29,12 @@ models:
 
   - name: stg_netsuite2__accounting_books
     description: "{{ doc('accounting_books_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - accounting_book_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -51,6 +63,12 @@ models:
 
   - name: stg_netsuite2__accounting_period_fiscal_cal
     description: "{{ doc('accounting_period_fiscal_calendars_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - _fivetran_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -71,6 +89,12 @@ models:
 
   - name: stg_netsuite2__fiscal_calendar
     description: Table containing a list of fiscal calendars, their names, and starting fiscal months. Used to determine fiscal year boundaries.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - fiscal_calendar_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -95,6 +119,12 @@ models:
 
   - name: stg_netsuite2__accounting_periods
     description: "{{ doc('account_periods_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - accounting_period_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -133,6 +163,12 @@ models:
 
   - name: stg_netsuite2__accounts
     description: "{{ doc('accounts_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - account_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -185,6 +221,12 @@ models:
 
   - name: stg_netsuite2__classes
     description: "{{ doc('classes_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - class_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -207,6 +249,12 @@ models:
 
   - name: stg_netsuite2__consolidated_exchange_rates
     description: "{{ doc('consolidated_exchange_rates_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - consolidated_exchange_rate_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -235,6 +283,12 @@ models:
 
   - name: stg_netsuite2__currencies
     description: "{{ doc('currencies_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - currency_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -251,6 +305,12 @@ models:
 
   - name: stg_netsuite2__customers
     description: "{{ doc('customers_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - customer_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -299,6 +359,12 @@ models:
 
   - name: stg_netsuite2__departments
     description: "{{ doc('departments_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - department_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -323,6 +389,12 @@ models:
 
   - name: stg_netsuite2__employees
     description: "{{ doc('employee_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - employee_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -361,6 +433,12 @@ models:
 
   - name: stg_netsuite2__entities
     description: "{{ doc('entities_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - entity_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -395,6 +473,12 @@ models:
 
   - name: stg_netsuite2__entity_address
     description: "{{ doc('entity_address_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - nkey
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -423,6 +507,12 @@ models:
 
   - name: stg_netsuite2__items
     description: "{{ doc('items_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - item_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -467,6 +557,12 @@ models:
 
   - name: stg_netsuite2__jobs
     description: "{{ doc('jobs_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - job_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -489,6 +585,12 @@ models:
 
   - name: stg_netsuite2__location_main_address
     description: "{{ doc('location_main_address_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - nkey
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -517,6 +619,12 @@ models:
 
   - name: stg_netsuite2__locations
     description: "{{ doc('locations_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - location_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -539,6 +647,12 @@ models:
 
   - name: stg_netsuite2__subsidiaries
     description: "{{ doc('subsidiaries_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - subsidiary_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -571,6 +685,14 @@ models:
 
   - name: stg_netsuite2__transaction_accounting_lines
     description: "{{ doc('transaction_accounting_lines_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - transaction_id
+              - transaction_line_id
+              - accounting_book_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -611,6 +733,13 @@ models:
 
   - name: stg_netsuite2__transaction_lines
     description: "{{ doc('transaction_lines_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - transaction_id
+              - transaction_line_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -663,6 +792,12 @@ models:
 
   - name: stg_netsuite2__transactions
     description: "{{ doc('transaction_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - transaction_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -723,6 +858,12 @@ models:
 
   - name: stg_netsuite2__vendor_categories
     description: "{{ doc('vendor_categories_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - vendor_category_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -737,6 +878,12 @@ models:
 
   - name: stg_netsuite2__vendors
     description: "{{ doc('vendor_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - vendor_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -759,6 +906,12 @@ models:
 
   - name: stg_netsuite2__nexuses
     description: "{{ doc('nexuses_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - nexus_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -779,6 +932,12 @@ models:
 
   - name: stg_netsuite2__customer_subsidiary_relationships
     description: "{{ doc('customer_subsidiary_relationship_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - customer_subsidiary_relationship_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -799,6 +958,12 @@ models:
 
   - name: stg_netsuite2__vendor_subsidiary_relationships
     description: "{{ doc('vendor_subsidiary_relationship_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - vendor_subsidiary_relationship_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"

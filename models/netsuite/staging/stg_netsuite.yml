@@ -16,6 +16,12 @@ models:
 
   - name: stg_netsuite__accounting_periods
     description: "{{ doc('account_periods_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - accounting_period_id
+              - fiscal_calendar_id
     columns:
       - name: accounting_period_id
         description: The unique identifier of the accounting period.
@@ -255,6 +261,12 @@ models:
 
   - name: stg_netsuite__transaction_lines
     description: "{{ doc('transaction_lines_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - transaction_id
+              - transaction_line_id
     columns:
       - name: transaction_id
         description: The transaction id which the transaction line is associated with.

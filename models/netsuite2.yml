@@ -446,6 +446,13 @@ models:
       It combines customer and vendor subsidiary relationship data into a single table, providing
       information about which subsidiaries each entity is associated with, including primary subsidiary
       designation and currency details.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - entity_type
+              - entity_subsidiary_relationship_id
     columns:
     - name: entity_type
       description: The type of entity - either 'customer' or 'vendor'.
