@@ -1,3 +1,10 @@
+# dbt_netsuite v1.8.1
+
+[PR #221](https://github.com/fivetran/dbt_netsuite/pull/221) includes the following updates:
+
+## Under the Hood
+- Adds the missing `_fivetran_synced` column documentation to the `stg_netsuite2__jobs` model. This field was already present in the model output, but was not documented in the yml.
+
 # dbt_netsuite v1.8.0
 
 [PR #210](https://github.com/fivetran/dbt_netsuite/pull/210) includes the following updates:
