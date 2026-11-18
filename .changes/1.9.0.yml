@@ -1,9 +1,7 @@
 version: 1.9.0
 pr_number: 220
 new_features:
-- description: Raises the minimum supported dbt version from v1.3.0 to v1.10.0.
+- description: Raises the minimum dbt version to 1.10.0.
+- description: Adds `dbt_utils.unique_combination_of_columns` tests to staging and end models. If a test fails, please [open an issue](https://github.com/fivetran/dbt_netsuite/issues/new/choose).
 under_the_hood:
-- description: Adds `dbt_utils.unique_combination_of_columns` tests to the staging and end models. The tests use the `arguments` syntax introduced in dbt v1.10.0, the new minimum supported version.
-- description: Adds the missing `_fivetran_synced` column documentation to the `stg_netsuite2__jobs`
-    model. This field was already present in the model output, but was not documented
-    in the yml.
+- description: Adds the missing `_fivetran_synced` column documentation to the `stg_netsuite2__jobs` model. This field was already present in the model output, but was not documented in the yml.
