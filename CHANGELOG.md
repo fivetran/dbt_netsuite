@@ -7,7 +7,7 @@
 - Adds `dbt_utils.unique_combination_of_columns` tests to staging and end models. If a test fails, please [open an issue](https://github.com/fivetran/dbt_netsuite/issues/new/choose).
 
 ## Under the Hood
-- Adds the missing `_fivetran_synced` column documentation to the `stg_netsuite2__jobs` model. This field was already present in the model output, but was not documented in the yml.
+- Adds the `_fivetran_synced` column documentation to the `stg_netsuite2__jobs` model.
 
 # dbt_netsuite v1.8.0
 
