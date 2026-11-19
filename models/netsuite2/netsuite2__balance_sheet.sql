@@ -26,13 +26,19 @@
 
 with transactions_with_converted_amounts_init as (
     select * 
-    from {{ ref('int_netsuite2__tran_with_converted_amounts') }}
+    from {{ ref('int_netsuite2__tran_with_converted_amounts') }} as tran_with_converted_amounts
 
     where (is_account_balancesheet or is_income_statement) and reporting_accounting_period_id is not null
 
     {% if is_incremental() %}
         {% if transaction_level %}
-            and _fivetran_synced_date >= {{ netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=lookback_window) }}
+            and (_fivetran_synced_date >= {{ netsuite.netsuite_lookback(from_date='max(_fivetran_synced_date)', datepart='day', interval=lookback_window) }}
+                or not exists (
+                    select 1
+                    from {{ this }} as existing
+                    where existing.source_relation = tran_with_converted_amounts.source_relation
+                        and existing.accounting_period_id = tran_with_converted_amounts.reporting_accounting_period_id
+                ))
         {% else %}
             and accounting_period_ending >= {{ netsuite.netsuite_lookback(from_date='max(accounting_period_ending)', datepart='day', interval=lookback_window) }}
         {% endif %}
