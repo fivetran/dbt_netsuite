@@ -1,3 +1,14 @@
+# dbt_netsuite v1.9.0
+
+[PR #220](https://github.com/fivetran/dbt_netsuite/pull/220) includes the following updates:
+
+## Feature Update
+- **Breaking change**: Raises the minimum dbt version to 1.10.0.
+- Adds `dbt_utils.unique_combination_of_columns` tests to staging and end models. If a test fails, please [open an issue](https://github.com/fivetran/dbt_netsuite/issues/new/choose).
+
+## Under the Hood
+- Updates yml column documentation to match model output.
+
 # dbt_netsuite v1.8.0
 
 [PR #210](https://github.com/fivetran/dbt_netsuite/pull/210) includes the following updates:
