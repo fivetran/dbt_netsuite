@@ -53,13 +53,13 @@ models:
     columns:
     - name: transaction_id
       description: Netsuite internal transaction ID. Not present when `netsuite2__aggregate_balance_sheet` is True.
-      tests:
+      data_tests:
         - not_null:
             config:
               enabled: "{{ not var('netsuite2__aggregate_balance_sheet', false) }}"
     - name: transaction_line_id
       description: Netsuite internal transaction line ID. Not present when `netsuite2__aggregate_balance_sheet` is True.
-      tests:
+      data_tests:
         - not_null:
             config:
               enabled: "{{ not var('netsuite2__aggregate_balance_sheet', false) }}"
@@ -118,7 +118,7 @@ models:
       description: >
         Surrogate key hashed on `source_relation`, `accounting_period_id`, `account_name`, and `account_id`; if `netsuite2__aggregate_balance_sheet` is False, also `transaction_line_id` and `transaction_id`;
         if `netsuite2__aggregate_balance_sheet` is True, also `subsidiary_id` and `account_category`. Adds `to_subsidiary_id` if using subsidiaries and `accounting_book_id` if using multibook accounting.
-      tests:
+      data_tests:
           - unique
           - not_null
     - name: _fivetran_synced_date
@@ -138,13 +138,13 @@ models:
     columns:
     - name: transaction_id
       description: Netsuite internal transaction ID. Not present when `netsuite2__aggregate_income_statement` is True.
-      tests:
+      data_tests:
         - not_null:
             config:
               enabled: "{{ not var('netsuite2__aggregate_income_statement', false) }}"
     - name: transaction_line_id
       description: Netsuite internal transaction line ID. Not present when `netsuite2__aggregate_income_statement` is True.
-      tests:
+      data_tests:
         - not_null:
             config:
               enabled: "{{ not var('netsuite2__aggregate_income_statement', false) }}"
@@ -214,7 +214,7 @@ models:
         Surrogate key hashed on `source_relation`, `accounting_period_id`, `account_name`; if `netsuite2__aggregate_income_statement` is False, also `transaction_line_id` and `transaction_id`;
         if `netsuite2__aggregate_income_statement` is True, also `account_id`, `subsidiary_id`, `class_id`, `department_id`, and `location_id`.
         Adds `to_subsidiary_id` if using subsidiaries and `accounting_book_id` if using multibook accounting.
-      tests:
+      data_tests:
           - unique
           - not_null
     - name: _fivetran_synced_date
@@ -235,7 +235,7 @@ models:
     columns:
     - name: transaction_line_id
       description: Netsuite internal transaction line ID.
-      tests:
+      data_tests:
         - not_null
     - name: transaction_memo
       description: Memo associated with the transaction line.
@@ -243,7 +243,7 @@ models:
       description: Boolean field, indicating whether or not the transaction line is non-posting.
     - name: transaction_id
       description: Netsuite internal transaction ID.
-      tests:
+      data_tests:
         - not_null
     - name: transaction_status
       description: Status of the transaction (Closed, Pending Billing, Billing, etc.).
@@ -398,7 +398,7 @@ models:
       description: Currency symbol for the consolidated exchange rate.
     - name: transaction_details_id
       description: Surrogate key hashed on `source_relation`, `transaction_line_id` and `transaction_id`. Adds `to_subsidiary_id` if using subsidiaries and `accounting_book_id` if using multibook accounting. 
-      tests:
+      data_tests:
           - unique
           - not_null
     - name: transaction_line_fivetran_synced_date
