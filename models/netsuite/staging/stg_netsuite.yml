@@ -6,7 +6,7 @@ models:
     columns:
       - name: accounting_book_id
         description: The unique identifier of the accounting book.
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: is_primary
@@ -16,10 +16,16 @@ models:
 
   - name: stg_netsuite__accounting_periods
     description: "{{ doc('account_periods_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - accounting_period_id
+              - fiscal_calendar_id
     columns:
       - name: accounting_period_id
         description: The unique identifier of the accounting period.
-        tests:
+        data_tests:
           - not_null
       - name: name
         description: The name of the accounting period.
@@ -29,7 +35,7 @@ models:
         description: The year id the accounting period is associated with.
       - name: fiscal_calendar_id
         description: The fiscal calendar id the accounting period is associated with.
-        tests:
+        data_tests:
           - not_null
       - name: quarter
         description: The quarter which the accounting period takes place in.
@@ -51,7 +57,7 @@ models:
     columns:
       - name: account_id
         description: The unique identifier associated with the account.
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: parent_id
@@ -76,7 +82,7 @@ models:
     columns:
       - name: class_id
         description: The unique identifier of the class.
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: full_name
@@ -89,7 +95,7 @@ models:
     columns:
       - name: consolidated_exchange_rate_id
         description: The unique identifier for the consolidated exchange rate.
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: accounting_book_id
@@ -114,7 +120,7 @@ models:
     columns:
       - name: currency_id
         description: The unique identifier of the currency.
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: name
@@ -129,7 +135,7 @@ models:
     columns:
       - name: customer_id
         description: The unique identifier of the customer.
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: company_name
@@ -154,7 +160,7 @@ models:
     columns:
       - name: department_id
         description: The unique identifier of the department.
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: name
@@ -169,7 +175,7 @@ models:
     columns:
       - name: expense_account_id
         description: The unique identifier of the expense account.
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: name
@@ -186,7 +192,7 @@ models:
     columns:
       - name: income_account_id
         description: The unique identifier of the income account.
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: name
@@ -203,7 +209,7 @@ models:
     columns:
       - name: item_id
         description: The unique identifier of the item.
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: name
@@ -220,7 +226,7 @@ models:
     columns:
       - name: location_id
         description: The unique identifier of the location.
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: name
@@ -239,7 +245,7 @@ models:
     columns:
       - name: subsidiary_id
         description: The unique identifier of the subsidiary.
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: fiscal_calendar_id
@@ -255,14 +261,20 @@ models:
 
   - name: stg_netsuite__transaction_lines
     description: "{{ doc('transaction_lines_table') }}"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - transaction_id
+              - transaction_line_id
     columns:
       - name: transaction_id
         description: The transaction id which the transaction line is associated with.
-        tests:
+        data_tests:
           - not_null
       - name: transaction_line_id
         description: The unique identifier of the transaction line.
-        tests:
+        data_tests:
           - not_null
       - name: subsidiary_id
         description: The subsidiary id of the subsidiary which the transaction line is associated with.
@@ -290,7 +302,7 @@ models:
     columns:
       - name: transaction_id
         description: The unique identifier of the transaction.
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: status
@@ -317,7 +329,7 @@ models:
     columns:
       - name: vendor_type_id
         description: The unique identifier of the vendor type
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: name
@@ -330,7 +342,7 @@ models:
     columns:
       - name: vendor_id
         description: The unique identifier of the vendor.
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: vendor_type_id
